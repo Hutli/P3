@@ -2,54 +2,15 @@
 
 This section analyses the initial problem described in the introduction. The analysis methods used originates from \cite{mathiassen2001objektorienteret}. 
 
-\section{Problem Domain \& Application Domain}
-
-\sinote{Dette afsnit er design orienteret. Er ikke færdigt}
-
-\textbf{Problem domain}: \enquote{That part of a context that is administrated, monitored or controlled by a system.}
-
-\begin{description}
-  \item[Songs] The songs that are available for playing.
-  % \item[Playlists] Collections of songs centered around a specific theme.
-  \item[Votes] Some mechanism for choosing which songs to play next.
-  \item[Users] Data and statistics of the users of the system.
-  \item[Places] What is playing at particular places?
-  \item[Audio system] Plays the chosen song.
-  \item[Display system] Displays queue, current song, etc. at the installation site.
-\end{description}
-
-\textbf{Application domain}: \enquote{The organization that administrates, monitors, or controls a problem domain.}
-
-\begin{description}
-  \item[Users] The users of the application chooses which songs to play next.
-  \item[Frontend] Provides control of songs, playlists and users.
-  \item[Backend] Administrates and monitors users of the application. Communicate with the audio- and display system.
-\end{description}
-
+\section{Introduction}
+\input{Chapters/Analysis/introduction.tex}
+\section{State of the Art}
+\input{Chapters/Analysis/StateOfTheArt/stateOfTheArt.tex}
+\section{Stakeholders}
+\input{Chapters/Analysis/Stakeholders/stakeholders.tex}
+\section{Problem and Application Domain}
+\input{Chapters/Analysis/ProblemAndApplicationDomain/problemAndApplicationDomain.tex}
 \section{Architecture}
-\label{sec:architecture}
-
-\sinote{Dette afsnit er design orienteret. Er ikke færdigt}
-
-Model:
-
-Songs:
-\begin{itemize}
-  \item Current song
-  \item Queue
-  \item Song repertoire
-\end{itemize}
-
-Votes:
-\begin{itemize}
-  \item Upvotes
-  \item Downvotes
-  \item Master override
-\end{itemize}
-
-Users:
-\begin{itemize}
-  \item Votes statistics. Affects user's influence
-\end{itemize}
-
-\input{Chapters/Analysis/StateOfTheArt/SecretDJ.tex}
+\input{Chapters/Analysis/Architecture/architecture.tex}
+\section{Problem Statement}
+\input{Chapters/Analysis/problemStatement.tex}

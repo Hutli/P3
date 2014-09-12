@@ -1,18 +1,12 @@
 \input{preamble.tex}
 \begin{document}
-
   \pdfbookmark[0]{Contents}{label:contents}
   \tableofcontents
-  \include{Chapters/titlepage}
-  \include{Chapters/titlepageEng}
-  \include{Chapters/introduction}
-  \include{Chapters/problemStatement}
-  \include{Chapters/analysis}
-  \include{Chapters/qualityAssurance}
-  \include{Chapters/developmentMethodology}
-
-
+  \include{Chapters/titlepage.tex}
+  \include{Chapters/titlepageEng.tex}
+  \input{Chapters/analysis.tex}
+  \input{Chapters/development.tex}
   \printbibliography
   \appendix \label{appendix_start}
-  \include{Chapters/appendix}
+  \include{Chapters/appendix.tex}
 \end{document}
