@@ -1,9 +1,21 @@
 \input{preamble.tex}
 \begin{document}
-  \pdfbookmark[0]{Contents}{label:contents}
-  \tableofcontents
-  \include{Chapters/titlepage}
+  \include{Chapters/frontpage}
+  \include{Chapters/colophon}
+
+  %\include{Chapters/titlepage}
+
+  \pdfbookmark[0]{Title page}{label:Titlepage}
   \include{Chapters/titlepageEng}
+  \cleardoublepage
+
+  \pagestyle{BasicStyle}
+  \pdfbookmark[0]{\contentsname}{label:Contents}
+  \tableofcontents
+  \include{Chapters/preface}
+  \cleardoublepage
+
+  \pagenumbering{arabic}
   \include{Chapters/analysis}
   \include{Chapters/development}
   \printbibliography

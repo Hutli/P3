@@ -30,6 +30,10 @@ bibencoding=utf8,
 
 \usepackage{lastpage}
 
+% http://tex.stackexchange.com/questions/42063/illogical-twoside-margins
+% layout page auto-centering horizontally and allow for press binding
+\usepackage[hcentering,bindingoffset=8mm]{geometry} 
+
 \usepackage{hyperref} % hyperlinks in pdf
 \usepackage{cleveref} % clever references. Use with \cref... 
 
@@ -42,7 +46,6 @@ bibencoding=utf8,
 
 \usepackage{fancyhdr}
 \setlength{\headheight}{52pt}
-\pagestyle{fancy}
 
 \fancypagestyle{plain}{} % no ordinary headers and footers in pages with chapters
 \fancyhead{} % clear default header
@@ -50,42 +53,16 @@ bibencoding=utf8,
 
 \renewcommand{\chaptermark}[1]{\markboth{\thechapter.\space#1}{}} % do not print "chapter"
 
-\fancypagestyle{plain}{}
-
 \fancypagestyle{BasicStyle}{
 	\fancyhead[OL, ER]{
 		{\Large Aalborg Universitet}\\
-		Gruppe SW2-A405a}
+		Group ds318e14}
 	\fancyhead[OR]{\nouppercase{\rightmark} \includegraphics[scale=0.25]{aau_logo_cropped.png}}
 	\fancyhead[EL]{\includegraphics[scale=0.25]{aau_logo_cropped.png} \nouppercase{\leftmark}}
 
-	\fancyfoot[OR, EL]{21. maj 2014}
-	\fancyfoot[OL, ER]{Side \thepage \ af \pageref{LastPage}}
-}
-
-\fancypagestyle{RomanPreStyle}{
-	\fancyhead[OL, ER]{
-		{\Large Aalborg Universitet}\\
-		Gruppe SW3-ds318e14}
-	\fancyhead[OR]{\nouppercase{\rightmark} \includegraphics[scale=0.25]{aau_logo_cropped.png}}
-	\fancyhead[EL]{\includegraphics[scale=0.25]{aau_logo_cropped.png} \nouppercase{\leftmark}}
-
-	\fancyfoot[OR, EL]{19. dec 2014}
-	\fancyfoot[OL, ER]{\thepage}
-}
-
-\fancypagestyle{titlepagestyle}{
-  \fancyfoot[OL, EL]{\textit{Rapportens indhold er frit tilgængeligt, men offentliggørelse må kun ske efter aftale med forfatterne.}}
-  \fancyfoot[OR, ER]{}
-  \fancyhead[OR,OL,ER,EL]{}
-}
-
-\fancypagestyle{titlepagestyleeng}{
-  \fancyfoot[OL, EL]{\textit{The content of this report is freely available, but publication may only ocur in accordance with an agreement made with the authors.}}
-  \fancyfoot[OR, ER]{}
-  \fancyhead[OR,OL,ER,EL]{}
+	\fancyfoot[OR, EL]{\thepage}
+	\fancyfoot[OL, ER]{\today}
 }
 
 \pagenumbering{roman}
-\pagestyle{RomanPreStyle} % Use RomanPreStyle at first
-\setcounter{page}{-1} % Start page number with -1, so the titlepage is page 1
+\pagestyle{empty} % Use empty at first
