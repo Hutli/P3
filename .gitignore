@@ -212,3 +212,6 @@ FakesAssemblies/
 
 # binary report file
 master.pdf
+
+# mac files
+*.DS_Store
