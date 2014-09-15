@@ -209,6 +209,7 @@ FakesAssemblies/
 *.toc
 *.vrb
 *.xdy
+*.lox
 
 # binary report file
 master.pdf
