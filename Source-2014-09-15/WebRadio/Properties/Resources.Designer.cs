@@ -69,5 +69,15 @@ namespace WebRadio.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] spotify_appkey {
+            get {
+                object obj = ResourceManager.GetObject("spotify_appkey", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

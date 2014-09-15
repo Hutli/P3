@@ -12,10 +12,11 @@ namespace WebRadio
 {
     class Program
     {
-        private static byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
 
         static void Main(string[] args)
         {
+            byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
+
             libspotify.sp_session_callbacks callbacks = new libspotify.sp_session_callbacks();
             /*callbacks.connection_error = Marshal.GetFunctionPointerForDelegate(fn_connection_error_delegate);
             callbacks.end_of_track = Marshal.GetFunctionPointerForDelegate(fn_end_of_track_delegate);
@@ -40,11 +41,11 @@ namespace WebRadio
             libspotify.sp_session_config config = new libspotify.sp_session_config();
             config.api_version = libspotify.SPOTIFY_API_VERSION;
             config.user_agent = "WebRadio";
-            config.application_key_size = sizeof(Int32);
+            config.application_key_size = appkey.Length;
             config.application_key = Marshal.AllocHGlobal(appkey.Length);
             config.cache_location = "tmp";
             config.settings_location = "tmp";
-            config.callbacks = callbacksPtr;
+            //config.callbacks = callbacksPtr;
 
             Marshal.Copy(appkey, 0, config.application_key, appkey.Length);
 
