@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WebAPILib\Artist.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WebAPILib\Playlist.cs">
     <Files>
-      <File FileName="WebAPILib\SpotifyObject.cs" Line="4" Column="4" />
-      <File FileName="WebAPILib\Track.cs" Line="3" Column="3" />
-      <File FileName="WebAPILib\Artist.cs" Line="9" Column="9" />
+      <File FileName="WebAPILib\SpotifyObject.cs" Line="6" Column="6" />
+      <File FileName="WebAPILib\Track.cs" Line="20" Column="20" />
+      <File FileName="WebAPILib\Artist.cs" Line="1" Column="1" />
+      <File FileName="WebAPILib\Album.cs" Line="58" Column="58" />
+      <File FileName="WebAPILib\Playlist.cs" Line="28" Column="28" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="WebAPILib" expanded="True">
-            <Node name="Artist.cs" selected="True" />
+            <Node name="Playlist.cs" selected="True" />
           </Node>
         </State>
       </Pad>
