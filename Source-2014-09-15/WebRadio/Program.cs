@@ -10,29 +10,57 @@ using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace WebRadio
-{
-    class Program
-    {
-        static List<WaitHandle> handles = new List<WaitHandle>();
+namespace WebRadio {
+    public delegate void LoggedInHandler(IntPtr session, libspotify.sp_error error);
 
-        static ManualResetEvent handle = new ManualResetEvent(false);
-        static ManualResetEvent LoginHandler = new ManualResetEvent(false);
+    class Program {
 
-        static void Main(string[] args)
-        {
-            Session session = new Session();
+        private static AutoResetEvent _mainSignal;
+        private static bool _quit;
+        public static byte[] appkey;
 
-            string siaj = session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
 
-            Console.Write(siaj);
+        static void Main(string[] args) {
+            appkey = File.ReadAllBytes("spotify_appkey.key");
 
-            Console.ReadKey();
+            Session.LoggedIn += new LoggedInHandler(loginTest);
+            try
+            {
+                Session.Init(appkey);
+                Session.Login("jensstaermose@hotmail.com", "pass");
+            }
+            catch {}
+
+
+
+            _mainSignal = new AutoResetEvent(false);
+
+            int timeout = Timeout.Infinite;
+            DateTime lastEvents = DateTime.MinValue;
+
+            while(true){
+                if(_quit)
+                    break;
+
+                _mainSignal.WaitOne(timeout, false);
+                //libspotify.sp_session_process_events(Session.SessionPtr, out timeout);
+            }
         }
 
-        /*
-        static void ownTry()
+        private static void loginTest(IntPtr session, libspotify.sp_error error)
         {
+            Console.WriteLine("Det virker");
+        }
+
+        public static void Session_OnNotifyMainThread(IntPtr sessionPtr)
+        {
+            if (_mainSignal != null)
+                _mainSignal.Set();
+        }
+
+
+        /*
+        static void ownTry() {
             var loggedInCallbackDelegate = new logged_in_delegate(logged_in);
             var notifyMainCallbackDelegate = new notify_main_delegate(notifyMain);
 
