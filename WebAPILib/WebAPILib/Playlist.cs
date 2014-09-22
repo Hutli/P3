@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 
 namespace WebAPILib {
-	public class Playlist {
+	public class Playlist : SpotifyObject {
 		private List<Image> _images;
 		private List<Track> _tracks;
 
-		public Playlist () {
+		public Playlist (string id, string name) : base(id, name) {
 		}
 
 		public List<Image> Images{ get { return new List<Image> (_images); } }
