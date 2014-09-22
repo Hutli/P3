@@ -4,11 +4,10 @@ using System.Drawing;
 
 namespace WebAPILib {
 	public class Album : SpotifyObject {
-		private string _albumType;
-		private List<Image> _images;
-		private List<Artist> _artists;
-		private List<Track> _tracks;
-		private bool _addingArtist;
+		private string _albumType = null;
+		private List<Image> _images = null;
+		private List<Artist> _artists = null;
+		private List<Track> _tracks = null;
 
 		public string AlbumType{ get { return _albumType; } }
 
@@ -20,12 +19,14 @@ namespace WebAPILib {
 
 		public override string URI{ get { return "spotify:album:" + ID; } }
 
-		public Album (string id, string name, string albumType, IEnumerable<Image> images) : base (id, name) {
-			_id = id;
-			_name = name;
-			_albumType = albumType;
+		public Album (string id, string name, IEnumerable<Artist> artists) : base (id, name) {
+			_artists = new List<Artist>(artists);
+		}
+
+		public Album (string id, string name, IEnumerable<Artist> artists, string albumtype, IEnumerable<Image> images, IEnumerable<Track> tracks) : this (id, name, artists) {
+			_albumType = albumtype;
 			_images = new List<Image> (images);
-			_artists = new List<Artist> ();
+			_tracks = new List<Track> (tracks);
 		}
 
 	}

@@ -11,13 +11,10 @@ using Newtonsoft.Json.Linq;
 
 namespace WebAPILib
 {
-	public static class search
+	public class search
 	{
-
-
-
-
-		public static string get(string url)
+	
+	public string get(string url)
 		{
 			List<Track> tracks = new List<Track> ();
 			WebClient client = new WebClient ();
