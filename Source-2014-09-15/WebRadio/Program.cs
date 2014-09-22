@@ -12,50 +12,57 @@ using System.Threading;
 
 namespace WebRadio {
     public delegate void LoggedInHandler(IntPtr session, libspotify.sp_error error);
+    public delegate void SearchCompleteHandler(IntPtr search, IntPtr userData);
+    public delegate void NotifyMainHandler(IntPtr session);
 
     class Program {
 
-        private static AutoResetEvent _mainSignal;
+        private static ManualResetEvent _searchCompleteSignal;
         private static bool _quit;
         public static byte[] appkey;
+
+        private static IntPtr _searchPtr;
 
 
         static void Main(string[] args) {
             appkey = File.ReadAllBytes("spotify_appkey.key");
 
             Session.LoggedIn += new LoggedInHandler(loginTest);
+            Session.SearchComplete += new SearchCompleteHandler(searchCompleteTest);
+            
             try
             {
                 Session.Init(appkey);
                 Session.Login("jensstaermose@hotmail.com", "pass");
+                _searchPtr = Session.Search.BeginSearchOnQuery("summertime");
+                _searchCompleteSignal = new ManualResetEvent(false);
             }
             catch {}
-
-
-
-            _mainSignal = new AutoResetEvent(false);
-
-            int timeout = Timeout.Infinite;
-            DateTime lastEvents = DateTime.MinValue;
-
-            while(true){
-                if(_quit)
-                    break;
-
-                _mainSignal.WaitOne(timeout, false);
-                //libspotify.sp_session_process_events(Session.SessionPtr, out timeout);
-            }
+     
+                do
+                {
+                    libspotify.sp_session_process_events(Session._sessionPtr, out Session._nextTimeout);
+                } while (Session._nextTimeout == 0);
         }
 
         private static void loginTest(IntPtr session, libspotify.sp_error error)
         {
-            Console.WriteLine("Det virker");
+            Console.WriteLine("Login:" + error);
         }
 
-        public static void Session_OnNotifyMainThread(IntPtr sessionPtr)
+        private static void searchCompleteTest(IntPtr searchPtr, IntPtr userdata)
         {
-            if (_mainSignal != null)
-                _mainSignal.Set();
+            int num = libspotify.sp_search_num_tracks(searchPtr);
+            IntPtr track = libspotify.sp_search_track(searchPtr, 0);
+            IntPtr trackname = libspotify.sp_track_name(track);
+            string name = Marshal.PtrToStringAnsi(trackname);
+
+            Console.WriteLine("SearchComplete virker, name of track " + name);
+        }
+
+        private static void notifyMainTest(IntPtr session)
+        {
+            Console.WriteLine("Main notified");
         }
 
 
