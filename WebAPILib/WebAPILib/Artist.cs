@@ -7,7 +7,6 @@ namespace WebAPILib {
 		private List<string> _genres;
 		private List<Album> _albums;
 		private bool _addingAlbum;
-		private bool _locked;
 
 		public int Popularity { get; set; }
 
@@ -18,10 +17,7 @@ namespace WebAPILib {
 
 		public Artist (string id, string name, IEnumerable<string> genres, IEnumerable<Album> albums) : this (id, name, genres) {
 			foreach (var item in albums) {
-				addAlbum (item);
-				item.setLock ();
 			}
-			setLock ();
 		}
 
 		public List<string> Genres{ get { return new List<string> (_genres); } }
@@ -30,28 +26,5 @@ namespace WebAPILib {
 
 		public override string URI{ get { return "spotify:artist:" + ID; } }
 
-		public void addAlbum(Album album)
-		{
-			if (_locked)
-				throw new Exception ("class is locked");
-
-			if (_addingAlbum)
-				return;
-
-			_addingAlbum = true;
-			_albums.Add (album);
-
-			album.addArtist (this);
-
-			_addingAlbum = false;
-		}
-
-		public void setLock()
-		{
-			if (_locked)
-				throw new Exception ("allready locked"); //TODO fix execption
-
-			_locked = true;
-		}
 	}
 }

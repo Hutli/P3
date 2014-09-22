@@ -9,7 +9,6 @@ namespace WebAPILib {
 		private List<Artist> _artists;
 		private List<Track> _tracks;
 		private bool _addingArtist;
-		private bool _locked;
 
 		public string AlbumType{ get { return _albumType; } }
 
@@ -27,37 +26,6 @@ namespace WebAPILib {
 			_albumType = albumType;
 			_images = new List<Image> (images);
 			_artists = new List<Artist> ();
-		}
-
-		public Album (string id, string name, string albumType, IEnumerable<Image> images, IEnumerable<Artist> artists) : this (id, name, albumType, images) {
-			foreach (var item in artists) {
-				addArtist(item);
-			}
-			setLock ();
-		}
-
-		public void addArtist(Artist artist)
-		{
-			if (_locked)
-				throw new Exception ("class is locked");
-
-			if (_addingArtist)
-				return;
-
-			_addingArtist = true;
-			_artists.Add (artist);
-
-			artist.addAlbum (this);
-
-			_addingArtist = false;
-		}	
-
-		public void setLock()
-		{
-			if (_locked)
-				throw new Exception ("allready locked"); //TODO fix execption
-
-			_locked = true;
 		}
 
 	}

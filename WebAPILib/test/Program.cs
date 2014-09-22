@@ -6,6 +6,8 @@ using System.Web;
 using System.IO;
 using System.Text;
 using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace test
 {
@@ -19,27 +21,15 @@ namespace test
 
 		public static string get(string url)
 		{
-			try {
-				//string url = "https://api.spotify.com/v1/search?q=test&type=track";
-				HttpWebRequest request = (HttpWebRequest)WebRequest.Create (url);
-				request.Method = "GET";
+			List<Track> tracks = new List<Track> ();
+			WebClient client = new WebClient ();
+			string content = client.DownloadString (url);
+			JObject o = JObject.Parse(content);
+			foreach(JObject thing in o["tracks"]["items"]){
 
-				request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36";
-				request.Accept = "application/json";
-				request.AllowAutoRedirect = true;
-
-				string responseText;
-				using (var response = request.GetResponse()) {
-					using (var reader = new StreamReader(response.GetResponseStream())) {
-						responseText = reader.ReadToEnd ();
-						return responseText;
-					}
-				}
 			}
-			catch (WebException exception) {
-				//TODO handle connection error
-			}
-			return null; //fatal error
+			return o["tracks"]["items"][0]["album"].ToString();
 		}
+			
 	}
 }
