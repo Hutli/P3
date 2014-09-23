@@ -19,13 +19,13 @@ namespace WebAPILib {
 
 		public override string URI{ get { return "spotify:album:" + ID; } }
 
-		public Album (string id, string name, IEnumerable<Artist> artists) : base (id, name) {
-			_artists = new List<Artist>(artists);
-		}
-
-		public Album (string id, string name, IEnumerable<Artist> artists, string albumtype, IEnumerable<Image> images, IEnumerable<Track> tracks) : this (id, name, artists) {
+		public Album (string id, string name, string albumtype, IEnumerable<Image> images) : base (id, name) {
 			_albumType = albumtype;
 			_images = new List<Image> (images);
+		}
+
+		public Album (string id, string name, string albumtype, IEnumerable<Image> images, IEnumerable<Artist> artists, IEnumerable<Track> tracks) : this (id, name, albumtype, images) {
+			_artists = new List<Artist>(artists);
 			_tracks = new List<Track> (tracks);
 		}
 

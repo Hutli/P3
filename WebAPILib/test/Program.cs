@@ -13,23 +13,11 @@ namespace test
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
-		{
-			Console.Write (get ("https://api.spotify.com/v1/search?q=test&type=track"));
-			Console.ReadLine ();
+		public static void Main (string[] args) {
+			string searchString = Console.ReadLine ();
+			search test = new search (searchString);
+			Console.WriteLine (test.results [0].Name);
+			Console.ReadKey ();
 		}
-
-		public static string get(string url)
-		{
-			List<Track> tracks = new List<Track> ();
-			WebClient client = new WebClient ();
-			string content = client.DownloadString (url);
-			JObject o = JObject.Parse(content);
-			foreach(JObject thing in o["tracks"]["items"]){
-
-			}
-			return o["tracks"]["items"][0]["album"].ToString();
-		}
-			
 	}
 }
