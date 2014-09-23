@@ -15,12 +15,12 @@ namespace WebRadio.API
 {
     static class Session
     {
-        public static IntPtr _sessionPtr;
+        private static IntPtr _sessionPtr;
         private static IntPtr _searchComplete;
-        public static int _nextTimeout;
+        private static int _nextTimeout;
         private static Object _sync = new Object();
 
-        public static event LoggedInHandler LoggedIn;
+        public static event Action LoggedIn;
         public static event SearchCompleteHandler SearchComplete;
         public static event MusicDeliveryHandler MusicDelivery;
         public static event TrackEndedDelegate TrackEnded; 
@@ -29,11 +29,18 @@ namespace WebRadio.API
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
         public delegate void TrackEndedDelegate(IntPtr session);
+        private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
         //public static event NotifyMainHandler NotifyMain;
 
+
+        public static void Dispose()
+        {
+            libspotify.sp_session_release(_sessionPtr);
+        }
+        
         public static void Init(byte[] appkey)
         {
-            var loggedInCallbackDelegate = new LoggedInHandler((session,error)=> LoggedIn(session,error));
+            var loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
             var searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
                 var searchResults = new SearchResults(search);
                 SearchComplete(searchResults);
@@ -85,9 +92,6 @@ namespace WebRadio.API
                     bufferStats.samples = Program.sampleStream.BufferedBytes / 2;
                     bufferStats.stutter = 0;
                 }
-
-                
-
             });
 
             libspotify.sp_session_callbacks session_callbacks = new libspotify.sp_session_callbacks();
@@ -121,20 +125,55 @@ namespace WebRadio.API
 
         }
 
+        
+
+        public static Track FromLink(String link)
+        {
+            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+
+            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+
+            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
+            {
+                IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
+                return new Track(spTrackPtr);
+            }
+            else throw new ArgumentException("Virker pt kun med tracks");
+            
+        }
+
         private static void NotifyMainTest(IntPtr session)
         {
-            //lock (_sync)
-            //{
-                //libspotify.sp_session_process_events(session, out _nextTimeout);
-            //}
-           // Console.WriteLine("main notified: next timeout: " + _nextTimeout);
+            Task.Run(() =>
+            {
+                ProcessEvents();
+             });
+            
         }
 
         public static void Login(string username, string password)
         {
             lock (_sync)
             {
-                libspotify.sp_session_login(_sessionPtr, username, password, false, null);
+                var err = libspotify.sp_session_login(_sessionPtr, username, password, false, null);
+                if (err != libspotify.sp_error.OK)
+                {
+                    Console.WriteLine(err);
+                    throw new LoginException("" + err);
+                }
+            }
+            
+        }
+
+        public static void ProcessEvents()
+        {
+            lock (_sync){
+                do
+                {
+                    libspotify.sp_session_process_events(_sessionPtr, out _nextTimeout);
+                
+                } while (_nextTimeout == 0);
             }
         }
 
@@ -143,24 +182,31 @@ namespace WebRadio.API
 
             public static void Play(Track track)
             {
-                var availability = libspotify.sp_track_get_availability(_sessionPtr, track.trackPtr);
-                Console.WriteLine(availability);
+                libspotify.sp_error err;
 
-                Console.WriteLine("duration: " + libspotify.sp_track_duration(track.trackPtr));
-
+                // process events until all track is loaded
+                do
+                {
+                    err = track.Load(_sessionPtr);
+                    Console.WriteLine("player load " + err);
+                    ProcessEvents();
+                } while (err == libspotify.sp_error.IS_LOADING);
                 
-
-                var err = libspotify.sp_session_player_load(_sessionPtr, track.trackPtr);
-                Console.WriteLine("player load " + err);
-
+                
+                Console.WriteLine(track.IsLoaded);
+                
                 var playErr = libspotify.sp_session_player_play(_sessionPtr, true);
                 Console.WriteLine("player play " + playErr);
+
+                var availability = track.GetAvailability(_sessionPtr);
+                Console.WriteLine(availability);
+
+                Console.WriteLine("duration: " + track.Duration);
             }
         }
 
         public static class Search
         {
-
             public static  void BeginSearchOnQuery(string query)
             {
                 IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);

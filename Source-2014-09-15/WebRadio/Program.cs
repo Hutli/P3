@@ -12,18 +12,14 @@ using System.Threading;
 using NAudio.Wave;
 
 namespace WebRadio {
-    public delegate void LoggedInHandler(IntPtr session, libspotify.sp_error error);
     public delegate void SearchCompleteHandler(SearchResults results);
     public delegate void NotifyMainHandler(IntPtr session);
     public delegate void MusicDeliveryHandler(libspotify.sp_audioformat audioFormat, byte[] frames);
 
     public class Program {
 
-        private static ManualResetEvent _searchCompleteSignal;
         private static byte[] appkey;
         
-
-        private static BinaryWriter _binaryWriter;
         private static WaveFormat activeFormat;
         public static BufferedWaveProvider sampleStream;
         private static WaveOut waveOut;
@@ -32,12 +28,7 @@ namespace WebRadio {
         static void Main(string[] args) {
             appkey = File.ReadAllBytes("spotify_appkey.key");
 
-            _binaryWriter = new BinaryWriter(File.Open("test.dat", FileMode.Create));
-
-            
-            
-
-            Session.LoggedIn += new LoggedInHandler(loginTest);
+            Session.LoggedIn += new Action(LoggedIn);
             Session.SearchComplete += new SearchCompleteHandler(searchCompleteTest);
             Session.MusicDelivery += new MusicDeliveryHandler(musicDeliveryTest);
             Session.TrackEnded += new Session.TrackEndedDelegate((session) => {
@@ -45,37 +36,47 @@ namespace WebRadio {
                 Console.WriteLine("Track Ended, so paused");
             });
             
-            try
-            {
-                Session.Init(appkey);
-                Session.Login("jensstaermose@hotmail.com", "pass");
-                Session.Search.BeginSearchOnQuery("parking lot skit eminem");
-
-                _searchCompleteSignal = new ManualResetEvent(false);
-            }
-            catch {}
-
+            
+            Session.Init(appkey);
+            Session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
             
 
-            while (true)
-            {
-                do
-                {
-                    libspotify.sp_session_process_events(Session._sessionPtr, out Session._nextTimeout);
-                } while (Session._nextTimeout == 0);
-            }
+            //Task.Run(() =>
+            //{
+            //    while (true)
+            //    {
+            //        Session.ProcessEvents();
+            //    }
+            //});
+            
             Console.WriteLine("At readline");
             Console.ReadLine();
         }
 
-        private static void loginTest(IntPtr session, libspotify.sp_error error)
+        private static void LoggedIn()
         {
-            Console.WriteLine("Login:" + error);
+            Console.WriteLine("Logged in");
+
+            //Session.Search.BeginSearchOnQuery("Even My Dad Does Sometimes");
+            Track track0 = Session.FromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            Session.Player.Play(track0);
         }
 
         private static void searchCompleteTest(SearchResults results)
         {
+            //Track track = results.Tracks.ElementAt(0);
+            //IntPtr spLinkPtr = libspotify.sp_link_create_from_track(track.trackPtr, 0);
+
+            //IntPtr buffer = Marshal.AllocHGlobal(1024);
+
+            //libspotify.sp_link_as_string(spLinkPtr, buffer, 1024);
+
+            //String trackString = Marshal.PtrToStringAnsi(buffer);
+            //Console.WriteLine(trackString);
+
             Session.Player.Play(results.Tracks.ElementAt(0));
+            //Track track0 = Session.FromLink("spotify:track:1GVvVyhqI5rbkCrPvAGgH5");
+            //Session.Player.Play(track0);
             //foreach (var track in results.Tracks)
             //{
             //    Console.WriteLine(track.Name);
@@ -85,11 +86,6 @@ namespace WebRadio {
 
         private static void musicDeliveryTest(libspotify.sp_audioformat audioFormat, byte[] frames)
         {
-            ////_binaryWriter.Write(frames);
-            if (sampleStream != null)
-            {
-                //sampleStream.ClearBuffer();
-            }
            
             if (activeFormat == null)
                 activeFormat = new WaveFormat(audioFormat.sample_rate, 16, audioFormat.channels);
@@ -107,16 +103,12 @@ namespace WebRadio {
                 waveOut = new WaveOut();
                 waveOut.Init(sampleStream);
                 waveOut.Play();
-                
             }
 
             sampleStream.AddSamples(frames, 0, frames.Length);
             Console.WriteLine("Buffered duration " + sampleStream.BufferedDuration);
             Console.WriteLine("Buffered bytes (BufferedBytes) " + sampleStream.BufferedBytes);
-            
         }
 
     }
-
-    
 }
