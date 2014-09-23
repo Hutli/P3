@@ -15,8 +15,13 @@ namespace test
 	{
 		public static void Main (string[] args) {
 			string searchString = Console.ReadLine ();
-			search test = new search (searchString);
-			Console.WriteLine (test.results [0].Name);
+			DateTime start = DateTime.Now;
+			search test = new search (searchString, SearchType.ALL);
+			TimeSpan timeUsed = DateTime.Now - start;
+			foreach (SpotifyObject o in test.results) {
+				Console.WriteLine(string.Format("{0} of type {1}", o.Name, o.GetType()));
+			}
+			Console.WriteLine (timeUsed.TotalSeconds);
 			Console.ReadKey ();
 		}
 	}

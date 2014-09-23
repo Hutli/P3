@@ -29,17 +29,18 @@ namespace WebAPILib {
 		public search (string searchString, SearchType type) {
 			switch (type) {
 			case SearchType.ALL:
-			case SearchType.TRACK:
-				results.AddRange (getTracks (searchString));
+			case SearchType.ARTIST:
+				results.AddRange (getArtist (searchString));
 				if (type == SearchType.ALL)
 					goto case SearchType.ALBUM; //TODO FIX C#!
 				break;
 			case SearchType.ALBUM:
 				results.AddRange (getAlbums (searchString));
-				if (type != SearchType.ALL)
-					goto case SearchType.ARTIST; //TODO FIX C#!
+				if (type == SearchType.ALL)
+					goto case SearchType.TRACK; //TODO FIX C#!
 				break;
-			case SearchType.ARTIST:
+			case SearchType.TRACK:
+				results.AddRange (getTracks (searchString));
 				break;
 			}
 		}
@@ -51,18 +52,17 @@ namespace WebAPILib {
 			foreach (JObject album in o["albums"]["items"]) {
 				string id = Convert.ToString (album ["id"]);
 				string name = Convert.ToString (album ["name"]);
+				string albumType = Convert.ToString (album ["album_type"]);
 
 				List<Image> images = new List<Image> ();
 				foreach (JObject image in album["images"])
 					images.Add (new Image(Convert.ToInt32 (image ["height"]), Convert.ToInt32(image["width"]), Convert.ToString(image["url"])));
 
-				List<Track> tracks = getTracks(Convert.ToString(album["href"]));
-
-				albums.Add(new Album(id, name, images, tracks[0].Artists));
+				albums.Add(new Album(id, name, albumType, images));
 			}
 			return albums;
 		}
-
+		
 		private List<Track> getTracks (string searchString) {
 			List<Track> tracks = new List<Track> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
@@ -79,12 +79,34 @@ namespace WebAPILib {
 				foreach (JObject artist in track["artists"])
 					artists.Add (new Artist (Convert.ToString (artist ["id"]), Convert.ToString (artist ["name"])));
 
-				Album album = new Album (Convert.ToString (track ["album"] ["id"]), Convert.ToString (track ["album"] ["name"]), artists);
+				List<Image> images = new List<Image> ();
+				foreach (JObject image in track ["album"]["images"])
+					images.Add (new Image(Convert.ToInt32 (image ["height"]), Convert.ToInt32(image["width"]), Convert.ToString(image["url"])));
+
+
+				string albumId = Convert.ToString(track["album"] ["id"]);
+				string albumName = Convert.ToString (track ["album"] ["name"]);
+				string albumType = Convert.ToString (track ["album"] ["album_type"]);
+
+				Album album = new Album (albumId, albumName, albumType, images, artists);
 				
 				tracks.Add (new Track (id, name, popularity, duration, isExplicit, trackNumber, album));
 			}
 			return tracks;
 		}
+
+		private List<Artist> getArtist (string searchString) {
+			List<Artist> artists = new List<Artist> ();
+			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
+			JObject o = get (url);
+			foreach (JObject artist in o["artists"]["items"]) {
+				string id = Convert.ToString (artist ["id"]);
+				string name = Convert.ToString (artist ["name"]);
+				artists.Add (new Artist (id, name));
+			}
+			return artists;
+		}
+
 
 		public static JObject get (string url) {
 			WebClient client = new WebClient ();

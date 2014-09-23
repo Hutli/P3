@@ -41,6 +41,7 @@
     <Compile Include="Album.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="search.cs" />
+    <Compile Include="Image.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

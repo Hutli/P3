@@ -24,9 +24,8 @@ namespace WebAPILib {
 			_images = new List<Image> (images);
 		}
 
-		public Album (string id, string name, string albumtype, IEnumerable<Image> images, IEnumerable<Artist> artists, IEnumerable<Track> tracks) : this (id, name, albumtype, images) {
+		public Album (string id, string name, string albumtype, IEnumerable<Image> images, IEnumerable<Artist> artists) : this (id, name, albumtype, images) {
 			_artists = new List<Artist>(artists);
-			_tracks = new List<Track> (tracks);
 		}
 
 	}

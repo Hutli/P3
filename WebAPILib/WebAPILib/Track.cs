@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace WebAPILib {
-	public class Track: SpotifyObject {
+	public class Track : SpotifyObject {
 		private int _popularity;
 		private int _duration;
 		private bool _isExplicit;
