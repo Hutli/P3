@@ -16,7 +16,7 @@ namespace WebAPILib {
 			_trackNumber = trackNumber;
 			_album = album;
 
-			fetchHierarchy ();
+			//fetchHierarchy ();
 		}
 
 		public int Popularity{ get { return _popularity; } }
