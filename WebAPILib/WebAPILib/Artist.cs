@@ -22,5 +22,14 @@ namespace WebAPILib {
 
 		public override string URI{ get { return "spotify:artist:" + ID; } }
 
+		public void addAlbum(Album album)
+		{
+			foreach (var item in _albums) {
+				if (item.ID == album.ID)
+					return;
+			}
+			_albums.Add (album);
+		}
+
 	}
 }
