@@ -58,8 +58,9 @@ namespace WebRadio {
             Console.WriteLine("Logged in");
 
             //Session.Search.BeginSearchOnQuery("Even My Dad Does Sometimes");
-            Track track0 = Session.FromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
-            Session.Player.Play(track0);
+            //List<Track> track0 = Session.FromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b"); // Single Track
+            List<Track> track0 = Session.FromLink("spotify:track:43lVx5Sh75Yh8yS0rAebsN"); // Playlist
+            Session.Player.Play(track0.FirstOrDefault());
         }
 
         private static void searchCompleteTest(SearchResults results)
