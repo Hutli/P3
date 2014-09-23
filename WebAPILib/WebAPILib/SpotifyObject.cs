@@ -10,6 +10,8 @@ namespace WebAPILib {
 			_name = name;
 		}
 
+		public search SearchResult { get; set; }
+
 		public string ID { get { return _id; } }
 
 		public string Name { get { return _name; } }

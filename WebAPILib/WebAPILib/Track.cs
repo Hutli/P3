@@ -15,6 +15,8 @@ namespace WebAPILib {
 			_isExplicit = isExplicit;
 			_trackNumber = trackNumber;
 			_album = album;
+
+
 		}
 
 		public int Popularity{ get { return _popularity; } }

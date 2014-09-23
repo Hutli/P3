@@ -16,8 +16,8 @@ namespace WebAPILib
 	public class search
 	{
 
-		List<Artist> artists = new List<Artist> ();
-		List<SpotifyObject> results = new List<SpotifyObject>();
+		public List<Artist> artists = new List<Artist> ();
+		public List<SpotifyObject> results = new List<SpotifyObject>();
 
 		public search (string searchString) : this (searchString, SearchType.ALL) { }
 
@@ -25,11 +25,14 @@ namespace WebAPILib
 		{
 
 		}
+			
+		private List<Track> getTracks(string searchString)
+		{
 
+		}
 
 		public static string get(string url)
 		{
-			List<Track> tracks = new List<Track> ();
 			WebClient client = new WebClient ();
 			string content = client.DownloadString (url);
 			return content;
