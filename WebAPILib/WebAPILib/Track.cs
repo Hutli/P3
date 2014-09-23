@@ -14,9 +14,9 @@ namespace WebAPILib {
 			_duration = duration;
 			_isExplicit = isExplicit;
 			_trackNumber = trackNumber;
-			_album = album;
 
-			//fetchHierarchy ();
+			_album = album;
+			album.addTrack(this);
 		}
 
 		public int Popularity{ get { return _popularity; } }
@@ -31,7 +31,7 @@ namespace WebAPILib {
 
 		public override string URI{ get { return "spotify:track:" + ID; } }
 
-		private void fetchHierarchy()
+		/*private void fetchHierarchy()
 		{
 			foreach (var artist in SearchResult.artists) {
 				foreach (var art in Album.Artists) {
@@ -40,7 +40,7 @@ namespace WebAPILib {
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 }

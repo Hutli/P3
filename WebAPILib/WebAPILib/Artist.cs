@@ -24,10 +24,8 @@ namespace WebAPILib {
 
 		public void addAlbum(Album album)
 		{
-			foreach (var item in _albums) {
-				if (item.ID == album.ID)
-					return;
-			}
+			if (_albums.Exists(a => album.ID == a.ID))
+					throw new Exception (); //TODO Create spotify exception
 			_albums.Add (album);
 		}
 

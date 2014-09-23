@@ -25,13 +25,16 @@ namespace WebAPILib {
 		}
 
 		public Album (string id, string name, string albumtype, IEnumerable<Image> images, IEnumerable<Artist> artists) : this (id, name, albumtype, images) {
-			foreach (Artist a in artists) {
-				if (!SearchResult.artists.Exists(a ))
-					SearchResult.artists.Add (a);
+			foreach (Artist a in artists)
 				a.addAlbum (this);
-			}
 			_artists = new List<Artist> (artists);
 		}
 
+		public void addTrack(Track track)
+		{
+			if (_tracks.Exists(a => track.ID == a.ID))
+				throw new Exception (); //TODO Create spotify exception
+			_tracks.Add (track);
+		}
 	}
 }

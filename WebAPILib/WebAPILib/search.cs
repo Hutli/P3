@@ -45,6 +45,19 @@ namespace WebAPILib {
 			}
 		}
 
+		private List<Artist> getArtist (string searchString) {
+			List<Artist> artists = new List<Artist> ();
+			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
+			JObject o = get (url);
+			foreach (JObject artist in o["artists"]["items"]) {
+				string id = Convert.ToString (artist ["id"]);
+				string name = Convert.ToString (artist ["name"]);
+				// TODO If SearchResults contains an artist where the ID is equal, that artist is added to the results
+				artists.Add (new Artist (id, name));
+			}
+			return artists;
+		}
+
 		private List<Album> getAlbums (string searchString) {
 			List<Album> albums = new List<Album> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=album";
@@ -58,11 +71,12 @@ namespace WebAPILib {
 				foreach (JObject image in album["images"])
 					images.Add (new Image(Convert.ToInt32 (image ["height"]), Convert.ToInt32(image["width"]), Convert.ToString(image["url"])));
 
+				// TODO If SearchResults contains an album within its artist where the ID is equal, that album is added to the results
 				albums.Add(new Album(id, name, albumType, images));
 			}
 			return albums;
 		}
-		
+
 		private List<Track> getTracks (string searchString) {
 			List<Track> tracks = new List<Track> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
@@ -95,20 +109,7 @@ namespace WebAPILib {
 			return tracks;
 		}
 
-		private List<Artist> getArtist (string searchString) {
-			List<Artist> artists = new List<Artist> ();
-			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
-			JObject o = get (url);
-			foreach (JObject artist in o["artists"]["items"]) {
-				string id = Convert.ToString (artist ["id"]);
-				string name = Convert.ToString (artist ["name"]);
-				artists.Add (new Artist (id, name));
-			}
-			return artists;
-		}
-
-
-		public static JObject get (string url) {
+		private static JObject get (string url) {
 			WebClient client = new WebClient ();
 			string content = client.DownloadString (url);
 			JObject o = JObject.Parse (content);
