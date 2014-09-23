@@ -25,7 +25,12 @@ namespace WebAPILib {
 		}
 
 		public Album (string id, string name, string albumtype, IEnumerable<Image> images, IEnumerable<Artist> artists) : this (id, name, albumtype, images) {
-			_artists = new List<Artist>(artists);
+			foreach (Artist a in artists) {
+				if (!SearchResult.artists.Exists(a ))
+					SearchResult.artists.Add (a);
+				a.addAlbum (this);
+			}
+			_artists = new List<Artist> (artists);
 		}
 
 	}
