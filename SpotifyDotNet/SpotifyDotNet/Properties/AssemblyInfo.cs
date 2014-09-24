@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WebRadio")]
+[assembly: AssemblyTitle("SpotifyDotNet")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebRadio")]
+[assembly: AssemblyProduct("SpotifyDotNet")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f4b40565-edaf-42f8-ba34-fffead3ac304")]
+[assembly: Guid("cdddc0ad-a5e2-4c9a-b557-b6a85736454e")]
 
 // Version information for an assembly consists of the following four values:
 //
