@@ -12,10 +12,6 @@ using System.Threading;
 using NAudio.Wave;
 
 namespace WebRadio {
-    public delegate void SearchCompleteHandler(SearchResults results);
-    public delegate void NotifyMainHandler(IntPtr session);
-    public delegate void MusicDeliveryHandler(libspotify.sp_audioformat audioFormat, byte[] frames);
-
     public class Program {
 
         private static byte[] appkey;
@@ -24,48 +20,48 @@ namespace WebRadio {
         public static BufferedWaveProvider sampleStream;
         private static WaveOut waveOut;
 
+        private static Session session;
 
         static void Main(string[] args) {
             appkey = File.ReadAllBytes("spotify_appkey.key");
 
-            Session.LoggedIn += new Action(LoggedIn);
-            Session.SearchComplete += new SearchCompleteHandler(searchCompleteTest);
-            Session.MusicDelivery += new MusicDeliveryHandler(musicDeliveryTest);
-            Session.TrackEnded += new Session.TrackEndedDelegate((session) => {
-                waveOut.Pause();
-                Console.WriteLine("Track Ended, so paused");
-            });
-            
-            
-            Session.Init(appkey);
-            Session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
-            
+            session = Session.Instance;
 
-            //Task.Run(() =>
-            //{
-            //    while (true)
-            //    {
-            //        Session.ProcessEvents();
-            //    }
-            //});
-            
+            session.LoggedIn += LoggedIn;
+            session.SearchComplete += searchCompleteTest;
+            session.MusicDelivery += musicDeliveryTest;
+            session.TrackEnded += trackEnded;
+
+            session.Init(appkey);
+            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
+
             Console.WriteLine("At readline");
             Console.ReadLine();
+
+            session.LoggedIn -= LoggedIn;
+            session.SearchComplete -= searchCompleteTest;
+            session.MusicDelivery -= musicDeliveryTest;
+            session.TrackEnded -= trackEnded;
+            session.Dispose();
+        }
+
+        private static void trackEnded(IntPtr sessionPtr) {
+            waveOut.Pause();
+            Console.WriteLine("Track Ended, so paused");
         }
 
         private static void LoggedIn()
         {
             Console.WriteLine("Logged in");
 
-            //Session.Search.BeginSearchOnQuery("Even My Dad Does Sometimes");
-            //List<Track> track0 = Session.FromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b"); // Single Track
-            List<Track> track0 = Session.FromLink("spotify:track:43lVx5Sh75Yh8yS0rAebsN"); // Playlist
-            Session.Player.Play(track0.FirstOrDefault());
+            session.BeginSearchOnQuery("black pearl jam");
+            List<Track> track0 = session.FromLink("spotify:track:43lVx5Sh75Yh8yS0rAebsN"); // Playlist
+            session.Play(track0.FirstOrDefault());
         }
 
         private static void searchCompleteTest(SearchResults results)
         {
-            //Track track = results.Tracks.ElementAt(0);
+            session.Play(results.Tracks.ElementAt(0));
             //IntPtr spLinkPtr = libspotify.sp_link_create_from_track(track.trackPtr, 0);
 
             //IntPtr buffer = Marshal.AllocHGlobal(1024);
@@ -75,7 +71,7 @@ namespace WebRadio {
             //String trackString = Marshal.PtrToStringAnsi(buffer);
             //Console.WriteLine(trackString);
 
-            Session.Player.Play(results.Tracks.ElementAt(0));
+            //Session.Player.Play(results.Tracks.ElementAt(0));
             //Track track0 = Session.FromLink("spotify:track:1GVvVyhqI5rbkCrPvAGgH5");
             //Session.Player.Play(track0);
             //foreach (var track in results.Tracks)
@@ -110,6 +106,5 @@ namespace WebRadio {
             Console.WriteLine("Buffered duration " + sampleStream.BufferedDuration);
             Console.WriteLine("Buffered bytes (BufferedBytes) " + sampleStream.BufferedBytes);
         }
-
     }
 }

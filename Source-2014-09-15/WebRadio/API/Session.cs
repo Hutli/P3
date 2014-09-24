@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,49 +8,79 @@ using System.Collections.Concurrent;
 using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.IO;
-using WebRadio;
 using System.Threading;
 
 namespace WebRadio.API
 {
-    static class Session
+    public class Session
     {
-        private static IntPtr _sessionPtr;
-        private static IntPtr _searchComplete;
-        private static int _nextTimeout;
-        private static Object _sync = new Object();
+        private IntPtr _sessionPtr = IntPtr.Zero;
+        private IntPtr _searchComplete = IntPtr.Zero;
+        private int _nextTimeout;
+        private Object _sync = new Object();
 
-        public static event Action LoggedIn;
-        public static event SearchCompleteHandler SearchComplete;
-        public static event MusicDeliveryHandler MusicDelivery;
-        public static event TrackEndedDelegate TrackEnded; 
+        public event Action LoggedIn;
+        public event SearchCompleteHandler SearchComplete;
+        public delegate void SearchCompleteHandler(SearchResults results);
+        public event MusicDeliveryHandler MusicDelivery;
+        public  event TrackEndedDelegate TrackEnded;
+
+        public delegate void NotifyMainDelegate(IntPtr session);
+        public delegate void MusicDeliveryHandler(libspotify.sp_audioformat audioFormat, byte[] frames);
 
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
+        
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
         public delegate void TrackEndedDelegate(IntPtr session);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
-        //public static event NotifyMainHandler NotifyMain;
 
+        private MusicDeliveryDelegate musicDeliveryDelegate;
+        private LoggedInDelegate loggedInCallbackDelegate;
+        private SearchCompleteDelegate searchCompleteDelegate;
+        private NotifyMainDelegate notifyMainDelegate;
+        private TrackEndedDelegate trackEndedDelegate;
+        private GetAudioBufferStatsDelegate getAudioBufferStatsDelegate;
 
-        public static void Dispose()
+        private static readonly Session _instance = new Session();
+        private Task _notifyMainTask;
+        public static Session Instance
         {
-            libspotify.sp_session_release(_sessionPtr);
+            get
+            {
+                return _instance;
+            }
+        }
+
+        private Session() { }
+
+        public void Dispose()
+        {
+            _notifyMainTask.Dispose();
+            lock (_sync)
+            {
+                libspotify.sp_session_release(_sessionPtr);
+            }
+
+            System.GC.SuppressFinalize(this);
+        }
+
+        ~Session()
+        {
+            Dispose();
         }
         
-        public static void Init(byte[] appkey)
+        public void Init(byte[] appkey)
         {
-            var loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
-            var searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
+            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
+            searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
                 var searchResults = new SearchResults(search);
                 SearchComplete(searchResults);
             });
-            var notifyMainDelegate = new NotifyMainHandler((IntPtr session) => NotifyMainTest(session));
+            notifyMainDelegate = new NotifyMainDelegate((IntPtr session) => NotifyMainTest(session));
 
-            var musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
+            musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
             {
-                //Console.WriteLine("Music delivery..");
-
                 byte[] frames;
                 libspotify.sp_audioformat format = (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));;
 
@@ -74,17 +104,20 @@ namespace WebRadio.API
                 Marshal.Copy(framesPtr, frames, 0, frames.Length);
 
                 //Console.WriteLine(format.sample_rate);
-
-                MusicDelivery(format, frames);
+                if (MusicDelivery != null)
+                {
+                    MusicDelivery(format, frames);
+                }
+                   
                 return numFrames;
             });
 
-            var trackEndedDelegate = new TrackEndedDelegate((session) =>
+            trackEndedDelegate = new TrackEndedDelegate((session) =>
             {
                 TrackEnded(session);
             });
 
-            var getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
+            getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
             {
                 libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
                 if (Program.sampleStream != null)
@@ -127,7 +160,7 @@ namespace WebRadio.API
 
         
 
-        public static List<Track> FromLink(String link)
+        public List<Track> FromLink(String link)
         {
             IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
             IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
@@ -150,16 +183,17 @@ namespace WebRadio.API
             
         }
 
-        private static void NotifyMainTest(IntPtr session)
+        private void NotifyMainTest(IntPtr session)
         {
-            Task.Run(() =>
+            _notifyMainTask = new Task(() =>
             {
                 ProcessEvents();
              });
-            
+
+            _notifyMainTask.Start();
         }
 
-        public static void Login(string username, string password)
+        public void Login(string username, string password)
         {
             lock (_sync)
             {
@@ -170,10 +204,9 @@ namespace WebRadio.API
                     throw new LoginException("" + err);
                 }
             }
-            
         }
 
-        public static void ProcessEvents()
+        public void ProcessEvents()
         {
             lock (_sync){
                 do
@@ -184,10 +217,19 @@ namespace WebRadio.API
             }
         }
 
-        public static class Player
-        {
+        public void BeginSearchOnQuery(string query)
+            {
+                IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);
 
-            public static void Play(Track track)
+                lock (_sync)
+                {
+                    IntPtr searchPtr = libspotify.sp_search_create(_sessionPtr, queryPointer, 0, 10, 0, 10, 0, 10, 0, 10,
+                    libspotifydotnet.sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
+                }
+                
+            }
+
+        public void Play(Track track)
             {
                 libspotify.sp_error err;
 
@@ -196,7 +238,7 @@ namespace WebRadio.API
                 {
                     err = track.Load(_sessionPtr);
                     Console.WriteLine("player load " + err);
-                    ProcessEvents();
+                    Session.Instance.ProcessEvents();
                 } while (err == libspotify.sp_error.IS_LOADING);
                 
                 
@@ -210,17 +252,5 @@ namespace WebRadio.API
 
                 Console.WriteLine("duration: " + track.Duration);
             }
-        }
-
-        public static class Search
-        {
-            public static  void BeginSearchOnQuery(string query)
-            {
-                IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);
-
-                IntPtr searchPtr = libspotify.sp_search_create(_sessionPtr, queryPointer, 0, 100, 0, 10, 0, 10, 0, 10,
-                    libspotifydotnet.sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
-            }
-        }
     }
 }

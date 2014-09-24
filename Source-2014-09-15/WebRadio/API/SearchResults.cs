@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WebRadio.API
 {
-    public class SearchResults
+    public class SearchResults : IDisposable
     {
-        private IntPtr searchPtr;
+        private IntPtr _searchPtr;
         private int _numTracks;
 
         public List<Track> Tracks { get; private set; }
@@ -17,7 +17,7 @@ namespace WebRadio.API
         public SearchResults(IntPtr searchPtr)
         {
             Tracks = new List<Track>();
-            this.searchPtr = searchPtr;
+            this._searchPtr = searchPtr;
             _numTracks = libspotify.sp_search_num_tracks(searchPtr);
          
             for (int i = 0; i < _numTracks; i++)
@@ -28,5 +28,16 @@ namespace WebRadio.API
             }
         }
 
+        ~SearchResults()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            libspotify.sp_search_release(_searchPtr);
+
+            System.GC.SuppressFinalize(this);
+        }
     }
 }
