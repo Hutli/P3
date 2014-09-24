@@ -11,8 +11,7 @@ namespace WebAPILib {
 
 		public Artist (string id, string name) : base (id, name) { }
 
-		public Artist (string id, string name, IEnumerable<string> genres, IEnumerable<Album> albums) : this (id, name) {
-			_genres = new List<string> (genres);
+		public Artist (string id, string name, List<Album> albums) : this (id, name) {
 			_albums = new List<Album> (albums);
 		}
 

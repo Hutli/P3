@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using WebAPILib;
 using System.Drawing;
-using System.Web;
 using System.IO;
 using System.Text;
 using System.Net;
@@ -19,8 +18,40 @@ namespace WebAPILib {
 	;
 
 	public class search {
-		public List<Artist> artists = new List<Artist> ();
-		public List<SpotifyObject> results = new List<SpotifyObject> ();
+		private List<Artist> _artists = new List<Artist> ();
+		private List<Album> _albums = new List<Album> ();
+		private List<Track> _tracks = new List<Track> ();
+
+		public List<Artist> Artists{ get { return _artists; } }
+
+		public List<Album> Albums{ get { return _albums; } }
+
+		public List<Track> tracks{ get { return _tracks; } }
+
+		public void addArtist(Artist artist){
+			if(_artists.Exists(a => a.ID == artist.ID)){
+				throw new Exception (); //TODO Create spotify exception
+			} else {
+				_artists.Add (artist);
+			}
+		}
+
+		public void addAlbum(Album album){
+			if(_albums.Exists(a => a.ID == album.ID)){
+				throw new Exception (); //TODO Create spotify exception
+			} else {
+				_albums.Add (album);
+			}
+		}
+
+		public void addTrack(Track track){
+			if(_tracks.Exists(a => a.ID == track.ID)){
+				throw new Exception (); //TODO Create spotify exception
+			} else {
+				_tracks.Add (track);
+			}
+		}
+
 		public readonly string searchString;
 
 		public search (string searchString) : this (searchString, SearchType.ALL) {
@@ -30,17 +61,17 @@ namespace WebAPILib {
 			switch (type) {
 			case SearchType.ALL:
 			case SearchType.ARTIST:
-				results.AddRange (getArtist (searchString));
+				_artists = getArtist (searchString);
 				if (type == SearchType.ALL)
 					goto case SearchType.ALBUM; //TODO FIX C#!
 				break;
 			case SearchType.ALBUM:
-				results.AddRange (getAlbums (searchString));
+				_albums = getAlbums (searchString);
 				if (type == SearchType.ALL)
 					goto case SearchType.TRACK; //TODO FIX C#!
 				break;
 			case SearchType.TRACK:
-				results.AddRange (getTracks (searchString));
+				_tracks = getTracks (searchString);
 				break;
 			}
 		}
@@ -52,7 +83,6 @@ namespace WebAPILib {
 			foreach (JObject artist in o["artists"]["items"]) {
 				string id = Convert.ToString (artist ["id"]);
 				string name = Convert.ToString (artist ["name"]);
-				// TODO If SearchResults contains an artist where the ID is equal, that artist is added to the results
 				artists.Add (new Artist (id, name));
 			}
 			return artists;
@@ -68,11 +98,13 @@ namespace WebAPILib {
 				string albumType = Convert.ToString (album ["album_type"]);
 
 				List<Image> images = new List<Image> ();
-				foreach (JObject image in album["images"])
-					images.Add (new Image(Convert.ToInt32 (image ["height"]), Convert.ToInt32(image["width"]), Convert.ToString(image["url"])));
-
-				// TODO If SearchResults contains an album within its artist where the ID is equal, that album is added to the results
-				albums.Add(new Album(id, name, albumType, images));
+				foreach (JObject image in album["images"]) {
+					int height = Convert.ToInt32 (image ["height"]);
+					int width = Convert.ToInt32 (image ["width"]);
+					string imageUrl = Convert.ToString (image ["url"]);
+					images.Add (new Image (height, width, imageUrl));
+				}
+				albums.Add (new Album (id, name, albumType, images));
 			}
 			return albums;
 		}
@@ -92,24 +124,38 @@ namespace WebAPILib {
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject artist in track["artists"])
 					artists.Add (new Artist (Convert.ToString (artist ["id"]), Convert.ToString (artist ["name"])));
-
+					
 				List<Image> images = new List<Image> ();
-				foreach (JObject image in track ["album"]["images"])
-					images.Add (new Image(Convert.ToInt32 (image ["height"]), Convert.ToInt32(image["width"]), Convert.ToString(image["url"])));
-
-
-				string albumId = Convert.ToString(track["album"] ["id"]);
+				foreach (JObject image in track["albums"]["images"]) {
+					int height = Convert.ToInt32 (image ["height"]);
+					int width = Convert.ToInt32 (image ["width"]);
+					string imageUrl = Convert.ToString (image ["url"]);
+					images.Add (new Image (height, width, imageUrl));
+				}
+				string albumId = Convert.ToString (track ["album"] ["id"]);
 				string albumName = Convert.ToString (track ["album"] ["name"]);
 				string albumType = Convert.ToString (track ["album"] ["album_type"]);
 
-				Album album = new Album (albumId, albumName, albumType, images, artists);
+				Album album = new Album (albumId, albumName, albumType, images);
 				
 				tracks.Add (new Track (id, name, popularity, duration, isExplicit, trackNumber, album));
 			}
 			return tracks;
 		}
 
-		private static JObject get (string url) {
+		/*private List<Image> getImages(string imageList){
+			JObject o = new JObject (imageList);
+			List<Image> images = new List<Image> ();
+			foreach (JObject image in imageList["images"]) {
+				int height = Convert.ToInt32 (image ["height"]);
+				int width = Convert.ToInt32 (image ["width"]);
+				string url = Convert.ToString (image ["url"]);
+				images.Add (new Image (height, width, url));
+			}
+			return images;
+		}*/
+
+		public static JObject get (string url) {
 			WebClient client = new WebClient ();
 			string content = client.DownloadString (url);
 			JObject o = JObject.Parse (content);
