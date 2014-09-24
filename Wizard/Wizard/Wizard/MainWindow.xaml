@@ -19,8 +19,8 @@
         <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Left" Margin="155,189,0,0" VerticalAlignment="Top" Width="75" Click="loginBtn_Click"/>
         <Button x:Name="BackButton" Content="Back" HorizontalAlignment="Left" Margin="353,292,0,0" VerticalAlignment="Top" Width="75" Click="BackButton_Click"/>
         <TextBox x:Name="BarNameTxt" HorizontalAlignment="Left" Height="23" Margin="10,14,0,0" TextWrapping="Wrap" Text="Name of your bar..." VerticalAlignment="Top" Width="192" GotFocus="clearOnFocus"/>
-        <TextBox x:Name="OtherInfo2Txt" HorizontalAlignment="Left" Height="23" Margin="10,70,0,0" TextWrapping="Wrap" Text="Other info2..." VerticalAlignment="Top" Width="192" GotFocus="clearOnFocus"/>
         <TextBox x:Name="OtherInfoTxt" HorizontalAlignment="Left" Height="23" Margin="10,42,0,0" TextWrapping="Wrap" Text="Other info..." VerticalAlignment="Top" Width="192" GotFocus="clearOnFocus"/>
+        <TextBox x:Name="OtherInfo2Txt" HorizontalAlignment="Left" Height="23" Margin="10,70,0,0" TextWrapping="Wrap" Text="Other info2..." VerticalAlignment="Top" Width="192" GotFocus="clearOnFocus"/>
         <TextBlock x:Name="DoneTxt" HorizontalAlignment="Left" Margin="96,16,0,0" TextWrapping="Wrap" Text="You are now done with the setup of your [insert awesome name] server! To use the system from now one, just blablablabla...." VerticalAlignment="Top" Height="249" Width="326"/>
         <ListBox x:Name="searchResultsLst" HorizontalAlignment="Left" Height="237" Margin="96,28,0,0" VerticalAlignment="Top" Width="326" SelectionMode="Multiple"/>
         <TextBox x:Name="searchBarTxt" HorizontalAlignment="Left" Height="23" Margin="96,5,0,0" TextWrapping="Wrap" Text="Search for music..." VerticalAlignment="Top" Width="326" GotFocus="clearOnFocus"/>
