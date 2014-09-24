@@ -1,22 +1,29 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.cfde322f" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="App\App\Main.xaml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WebApiFormsLib\search.cs">
     <Files>
-      <File FileName="App\App\App.cs" Line="23" Column="23" />
-      <File FileName="App\App\Main.xaml" Line="18" Column="18" />
-      <File FileName="App\App\Main.xaml.cs" Line="3" Column="3" />
-      <File FileName="App\App\Resault.xaml" Line="1" Column="1" />
-      <File FileName="App\App\Resault.xaml.cs" Line="27" Column="27" />
+      <File FileName="App\App\App.cs" Line="4" Column="4" />
+      <File FileName="App\App\Main.xaml" Line="13" Column="13" />
+      <File FileName="App\App\Main.xaml.cs" Line="38" Column="38" />
+      <File FileName="App\App\Resault.xaml" Line="22" Column="22" />
+      <File FileName="App\App\Resault.xaml.cs" Line="21" Column="21" />
+      <File FileName="WebApiFormsLib\Album.cs" Line="34" Column="34" />
+      <File FileName="WebApiFormsLib\Playlist.cs" Line="34" Column="34" />
+      <File FileName="WebApiFormsLib\search.cs" Line="16" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="App" expanded="True">
-            <Node name="Main.xaml" expanded="True">
-              <Node name="Main.xaml.cs" selected="True" />
-            </Node>
+            <Node name="Main.xaml" expanded="True" />
             <Node name="Resault.xaml" expanded="True" />
           </Node>
+          <Node name="App.Android" expanded="True" />
+          <Node name="WebApiFormsLib" expanded="True">
+            <Node name="Packages" expanded="True" />
+            <Node name="search.cs" selected="True" />
+          </Node>
+          <Node name="WebAPILib" expanded="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

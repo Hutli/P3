@@ -1,15 +1,32 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using WebAPILib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace App
 {	
 	public partial class Resault : ContentPage
 	{	
-		public Resault ()
+		private string _searchString;
+
+		public Resault (string str)
 		{
 			InitializeComponent ();
+			_searchString = str;
+			Label lab = this.FindByName<Label> ("text");
+			search search = new search (_searchString , SearchType.ALBUM);
+			string st = "";
+			foreach (var item in search.Albums) {
+				st += item.Name;
+				st += "\n";
+			}
+			lab.Text = st;
 		}
+
+
+
 	}
 }
 

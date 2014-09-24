@@ -12,6 +12,7 @@ namespace App
         public static Page GetMainPage()
         {
 			return new Main ();
+
         }
     }
 }

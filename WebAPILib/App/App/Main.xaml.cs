@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
 
 namespace App
 {	
@@ -15,8 +17,8 @@ namespace App
 		public void onSearch(object sender, EventArgs args)
 		{
 			Entry et = this.FindByName<Entry> ("txtSearch");
-			((Button)sender).Text = et.Text;
-
+			Resault res = new Resault (et.Text);
+			Navigation.PushModalAsync (res);
 		}
 	}
 }
