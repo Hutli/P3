@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,9 @@ using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Threading;
+using NAudio.Wave;
 
-namespace WebRadio.API
+namespace SpotifyDotNet
 {
     public class Session
     {
@@ -70,7 +71,7 @@ namespace WebRadio.API
             Dispose();
         }
         
-        public void Init(byte[] appkey)
+        public void Init(byte[] appkey, BufferedWaveProvider sampleStream)
         {
             loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
             searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
@@ -91,7 +92,7 @@ namespace WebRadio.API
                 }
 
                 // only buffer 5 seconds
-                if (Program.sampleStream != null && Program.sampleStream.BufferedDuration > TimeSpan.FromSeconds(5))
+                if (sampleStream != null && sampleStream.BufferedDuration > TimeSpan.FromSeconds(5))
                 {
                     frames = new byte[0];
                     return 0;
@@ -120,9 +121,9 @@ namespace WebRadio.API
             getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
             {
                 libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
-                if (Program.sampleStream != null)
+                if (sampleStream != null)
                 {
-                    bufferStats.samples = Program.sampleStream.BufferedBytes / 2;
+                    bufferStats.samples = sampleStream.BufferedBytes / 2;
                     bufferStats.stutter = 0;
                 }
             });

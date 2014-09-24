@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-using WebRadio.API;
+using SpotifyDotNet;
 using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -32,7 +32,7 @@ namespace WebRadio {
             session.MusicDelivery += musicDeliveryTest;
             session.TrackEnded += trackEnded;
 
-            session.Init(appkey);
+            session.Init(appkey, sampleStream);
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
 
             Console.WriteLine("At readline");
@@ -54,7 +54,7 @@ namespace WebRadio {
         {
             Console.WriteLine("Logged in");
 
-            session.BeginSearchOnQuery("black pearl jam");
+            //session.BeginSearchOnQuery("black pearl jam");
             List<Track> track0 = session.FromLink("spotify:track:43lVx5Sh75Yh8yS0rAebsN"); // Playlist
             session.Play(track0.FirstOrDefault());
         }
