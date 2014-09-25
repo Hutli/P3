@@ -17,16 +17,11 @@ namespace test
 			string searchString = Console.ReadLine ();
 			DateTime start = DateTime.Now;
 			search test = new search (searchString, SearchType.ALL);
-			TimeSpan timeUsed = DateTime.Now - start;
-			foreach (Artist o in test.Artists) {
-				Console.WriteLine(string.Format("{0} of type {1}", o.Name, o.GetType()));
-			}
-			foreach (Album o in test.Albums) {
-				Console.WriteLine(string.Format("{0} of type {1}", o.Name, o.GetType()));
-			}
-			foreach (Track o in test.tracks) {
-				Console.WriteLine(string.Format("{0} of type {1}", o.Name, o.GetType()));
-			}
+            foreach (Artist a in test.Albums[0].Artists)
+                Console.WriteLine(a.Name);
+            
+            TimeSpan timeUsed = DateTime.Now - start;
+			
 			Console.WriteLine (timeUsed.TotalSeconds);
 			Console.ReadKey ();
 		}

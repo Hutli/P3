@@ -6,10 +6,10 @@ using Newtonsoft.Json.Linq;
 
 namespace WebAPILib {
 	public class Album : SpotifyObject {
-		private string _albumType = null;
-		private List<Image> _images = null;
-		private List<Artist> _artists = null;
-		private List<Track> _tracks = null;
+		private string _albumType;
+		private List<Image> _images = new List<Image>();
+		private List<Artist> _artists = new List<Artist>();
+		private List<Track> _tracks = new List<Track>();
 
 		public string AlbumType{ get { return _albumType; } }
 
@@ -21,17 +21,19 @@ namespace WebAPILib {
 					string href = "https://api.spotify.com/v1/albums/" + ID;
 					JObject o = search.get(href);
 					List<Artist> artists = new List<Artist> ();
-					foreach (JObject artist in o["artists"]["items"]) {
+					foreach (JObject artist in o["artists"]) {
 						string id = Convert.ToString (artist ["id"]);
+                        Console.WriteLine(id);
 						string name = Convert.ToString (artist ["name"]);
-						/*if (SearchResult.Artists.Contains (a => a.ID == id)) {
-							SearchResult.Artists.Find (a => a.ID == id).addAlbum (this);
-							artists.Add (SearchResult.Artists.Find (a => a.ID == id));
+                        Console.WriteLine(name);
+					    if (SearchResult.Artists.Exists (a => id.Equals(a.ID))) {
+                            SearchResult.Artists.Find(a => id.Equals(a.ID)).addAlbum(this);
+                            artists.Add(SearchResult.Artists.Find(a => id.Equals(a.ID)));
 						} else {
-							Artist tmpArtist = new Artist (id, name, new List<Album> (this));
+							Artist tmpArtist = new Artist (id, name, new List<Album> {this});
 							SearchResult.addArtist (tmpArtist);
 							artists.Add (tmpArtist);
-						}*/
+						}
 					}
 					_artists = artists;
 				}
@@ -50,7 +52,7 @@ namespace WebAPILib {
 
 		public void addTrack(Track track)
 		{
-			if (_tracks.Exists(a => track.ID == a.ID))
+			if (_tracks.Exists(a => track.ID.Equals(a.ID)))
 				throw new Exception (); //TODO Create spotify exception
 			_tracks.Add (track);
 		}
