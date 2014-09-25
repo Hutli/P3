@@ -25,8 +25,9 @@ namespace OpenPlaylistServer
     {
         Session session = Session.Instance;
         static string loginStatus = "Not logged in";
-
+        
         private static byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
+        
 
         private static NAudio.Wave.WaveFormat activeFormat;
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
@@ -37,8 +38,7 @@ namespace OpenPlaylistServer
             InitializeComponent();
 
             session.LoggedIn += LoggedIn;
-            session.MusicDelivery += musicDeliveryTest;
-
+            session.MusicDelivery += OnRecieveData;
             session.Init(appkey, sampleStream);
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
 
@@ -49,7 +49,7 @@ namespace OpenPlaylistServer
         {
             //LoggedInStatus.Content = "Logged in";
             //loginStatus = "Logged in";
-            Console.WriteLine("logged in");
+            //Console.WriteLine("logged in");
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,7 @@ namespace OpenPlaylistServer
             session.Play(tracks.First());
         }
 
-        private static void musicDeliveryTest(int sample_rate, int channels, byte[] frames)
+        private static void OnRecieveData(int sample_rate, int channels, byte[] frames)
         {
 
             if (activeFormat == null)
