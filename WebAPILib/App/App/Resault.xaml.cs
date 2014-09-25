@@ -4,6 +4,11 @@ using Xamarin.Forms;
 using WebAPILib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Amib.Threading;
+using Amib.Threading.Internal;
+
 
 namespace App
 {	
@@ -15,24 +20,22 @@ namespace App
 		{
 			InitializeComponent ();
 			Label lab = this.FindByName<Label> ("text");
-			_search = new search (str, SearchType.ALBUM);
-			string st = "";
-			foreach (var item in _search.Albums) {
-				st += item.Artists[0].Name;
-				st += "\n";
-			}
-				
+			lab.Text = "test";
 		}
 
-		public void click(object sender, EventArgs args)
+		public void testMethod()
 		{
 			Label lab = this.FindByName<Label> ("text");
-			string st = "";
-			foreach (var item in _search.Albums) {
-				st += item.Artists[0].Name;
-				st += "\n";
-			}
-			lab.Text = st;
+			lab.Text = "testMethod";
+
+		}
+
+		public void search(string str)
+		{
+			Label lab = this.FindByName<Label> ("text");
+			_search = new search (str, SearchType.ALBUM);
+			string name = _search.Albums[0].Artists[0].Name;
+			lab.Text = name;
 		}
 
 	}

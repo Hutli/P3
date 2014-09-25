@@ -3,7 +3,6 @@
 	<ContentPage.Content>
 		<StackLayout>
 		<Label x:Name="text"></Label>
-		<Button Clicked="click"></Button>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
