@@ -23,8 +23,8 @@ namespace WebAPILib {
 
 		public void addAlbum(Album album)
 		{
-			if (_albums.Exists(a => album.ID == a.ID))
-					throw new Exception (); //TODO Create spotify exception
+			if (_albums.Exists (a => album.ID == a.ID))
+				return; //TODO make a execption here
 			_albums.Add (album);
 		}
 

@@ -9,23 +9,31 @@ namespace App
 {	
 	public partial class Resault : ContentPage
 	{	
-		private string _searchString;
+		private search _search;
 
 		public Resault (string str)
 		{
 			InitializeComponent ();
-			_searchString = str;
 			Label lab = this.FindByName<Label> ("text");
-			search search = new search (_searchString);
+			_search = new search (str, SearchType.ALBUM);
 			string st = "";
-			foreach (var item in search.tracks) {
-				st += item.Name;
+			foreach (var item in _search.Albums) {
+				st += item.Artists[0].Name;
+				st += "\n";
+			}
+				
+		}
+
+		public void click(object sender, EventArgs args)
+		{
+			Label lab = this.FindByName<Label> ("text");
+			string st = "";
+			foreach (var item in _search.Albums) {
+				st += item.Artists[0].Name;
 				st += "\n";
 			}
 			lab.Text = st;
 		}
-
-
 
 	}
 }
