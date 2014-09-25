@@ -8,10 +8,8 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WebAPILib
-{
-    public enum SearchType
-    {
+namespace WebAPILib {
+    public enum SearchType {
         ALL,
         ARTIST,
         ALBUM,
@@ -20,8 +18,7 @@ namespace WebAPILib
 
 	;
 
-    public class search
-    {
+    public class search {
         private List<Artist> _artists = new List<Artist>();
         private List<Album> _albums = new List<Album>();
         private List<Track> _tracks = new List<Track>();
@@ -32,38 +29,26 @@ namespace WebAPILib
 
         public List<Track> tracks { get { return _tracks; } }
 
-        public void addArtist(Artist artist)
-        {
-            if (_artists.Exists(a => a.ID == artist.ID))
-            {
+        public void addArtist(Artist artist) {
+            if(_artists.Exists(a => a.ID == artist.ID)) {
                 throw new Exception(); //TODO Create spotify exception
-            }
-            else
-            {
+            } else {
                 _artists.Add(artist);
             }
         }
 
-        public void addAlbum(Album album)
-        {
-            if (_albums.Exists(a => a.ID == album.ID))
-            {
+        public void addAlbum(Album album) {
+            if(_albums.Exists(a => a.ID == album.ID)) {
                 throw new Exception(); //TODO Create spotify exception
-            }
-            else
-            {
+            } else {
                 _albums.Add(album);
             }
         }
 
-        public void addTrack(Track track)
-        {
-            if (_tracks.Exists(a => a.ID == track.ID))
-            {
+        public void addTrack(Track track) {
+            if(_tracks.Exists(a => a.ID == track.ID)) {
                 throw new Exception(); //TODO Create spotify exception
-            }
-            else
-            {
+            } else {
                 _tracks.Add(track);
             }
         }
@@ -71,38 +56,33 @@ namespace WebAPILib
         public readonly string searchString;
 
         public search(string searchString)
-            : this(searchString, SearchType.ALL)
-        {
+            : this(searchString, SearchType.ALL) {
         }
 
-        public search(string searchString, SearchType type)
-        {
-            switch (type)
-            {
+        public search(string searchString, SearchType type) {
+            switch(type) {
                 case SearchType.ALL:
                 case SearchType.ARTIST:
-                    _artists = getArtist(searchString);
-                    if (type == SearchType.ALL)
-                        goto case SearchType.ALBUM; //TODO FIX C#!
-                    break;
+                _artists = getArtist(searchString);
+                if(type == SearchType.ALL)
+                    goto case SearchType.ALBUM; //TODO FIX C#!
+                break;
                 case SearchType.ALBUM:
-                    _albums = getAlbums(searchString);
-                    if (type == SearchType.ALL)
-                        goto case SearchType.TRACK; //TODO FIX C#!
-                    break;
+                _albums = getAlbums(searchString);
+                if(type == SearchType.ALL)
+                    goto case SearchType.TRACK; //TODO FIX C#!
+                break;
                 case SearchType.TRACK:
-                    _tracks = getTracks(searchString);
-                    break;
+                _tracks = getTracks(searchString);
+                break;
             }
         }
 
-        private List<Artist> getArtist(string searchString)
-        {
+        private List<Artist> getArtist(string searchString) {
             List<Artist> artists = new List<Artist>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
             JObject o = get(url);
-            foreach (JObject artist in o["artists"]["items"])
-            {
+            foreach(JObject artist in o["artists"]["items"]) {
                 string id = Convert.ToString(artist["id"]);
                 string name = Convert.ToString(artist["name"]);
                 artists.Add(new Artist(id, name));
@@ -110,13 +90,11 @@ namespace WebAPILib
             return artists;
         }
 
-        private List<Album> getAlbums(string searchString)
-        {
+        private List<Album> getAlbums(string searchString) {
             List<Album> albums = new List<Album>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=album";
             JObject o = get(url);
-            foreach (JObject album in o["albums"]["items"])
-            {
+            foreach(JObject album in o["albums"]["items"]) {
                 string id = Convert.ToString(album["id"]);
                 string name = Convert.ToString(album["name"]);
                 string albumType = Convert.ToString(album["album_type"]);
@@ -128,13 +106,11 @@ namespace WebAPILib
             return albums;
         }
 
-        private List<Track> getTracks(string searchString)
-        {
+        private List<Track> getTracks(string searchString) {
             List<Track> tracks = new List<Track>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
             JObject o = get(url);
-            foreach (JObject track in o["tracks"]["items"])
-            {
+            foreach(JObject track in o["tracks"]["items"]) {
                 string id = Convert.ToString(track["id"]);
                 string name = Convert.ToString(track["name"]);
                 int popularity = Convert.ToInt32(track["popularity"]);
@@ -144,7 +120,7 @@ namespace WebAPILib
 
                 List<Artist> artists = new List<Artist>();
 
-                foreach (JObject artist in track["artists"])
+                foreach(JObject artist in track["artists"])
                     artists.Add(new Artist(Convert.ToString(artist["id"]), Convert.ToString(artist["name"])));
 
                 List<Image> images = getImages(track["album"].ToObject<JObject>());
@@ -160,11 +136,9 @@ namespace WebAPILib
             return tracks;
         }
 
-        private List<Image> getImages(JObject imageList)
-        {
+        private List<Image> getImages(JObject imageList) {
             List<Image> images = new List<Image>();
-            foreach (JObject image in imageList["images"])
-            {
+            foreach(JObject image in imageList["images"]) {
                 int height = Convert.ToInt32(image["height"]);
                 int width = Convert.ToInt32(image["width"]);
                 string imageUrl = Convert.ToString(image["url"]);
@@ -173,8 +147,7 @@ namespace WebAPILib
             return images;
         }
 
-        public static JObject get(string url)
-        {
+        public static JObject get(string url) {
             WebClient client = new WebClient();
             string content = client.DownloadString(url);
             JObject o = JObject.Parse(content);
