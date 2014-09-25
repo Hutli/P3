@@ -19,7 +19,7 @@ namespace SpotifyDotNet
         private int _nextTimeout;
         private Object _sync = new Object();
 
-        public event Action LoggedIn;
+        public event LoggedInHandler LoggedIn;
         public event SearchCompleteHandler SearchComplete;
         public delegate void SearchCompleteHandler(SearchResults results);
         public event MusicDeliveryHandler MusicDelivery;
@@ -34,6 +34,7 @@ namespace SpotifyDotNet
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
         public delegate void TrackEndedDelegate(IntPtr session);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
+        public delegate void LoggedInHandler(string error);
 
         private MusicDeliveryDelegate musicDeliveryDelegate;
         private LoggedInDelegate loggedInCallbackDelegate;
@@ -75,7 +76,7 @@ namespace SpotifyDotNet
         
         public void Init(byte[] appkey)
         {
-            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
+            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn(error == libspotify.sp_error.OK?"OK":"A problem occured"));
             searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
                 var searchResults = new SearchResults(search);
                 SearchComplete(searchResults);
@@ -252,5 +253,9 @@ namespace SpotifyDotNet
 
                 Console.WriteLine("duration: " + track.Duration);
             }
+
+        public void Stop() {
+            libspotify.sp_session_player_unload(_sessionPtr);
+        }
     }
 }

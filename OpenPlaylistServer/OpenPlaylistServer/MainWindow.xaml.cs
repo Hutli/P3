@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using SpotifyDotNet;
 using System.IO;
 using NAudio;
+using System.ComponentModel;
 
 namespace OpenPlaylistServer
 {
@@ -24,28 +25,40 @@ namespace OpenPlaylistServer
     public partial class MainWindow : Window
     {
         Session session = Session.Instance;
-        static string loginStatus = "Not logged in";
-        
+
+        class SourceClass {
+            public string LoginStatus {
+                get;
+                set;
+            }
+        }
+
+        SourceClass SourceObject = new SourceClass();
+
         private static byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
         
-
         private static NAudio.Wave.WaveFormat activeFormat;
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
         private static NAudio.Wave.WaveOut waveOut;
 
-        public MainWindow()
-        {
+        public MainWindow(){
             InitializeComponent();
 
             session.LoggedIn += LoggedIn;
             session.MusicDelivery += OnRecieveData;
             session.Init(appkey);
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
+
+            Binding bind = new Binding();
+            bind.Source = SourceObject;
+            bind.Path = new PropertyPath("LoginStatus");
+            LoggedInStatus.SetBinding(Label.ContentProperty, bind);
         }
 
-        void LoggedIn()
+        void LoggedIn(string error)
         {
-            Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Logged in"));
+            //Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Logged in"));
+            SourceObject.LoginStatus = "Login: " + error;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +67,13 @@ namespace OpenPlaylistServer
             session.Play(tracks.First());
         }
 
-        private  void OnRecieveData(int sample_rate, int channels, byte[] frames)
+        private void StopButton_Click(object sender, RoutedEventArgs e) {
+            session.Stop(); //Hammertime
+            //Don't
+            waveOut.Stop(); //Believin'
+        }
+
+        private void OnRecieveData(int sample_rate, int channels, byte[] frames)
         {
             if (activeFormat == null)
                 activeFormat = new NAudio.Wave.WaveFormat(sample_rate, 16, channels);
@@ -69,7 +88,6 @@ namespace OpenPlaylistServer
 
             if (waveOut == null)
             {
-
                 waveOut = new NAudio.Wave.WaveOut();
                 waveOut.Init(sampleStream);
                 waveOut.Play();
@@ -78,5 +96,6 @@ namespace OpenPlaylistServer
             session.BufferedDuration = sampleStream.BufferedDuration;
             sampleStream.AddSamples(frames, 0, frames.Length);
         }
+
     }
 }
