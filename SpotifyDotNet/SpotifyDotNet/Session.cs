@@ -9,7 +9,7 @@ using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Threading;
-using NAudio.Wave;
+//using NAudio.Wave;
 
 namespace SpotifyDotNet
 {
@@ -71,7 +71,7 @@ namespace SpotifyDotNet
             Dispose();
         }
         
-        public void Init(byte[] appkey, BufferedWaveProvider sampleStream)
+        public void Init(byte[] appkey, TimeSpan bufferedDuration)
         {
             loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
             searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
@@ -92,7 +92,7 @@ namespace SpotifyDotNet
                 }
 
                 // only buffer 5 seconds
-                if (sampleStream != null && sampleStream.BufferedDuration > TimeSpan.FromSeconds(5))
+                if (bufferedDuration > TimeSpan.FromSeconds(5))
                 {
                     frames = new byte[0];
                     return 0;
@@ -120,12 +120,12 @@ namespace SpotifyDotNet
 
             getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
             {
-                libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
-                if (sampleStream != null)
-                {
-                    bufferStats.samples = sampleStream.BufferedBytes / 2;
-                    bufferStats.stutter = 0;
-                }
+                //libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
+                //if (sampleStream != null)
+                //{
+                //    bufferStats.samples = sampleStream.BufferedBytes / 2;
+                //    bufferStats.stutter = 0;
+                //}
             });
 
             libspotify.sp_session_callbacks session_callbacks = new libspotify.sp_session_callbacks();
