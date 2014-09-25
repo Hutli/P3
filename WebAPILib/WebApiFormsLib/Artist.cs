@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace WebAPILib {
 	public class Artist: SpotifyObject {
-		private List<string> _genres = null;
-		private List<Album> _albums = null;
+		private List<string> _genres = new List<string>();
+		private List<Album> _albums = new List<Album>();
 
 		public int Popularity { get; set; }
 
