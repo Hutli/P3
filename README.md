@@ -1,3 +1,5 @@
+openPlaylist
+==
 Introduction
 =
 John was having a good time at his favourite bar. He was enjoying a cool beverage and was in the mood for his favourite song, "Carry On My Wayward Son". 
