@@ -26,15 +26,6 @@ namespace OpenPlaylistServer
     {
         Session session = Session.Instance;
 
-        class SourceClass {
-            public string LoginStatus {
-                get;
-                set;
-            }
-        }
-
-        SourceClass SourceObject = new SourceClass();
-
         private static byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
         
         private static NAudio.Wave.WaveFormat activeFormat;
@@ -48,17 +39,11 @@ namespace OpenPlaylistServer
             session.MusicDelivery += OnRecieveData;
             session.Init(appkey);
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
-
-            Binding bind = new Binding();
-            bind.Source = SourceObject;
-            bind.Path = new PropertyPath("LoginStatus");
-            LoggedInStatus.SetBinding(Label.ContentProperty, bind);
         }
 
         void LoggedIn(string error)
         {
-            //Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Logged in"));
-            SourceObject.LoginStatus = "Login: " + error;
+            Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Login: " + error));
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
