@@ -27,7 +27,7 @@ namespace SpotifyDotNet
         public  event TrackEndedDelegate TrackEnded;
 
         public delegate void NotifyMainDelegate(IntPtr session);
-        public delegate void MusicDeliveryHandler(libspotify.sp_audioformat audioFormat, byte[] frames);
+        public delegate void MusicDeliveryHandler(int sample_rate, int channels, byte[] frames);
 
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
         
@@ -83,7 +83,7 @@ namespace SpotifyDotNet
             musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
             {
                 byte[] frames;
-                libspotify.sp_audioformat format = (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));;
+                libspotify.sp_audioformat format = (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));
 
                 if (numFrames == 0)
                 {
@@ -107,7 +107,7 @@ namespace SpotifyDotNet
                 //Console.WriteLine(format.sample_rate);
                 if (MusicDelivery != null)
                 {
-                    MusicDelivery(format, frames);
+                    MusicDelivery(format.sample_rate,format.channels, frames);
                 }
                    
                 return numFrames;
@@ -147,7 +147,7 @@ namespace SpotifyDotNet
             config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey,0);
             config.application_key_size = appkey.Length;
             config.api_version = libspotify.SPOTIFY_API_VERSION;
-            config.user_agent = "WebRadio"; // ToDo change to final name
+            config.user_agent = "SpotifyDotNet"; // ToDo change to final name
             config.cache_location = "tmp"; // ToDo change
             config.settings_location = "tmp"; // ToDo
             config.callbacks = callbacksPtr;
@@ -233,7 +233,6 @@ namespace SpotifyDotNet
         public void Play(Track track)
             {
                 libspotify.sp_error err;
-
                 // process events until all track is loaded
                 do
                 {
