@@ -118,7 +118,7 @@ namespace WebAPILib {
 				string name = (string)(jsonTrack["name"]);
 				int popularity = (int)(jsonTrack["popularity"]);
 				int duration = (int)(jsonTrack["duration_ms"]);
-				bool isExplicit = Convert.ToBoolean(jsonTrack["explicit"]);
+				bool isExplicit = (bool) (jsonTrack["explicit"]);
 				int trackNumber = (int)(jsonTrack["track_number"]);
 
                 List<Artist> artists = new List<Artist>();
