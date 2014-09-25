@@ -16,7 +16,7 @@ namespace WebAPILib {
 
         public List<Artist> Artists {
             get {
-                if(_artists != null) {
+				if(_artists.Count() == 0) {
                     string href = "https://api.spotify.com/v1/albums/" + ID;
                     JObject o = search.get(href);
                     List<Artist> artists = new List<Artist>();
