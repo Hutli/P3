@@ -26,7 +26,7 @@ namespace WebAPILib {
 
 		public List<Album> Albums { get { return _albums; } }
 
-		public List<Track> tracks { get { return _tracks; } }
+		public List<Track> Tracks { get { return _tracks; } }
 
 		public void addArtist (Artist artist) {
 			if (_artists.Exists (a => a.ID == artist.ID)) {

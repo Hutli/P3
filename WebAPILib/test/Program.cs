@@ -15,14 +15,14 @@ namespace test
 	{
 		public static void Main (string[] args) {
 			string searchString = Console.ReadLine ();
-			DateTime start = DateTime.Now;
 			search test = new search (searchString, SearchType.ALL);
-            foreach (Artist a in test.Albums[0].Artists)
-                Console.WriteLine(a.Name);
-			Console.WriteLine (test.tracks [0].Name);
-            TimeSpan timeUsed = DateTime.Now - start;
-			
-			Console.WriteLine (timeUsed.TotalSeconds);
+			DateTime start = DateTime.Now;
+			foreach (Track t in test.Albums[0].Tracks)
+				Console.WriteLine(t.Name);
+			TimeSpan timeUsed = DateTime.Now - start;
+			Console.WriteLine ("Cached (" + timeUsed.TotalSeconds + ")");
+			foreach (Track t in test.Albums[0].Tracks)
+				Console.WriteLine(t.Name);
 			Console.ReadKey ();
 		}
 	}
