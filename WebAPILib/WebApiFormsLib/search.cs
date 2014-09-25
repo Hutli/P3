@@ -80,7 +80,7 @@ namespace WebAPILib {
 		private List<Artist> getArtists (string searchString) {
 			List<Artist> artists = new List<Artist> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
-			JObject o = get (url);
+			JObject o = getJobject (url);
 			foreach (JObject jsonArtist in o["artists"]["items"]) {
 				string id = (string)(jsonArtist ["id"]);
 				string name = (string)(jsonArtist ["name"]);
@@ -94,7 +94,7 @@ namespace WebAPILib {
 		private List<Album> getAlbums (string searchString) {
 			List<Album> albums = new List<Album> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=album";
-			JObject o = get (url);
+			JObject o = getJobject (url);
 			foreach (JObject jsonAlbum in o["albums"]["items"]) {
 				string id = (string)(jsonAlbum ["id"]);
 				string name = (string)(jsonAlbum ["name"]);
@@ -111,7 +111,7 @@ namespace WebAPILib {
 		private List<Track> getTracks (string searchString) {
 			List<Track> tracks = new List<Track> ();
 			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
-			JObject o = get (url);
+			JObject o = getJobject (url);
 			foreach (JObject jsonTrack in o["tracks"]["items"]) {
 				string id = (string)(jsonTrack ["id"]);
 				string name = (string)(jsonTrack ["name"]);
@@ -151,22 +151,9 @@ namespace WebAPILib {
 			return images;
 		}
 
-		public static JObject get (string url) {
+		public static JObject getJobject (string url) {
 
-			string str = null;
-
-			using (var client = new HttpClient ()) {
-				//client.BaseAddress = new Uri("http://localhost:9000/");
-				client.DefaultRequestHeaders.Accept.Clear ();
-				//client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-				// New code:
-				HttpResponseMessage response = client.GetAsync (url).Result;
-				if (response.IsSuccessStatusCode) {
-					string product = response.Content.ReadAsStringAsync ().Result;
-					str = product;
-				}
-			}
+			string str = Request.get (url);
 
 			JObject o = JObject.Parse (str);
 			return o;

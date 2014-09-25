@@ -34,7 +34,7 @@ namespace WebAPILib {
 
 		private void cache(){
 			string href = "https://api.spotify.com/v1/albums/" + ID;
-			JObject o = search.get(href);
+			JObject o = search.getJobject(href);
 			List<Artist> artists = new List<Artist>();
 			foreach(JObject artist in o["artists"]) {
 				string id = Convert.ToString(artist["id"]);
