@@ -19,7 +19,7 @@ namespace test
 			search test = new search (searchString, SearchType.ALL);
             foreach (Artist a in test.Albums[0].Artists)
                 Console.WriteLine(a.Name);
-            
+			Console.WriteLine (test.tracks [0].Name);
             TimeSpan timeUsed = DateTime.Now - start;
 			
 			Console.WriteLine (timeUsed.TotalSeconds);

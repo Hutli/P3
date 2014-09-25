@@ -63,7 +63,7 @@ namespace WebAPILib {
             switch(type) {
                 case SearchType.ALL:
                 case SearchType.ARTIST:
-                _artists = getArtist(searchString);
+                _artists = getArtists(searchString);
                 if(type == SearchType.ALL)
                     goto case SearchType.ALBUM; //TODO FIX C#!
                 break;
@@ -78,14 +78,16 @@ namespace WebAPILib {
             }
         }
 
-        private List<Artist> getArtist(string searchString) {
+        private List<Artist> getArtists(string searchString) {
             List<Artist> artists = new List<Artist>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
             JObject o = get(url);
-            foreach(JObject artist in o["artists"]["items"]) {
-                string id = Convert.ToString(artist["id"]);
-                string name = Convert.ToString(artist["name"]);
-                artists.Add(new Artist(id, name));
+            foreach(JObject jsonArtist in o["artists"]["items"]) {
+				string id = (string)(jsonArtist["id"]);
+				string name = (string)(jsonArtist["name"]);
+				Artist artist = new Artist (id, name);
+				artist.SearchResult = this;
+				artists.Add(artist);
             }
             return artists;
         }
@@ -94,14 +96,15 @@ namespace WebAPILib {
             List<Album> albums = new List<Album>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=album";
             JObject o = get(url);
-            foreach(JObject album in o["albums"]["items"]) {
-                string id = Convert.ToString(album["id"]);
-                string name = Convert.ToString(album["name"]);
-                string albumType = Convert.ToString(album["album_type"]);
+            foreach(JObject jsonAlbum in o["albums"]["items"]) {
+				string id = (string)(jsonAlbum["id"]);
+				string name = (string)(jsonAlbum["name"]);
+				string albumType = (string)(jsonAlbum["album_type"]);
 
-                List<Image> images = getImages(album);
-
-                albums.Add(new Album(id, name, albumType, images));
+				List<Image> images = getImages(jsonAlbum);
+				Album album = new Album(id, name, albumType, images);
+				album.SearchResult = this;
+				albums.Add(album);
             }
             return albums;
         }
@@ -110,28 +113,30 @@ namespace WebAPILib {
             List<Track> tracks = new List<Track>();
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
             JObject o = get(url);
-            foreach(JObject track in o["tracks"]["items"]) {
-				string id = (string) track["id"];
-				string name = (string) track["name"];
-				int popularity = (int) track["popularity"];
-				int duration = (int) track["duration_ms"];
-				bool isExplicit = (bool) track["explicit"];
-				int trackNumber = (int) track["track_number"];
+            foreach(JObject jsonTrack in o["tracks"]["items"]) {
+				string id = (string)(jsonTrack["id"]);
+				string name = (string)(jsonTrack["name"]);
+				int popularity = (int)(jsonTrack["popularity"]);
+				int duration = (int)(jsonTrack["duration_ms"]);
+				bool isExplicit = Convert.ToBoolean(jsonTrack["explicit"]);
+				int trackNumber = (int)(jsonTrack["track_number"]);
 
                 List<Artist> artists = new List<Artist>();
 
-                foreach(JObject artist in track["artists"])
-					artists.Add(new Artist((string)(artist["id"]), (string)(artist["name"])));
+                foreach(JObject artist in jsonTrack["artists"])
+                    artists.Add(new Artist((string)(artist["id"]), (string)(artist["name"])));
 
-                List<Image> images = getImages(track["album"].ToObject<JObject>());
+				List<Image> images = getImages(jsonTrack["album"].ToObject<JObject>());
 
-				string albumId = (string) (track["album"]["id"]);
-				string albumName = (string) (track["album"]["name"]);
-				string albumType = (string) (track["album"]["album_type"]);
+				string albumId = (string)(jsonTrack["album"]["id"]);
+				string albumName = (string)(jsonTrack["album"]["name"]);
+				string albumType = (string)(jsonTrack["album"]["album_type"]);
 
                 Album album = new Album(albumId, albumName, albumType, images);
 
-                tracks.Add(new Track(id, name, popularity, duration, isExplicit, trackNumber, album));
+				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album);
+				track.SearchResult = this;
+				tracks.Add(track);
             }
             return tracks;
         }
@@ -139,9 +144,9 @@ namespace WebAPILib {
         private List<Image> getImages(JObject imageList) {
             List<Image> images = new List<Image>();
             foreach(JObject image in imageList["images"]) {
-				int height = (int) (image["height"]);
-				int width = (int)(image["width"]);
-				string imageUrl = (string)(image["url"]);
+                int height = (int)(image["height"]);
+                int width = (int)(image["width"]);
+                string imageUrl = (string)(image["url"]);
                 images.Add(new Image(height, width, imageUrl));
             }
             return images;
