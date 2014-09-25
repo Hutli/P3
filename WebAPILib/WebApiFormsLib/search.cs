@@ -111,23 +111,23 @@ namespace WebAPILib {
             string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
             JObject o = get(url);
             foreach(JObject track in o["tracks"]["items"]) {
-                string id = Convert.ToString(track["id"]);
-                string name = Convert.ToString(track["name"]);
-                int popularity = Convert.ToInt32(track["popularity"]);
-                int duration = Convert.ToInt32(track["duration_ms"]);
-                bool isExplicit = Convert.ToBoolean(track["explicit"]);
-                int trackNumber = Convert.ToInt32(track["track_number"]);
+				string id = (string) track["id"];
+				string name = (string) track["name"];
+				int popularity = (int) track["popularity"];
+				int duration = (int) track["duration_ms"];
+				bool isExplicit = (bool) track["explicit"];
+				int trackNumber = (int) track["track_number"];
 
                 List<Artist> artists = new List<Artist>();
 
                 foreach(JObject artist in track["artists"])
-                    artists.Add(new Artist(Convert.ToString(artist["id"]), Convert.ToString(artist["name"])));
+					artists.Add(new Artist((string)(artist["id"]), (string)(artist["name"])));
 
                 List<Image> images = getImages(track["album"].ToObject<JObject>());
 
-                string albumId = Convert.ToString(track["album"]["id"]);
-                string albumName = Convert.ToString(track["album"]["name"]);
-                string albumType = Convert.ToString(track["album"]["album_type"]);
+				string albumId = (string) (track["album"]["id"]);
+				string albumName = (string) (track["album"]["name"]);
+				string albumType = (string) (track["album"]["album_type"]);
 
                 Album album = new Album(albumId, albumName, albumType, images);
 
@@ -139,9 +139,9 @@ namespace WebAPILib {
         private List<Image> getImages(JObject imageList) {
             List<Image> images = new List<Image>();
             foreach(JObject image in imageList["images"]) {
-                int height = Convert.ToInt32(image["height"]);
-                int width = Convert.ToInt32(image["width"]);
-                string imageUrl = Convert.ToString(image["url"]);
+				int height = (int) (image["height"]);
+				int width = (int)(image["width"]);
+				string imageUrl = (string)(image["url"]);
                 images.Add(new Image(height, width, imageUrl));
             }
             return images;

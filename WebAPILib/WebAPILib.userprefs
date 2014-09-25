@@ -1,33 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.cfde322f" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WebApiFormsLib\search.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Alexander\Desktop\Source\Repos\P3\WebAPILib\WebApiFormsLib\search.cs">
     <Files>
-      <File FileName="App\App\App.cs" Line="4" Column="4" />
-      <File FileName="App\App\Main.xaml" Line="13" Column="13" />
-      <File FileName="App\App\Main.xaml.cs" Line="38" Column="38" />
-      <File FileName="App\App\Resault.xaml" Line="22" Column="22" />
+      <File FileName="App\App\Resault.xaml" Line="20" Column="20" />
+      <File FileName="App\App\Main.xaml" Line="2" Column="2" />
       <File FileName="App\App\Resault.xaml.cs" Line="21" Column="21" />
-      <File FileName="WebApiFormsLib\Album.cs" Line="34" Column="34" />
-      <File FileName="WebApiFormsLib\Playlist.cs" Line="34" Column="34" />
-      <File FileName="WebApiFormsLib\search.cs" Line="16" Column="16" />
+      <File FileName="c:\Users\Alexander\Desktop\Source\Repos\P3\WebAPILib\WebApiFormsLib\search.cs" Line="10" Column="10" />
     </Files>
     <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="App" expanded="True">
-            <Node name="Main.xaml" expanded="True" />
-            <Node name="Resault.xaml" expanded="True" />
-          </Node>
-          <Node name="App.Android" expanded="True" />
-          <Node name="WebApiFormsLib" expanded="True">
-            <Node name="Packages" expanded="True" />
-            <Node name="search.cs" selected="True" />
-          </Node>
-          <Node name="WebAPILib" expanded="True" />
-        </State>
-      </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
+        <State>
+          <Value>track</Value>
+          <Value>track["popularity"]</Value>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
