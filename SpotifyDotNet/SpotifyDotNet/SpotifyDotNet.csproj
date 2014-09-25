@@ -34,9 +34,6 @@
     <Reference Include="libspotifydotnet">
       <HintPath>..\..\..\..\Documents\libspotifydotnet\libspotifydotnet.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\OpenPlaylistServer\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,7 +55,6 @@
     <Compile Include="Track.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="spotify_appkey.key">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

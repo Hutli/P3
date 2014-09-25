@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,6 @@ using libspotifydotnet;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Threading;
-//using NAudio.Wave;
 
 namespace SpotifyDotNet
 {
@@ -43,6 +42,9 @@ namespace SpotifyDotNet
         private TrackEndedDelegate trackEndedDelegate;
         private GetAudioBufferStatsDelegate getAudioBufferStatsDelegate;
 
+        public TimeSpan BufferedDuration { get; set; }
+        public int BufferedBytes { get; set; }
+
         private static readonly Session _instance = new Session();
         private Task _notifyMainTask;
         public static Session Instance
@@ -71,7 +73,7 @@ namespace SpotifyDotNet
             Dispose();
         }
         
-        public void Init(byte[] appkey, TimeSpan bufferedDuration)
+        public void Init(byte[] appkey)
         {
             loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn());
             searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
@@ -92,10 +94,10 @@ namespace SpotifyDotNet
                 }
 
                 // only buffer 5 seconds
-                if (bufferedDuration > TimeSpan.FromSeconds(5))
+                if (BufferedDuration > TimeSpan.FromSeconds(5))
                 {
                     frames = new byte[0];
-                    return 0;
+                    numFrames = 0;
                 }
                 else
                 {
@@ -104,7 +106,6 @@ namespace SpotifyDotNet
 
                 Marshal.Copy(framesPtr, frames, 0, frames.Length);
 
-                //Console.WriteLine(format.sample_rate);
                 if (MusicDelivery != null)
                 {
                     MusicDelivery(format.sample_rate,format.channels, frames);
@@ -120,12 +121,11 @@ namespace SpotifyDotNet
 
             getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
             {
-                //libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
-                //if (sampleStream != null)
-                //{
-                //    bufferStats.samples = sampleStream.BufferedBytes / 2;
-                //    bufferStats.stutter = 0;
-                //}
+                libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
+                
+                bufferStats.samples = BufferedBytes / 2;
+                bufferStats.stutter = 0;
+                
             });
 
             libspotify.sp_session_callbacks session_callbacks = new libspotify.sp_session_callbacks();

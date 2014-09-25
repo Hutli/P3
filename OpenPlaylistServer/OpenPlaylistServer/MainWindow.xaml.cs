@@ -39,17 +39,13 @@ namespace OpenPlaylistServer
 
             session.LoggedIn += LoggedIn;
             session.MusicDelivery += OnRecieveData;
-            session.Init(appkey, sampleStream);
+            session.Init(appkey);
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
-
-           
         }
 
         void LoggedIn()
         {
-            //LoggedInStatus.Content = "Logged in";
-            //loginStatus = "Logged in";
-            //Console.WriteLine("logged in");
+            Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Logged in"));
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -58,9 +54,8 @@ namespace OpenPlaylistServer
             session.Play(tracks.First());
         }
 
-        private static void OnRecieveData(int sample_rate, int channels, byte[] frames)
+        private  void OnRecieveData(int sample_rate, int channels, byte[] frames)
         {
-
             if (activeFormat == null)
                 activeFormat = new NAudio.Wave.WaveFormat(sample_rate, 16, channels);
 
@@ -69,6 +64,7 @@ namespace OpenPlaylistServer
                 sampleStream = new NAudio.Wave.BufferedWaveProvider(activeFormat);
                 sampleStream.DiscardOnBufferOverflow = true;
                 sampleStream.BufferLength = 3000000;
+                
             }
 
             if (waveOut == null)
@@ -78,7 +74,8 @@ namespace OpenPlaylistServer
                 waveOut.Init(sampleStream);
                 waveOut.Play();
             }
-
+            session.BufferedBytes = sampleStream.BufferedBytes;
+            session.BufferedDuration = sampleStream.BufferedDuration;
             sampleStream.AddSamples(frames, 0, frames.Length);
         }
     }
