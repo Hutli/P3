@@ -16,7 +16,7 @@ namespace App
 			InitializeComponent ();
 			_searchString = str;
 			Label lab = this.FindByName<Label> ("text");
-			search search = new search (_searchString , SearchType.TRACK);
+			search search = new search (_searchString);
 			string st = "";
 			foreach (var item in search.tracks) {
 				st += item.Name;
