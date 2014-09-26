@@ -6,7 +6,7 @@ namespace WebAPILib {
 		private List<Image> _images;
 		private List<Track> _tracks;
 
-		public Playlist (string id, string name) : base(id, name) {
+		public Playlist (string id, string name, search searchResult) : base(id, name, searchResult) {
 		}
 
 		public List<Image> Images{ get { return new List<Image> (_images); } }

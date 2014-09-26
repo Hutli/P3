@@ -9,30 +9,23 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace test
-{
-	class MainClass
-	{
+namespace test {
+	class MainClass {
 		public static void Main (string[] args) {
 			string searchString = Console.ReadLine ();
 			search test = new search (searchString, SearchType.ALL);
-			foreach (Album a in test.Albums) {
-				try{
-					Console.WriteLine(a.Artists[0].Name);
-				} catch {
-					Console.WriteLine ("Artist not added");
-				}
-			}
-			/*DateTime start = DateTime.Now;
-			foreach (Album a in test.Albums) {
-				List<Track> tmpTracks = a.Tracks;
-				TimeSpan timeUsed = DateTime.Now - start;
-				Console.WriteLine (string.Format("Cached {0} from {1} in {2}", a.Name, a.Artists[0].Name, timeUsed.TotalSeconds));
-				start = DateTime.Now;
-			}
-			foreach (Album a in test.Albums) {
-				Console.WriteLine (string.Format("{0} from {1} has {2} songs", a.Name, a.Artists[0].Name, a.Tracks.Count));
-			}*/
+			Console.WriteLine ("Artists: {0}", test.Artists.Count);
+			foreach (Artist a in test.Artists)
+				if(test.Artists.Exists (b => b != a && a.ID.Equals (b.ID)))
+					Console.WriteLine ("Fuck!");
+			Console.WriteLine ("Albums:  {0}", test.Albums.Count);
+			foreach (Album a in test.Albums)
+				if(test.Albums.Exists (b => b != a && a.ID.Equals (b.ID)))
+					Console.WriteLine ("Fuck!");
+			Console.WriteLine ("Tracks:  {0}", test.Tracks.Count);
+			foreach (Track a in test.Tracks)
+				if (test.Tracks.Exists (b => b != a && a.ID.Equals (b.ID)))
+					Console.WriteLine ("Fuck!");
 			Console.ReadKey ();
 		}
 	}

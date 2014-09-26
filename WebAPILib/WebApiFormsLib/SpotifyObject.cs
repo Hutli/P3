@@ -5,9 +5,10 @@ namespace WebAPILib {
 		protected string _id;
 		protected string _name;
 
-		public SpotifyObject (string id, string name) {
+		public SpotifyObject (string id, string name, search searchResult) {
 			_id = id;
 			_name = name;
+			SearchResult = searchResult;
 		}
 
 		public search SearchResult { get; set; }

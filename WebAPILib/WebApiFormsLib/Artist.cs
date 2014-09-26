@@ -9,9 +9,9 @@ namespace WebAPILib {
 
 		public int Popularity { get; set; }
 
-		public Artist (string id, string name) : base (id, name) { }
+		public Artist (string id, string name, search searchResult) : base (id, name, searchResult) { }
 
-		public Artist (string id, string name, List<Album> albums) : this (id, name) {
+		public Artist (string id, string name, search searchResult, List<Album> albums) : this (id, name, searchResult) {
 			_albums = new List<Album> (albums);
 		}
 
@@ -24,7 +24,7 @@ namespace WebAPILib {
 		public void addAlbum(Album album)
 		{
 			if (_albums.Exists (a => album.ID == a.ID))
-				return; //TODO make a execption here
+				return; //TODO make an execption here
 			_albums.Add (album);
 		}
 

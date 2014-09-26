@@ -29,27 +29,18 @@ namespace WebAPILib {
 		public List<Track> Tracks { get { return _tracks; } }
 
 		public void addArtist (Artist artist) {
-			if (_artists.Exists (a => a.ID == artist.ID)) {
-				throw new Exception (); //TODO Create spotify exception
-			} else {
+			if (!_artists.Exists (a => a.ID == artist.ID))
 				_artists.Add (artist);
-			}
 		}
 
 		public void addAlbum (Album album) {
-			if (_albums.Exists (a => a.ID == album.ID)) {
-				throw new Exception (); //TODO Create spotify exception
-			} else {
+			if (!_albums.Exists (a => a.ID == album.ID))
 				_albums.Add (album);
-			}
 		}
 
 		public void addTrack (Track track) {
-			if (_tracks.Exists (a => a.ID == track.ID)) {
-				throw new Exception (); //TODO Create spotify exception
-			} else {
+			if (!_tracks.Exists (a => a.ID == track.ID))
 				_tracks.Add (track);
-			}
 		}
 
 		public readonly string searchString;
@@ -84,8 +75,7 @@ namespace WebAPILib {
 			foreach (JObject jsonArtist in o["artists"]["items"]) {
 				string id = (string)(jsonArtist ["id"]);
 				string name = (string)(jsonArtist ["name"]);
-				Artist artist = new Artist (id, name);
-				artist.SearchResult = this;
+				Artist artist = new Artist (id, name, this);
 				artists.Add (artist);
 			}
 			return artists;
@@ -99,10 +89,8 @@ namespace WebAPILib {
 				string id = (string)(jsonAlbum ["id"]);
 				string name = (string)(jsonAlbum ["name"]);
 				string albumType = (string)(jsonAlbum ["album_type"]);
-
 				List<Image> images = getImages (jsonAlbum);
-				Album album = new Album (id, name, albumType, images);
-				album.SearchResult = this;
+				Album album = new Album (id, name, albumType, images, this);
 				albums.Add (album);
 			}
 			return albums;
@@ -123,7 +111,7 @@ namespace WebAPILib {
 				List<Artist> artists = new List<Artist> ();
 
 				foreach (JObject artist in jsonTrack["artists"])
-					artists.Add (new Artist ((string)(artist ["id"]), (string)(artist ["name"])));
+					artists.Add (new Artist ((string)(artist ["id"]), (string)(artist ["name"]), this));
 
 				List<Image> images = getImages (jsonTrack ["album"].ToObject<JObject> ());
 
@@ -131,11 +119,10 @@ namespace WebAPILib {
 				string albumName = (string)(jsonTrack ["album"] ["name"]);
 				string albumType = (string)(jsonTrack ["album"] ["album_type"]);
 
-				Album album = new Album (albumId, albumName, albumType, images);
+				Album album = new Album (albumId, albumName, albumType, images, this);
 
-				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album, artists);
-				track.SearchResult = this;
-				foreach(Artist a in artists)
+				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album, this, artists);
+				foreach (Artist a in artists)
 					addArtist (a);
 				addAlbum (album);
 				tracks.Add (track);
@@ -163,4 +150,3 @@ namespace WebAPILib {
 		}
 	}
 }
-

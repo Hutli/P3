@@ -35,7 +35,7 @@ namespace WebAPILib {
 
 		private JObject getHref(){
 			string href = "https://api.spotify.com/v1/albums/" + ID;
-			return search.get (href);
+			return search.getJobject (href);
 		}
 
 		private void cacheArtist(){
@@ -45,10 +45,10 @@ namespace WebAPILib {
 				string id = Convert.ToString (artist ["id"]);
 				string name = Convert.ToString (artist ["name"]);
 				if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) {
-					SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this);
+					SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this); 
 					artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
 				} else {
-					Artist tmpArtist = new Artist (id, name, new List<Album> { this });
+					Artist tmpArtist = new Artist (id, name, SearchResult, new List<Album> { this });
 					SearchResult.addArtist (tmpArtist);
 					artists.Add (tmpArtist);
 				}
@@ -69,7 +69,7 @@ namespace WebAPILib {
 				if(SearchResult.Tracks.Exists(a => id.Equals(a.ID))) 
 					tracks.Add(SearchResult.Tracks.Find(a => id.Equals(a.ID)));
 				else {
-					Track tmpTrack = new Track(id, name, 0, duration, isExplicit, trackNumber, this); //TODO Spotify don't want to tell ud popularity
+					Track tmpTrack = new Track(id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
 					SearchResult.addTrack(tmpTrack);
 					tracks.Add(tmpTrack);
 				}
@@ -80,16 +80,26 @@ namespace WebAPILib {
 
         public override string URI { get { return "spotify:album:" + ID; } }
 
-        public Album(string id, string name, string albumtype, IEnumerable<Image> images)
-            : base(id, name) {
+
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
+			_artists = artists;
+			foreach (Artist a in artists) {
+				a.addAlbum (this);
+			}
+		}
+
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult) : base(id, name, searchResult) {
             _albumType = albumtype;
             _images = new List<Image>(images);
         }
 
 		public void addArtists(List<Artist> artists){
-			if(_artists.Count != 0)
-				throw new Exception(); //TODO Create spotify exception
-			_artists = new List<Artist>(artists);
+			if (_artists.Count == 0) {
+				_artists = new List<Artist> (artists);
+				foreach (Artist a in artists) {
+					a.addAlbum (this);
+				}
+			}
 		}
 
         public void addTrack(Track track) {
