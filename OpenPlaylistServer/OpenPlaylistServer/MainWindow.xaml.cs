@@ -16,6 +16,7 @@ using SpotifyDotNet;
 using System.IO;
 using NAudio;
 using System.ComponentModel;
+using Nancy.Hosting.Self;
 
 namespace OpenPlaylistServer
 {
@@ -34,6 +35,13 @@ namespace OpenPlaylistServer
 
         public MainWindow(){
             InitializeComponent();
+
+            var hostConfig = new HostConfiguration();
+            hostConfig.UrlReservations.CreateAutomatically = true;
+
+
+            var host = new NancyHost(hostConfig, new Uri("http://localhost:1234"));
+            host.Start();
 
             session.OnLogIn += OnLogIn;
             session.MusicDelivery += OnRecieveData;
