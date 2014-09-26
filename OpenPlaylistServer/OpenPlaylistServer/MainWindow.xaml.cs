@@ -35,15 +35,28 @@ namespace OpenPlaylistServer
         public MainWindow(){
             InitializeComponent();
 
-            session.LoggedIn += LoggedIn;
+            session.OnLogIn += OnLogIn;
             session.MusicDelivery += OnRecieveData;
             session.Init(appkey);
+            
+                //34AKPAKCRE77K
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
         }
 
-        void LoggedIn(string error)
+        void OnLogIn(LoginState loginState)
         {
-            Dispatcher.Invoke((Action) (() => LoggedInStatus.Content = "Login: " + error));
+            if (loginState == LoginState.OK)
+            {
+                Dispatcher.Invoke((Action)(() => LoggedInStatus.Content = "Succesfully logged in"));
+            }
+            else
+            {
+                Dispatcher.Invoke((Action)(() => {
+                    LoggedInStatus.Content = "Error: " + loginState.ToString();
+                    PlayButton.IsEnabled = false;
+                }));
+            }
+            
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)

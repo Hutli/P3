@@ -12,6 +12,15 @@ using System.Threading;
 
 namespace SpotifyDotNet
 {
+    public enum LoginState
+    {
+        OK,
+        UnableToContactServer,
+        UserBanned,
+        UserNeedsPremium,
+        BadUsernameOrPassword
+    }
+
     public class Session
     {
         private IntPtr _sessionPtr = IntPtr.Zero;
@@ -19,7 +28,7 @@ namespace SpotifyDotNet
         private int _nextTimeout;
         private Object _sync = new Object();
 
-        public event LoggedInHandler LoggedIn;
+        public event LogInHandler OnLogIn;
         public event SearchCompleteHandler SearchComplete;
         public delegate void SearchCompleteHandler(SearchResults results);
         public event MusicDeliveryHandler MusicDelivery;
@@ -34,7 +43,7 @@ namespace SpotifyDotNet
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
         public delegate void TrackEndedDelegate(IntPtr session);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
-        public delegate void LoggedInHandler(string error);
+        public delegate void LogInHandler(LoginState loginState);
 
         private MusicDeliveryDelegate musicDeliveryDelegate;
         private LoggedInDelegate loggedInCallbackDelegate;
@@ -76,7 +85,32 @@ namespace SpotifyDotNet
         
         public void Init(byte[] appkey)
         {
-            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => LoggedIn(error == libspotify.sp_error.OK?"OK":"A problem occured"));
+            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => {
+                LoginState loginState;
+
+                switch(error)
+                {
+                    case libspotify.sp_error.OK: 
+                        loginState = LoginState.OK;
+                        break;
+                    case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
+                        loginState = LoginState.BadUsernameOrPassword;
+                        break;
+                    case libspotify.sp_error.UNABLE_TO_CONTACT_SERVER:
+                        loginState = LoginState.UnableToContactServer;
+                        break;
+                    case libspotify.sp_error.USER_NEEDS_PREMIUM:
+                        loginState = LoginState.UserNeedsPremium;
+                        break;
+                    case libspotify.sp_error.USER_BANNED:
+                        loginState = LoginState.UserBanned;
+                        break;
+                    default:
+                        throw new Exception("Unknown case " + error);
+                }
+                OnLogIn(loginState);
+                
+            });
             searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
                 var searchResults = new SearchResults(search);
                 SearchComplete(searchResults);
@@ -143,7 +177,6 @@ namespace SpotifyDotNet
             IntPtr callbacksPtr = Marshal.AllocHGlobal(Marshal.SizeOf(session_callbacks));
             Marshal.StructureToPtr(session_callbacks, callbacksPtr, true);
             
-            
             libspotify.sp_session_config config = new libspotify.sp_session_config();
             config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey,0);
             config.application_key_size = appkey.Length;
@@ -199,12 +232,7 @@ namespace SpotifyDotNet
         {
             lock (_sync)
             {
-                var err = libspotify.sp_session_login(_sessionPtr, username, password, false, null);
-                if (err != libspotify.sp_error.OK)
-                {
-                    Console.WriteLine(err);
-                    throw new LoginException("" + err);
-                }
+                libspotify.sp_session_login(_sessionPtr, username, password, false, null);
             }
         }
 
