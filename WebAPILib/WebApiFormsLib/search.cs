@@ -133,8 +133,11 @@ namespace WebAPILib {
 
 				Album album = new Album (albumId, albumName, albumType, images);
 
-				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album);
+				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album, artists);
 				track.SearchResult = this;
+				foreach(Artist a in artists)
+					addArtist (a);
+				addAlbum (album);
 				tracks.Add (track);
 			}
 			return tracks;

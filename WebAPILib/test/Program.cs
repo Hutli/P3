@@ -16,7 +16,14 @@ namespace test
 		public static void Main (string[] args) {
 			string searchString = Console.ReadLine ();
 			search test = new search (searchString, SearchType.ALL);
-			DateTime start = DateTime.Now;
+			foreach (Album a in test.Albums) {
+				try{
+					Console.WriteLine(a.Artists[0].Name);
+				} catch {
+					Console.WriteLine ("Artist not added");
+				}
+			}
+			/*DateTime start = DateTime.Now;
 			foreach (Album a in test.Albums) {
 				List<Track> tmpTracks = a.Tracks;
 				TimeSpan timeUsed = DateTime.Now - start;
@@ -25,7 +32,7 @@ namespace test
 			}
 			foreach (Album a in test.Albums) {
 				Console.WriteLine (string.Format("{0} from {1} has {2} songs", a.Name, a.Artists[0].Name, a.Tracks.Count));
-			}
+			}*/
 			Console.ReadKey ();
 		}
 	}

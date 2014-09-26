@@ -9,7 +9,8 @@ namespace WebAPILib {
         private List<Image> _images = new List<Image>();
         private List<Artist> _artists = new List<Artist>();
         private List<Track> _tracks = new List<Track>();
-		private bool cached = false;
+		private bool tracksCached = false;
+		private bool artistsCached = false;
 
         public string AlbumType { get { return _albumType; } }
 
@@ -17,8 +18,8 @@ namespace WebAPILib {
 
         public List<Artist> Artists {
             get {
-				if (cached == false)
-					cache ();
+				if (!artistsCached)
+					cacheArtist ();
                 return new List<Artist>(_artists);
             }
         }
@@ -26,28 +27,38 @@ namespace WebAPILib {
 
 		public List<Track> Tracks { 
 			get {
-				if (cached == false)
-					cache ();
+				if (!tracksCached)
+					cacheTracks ();
 				return new List<Track>(_tracks);
 			} 
 		}
 
-		private void cache(){
+		private JObject getHref(){
 			string href = "https://api.spotify.com/v1/albums/" + ID;
-			JObject o = search.getJobject(href);
-			List<Artist> artists = new List<Artist>();
-			foreach(JObject artist in o["artists"]) {
-				string id = Convert.ToString(artist["id"]);
-				string name = Convert.ToString(artist["name"]);
-				if(SearchResult.Artists.Exists(a => id.Equals(a.ID))) {
-					SearchResult.Artists.Find(a => id.Equals(a.ID)).addAlbum(this);
-					artists.Add(SearchResult.Artists.Find(a => id.Equals(a.ID)));
+			return search.get (href);
+		}
+
+		private void cacheArtist(){
+			JObject o = getHref ();
+			List<Artist> artists = new List<Artist> ();
+			foreach (JObject artist in o["artists"]) {
+				string id = Convert.ToString (artist ["id"]);
+				string name = Convert.ToString (artist ["name"]);
+				if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) {
+					SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this);
+					artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
 				} else {
-					Artist tmpArtist = new Artist(id, name, new List<Album> { this });
-					SearchResult.addArtist(tmpArtist);
-					artists.Add(tmpArtist);
+					Artist tmpArtist = new Artist (id, name, new List<Album> { this });
+					SearchResult.addArtist (tmpArtist);
+					artists.Add (tmpArtist);
 				}
 			}
+			_artists = artists;
+			artistsCached = true;
+		}
+
+		private void cacheTracks(){
+			JObject o = getHref ();
 			List<Track> tracks = new List<Track> ();
 			foreach (JObject jsonTrack in o["tracks"]["items"]) {
 				string id = (string)(jsonTrack ["id"]);
@@ -63,9 +74,8 @@ namespace WebAPILib {
 					tracks.Add(tmpTrack);
 				}
 			}
-			_artists = artists;
 			_tracks = tracks;
-			cached = true;
+			tracksCached = true;
 		}
 
         public override string URI { get { return "spotify:album:" + ID; } }
@@ -75,6 +85,12 @@ namespace WebAPILib {
             _albumType = albumtype;
             _images = new List<Image>(images);
         }
+
+		public void addArtists(List<Artist> artists){
+			if(_artists.Count != 0)
+				throw new Exception(); //TODO Create spotify exception
+			_artists = new List<Artist>(artists);
+		}
 
         public void addTrack(Track track) {
             if(_tracks.Exists(a => track.ID.Equals(a.ID)))

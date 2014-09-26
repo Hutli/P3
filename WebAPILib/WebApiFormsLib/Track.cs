@@ -14,9 +14,12 @@ namespace WebAPILib {
 			_duration = duration;
 			_isExplicit = isExplicit;
 			_trackNumber = trackNumber;
-
 			_album = album;
 			album.addTrack(this);
+		}
+		public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, List<Artist> artists) 
+			: this(id, name, popularity, duration, isExplicit, trackNumber, album){
+			album.addArtists(artists);
 		}
 
 		public int Popularity{ get { return _popularity; } }
