@@ -142,9 +142,7 @@ namespace WebAPILib {
 		}
 
 		public static JObject getJobject (string url) {
-
 			string str = Request.get (url);
-
 			JObject o = JObject.Parse (str);
 			return o;
 		}

@@ -1,16 +1,30 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="test\Program.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Alexander\Desktop\Source\Repos\P3\WebAPILib\WebApiFormsLib\Request.cs">
     <Files>
-      <File FileName="test\Program.cs" Line="7" Column="7" />
-      <File FileName="WebApiFormsLib\search.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Hutli\Documents\GitHub\P3\WebAPILib\WebApiFormsLib\Artist.cs" Line="3" Column="3" />
-      <File FileName="WebApiFormsLib\Album.cs" Line="1" Column="1" />
-      <File FileName="WebApiFormsLib\Track.cs" Line="1" Column="1" />
-      <File FileName="WebApiFormsLib\SpotifyObject.cs" Line="1" Column="1" />
-      <File FileName="WebApiFormsLib\Playlist.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Hutli\Documents\GitHub\P3\WebAPILib\WebApiFormsLib\Request.cs" Line="1" Column="1" />
+      <File FileName="App\App\Resault.xaml" Line="28" Column="28" />
+      <File FileName="App\App\Resault.xaml.cs" Line="38" Column="38" />
+      <File FileName="c:\Users\Alexander\Desktop\Source\Repos\P3\WebAPILib\App\App\obj\Debug\Resault.xaml.g.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\Alexander\Desktop\Source\Repos\P3\WebAPILib\WebApiFormsLib\Request.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="App" expanded="True">
+            <Node name="Resault.xaml" expanded="True" />
+          </Node>
+          <Node name="WebApiFormsLib" expanded="True">
+            <Node name="Request.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>_search</Value>
+          <Value>_tracks</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
