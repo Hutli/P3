@@ -16,26 +16,25 @@ namespace WebAPILib {
 			_trackNumber = trackNumber;
 			addAlbum (album);
 		}
-		public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, search searchResult, List<Artist> artists) 
-			: this(id, name, popularity, duration, isExplicit, trackNumber, album, searchResult){
-			if(album.Artists.Count > 0){
-				List<Artist> newArtists = new List<Artist> ();
-				foreach (Artist a in artists) {
-					if (SearchResult.Artists.Exists (b => a.ID.Equals (b.ID))) {
-						SearchResult.Artists.Find (b => a.ID.Equals (b.ID)).addAlbum (album);
-						newArtists.Add (SearchResult.Artists.Find (b => a.ID.Equals (b.ID)));
-					} else {
-						SearchResult.addArtist (a);
-						newArtists.Add (a);
-					}
+
+		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, search searchResult, List<Artist> artists)
+			: this (id, name, popularity, duration, isExplicit, trackNumber, album, searchResult) {
+			List<Artist> newArtists = new List<Artist> ();
+			foreach (Artist a in artists) {
+				if (SearchResult.Artists.Exists (b => a.ID.Equals (b.ID))) {
+					SearchResult.Artists.Find (b => a.ID.Equals (b.ID)).addAlbum (album);
+					newArtists.Add (SearchResult.Artists.Find (b => a.ID.Equals (b.ID)));
+				} else {
+					SearchResult.addArtist (a);
+					newArtists.Add (a);
 				}
-				album.addArtists (newArtists);
 			}
+			album.addArtists (newArtists);
 			addAlbum (album);
 		}
 
-		public void addAlbum(Album album){
-			if (Album != null) {
+		public void addAlbum (Album album) {
+			if (Album == null) {
 				_album = album;
 				album.addTrack (this);
 			}

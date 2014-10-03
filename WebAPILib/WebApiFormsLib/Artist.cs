@@ -27,6 +27,5 @@ namespace WebAPILib {
 				return; //TODO make an execption here
 			_albums.Add (album);
 		}
-
 	}
 }
