@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg5470"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="openPlaylistv3.svg"
+   inkscape:export-filename="/home/heider/Documents/Github/P3/openPlaylistv3.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs5472">
+    <filter
+       id="filter5534"
+       inkscape:label="Darken edges"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Darken the edges with an inner blur"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5536"
+         result="result6"
+         stdDeviation="1.5" />
+      <feComposite
+         id="feComposite5538"
+         in2="result6"
+         operator="atop"
+         in="SourceGraphic"
+         result="result8" />
+      <feComposite
+         id="feComposite5540"
+         in2="SourceAlpha"
+         in="result8"
+         operator="atop"
+         result="result9" />
+    </filter>
+    <filter
+       id="filter5914"
+       inkscape:label="Darken edges"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Darken the edges with an inner blur"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5916"
+         result="result6"
+         stdDeviation="1.5" />
+      <feComposite
+         id="feComposite5918"
+         in2="result6"
+         operator="atop"
+         in="SourceGraphic"
+         result="result8" />
+      <feComposite
+         id="feComposite5920"
+         in2="SourceAlpha"
+         in="result8"
+         operator="atop"
+         result="result9" />
+    </filter>
+    <filter
+       id="filter5922"
+       inkscape:label="Darken edges"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Darken the edges with an inner blur"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5924"
+         result="result6"
+         stdDeviation="1.5" />
+      <feComposite
+         in2="result6"
+         id="feComposite5926"
+         operator="atop"
+         in="SourceGraphic"
+         result="result8" />
+      <feComposite
+         in2="SourceAlpha"
+         id="feComposite5928"
+         in="result8"
+         operator="atop"
+         result="result9" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4"
+     inkscape:cx="219.67355"
+     inkscape:cy="585.23192"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="713"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5475">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g5514"
+       inkscape:export-filename="/home/heider/Documents/Github/P3/path2992.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="matrix(0.85409831,0,0,0.85409831,22.814455,77.72625)"
+       style="filter:url(#filter5922)">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:connector-curvature="0"
+         id="path2992"
+         d="m 213.90045,404.73216 c -7.0115,0.42243 -14.54784,2.81287 -20.99288,6.65871 -5.94294,3.54623 -11.81169,9.37122 -15.4869,15.37142 -6.59603,10.76878 -8.49428,23.40279 -5.37233,35.75617 2.01019,7.95423 6.125,15.1481 12.05835,21.08145 7.33658,7.33658 16.28576,11.78777 26.65689,13.25874 1.52621,0.21646 3.53501,0.35943 4.464,0.3177 l 1.68908,-0.0759 -0.78585,-0.42932 c -1.66046,-0.90711 -6.55252,-4.8057 -8.71775,-6.94735 -5.47816,-5.41852 -8.0508,-10.52093 -8.08194,-16.02918 -0.0289,-5.11596 2.08194,-9.54187 6.84781,-14.358 2.7945,-2.82398 5.68204,-5.00269 10.94578,-8.25882 5.45832,-3.37651 7.97052,-5.1883 10.51424,-7.58285 7.65549,-7.20657 9.46407,-14.90202 5.44435,-23.16561 -2.35162,-4.83438 -7.52451,-10.45339 -13.36923,-14.52222 -1.94314,-1.35272 -1.76136,-1.31911 -5.81362,-1.07497 z"
+         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:0.9554888;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/heider/Documents/Github/P3/path2992.png"
+         inkscape:connector-curvature="0"
+         id="path2994"
+         d="m 219.583,405.00295 c 0.12608,0.1093 1.15219,0.90848 2.28026,1.77596 6.37787,4.90456 10.83132,10.48038 12.7809,16.00198 0.81956,2.32117 0.85198,2.54149 0.85219,5.79113 1.8e-4,2.88875 -0.081,3.62288 -0.56003,5.06725 -1.15898,3.49421 -3.53711,7.02172 -6.80861,10.09931 -2.62251,2.46708 -4.83964,4.08983 -9.82185,7.18878 -5.01645,3.12024 -6.72109,4.30332 -9.36591,6.50024 -3.23609,2.68806 -5.82695,5.81056 -7.34043,8.8467 -1.37559,2.75951 -1.7989,4.5557 -1.77722,7.54098 0.0159,2.19391 0.12498,2.8524 0.81325,4.9111 1.95378,5.84399 7.34643,11.94939 14.98678,16.96759 2.68679,1.76469 2.91152,1.79887 7.52418,1.14423 10.07518,-1.4299 19.05523,-5.89258 26.30492,-13.07234 18.1822,-18.00683 18.24539,-47.34108 0.14097,-65.44549 -7.12655,-7.12656 -15.90743,-11.57171 -25.9482,-13.13578 -2.66627,-0.41533 -4.42132,-0.49382 -4.0612,-0.18164 l 0,0 z"
+         style="fill:#00b100;fill-opacity:1;stroke:#00b100;stroke-width:3.583426;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:5;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    </g>
+    <g
+       id="g3048"
+       transform="matrix(0.32103201,0,0,0.32103201,151.05924,300.85683)"
+       style="stroke:none;filter:url(#filter5914)"
+       inkscape:export-filename="/home/heider/Documents/Github/P3/path2992.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3015"
+         d="m 171.52075,443.57258 0,127.10281 63.55141,-63.5514 z"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:6.35514069;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3015-4"
+         d="m 114.32448,443.57258 0,127.10281 63.55141,-63.5514 z"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:6.35514069;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3046"
+         d="m 228.71701,443.57258 0,127.10281 9.53271,0 0,-127.10281 z"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:6.35514069;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>
