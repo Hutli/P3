@@ -21,6 +21,7 @@ namespace test {
 			int nonCachedArtists = 0;
 			foreach (Album a in test.Albums) {
 				timeBefore = DateTime.Now;
+				Console.WriteLine (a.Images.Count);
 				foreach (Artist b in a.Artists) {
 					if (!testArtists.Contains(b)) {
 						//Console.WriteLine (string.Format ("{0} | {1}", b.Name, (DateTime.Now - timeBefore).TotalSeconds));
