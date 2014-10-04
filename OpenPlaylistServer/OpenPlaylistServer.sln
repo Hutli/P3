@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistServer", "OpenPlaylistServer\OpenPlaylistServer.csproj", "{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyDotNet", "..\SpotifyDotNet\SpotifyDotNet\SpotifyDotNet.csproj", "{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyDotNet", "SpotifyDotNet\SpotifyDotNet.csproj", "{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

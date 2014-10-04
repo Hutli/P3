@@ -26,8 +26,7 @@ namespace OpenPlaylistServer
     public partial class MainWindow : Window
     {
         Session session = Session.Instance;
-
-        private static byte[] appkey = File.ReadAllBytes("spotify_appkey.key");
+        private static byte[] appkey = OpenPlaylistServer.Properties.Resources.spotify_appkey;
         
         private static NAudio.Wave.WaveFormat activeFormat;
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
