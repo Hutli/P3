@@ -32,14 +32,18 @@ namespace TestApp2
 
 			lst.ItemsSource = ViewModel.songs;
 
-			var cell = new DataTemplate(typeof(TextCell));
+			var cell = new DataTemplate(typeof(ImageCell));
 			cell.SetBinding (TextCell.TextProperty, "Name");
 			cell.SetBinding (TextCell.DetailProperty, "Album.Name");
+			cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
 			lst.ItemTemplate = cell;
 
 			lst.ItemSelected += (object sender, SelectedItemChangedEventArgs e) => {
-				Track selected = ((Track)e.SelectedItem);
-				Request.get("http://192.168.3.242:1234/" + selected.URI);
+				try{
+					Track selected = ((Track)e.SelectedItem);
+					Request.get("http://192.168.1.2:1234/" + selected.URI);
+				}catch (Exception efd)
+				{}
 			};
 
 			layout.Children.Add (lst);

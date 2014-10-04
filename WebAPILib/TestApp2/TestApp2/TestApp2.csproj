@@ -55,7 +55,7 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Desktop\Source\Repos\P3\WebAPILib\WebApiFormsLib\WebApiFormsLib.csproj">
+    <ProjectReference Include="..\..\WebApiFormsLib\WebApiFormsLib.csproj">
       <Project>{18D1298D-87F8-45FD-91AE-FD7BDDE81A72}</Project>
       <Name>WebApiFormsLib</Name>
     </ProjectReference>
