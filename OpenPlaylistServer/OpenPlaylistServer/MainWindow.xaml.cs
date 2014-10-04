@@ -77,6 +77,9 @@ namespace OpenPlaylistServer
             session.Stop(); //Hammertime
             //Don't
             waveOut.Stop(); //Believin'
+            waveOut = null;
+            activeFormat = null;
+            sampleStream = null;
         }
 
         private void OnRecieveData(int sample_rate, int channels, byte[] frames)

@@ -27,6 +27,7 @@ namespace SpotifyDotNet
         private IntPtr _searchComplete = IntPtr.Zero;
         private int _nextTimeout;
         private Object _sync = new Object();
+        private bool _isPlaying = false;
 
         public event LogInHandler OnLogIn;
         public event SearchCompleteHandler SearchComplete;
@@ -259,31 +260,37 @@ namespace SpotifyDotNet
                 
             }
 
-        public void Play(Track track)
+        public void Play(Track track){
+            if (_isPlaying)
             {
-                libspotify.sp_error err;
-                // process events until all track is loaded
-                do
-                {
-                    err = track.Load(_sessionPtr);
-                    Console.WriteLine("player load " + err);
-                    Session.Instance.ProcessEvents();
-                } while (err == libspotify.sp_error.IS_LOADING);
-                
-                
-                Console.WriteLine(track.IsLoaded);
-                
-                var playErr = libspotify.sp_session_player_play(_sessionPtr, true);
-                Console.WriteLine("player play " + playErr);
+                Stop();
+            }
 
-                var availability = track.GetAvailability(_sessionPtr);
-                Console.WriteLine(availability);
+            libspotify.sp_error err;
+            // process events until all track is loaded
+            do
+            {
+                err = track.Load(_sessionPtr);
+                Console.WriteLine("player load " + err);
+                Session.Instance.ProcessEvents();
+            } while (err == libspotify.sp_error.IS_LOADING);
+                
+                
+            Console.WriteLine(track.IsLoaded);
+                
+            var playErr = libspotify.sp_session_player_play(_sessionPtr, true);
+            _isPlaying = true;
+            Console.WriteLine("player play " + playErr);
 
-                Console.WriteLine("duration: " + track.Duration);
+            var availability = track.GetAvailability(_sessionPtr);
+            Console.WriteLine(availability);
+
+            Console.WriteLine("duration: " + track.Duration);
             }
 
         public void Stop() {
             libspotify.sp_session_player_unload(_sessionPtr);
+            _isPlaying = false;
         }
     }
 }
