@@ -16,7 +16,7 @@ namespace OpenPlaylistServer
             var session = SpotifyDotNet.Session.Instance;
             List<Track> track = session.FromLink(parameters.trackId);
             session.Play(track.First());
-            return "Succes";
+            return "Success";
             };
         }
     }
