@@ -241,11 +241,15 @@ Global
 		{EA03AE40-9D94-46B7-8440-24B0C4FCB010}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
+<<<<<<< HEAD
 <<<<<<< 775ba9423bca7dd354aa600683350a2e5262c22a
 		StartupItem = App\App.Android\App.Android.csproj
 =======
 		StartupItem = TestApp2\Android\TestApp2.Android.csproj
 >>>>>>> 0c4c1abd6baba8a877fb15d791c5dc32e2696290
+=======
+		StartupItem = TestApp2\Android\TestApp2.Android.csproj
+>>>>>>> origin/feature/WebApi
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
