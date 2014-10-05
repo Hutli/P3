@@ -24,7 +24,7 @@ namespace TestApp2
 		private Command loadSongsCommand;
 
 		public Command LoadSongsCommand {
-			get { return new Command (ExecuteloadSongsCommand); }
+			get { return loadSongsCommand ?? (loadSongsCommand = new Command (ExecuteloadSongsCommand)); }
 		}
 
 		public async void ExecuteloadSongsCommand(){
