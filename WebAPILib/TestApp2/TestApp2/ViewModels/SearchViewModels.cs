@@ -12,7 +12,7 @@ namespace TestApp2
 {
 	public class SearchViewModel
 	{
-		private String searchStr;
+		private string searchStr;
 		public ObservableCollection<Track> songs{ get; set; }
 		public SearchViewModel (string str)
 		{
