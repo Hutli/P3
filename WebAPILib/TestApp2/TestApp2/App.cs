@@ -9,7 +9,7 @@ namespace TestApp2
 		public static HomePage Home;
 		public static Page GetMainPage ()
 		{	
-			return Home ?? (Home = new HomePage ());
+			return new HomePage ();
 		}
 	}
 }
