@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.a760c7de" />
+<<<<<<< 9343e4d80186b599e2e9fdb59d71f9cd91cff3b4
   <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\heider\Desktop\openPlaylist\WebAPILib\WebApiFormsLib\Request.cs">
     <Files>
       <File FileName="App\App\Resault.xaml" Line="1" Column="1" />
@@ -9,6 +10,18 @@
       <File FileName="App\App\Main.xaml" Line="1" Column="1" />
       <File FileName="App\App\App.cs" Line="1" Column="1" />
       <File FileName="c:\Users\heider\Desktop\openPlaylist\WebAPILib\WebApiFormsLib\Request.cs" Line="2" Column="2" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestApp2\Android\packages.config">
+    <Files>
+      <File FileName="TestApp2\Android\MainActivity.cs" Line="1" Column="1" />
+      <File FileName="TestApp2\TestApp2\Views\HomePage.cs" Line="4" Column="4" />
+      <File FileName="TestApp2\TestApp2\Views\SearchResult.cs" Line="1" Column="1" />
+      <File FileName="TestApp2\TestApp2\ViewModels\SearchViewModels.cs" Line="28" Column="28" />
+      <File FileName="TestApp2\TestApp2\App.cs" Line="26" Column="26" />
+      <File FileName="TestApp2\Android\Properties\AndroidManifest.xml" Line="12" Column="12" />
+      <File FileName="TestApp2\Android\Properties\AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="TestApp2\Android\packages.config" Line="1" Column="1" />
+>>>>>>> e7970b749346c1e965ee5ee550def58da15fe5dc
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -12,7 +12,7 @@ namespace TestApp2
 {
 	public class SearchViewModel
 	{
-		private String searchStr;
+		private string searchStr;
 		public ObservableCollection<Track> songs{ get; set; }
 		public SearchViewModel (string str)
 		{
@@ -24,7 +24,7 @@ namespace TestApp2
 		private Command loadSongsCommand;
 
 		public Command LoadSongsCommand {
-			get { return loadSongsCommand ?? (loadSongsCommand = new Command (ExecuteloadSongsCommand)); }
+			get { return new Command (ExecuteloadSongsCommand); }
 		}
 
 		public async void ExecuteloadSongsCommand(){
