@@ -1,15 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.a760c7de" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestApp2\Android\packages.config">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestApp2\TestApp2\ViewModels\SearchViewModels.cs">
     <Files>
       <File FileName="TestApp2\Android\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="TestApp2\TestApp2\Views\HomePage.cs" Line="4" Column="4" />
+      <File FileName="TestApp2\TestApp2\Views\HomePage.cs" Line="1" Column="1" />
       <File FileName="TestApp2\TestApp2\Views\SearchResult.cs" Line="1" Column="1" />
-      <File FileName="TestApp2\TestApp2\ViewModels\SearchViewModels.cs" Line="28" Column="28" />
-      <File FileName="TestApp2\TestApp2\App.cs" Line="26" Column="26" />
-      <File FileName="TestApp2\Android\Properties\AndroidManifest.xml" Line="12" Column="12" />
+      <File FileName="TestApp2\TestApp2\ViewModels\SearchViewModels.cs" Line="36" Column="36" />
+      <File FileName="TestApp2\TestApp2\App.cs" Line="34" Column="34" />
+      <File FileName="TestApp2\Android\Properties\AndroidManifest.xml" Line="1" Column="1" />
       <File FileName="TestApp2\Android\Properties\AssemblyInfo.cs" Line="1" Column="1" />
       <File FileName="TestApp2\Android\packages.config" Line="1" Column="1" />
+      <File FileName="App\App.Android\MainActivity.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
