@@ -4,8 +4,8 @@
         Title="MainWindow" Height="350" Width="500">
     <Grid Margin="0,0,2,0">
         <Label x:Name="LoggedInStatus" Content="Status.." Margin="170,125,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-        <Button x:Name="PlayButton" Content="Play" Margin="207,170,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
-        <Button x:Name="StopButton" Content="Stop" Margin="207,197,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+        <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="207,170,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
+        <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="207,197,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
 
     </Grid>
 </Window>

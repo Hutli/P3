@@ -21,24 +21,27 @@ namespace SpotifyDotNet
         BadUsernameOrPassword
     }
 
-    public class Session
+    public class Spotify
     {
         private IntPtr _sessionPtr = IntPtr.Zero;
-        private IntPtr _searchComplete = IntPtr.Zero;
         private int _nextTimeout;
         private Object _sync = new Object();
-        private bool _isPlaying = false;
+        
 
-        public event LogInHandler OnLogIn;
-        public event SearchCompleteHandler SearchComplete;
+        public event LogInHandler OnLogInError;
+        public event Action<SpotifyLoggedIn> OnLogInSuccess;
+        
         public delegate void SearchCompleteHandler(SearchResults results);
         public event MusicDeliveryHandler MusicDelivery;
         public  event TrackEndedDelegate TrackEnded;
 
         public delegate void NotifyMainDelegate(IntPtr session);
         public delegate void MusicDeliveryHandler(int sample_rate, int channels, byte[] frames);
-
+        public event SearchCompleteHandler SearchComplete;
+        private IntPtr _searchComplete = IntPtr.Zero;
+        private SearchCompleteDelegate searchCompleteDelegate;
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
+        
         
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
@@ -48,7 +51,6 @@ namespace SpotifyDotNet
 
         private MusicDeliveryDelegate musicDeliveryDelegate;
         private LoggedInDelegate loggedInCallbackDelegate;
-        private SearchCompleteDelegate searchCompleteDelegate;
         private NotifyMainDelegate notifyMainDelegate;
         private TrackEndedDelegate trackEndedDelegate;
         private GetAudioBufferStatsDelegate getAudioBufferStatsDelegate;
@@ -56,9 +58,9 @@ namespace SpotifyDotNet
         public TimeSpan BufferedDuration { get; set; }
         public int BufferedBytes { get; set; }
 
-        private static readonly Session _instance = new Session();
+        private static readonly Spotify _instance = new Spotify();
         private Task _notifyMainTask;
-        public static Session Instance
+        public static Spotify Instance
         {
             get
             {
@@ -66,7 +68,7 @@ namespace SpotifyDotNet
             }
         }
 
-        private Session() { }
+        protected Spotify() { }
 
         public void Dispose()
         {
@@ -79,7 +81,7 @@ namespace SpotifyDotNet
             System.GC.SuppressFinalize(this);
         }
 
-        ~Session()
+        ~Spotify()
         {
             Dispose();
         }
@@ -92,8 +94,13 @@ namespace SpotifyDotNet
                 switch(error)
                 {
                     case libspotify.sp_error.OK: 
+                        // login was successful, so no need to check for anything else. Just signal Success.
                         loginState = LoginState.OK;
-                        break;
+                        var spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
+                        OnLogInSuccess(spotifyLoggedIn);
+                        
+                        return;
+
                     case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
                         loginState = LoginState.BadUsernameOrPassword;
                         break;
@@ -109,13 +116,18 @@ namespace SpotifyDotNet
                     default:
                         throw new Exception("Unknown case " + error);
                 }
-                OnLogIn(loginState);
+
+                OnLogInError(loginState);
                 
             });
-            searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) => {
+
+            searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) =>
+            {
                 var searchResults = new SearchResults(search);
                 SearchComplete(searchResults);
             });
+            _searchComplete = Marshal.GetFunctionPointerForDelegate(searchCompleteDelegate);
+            
             notifyMainDelegate = new NotifyMainDelegate((IntPtr session) => NotifyMainTest(session));
 
             musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
@@ -172,8 +184,7 @@ namespace SpotifyDotNet
             session_callbacks.end_of_track = Marshal.GetFunctionPointerForDelegate(trackEndedDelegate);
             
 
-            _searchComplete = Marshal.GetFunctionPointerForDelegate(searchCompleteDelegate);
-
+            
             // Convert structure to C Pointer
             IntPtr callbacksPtr = Marshal.AllocHGlobal(Marshal.SizeOf(session_callbacks));
             Marshal.StructureToPtr(session_callbacks, callbacksPtr, true);
@@ -182,7 +193,7 @@ namespace SpotifyDotNet
             config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey,0);
             config.application_key_size = appkey.Length;
             config.api_version = libspotify.SPOTIFY_API_VERSION;
-            config.user_agent = "SpotifyDotNet"; // ToDo change to final name
+            config.user_agent = "openPlaylist";
             config.cache_location = "tmp"; // ToDo change
             config.settings_location = "tmp"; // ToDo
             config.callbacks = callbacksPtr;
@@ -194,38 +205,7 @@ namespace SpotifyDotNet
 
         }
 
-        public Track TrackFromLink(String link)
-        {
-            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
-            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-            List<Track> trackList = new List<Track>(); 
-            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
-            {
-                IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
-                return new Track(spTrackPtr);
-            }
-            else throw new ArgumentException("URI was not a track URI");
-        }
-
-        public List<Track> PlaylistFromLink(String link)
-        {
-            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
-            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-            List<Track> trackList = new List<Track>();
-
-            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST)
-            {
-                IntPtr Playlist = libspotify.sp_playlist_create(_sessionPtr, spLinkPtr);
-                for (int i = 0; i < libspotify.sp_playlist_num_tracks(Playlist); i++)
-                    trackList.Add(new Track(libspotify.sp_playlist_track(Playlist, i)));
-                return trackList;
-            }
-            else throw new ArgumentException("URI was not a playlist URI");
-        }
+        
 
         private void NotifyMainTest(IntPtr session)
         {
@@ -246,7 +226,7 @@ namespace SpotifyDotNet
             }
         }
 
-        public void ProcessEvents()
+        internal void ProcessEvents()
         {
             lock (_sync){
                 do
@@ -257,49 +237,7 @@ namespace SpotifyDotNet
             }
         }
 
-        public void BeginSearchOnQuery(string query)
-            {
-                IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);
-
-                lock (_sync)
-                {
-                    IntPtr searchPtr = libspotify.sp_search_create(_sessionPtr, queryPointer, 0, 10, 0, 10, 0, 10, 0, 10,
-                    libspotifydotnet.sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
-                }
-                
-            }
-
-        public void Play(Track track){
-            if (_isPlaying)
-            {
-                Stop();
-            }
-
-            libspotify.sp_error err;
-            // process events until all track is loaded
-            do
-            {
-                err = track.Load(_sessionPtr);
-                Console.WriteLine("player load " + err);
-                Session.Instance.ProcessEvents();
-            } while (err == libspotify.sp_error.IS_LOADING);
-                
-                
-            Console.WriteLine(track.IsLoaded);
-                
-            var playErr = libspotify.sp_session_player_play(_sessionPtr, true);
-            _isPlaying = true;
-            Console.WriteLine("player play " + playErr);
-
-            var availability = track.GetAvailability(_sessionPtr);
-            Console.WriteLine(availability);
-
-            Console.WriteLine("duration: " + track.Duration);
-            }
-
-        public void Stop() {
-            libspotify.sp_session_player_unload(_sessionPtr);
-            _isPlaying = false;
-        }
+        
+        
     }
 }

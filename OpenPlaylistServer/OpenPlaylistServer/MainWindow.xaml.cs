@@ -25,7 +25,7 @@ namespace OpenPlaylistServer
     /// </summary>
     public partial class MainWindow : Window
     {
-        Session session = Session.Instance;
+        Spotify session = Spotify.Instance;
         private static byte[] appkey = OpenPlaylistServer.Properties.Resources.spotify_appkey;
         
         private static NAudio.Wave.WaveFormat activeFormat;
@@ -42,37 +42,40 @@ namespace OpenPlaylistServer
             var host = new NancyHost(hostConfig, new Uri("http://localhost:1234"));
             host.Start();
 
-            session.OnLogIn += OnLogIn;
+            session.OnLogInError += OnLogInError;
+            session.OnLogInSuccess += OnLoginSuccess;
             session.MusicDelivery += OnRecieveData;
-            
+            session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
                 //34AKPAKCRE77K
             session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", appkey);
         }
 
-        void OnLogIn(LoginState loginState)
+        private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
         {
-            if (loginState == LoginState.OK)
-            {
-                Dispatcher.Invoke((Action)(() => LoggedInStatus.Content = "Succesfully logged in"));
-            }
-            else
-            {
+            Dispatcher.Invoke((Action)(() =>  {
+                LoggedInStatus.Content = "Succesfully logged in";
+                PlayButton.IsEnabled = true;
+                StopButton.IsEnabled = true;
+            }));
+
+            spotifyLoggedIn.Search("dad");
+        }
+
+        void OnLogInError(LoginState loginState)
+        {
                 Dispatcher.Invoke((Action)(() => {
                     LoggedInStatus.Content = "Error: " + loginState.ToString();
-                    PlayButton.IsEnabled = false;
                 }));
-            }
-            
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            Track tracks = session.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
-            session.Play(tracks);
+            Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            SpotifyLoggedIn.Instance.Play(tracks);
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e) {
-            session.Stop(); //Hammertime
+            SpotifyLoggedIn.Instance.Stop(); //Hammertime
             //Don't
             waveOut.Stop(); //Believin'
             waveOut = null;
