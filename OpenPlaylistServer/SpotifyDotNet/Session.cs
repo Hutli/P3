@@ -84,7 +84,7 @@ namespace SpotifyDotNet
             Dispose();
         }
         
-        public void Init(byte[] appkey)
+        private void Init(byte[] appkey)
         {
             loggedInCallbackDelegate = new LoggedInDelegate((session,error) => {
                 LoginState loginState;
@@ -194,9 +194,7 @@ namespace SpotifyDotNet
 
         }
 
-        
-
-        public List<Track> FromLink(String link)
+        public Track TrackFromLink(String link)
         {
             IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
             IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
@@ -206,17 +204,27 @@ namespace SpotifyDotNet
             if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
             {
                 IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
-                trackList.Add(new Track(spTrackPtr));
-                return trackList;
-            } else if ( linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST) {
+                return new Track(spTrackPtr);
+            }
+            else throw new ArgumentException("URI was not a track URI");
+        }
+
+        public List<Track> PlaylistFromLink(String link)
+        {
+            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+
+            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+            List<Track> trackList = new List<Track>();
+
+            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST)
+            {
                 IntPtr Playlist = libspotify.sp_playlist_create(_sessionPtr, spLinkPtr);
-                Thread.Sleep(5000);
                 for (int i = 0; i < libspotify.sp_playlist_num_tracks(Playlist); i++)
                     trackList.Add(new Track(libspotify.sp_playlist_track(Playlist, i)));
                 return trackList;
             }
-            else throw new ArgumentException("Virker pt kun med tracks");
-            
+            else throw new ArgumentException("URI was not a playlist URI");
         }
 
         private void NotifyMainTest(IntPtr session)
@@ -229,8 +237,9 @@ namespace SpotifyDotNet
             _notifyMainTask.Start();
         }
 
-        public void Login(string username, string password)
+        public void Login(string username, string password, byte[] appkey)
         {
+            Init(appkey);
             lock (_sync)
             {
                 libspotify.sp_session_login(_sessionPtr, username, password, false, null);

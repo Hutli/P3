@@ -44,10 +44,9 @@ namespace OpenPlaylistServer
 
             session.OnLogIn += OnLogIn;
             session.MusicDelivery += OnRecieveData;
-            session.Init(appkey);
             
                 //34AKPAKCRE77K
-            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K");
+            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", appkey);
         }
 
         void OnLogIn(LoginState loginState)
@@ -68,8 +67,8 @@ namespace OpenPlaylistServer
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Track> tracks = session.FromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
-            session.Play(tracks.First());
+            Track tracks = session.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            session.Play(tracks);
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e) {
