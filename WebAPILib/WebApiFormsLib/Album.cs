@@ -9,8 +9,12 @@ namespace WebAPILib {
         private List<Image> _images = new List<Image>();
         private List<Artist> _artists = new List<Artist>();
         private List<Track> _tracks = new List<Track>();
-		private bool tracksCached = false;
-		private bool artistsCached = false;
+		private bool _tracksCached = false;
+		private bool _artistsCached = false;
+
+		public bool TracksCached { get { return _tracksCached; } }
+
+		public bool ArtistsCached { get { return _artistsCached; } }
 
         public string AlbumType { get { return _albumType; } }
 
@@ -18,7 +22,7 @@ namespace WebAPILib {
 
         public List<Artist> Artists {
             get {
-				if (!artistsCached)
+				if (!_artistsCached)
 					cache ();
                 return new List<Artist>(_artists);
             }
@@ -26,7 +30,7 @@ namespace WebAPILib {
 
 		public List<Track> Tracks { 
 			get {
-				if (!tracksCached)
+				if (!_tracksCached)
 					cache ();
 				return new List<Track>(_tracks);
 			} 
@@ -36,7 +40,7 @@ namespace WebAPILib {
 
 		private void cache(){
 			JObject o = search.getJobject(Href);
-			if (!artistsCached) {
+			if (!_artistsCached) {
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject jsonArtist in o["artists"]) {
 					string id = Convert.ToString (jsonArtist ["id"]);
@@ -45,15 +49,16 @@ namespace WebAPILib {
 						SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this); 
 						artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
 					} else {
-						Artist tmpArtist = new Artist (id, name, SearchResult, new List<Album> { this });
+						Artist tmpArtist = new Artist (id, name, SearchResult);
+						tmpArtist.addAlbum (this);
 						SearchResult.addArtist (tmpArtist);
 						artists.Add (tmpArtist);
 					}
 				}
 				_artists = artists;
-				artistsCached = true;
+				_artistsCached = true;
 			}
-			if (!tracksCached) {
+			if (!_tracksCached) {
 				List<Track> tracks = new List<Track> ();
 				foreach (JObject jsonTrack in o["tracks"]["items"]) {
 					string id = (string)(jsonTrack ["id"]);
@@ -70,14 +75,14 @@ namespace WebAPILib {
 					}
 				}
 				_tracks = tracks;
-				tracksCached = true;
+				_tracksCached = true;
 			}
 		}
 
         public override string URI { get { return "spotify:album:" + ID; } }
 
 		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
-			_artists = artists;
+			addArtists(artists);
 			foreach (Artist a in artists) {
 				a.addAlbum (this);
 			}
@@ -90,11 +95,11 @@ namespace WebAPILib {
 
 		public void addArtists(List<Artist> artists){
 			if (_artists.Count == 0) {
-				_artists = new List<Artist> (artists);
-				foreach (Artist a in artists) {
+				_artists = artists;
+				foreach (Artist a in _artists) {
 					a.addAlbum (this);
 				}
-				artistsCached = true;
+				_artistsCached = true;
 			}
 		}
 

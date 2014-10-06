@@ -53,79 +53,89 @@ namespace WebAPILib {
 			switch (type) {
 			case SearchType.ALL:
 			case SearchType.ARTIST:
-				_artists = getArtists (searchString);
+				JObject oArtists = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=artist");
+				getArtists (oArtists ["artists"] ["items"]);
 				if (type == SearchType.ALL)
 					goto case SearchType.ALBUM; //TODO FIX C#!
 				break;
 			case SearchType.ALBUM:
-				_albums = getAlbums (searchString);
+				JObject oAlbums = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=album");
+				getAlbums (oAlbums ["albums"] ["items"]);
 				if (type == SearchType.ALL)
 					goto case SearchType.TRACK; //TODO FIX C#!
 				break;
 			case SearchType.TRACK:
-				_tracks = getTracks (searchString);
+				JObject oTracks = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=track");
+				getTracks (oTracks ["tracks"] ["items"]);
 				break;
 			}
 		}
 
-		private List<Artist> getArtists (string searchString) {
+		private List<Artist> getArtists (JToken jsonCode) {
 			List<Artist> artists = new List<Artist> ();
-			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=artist";
-			JObject o = getJobject (url);
-			foreach (JObject jsonArtist in o["artists"]["items"]) {
+			foreach (JObject jsonArtist in jsonCode) {
 				string id = (string)(jsonArtist ["id"]);
 				string name = (string)(jsonArtist ["name"]);
-				Artist artist = new Artist (id, name, this);
-				artists.Add (artist);
+				if (_artists.Exists (a => a.ID.Equals (id))) {
+					artists.Add (_artists.Find (a => a.ID.Equals (id))); 
+				} else {
+					Artist artist = new Artist (id, name, this);
+					artists.Add (artist);
+					addArtist (artist);
+				}
 			}
 			return artists;
 		}
 
-		private List<Album> getAlbums (string searchString) {
+		private List<Album> getAlbums (JToken jsonCode) {
 			List<Album> albums = new List<Album> ();
-			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=album";
-			JObject o = getJobject (url);
-			foreach (JObject jsonAlbum in o["albums"]["items"]) {
+			foreach (JObject jsonAlbum in jsonCode) {
 				string id = (string)(jsonAlbum ["id"]);
 				string name = (string)(jsonAlbum ["name"]);
 				string albumType = (string)(jsonAlbum ["album_type"]);
 				List<Image> images = getImages (jsonAlbum);
-				Album album = new Album (id, name, albumType, images, this);
-				albums.Add (album);
+				if (_albums.Exists (a => a.ID.Equals (id))) {
+					albums.Add (_albums.Find (a => a.ID.Equals (id))); 
+				} else {
+					Album album = new Album (id, name, albumType, images, this);
+					albums.Add (album);
+					addAlbum (album);
+				}
 			}
 			return albums;
 		}
 
-		private List<Track> getTracks (string searchString) {
+		private List<Track> getTracks (JToken jsonCode) {
 			List<Track> tracks = new List<Track> ();
-			string url = "https://api.spotify.com/v1/search?q=" + searchString + "&type=track";
-			JObject o = getJobject (url);
-			foreach (JObject jsonTrack in o["tracks"]["items"]) {
+			foreach (JObject jsonTrack in jsonCode) {
 				string id = (string)(jsonTrack ["id"]);
-				string name = (string)(jsonTrack ["name"]);
-				int popularity = (int)(jsonTrack ["popularity"]);
-				int duration = (int)(jsonTrack ["duration_ms"]);
-				bool isExplicit = (bool)jsonTrack ["explicit"];
-				int trackNumber = (int)(jsonTrack ["track_number"]);
+				if (!_tracks.Exists (a => a.ID.Equals (id))) {
+					string name = (string)(jsonTrack ["name"]);
+					int popularity = (int)(jsonTrack ["popularity"]);
+					int duration = (int)(jsonTrack ["duration_ms"]);
+					bool isExplicit = (bool)jsonTrack ["explicit"];
+					int trackNumber = (int)(jsonTrack ["track_number"]);
 
-				List<Artist> artists = new List<Artist> ();
+					List<Artist> artists = getArtists (jsonTrack ["artists"]);
 
-				foreach (JObject artist in jsonTrack["artists"])
-					artists.Add (new Artist ((string)(artist ["id"]), (string)(artist ["name"]), this));
+					List<Image> images = getImages (jsonTrack ["album"].ToObject<JObject> ());
 
-				List<Image> images = getImages (jsonTrack ["album"].ToObject<JObject> ());
+					Album album = null;
+					string albumID = (string)jsonTrack ["album"] ["id"];
+					if (!Albums.Exists (a => a.ID.Equals (albumID))) {
+						string albumName = (string)jsonTrack ["album"] ["name"];
+						string albumType = (string)jsonTrack ["album"] ["album_type"];
+						album = new Album (albumID, albumName, albumType, images, this, artists);
+						addAlbum (album);
+					} else {
+						album = Albums.Find (a => a.ID.Equals (albumID));
+					}
 
-				string albumId = (string)(jsonTrack ["album"] ["id"]);
-				string albumName = (string)(jsonTrack ["album"] ["name"]);
-				string albumType = (string)(jsonTrack ["album"] ["album_type"]);
+					Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album, this, artists);
 
-				Album album = new Album (albumId, albumName, albumType, images, this);
-
-				Track track = new Track (id, name, popularity, duration, isExplicit, trackNumber, album, this, artists);
-				foreach (Artist a in artists)
-					addArtist (a);
-				addAlbum (album);
-				tracks.Add (track);
+					tracks.Add (track);
+					addTrack (track);
+				}
 			}
 			return tracks;
 		}
