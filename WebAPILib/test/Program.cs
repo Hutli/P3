@@ -18,6 +18,9 @@ namespace test {
 			Console.WriteLine ((DateTime.Now - timeBefore).TotalSeconds);
 			List<Artist> testArtists = new List<Artist> ();
 			foreach (Album a in test.Albums) {
+				timeBefore = DateTime.Now;
+				List<Artist> tmpArtists = a.Artists;
+				Console.WriteLine (string.Format ("{0, -30} Cached: {1}", a.Name, (DateTime.Now - timeBefore).TotalSeconds < 0.01));
 				foreach (Artist b in a.Artists) {
 					if (!testArtists.Exists (c => b.ID.Equals (c.ID)))
 						testArtists.Add (b);
@@ -38,11 +41,8 @@ namespace test {
 			testArtists.Sort((a, b) => a.Name.CompareTo(b.Name));
 			originalArtists.Sort ((a, b) => a.Name.CompareTo(b.Name));
 
-			for (int i = 0; i < testArtists.Count; i++) {
-				Console.WriteLine (string.Format ("{0, 2} | {1, -30} {2}", i, originalArtists [i].Name, testArtists [i].Name));
-			}
-
-			Console.WriteLine ("Album-Artists: {0}\nNull-Album-Artists: {1}\nTotal: {2}", testArtists.Count, nullArtistAlbums.Count, originalArtists.Count);
+			Console.WriteLine ("Album-Artists: {0}\nNull-Album-Artists: {1}\nTotal Artists: {2}\nTotal Albums: {3}\nTotal Tracks: {4}", 
+				testArtists.Count, nullArtistAlbums.Count, originalArtists.Count, test.Albums.Count, test.Tracks.Count);
 
 			foreach (Artist a in test.Artists) {
 				if (test.Artists.Exists (b => a != b && a.ID.Equals (b.ID)))

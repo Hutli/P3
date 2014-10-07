@@ -6,8 +6,7 @@ namespace WebAPILib {
 	public class Artist: SpotifyObject {
 		private List<string> _genres = new List<string> ();
 		private List<Album> _albums = new List<Album> ();
-
-		public int Popularity { get; set; }
+		private int _popularity;
 
 		public Artist (string id, string name, search searchResult) : base (id, name, searchResult) {
 		}
@@ -15,6 +14,8 @@ namespace WebAPILib {
 		public List<string> Genres{ get { return new List<string> (_genres); } }
 
 		public List<Album> Albums { get { return new List<Album> (_albums); } }
+
+		public int Popularity { get { return _popularity; } }
 
 		public override string URI{ get { return "spotify:artist:" + ID; } }
 
