@@ -14,7 +14,8 @@ namespace WebAPILib {
 		public List<Track> Tracks{ get { return new List<Track> (_tracks); } }
 
 		public void addTrack (Track track) {
-			_tracks.Add (track); //TODO Should it be possible to add the same song twice?
+			if (!_tracks.Exists (t => t.ID == track.ID))
+				_tracks.Add (track); //TODO Vote when the track is already there
 		}
 
 		public void removeTrack (Track track) {
