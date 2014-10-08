@@ -53,6 +53,12 @@ namespace test {
 					Console.WriteLine ("FUCK!");
 			}
 
+			Console.WriteLine (test.Albums [0].Images.Count);
+
+			((List<Image>)test.Albums[0].Images).Add(new Image(1,1,"Jens er sej"));
+
+			Console.WriteLine (test.Albums [0].Images.Count);
+
 			Console.ReadLine ();
 		}
 	}
