@@ -44,6 +44,10 @@ namespace test {
 			Console.WriteLine ("Album-Artists: {0}\nNull-Album-Artists: {1}\nTotal Artists: {2}\nTotal Albums: {3}\nTotal Tracks: {4}", 
 				testArtists.Count, nullArtistAlbums.Count, originalArtists.Count, test.Albums.Count, test.Tracks.Count);
 
+			foreach (Album a in test.Albums) {
+				Console.WriteLine (a.Images.Count);
+			}
+
 			foreach (Artist a in test.Artists) {
 				if (test.Artists.Exists (b => a != b && a.ID.Equals (b.ID)))
 					Console.WriteLine ("FUCK!");
