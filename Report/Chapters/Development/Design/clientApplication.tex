@@ -21,4 +21,15 @@ Xamarin makes it possible to write an application in C\# and run it on iOS, Andr
 
 Because Xamarin enables native applications for all three large mobile platforms, the client application can reach a large userbase. The client application is therefore chosen to be written using the Xamarin framework.
 
+\paragraph{User Authorization}
+\label{par:user_authorization}
 
+In order to differentiate users of the client application, some mechanism of authorization is needed in the client application. Possible mechanisms are: logging in with already established login services like Google login and Facebook login, logging in with a self made login system or basing the authorization off a device id e.g. IMEI number.
+
+The good thing about reusing login services like Facebook login or Google login which are well known is that users do not need to create a new account just for using the client application. Another benefit is that security is taken care of externally i.e. secure password storage is not a concern. Some users might have a stigma against these services or fear of their privacy by using the services e.g. that the client application would post on their Facebook wall.
+
+The only benefits of creating a self made login system is that there is more control about the user's accounts and the users do not have to have fear of the application posting on their Facebook wall. However the benefits from external login systems are lost i.e. password storage would have to be implemented in a secure way and users have to create yet another account.
+
+By using a device constant like the IMEI number, the authorization is automatic so the user does not need to do any login. This greatly simplifies the authorization both for the user and for the developer. A limitation of this approach is that all user data associated with the device constant is lost if the user buys a new device, and thereby using a new device constant.
+
+Based on the aforementioned differences of the three approaches to user authorization, the sensible choice is reusing existing login services. This is not as simply as using a device constant, but it is more reliable as an authorization mechanism. The concern regarding fear of the client application posting on e.g. Facebook walls can be eliminated by not requesting permission to post on the users walls.
