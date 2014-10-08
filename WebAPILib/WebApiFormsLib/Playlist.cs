@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 namespace WebAPILib {
 	public class Playlist : SpotifyObject {
-		private List<Image> _images;
 		private List<Track> _tracks;
 
 		public Playlist (string id, string name, search searchResult) : base(id, name, searchResult) {
 		}
-
-		public List<Image> Images{ get { return new List<Image> (_images); } }
-
+			
 		public List<Track> Tracks{ get { return new List<Track> (_tracks); } }
 
 		public void addTrack (Track track) {

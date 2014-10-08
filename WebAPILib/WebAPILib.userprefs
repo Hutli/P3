@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WebApiFormsLib\Playlist.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="test\Program.cs">
     <Files>
-      <File FileName="test\Program.cs" Line="1" Column="1" />
+      <File FileName="test\Program.cs" Line="4" Column="4" />
       <File FileName="WebApiFormsLib\Artist.cs" Line="1" Column="1" />
-      <File FileName="WebApiFormsLib\Album.cs" Line="9" Column="9" />
-      <File FileName="WebApiFormsLib\SpotifyObject.cs" Line="2" Column="2" />
+      <File FileName="WebApiFormsLib\Album.cs" Line="1" Column="1" />
+      <File FileName="WebApiFormsLib\SpotifyObject.cs" Line="1" Column="1" />
       <File FileName="WebApiFormsLib\Request.cs" Line="1" Column="1" />
       <File FileName="WebApiFormsLib\MyPage.cs" Line="1" Column="1" />
       <File FileName="WebApiFormsLib\Track.cs" Line="1" Column="1" />
-      <File FileName="WebApiFormsLib\Image.cs" Line="15" Column="15" />
-      <File FileName="WebApiFormsLib\search.cs" Line="3" Column="3" />
-      <File FileName="WebApiFormsLib\Playlist.cs" Line="1" Column="1" />
+      <File FileName="WebApiFormsLib\Image.cs" Line="1" Column="1" />
+      <File FileName="WebApiFormsLib\search.cs" Line="1" Column="1" />
+      <File FileName="WebApiFormsLib\Playlist.cs" Line="51" Column="51" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
