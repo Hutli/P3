@@ -241,7 +241,7 @@ Global
 		{EA03AE40-9D94-46B7-8440-24B0C4FCB010}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = test\test.csproj
+		StartupItem = TestApp2\Android\TestApp2.Android.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

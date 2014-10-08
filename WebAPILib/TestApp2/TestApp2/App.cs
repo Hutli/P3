@@ -5,7 +5,6 @@ namespace TestApp2
 {
 	public class App
 	{
-
 		public static HomePage Home;
 		public static Page GetMainPage ()
 		{	

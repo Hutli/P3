@@ -12,8 +12,7 @@ namespace TestApp2
 			var layout = new StackLayout () { Spacing = 0 };
 			Label tex = new Label () { Text = "Search for a song." };
 			SearchBar search = new SearchBar ();
-			search.Text = "dad";
-			Command cmd = new Command (delegate() {
+			Command cmd = new Command ( delegate () {
 				string str = search.Text;
 				Navigation.PushModalAsync(new SearchResult(str));
 			});
