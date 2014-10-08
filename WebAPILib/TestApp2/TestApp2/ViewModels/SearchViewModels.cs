@@ -27,8 +27,7 @@ namespace TestApp2
 			get { return loadSongsCommand ?? (loadSongsCommand = new Command (ExecuteloadSongsCommand)); }
 		}
 
-		public async void ExecuteloadSongsCommand(){
-			await Task.Delay (500);
+		public void ExecuteloadSongsCommand(){
 			search ser = new search (searchStr, SearchType.TRACK);
 			foreach (var item in ser.Tracks) {
 				songs.Add (item);

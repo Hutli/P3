@@ -4,22 +4,13 @@ using System.Collections.Generic;
 
 namespace TestApp2
 {
-	public class HomePage : ContentPage
+	public class HomePage : TabbedPage
 	{
 
 		public HomePage ()
 		{
-			var layout = new StackLayout () { Spacing = 0 };
-			Label tex = new Label () { Text = "Search for a song." };
-			SearchBar search = new SearchBar ();
-			Command cmd = new Command ( delegate () {
-				string str = search.Text;
-				Navigation.PushModalAsync(new SearchResult(str));
-			});
-			search.SearchCommand = cmd;
-			layout.Children.Add (search);
-			layout.Children.Add (tex);
-			Content = layout;
+			this.Title = "Home";
+			this.Children.Add(new SearchPage());
 		}
 	}
 }

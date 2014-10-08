@@ -18,6 +18,7 @@ namespace TestApp2
 
 		public SearchResult (string str)
 		{
+			this.Title = "Results";
 			var layout = new StackLayout {
 				Orientation = StackOrientation.Vertical,
 				Padding = new Thickness(0, 8, 0, 8)
