@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using WebAPILib;
 
 namespace TestApp2
 {
@@ -7,8 +8,8 @@ namespace TestApp2
 	{
 		public static HomePage Home;
 		public static Page GetMainPage ()
-		{	
-			return Home ?? (Home = new HomePage ());
+		{
+            return Home ?? (Home = new HomePage());
 		}
 	}
 }

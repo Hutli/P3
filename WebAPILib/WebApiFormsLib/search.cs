@@ -53,19 +53,19 @@ namespace WebAPILib {
 			switch (type) {
 			case SearchType.ALL:
 			case SearchType.ARTIST:
-				JObject oArtists = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=artist");
+                JObject oArtists = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist");
 				getArtists (oArtists ["artists"] ["items"]);
 				if (type == SearchType.ALL)
 					goto case SearchType.ALBUM; //TODO FIX C#!
 				break;
 			case SearchType.ALBUM:
-				JObject oAlbums = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=album");
+                JObject oAlbums = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album");
 				getAlbums (oAlbums ["albums"] ["items"]);
 				if (type == SearchType.ALL)
 					goto case SearchType.TRACK; //TODO FIX C#!
 				break;
 			case SearchType.TRACK:
-				JObject oTracks = getJobject ("https://api.spotify.com/v1/search?q=" + searchString + "&type=track");
+                JObject oTracks = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track");
 				getTracks (oTracks ["tracks"] ["items"]);
 				break;
 			}

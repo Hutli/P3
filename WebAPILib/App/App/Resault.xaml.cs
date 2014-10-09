@@ -38,7 +38,7 @@ namespace App
 
 		public Resault (string str)
 		{
-			InitializeComponent ();
+			//InitializeComponent ();
 			search (str);
 
 
