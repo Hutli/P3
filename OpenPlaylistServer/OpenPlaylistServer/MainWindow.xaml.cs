@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,22 +32,30 @@ namespace OpenPlaylistServer
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
         private static NAudio.Wave.WaveOut waveOut;
 
+        Playlist pl = new Playlist();
+        List<User> users = new List<User>();
+
         public MainWindow(){
             InitializeComponent();
 
             var hostConfig = new HostConfiguration();
             hostConfig.UrlReservations.CreateAutomatically = true;
 
-
             var host = new NancyHost(hostConfig, new Uri("http://localhost:1234"));
             host.Start();
 
             session.OnLogInError += OnLogInError;
             session.OnLogInSuccess += OnLoginSuccess;
-            session.MusicDelivery += OnReceiveData;
-            //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
+            session.MusicDelivery += OnRecieveData;
+            session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
             
-            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
+            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", appkey);
+
+            for(int i=0;i<10;i++)
+                users.Add(new User());
+
+            UsersView.ItemsSource = users;
+            PlaylistView.ItemsSource = pl._tracks;
         }
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
@@ -107,5 +115,14 @@ namespace OpenPlaylistServer
             sampleStream.AddSamples(frames, 0, frames.Length);
         }
 
+        private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
+            pl.RemoveByTitle("The Rockafeller Skank");
+            PlaylistView.Items.Refresh();
+        }
+
+        private void AddTrack_Click(object sender, RoutedEventArgs e) {
+            pl.Add("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            PlaylistView.Items.Refresh();
+        }
     }
 }

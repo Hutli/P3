@@ -1,11 +1,77 @@
-﻿<Window x:Class="OpenPlaylistServer.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:OpenPlaylistServer" x:Class="OpenPlaylistServer.MainWindow"
         Title="MainWindow" Height="350" Width="500">
     <Grid Margin="0,0,2,0">
-        <Label x:Name="LoggedInStatus" Content="Status.." Margin="170,125,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-        <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="207,170,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
-        <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="207,197,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+        <TabControl HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="490">
+            <TabItem Header="Spotify">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="LoggedInStatus" Content="Status.." Margin="178,103,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                    <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="215,148,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
+                    <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="215,175,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Playlist">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="PlaylistView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="100" Header="Artist" />
+                                <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="MoveUp" Content="Move Up" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="MoveDown" Content="Move Down" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="RemoveTrack" Content="Remove" HorizontalAlignment="Left" Margin="395,37,0,0" VerticalAlignment="Top" Width="75" Click="RemoveTrack_Click"/>
+                    <Button x:Name="AddTrack" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75" Click="AddTrack_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="HistoryView" Header="History">
+                <Grid Background="#FFE5E5E5">
+                    <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="ExportHistory" Content="Export" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="FilterView" Header="Filter">
+                <Grid Background="#FFE5E5E5">
+                    <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="RemoveFilter" Content="Remove" HorizontalAlignment="Left" Margin="395,37,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="AddFilter" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="ExportFilter" Content="Export" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="ImportFilter" Content="Import" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Users">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="UsersView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="100" Header="ID" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Width="100"  Header="Vote" DisplayMemberBinding="{Binding Vote}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
