@@ -43,6 +43,12 @@ namespace OpenPlaylistServer {
             _pScore += users.Count;
         }
 
+        public int PScore {
+            get {
+                return _pScore;
+            }
+        }
+
         public string Name {
             get {
                 return _name;
@@ -87,7 +93,8 @@ namespace OpenPlaylistServer {
         }
 
         public void RemoveByTitle(string name) {
-            _tracks.Remove(_tracks.Where(e => e.Track.Name.Equals(name)).First());
+            if(_tracks.Any(e => e.Name.Equals(name)))
+                _tracks.Remove(_tracks.Where(e => e.Track.Name.Equals(name)).First());
         }
 
         public void Remove(PTrack track) {
@@ -114,7 +121,19 @@ namespace OpenPlaylistServer {
             _tracks[index] = temp;
         }
 
-        public void CountVotes(List<User> users) {
+        public PTrack NextTrack(List<User> users) {
+            CountVotes(users);
+            Sort(_tracks);
+            PTrack next = _tracks.First();
+            _tracks.Remove(next);
+            return next;
+        }
+
+        public void Sort(List<PTrack> list) {
+            list.OrderBy(x => x.PScore);
+        }
+
+        public List<PTrack> currentStanding(List<User> users){
             List<List<User>> userList = new List<List<User>>();
             foreach(User user in users) {
                 List<User> f = userList.Find(l => l.Any(u => u.Vote.Equals(user.Vote)));
@@ -125,6 +144,34 @@ namespace OpenPlaylistServer {
                 }else{
                     f.Add(user);
                 }
+            }
+
+            List<PTrack> returnList = new List<PTrack>();
+            foreach(PTrack track in _tracks) {
+                returnList.Add(track);
+            }
+
+            foreach(List<User> u in userList){
+                returnList.Where(e => e.Equals(u[0].Vote)).First().UpdatePScore(users);
+            }
+
+            Sort(returnList);
+
+            return returnList;
+        }
+
+        private void CountVotes(List<User> users) {
+            List<List<User>> userList = new List<List<User>>();
+            foreach(User user in users) {
+                List<User> f = userList.Find(l => l.Any(u => u.Vote.Equals(user.Vote)));
+                if(f == null){
+                    List<User> newList = new List<User>();
+                    newList.Add(user);
+                    userList.Add(newList);
+                }else{
+                    f.Add(user);
+                }
+                user.Vote = null;
             }
 
             foreach(List<User> u in userList){
