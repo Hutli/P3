@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
-
 using libspotifydotnet;
+using System;
 using System.Runtime.InteropServices;
-using System.IO;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace SpotifyDotNet
 {
@@ -26,40 +19,37 @@ namespace SpotifyDotNet
         private IntPtr _sessionPtr = IntPtr.Zero;
         private int _nextTimeout;
         private Object _sync = new Object();
-        
-
-        public event LogInHandler OnLogInError;
-        public event Action<SpotifyLoggedIn> OnLogInSuccess;
-        
-        public delegate void SearchCompleteHandler(SearchResults results);
-        public event MusicDeliveryHandler MusicDelivery;
-        public  event TrackEndedDelegate TrackEnded;
-
-        public delegate void NotifyMainDelegate(IntPtr session);
-        public delegate void MusicDeliveryHandler(int sample_rate, int channels, byte[] frames);
-        public event SearchCompleteHandler SearchComplete;
         private IntPtr _searchComplete = IntPtr.Zero;
-        private SearchCompleteDelegate searchCompleteDelegate;
+        private SearchCompleteDelegate _searchCompleteDelegate;
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
-        
-        
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
-        public delegate void TrackEndedDelegate(IntPtr session);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
-        public delegate void LogInHandler(LoginState loginState);
+        private delegate void NotifyMainDelegate(IntPtr session);
+        private delegate void TrackEndedDelegate(IntPtr session);
+        private MusicDeliveryDelegate _musicDeliveryDelegate;
+        private LoggedInDelegate _loggedInCallbackDelegate;
+        private NotifyMainDelegate _notifyMainDelegate;
+        private TrackEndedDelegate _trackEndedDelegate;
+        private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
+        private static readonly Spotify _instance = new Spotify();
+        private Task _notifyMainTask;
 
-        private MusicDeliveryDelegate musicDeliveryDelegate;
-        private LoggedInDelegate loggedInCallbackDelegate;
-        private NotifyMainDelegate notifyMainDelegate;
-        private TrackEndedDelegate trackEndedDelegate;
-        private GetAudioBufferStatsDelegate getAudioBufferStatsDelegate;
-
+        public event Action<LoginState> OnLogInError;
+        public event Action<SpotifyLoggedIn> OnLogInSuccess;
+        public event Action<int, int, byte[]>  MusicDelivery;
+        public event Action TrackEnded;
+        public event Action<SearchResult> SearchComplete;
         public TimeSpan BufferedDuration { get; set; }
         public int BufferedBytes { get; set; }
 
-        private static readonly Spotify _instance = new Spotify();
-        private Task _notifyMainTask;
+        private Spotify() { }
+
+        ~Spotify()
+        {
+            Dispose();
+        }
+
         public static Spotify Instance
         {
             get
@@ -68,37 +58,20 @@ namespace SpotifyDotNet
             }
         }
 
-        protected Spotify() { }
-
-        public void Dispose()
-        {
-            _notifyMainTask.Dispose();
-            lock (_sync)
-            {
-                libspotify.sp_session_release(_sessionPtr);
-            }
-
-            System.GC.SuppressFinalize(this);
-        }
-
-        ~Spotify()
-        {
-            Dispose();
-        }
-        
         private void Init(byte[] appkey)
         {
-            loggedInCallbackDelegate = new LoggedInDelegate((session,error) => {
+            _loggedInCallbackDelegate = new LoggedInDelegate((session, error) =>
+            {
                 LoginState loginState;
 
-                switch(error)
+                switch (error)
                 {
-                    case libspotify.sp_error.OK: 
+                    case libspotify.sp_error.OK:
                         // login was successful, so no need to check for anything else. Just signal Success.
                         loginState = LoginState.OK;
                         var spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
                         OnLogInSuccess(spotifyLoggedIn);
-                        
+
                         return;
 
                     case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
@@ -118,19 +91,22 @@ namespace SpotifyDotNet
                 }
 
                 OnLogInError(loginState);
-                
+
             });
 
-            searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) =>
+            _searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) =>
             {
-                var searchResults = new SearchResults(search);
-                SearchComplete(searchResults);
+                var searchResults = new SearchResult(search);
+                if (SearchComplete != null)
+                {
+                    SearchComplete(searchResults);
+                }
             });
-            _searchComplete = Marshal.GetFunctionPointerForDelegate(searchCompleteDelegate);
-            
-            notifyMainDelegate = new NotifyMainDelegate((IntPtr session) => NotifyMainTest(session));
+            _searchComplete = Marshal.GetFunctionPointerForDelegate(_searchCompleteDelegate);
 
-            musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
+            _notifyMainDelegate = new NotifyMainDelegate((IntPtr session) => NotifyMain(session));
+
+            _musicDeliveryDelegate = new MusicDeliveryDelegate((session, audioFormat, framesPtr, numFrames) =>
             {
                 byte[] frames;
                 libspotify.sp_audioformat format = (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));
@@ -156,41 +132,41 @@ namespace SpotifyDotNet
 
                 if (MusicDelivery != null)
                 {
-                    MusicDelivery(format.sample_rate,format.channels, frames);
+                    MusicDelivery(format.sample_rate, format.channels, frames);
                 }
-                   
+
                 return numFrames;
             });
 
-            trackEndedDelegate = new TrackEndedDelegate((session) =>
+            _trackEndedDelegate = new TrackEndedDelegate((session) =>
             {
-                TrackEnded(session);
+                TrackEnded();
             });
 
-            getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
+            _getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>
             {
                 libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
-                
+
                 bufferStats.samples = BufferedBytes / 2;
                 bufferStats.stutter = 0;
-                
+
             });
 
             libspotify.sp_session_callbacks session_callbacks = new libspotify.sp_session_callbacks();
-            session_callbacks.logged_in = Marshal.GetFunctionPointerForDelegate(loggedInCallbackDelegate);
-            session_callbacks.notify_main_thread = Marshal.GetFunctionPointerForDelegate(notifyMainDelegate);
-            session_callbacks.music_delivery = Marshal.GetFunctionPointerForDelegate(musicDeliveryDelegate);
-            session_callbacks.get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(getAudioBufferStatsDelegate);
-            session_callbacks.end_of_track = Marshal.GetFunctionPointerForDelegate(trackEndedDelegate);
-            
+            session_callbacks.logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate);
+            session_callbacks.notify_main_thread = Marshal.GetFunctionPointerForDelegate(_notifyMainDelegate);
+            session_callbacks.music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate);
+            session_callbacks.get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate);
+            session_callbacks.end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate);
 
-            
+
+
             // Convert structure to C Pointer
             IntPtr callbacksPtr = Marshal.AllocHGlobal(Marshal.SizeOf(session_callbacks));
             Marshal.StructureToPtr(session_callbacks, callbacksPtr, true);
-            
+
             libspotify.sp_session_config config = new libspotify.sp_session_config();
-            config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey,0);
+            config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey, 0);
             config.application_key_size = appkey.Length;
             config.api_version = libspotify.SPOTIFY_API_VERSION;
             config.user_agent = "openPlaylist";
@@ -205,39 +181,46 @@ namespace SpotifyDotNet
 
         }
 
-        
-
-        private void NotifyMainTest(IntPtr session)
+        private void NotifyMain(IntPtr session)
         {
             _notifyMainTask = new Task(() =>
             {
                 ProcessEvents();
-             });
+            });
 
             _notifyMainTask.Start();
         }
 
-        public void Login(string username, string password, byte[] appkey)
-        {
-            Init(appkey);
-            lock (_sync)
-            {
-                libspotify.sp_session_login(_sessionPtr, username, password, false, null);
-            }
-        }
-
         internal void ProcessEvents()
         {
-            lock (_sync){
+            lock (_sync)
+            {
                 do
                 {
                     libspotify.sp_session_process_events(_sessionPtr, out _nextTimeout);
-                
+
                 } while (_nextTimeout == 0);
             }
         }
 
-        
-        
+        public void Dispose()
+        {
+            _notifyMainTask.Dispose();
+            lock (_sync)
+            {
+                libspotify.sp_session_release(_sessionPtr);
+            }
+
+            System.GC.SuppressFinalize(this);
+        }
+
+        public void Login(string username, string password, bool rememberMe, byte[] appkey)
+        {
+            Init(appkey);
+            lock (_sync)
+            {
+                libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
+            }
+        }
     }
 }

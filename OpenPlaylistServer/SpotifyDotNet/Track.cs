@@ -13,40 +13,39 @@ namespace SpotifyDotNet
 {
     public class Track : IDisposable
     {
-        private IntPtr trackPtr;
+        private IntPtr _trackPtr;
 
         public String Name { get; private set; }
-        public Boolean IsLoaded { get { return libspotify.sp_track_is_loaded(trackPtr); } }
-        public int Duration { get { return libspotify.sp_track_duration(trackPtr); } }
+        public Boolean IsLoaded { get { return libspotify.sp_track_is_loaded(_trackPtr); } }
+        public int Duration { get { return libspotify.sp_track_duration(_trackPtr); } }
 
-        
-
-        public Track(IntPtr trackPtr)
+        internal Track(IntPtr trackPtr)
         {
-            this.trackPtr = trackPtr;
+            this._trackPtr = trackPtr;
 
             // name
             IntPtr trackNamePtr = libspotify.sp_track_name(trackPtr);
             Name = Marshal.PtrToStringAnsi(trackNamePtr);
         }
 
+        ~Track()
+        {
+            Dispose();
+        }
+
         public SpError Load(IntPtr sessionPtr)
         {
-            return libspotify.sp_session_player_load(sessionPtr, trackPtr);
+            return libspotify.sp_session_player_load(sessionPtr, _trackPtr);
         }
 
         public Availability GetAvailability(IntPtr sessionPtr)
         {
-            return libspotify.sp_track_get_availability(sessionPtr, trackPtr);
-        }
-
-        ~Track() {
-            Dispose();
+            return libspotify.sp_track_get_availability(sessionPtr, _trackPtr);
         }
 
         public void Dispose()
         {
-            libspotify.sp_track_release(trackPtr);
+            libspotify.sp_track_release(_trackPtr);
 
             System.GC.SuppressFinalize(this);
         }

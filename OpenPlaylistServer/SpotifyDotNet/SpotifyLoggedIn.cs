@@ -15,17 +15,6 @@ namespace SpotifyDotNet
         private static SpotifyLoggedIn _instance;
         private bool _isPlaying = false;
 
-        public static SpotifyLoggedIn Instance
-        {
-            get {
-                if (_instance == null)
-                {
-                    throw new NullReferenceException("Not logged into Spotify");
-                }
-                return _instance;
-            }
-        }
-
         private SpotifyLoggedIn() { }
 
         internal SpotifyLoggedIn(ref IntPtr _sessionPtr, object _sync ,ref IntPtr _searchComplete)
@@ -35,7 +24,19 @@ namespace SpotifyDotNet
             this._sync = _sync;
             this._sessionPtr = _sessionPtr;
         }
-        
+
+        public static SpotifyLoggedIn Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new NullReferenceException("Not logged into Spotify");
+                }
+                return _instance;
+            }
+        }
+
         public void Search(string query)
         {
             IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);

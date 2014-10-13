@@ -44,10 +44,10 @@ namespace OpenPlaylistServer
 
             session.OnLogInError += OnLogInError;
             session.OnLogInSuccess += OnLoginSuccess;
-            session.MusicDelivery += OnRecieveData;
-            session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
-                //34AKPAKCRE77K
-            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", appkey);
+            session.MusicDelivery += OnReceiveData;
+            //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
+            
+            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
         }
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
@@ -83,7 +83,7 @@ namespace OpenPlaylistServer
             sampleStream = null;
         }
 
-        private void OnRecieveData(int sample_rate, int channels, byte[] frames)
+        private void OnReceiveData(int sample_rate, int channels, byte[] frames)
         {
             if (activeFormat == null)
                 activeFormat = new NAudio.Wave.WaveFormat(sample_rate, 16, channels);

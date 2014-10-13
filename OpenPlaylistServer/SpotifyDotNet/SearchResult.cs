@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace SpotifyDotNet
 {
-    public class SearchResults : IDisposable
+    public class SearchResult : IDisposable
     {
         private IntPtr _searchPtr;
         private int _numTracks;
 
         public List<Track> Tracks { get; private set; }
 
-        public SearchResults(IntPtr searchPtr)
+        internal SearchResult(IntPtr searchPtr)
         {
             Tracks = new List<Track>();
             this._searchPtr = searchPtr;
@@ -28,7 +28,7 @@ namespace SpotifyDotNet
             }
         }
 
-        ~SearchResults()
+        ~SearchResult()
         {
             Dispose();
         }
