@@ -33,11 +33,13 @@ namespace SpotifyDotNet
         
         public delegate void SearchCompleteHandler(SearchResults results);
         public event MusicDeliveryHandler MusicDelivery;
-        public  event TrackEndedDelegate TrackEnded;
+        public event TrackEndedDelegate TrackEnded;
 
         public delegate void NotifyMainDelegate(IntPtr session);
         public delegate void MusicDeliveryHandler(int sample_rate, int channels, byte[] frames);
         public event SearchCompleteHandler SearchComplete;
+        //public delegate void TrackEndedDelegate(IntPtr session);
+        public delegate void TrackEndedDelegate(int i);
         private IntPtr _searchComplete = IntPtr.Zero;
         private SearchCompleteDelegate searchCompleteDelegate;
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
@@ -45,7 +47,6 @@ namespace SpotifyDotNet
         
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
-        public delegate void TrackEndedDelegate(IntPtr session);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
         public delegate void LogInHandler(LoginState loginState);
 
@@ -164,7 +165,8 @@ namespace SpotifyDotNet
 
             trackEndedDelegate = new TrackEndedDelegate((session) =>
             {
-                TrackEnded(session);
+                //TrackEnded(session);
+                TrackEnded(1);
             });
 
             getAudioBufferStatsDelegate = new GetAudioBufferStatsDelegate((session, bufferStatsPtr) =>

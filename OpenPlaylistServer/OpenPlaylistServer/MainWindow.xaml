@@ -10,9 +10,13 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="LoggedInStatus" Content="Status.." Margin="178,103,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-                    <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="215,148,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
-                    <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="215,175,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+                    <Label x:Name="LoggedInStatus" Content="Status.." Margin="178,84,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                    <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="215,194,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
+                    <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="215,221,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
+                    <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="190,143,0,0" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="UsernameBox" HorizontalAlignment="Left" Height="23" Margin="190,115,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="120"/>
+                    <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="215,168,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
+                    <Image HorizontalAlignment="Left" Height="74" Margin="216,10,0,0" VerticalAlignment="Top" Width="74" Source="Resources/openPlaylistLogoSpotifyColorsLit.png" MouseDown="Image_MouseDown"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Playlist">
@@ -26,8 +30,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="MoveUp" Content="Move Up" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="MoveDown" Content="Move Down" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="MoveUp" Content="Move Up" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75" Click="MoveUp_Click"/>
+                    <Button x:Name="MoveDown" Content="Move Down" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75" Click="MoveDown_Click"/>
                     <Button x:Name="RemoveTrack" Content="Remove" HorizontalAlignment="Left" Margin="395,37,0,0" VerticalAlignment="Top" Width="75" Click="RemoveTrack_Click"/>
                     <Button x:Name="AddTrack" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75" Click="AddTrack_Click"/>
                 </Grid>
