@@ -16,8 +16,8 @@ namespace OpenPlaylistServer
             var session = SpotifyDotNet.Spotify.Instance;
             Track track = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId);
             var spotifyLoggedIn = SpotifyLoggedIn.Instance;
-            
-            spotifyLoggedIn.Play(track);
+
+            MainWindow.NancyRequest(track);
             return "Success";
             };
         }

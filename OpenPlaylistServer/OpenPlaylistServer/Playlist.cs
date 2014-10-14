@@ -87,14 +87,19 @@ namespace OpenPlaylistServer {
             }
         }
 
-        public void Add(string trackId){
+        public void AddByURI(string trackId){
             PTrack track = new PTrack(SpotifyLoggedIn.Instance.TrackFromLink(trackId));
             _tracks.Add(track);
         }
 
+        public void AddByRef(Track track) {
+            PTrack pTrack = new PTrack(track);
+            _tracks.Add(pTrack);
+        }
+
         public void RemoveByTitle(string name) {
             if(_tracks.Any(e => e.Name.Equals(name)))
-                _tracks.Remove(_tracks.Where(e => e.Track.Name.Equals(name)).First());
+                _tracks.Remove(_tracks.First(e => e.Track.Name.Equals(name)));
         }
 
         public void Remove(PTrack track) {
@@ -102,6 +107,8 @@ namespace OpenPlaylistServer {
         }
 
         public void MoveUp(PTrack track) {
+            if(_tracks.Count == 0)
+                return;
             int index = _tracks.IndexOf(track);
             if(index == 0)
                 return;
@@ -152,7 +159,7 @@ namespace OpenPlaylistServer {
             }
 
             foreach(List<User> u in userList){
-                returnList.Where(e => e.Equals(u[0].Vote)).First().UpdatePScore(users);
+                returnList.First(e => e.Equals(u[0].Vote)).UpdatePScore(users);
             }
 
             Sort(returnList);
@@ -175,7 +182,7 @@ namespace OpenPlaylistServer {
             }
 
             foreach(List<User> u in userList){
-                _tracks.Where(e => e.Equals(u[0].Vote)).First().UpdatePScore(users);
+                _tracks.First(e => e.Equals(u[0].Vote)).UpdatePScore(users);
             }
         }
     }

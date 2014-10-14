@@ -17,6 +17,7 @@ using System.IO;
 using NAudio;
 using System.ComponentModel;
 using Nancy.Hosting.Self;
+using System.Windows.Threading;
 
 namespace OpenPlaylistServer
 {
@@ -32,8 +33,11 @@ namespace OpenPlaylistServer
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
         private static NAudio.Wave.WaveOut waveOut;
 
-        Playlist pl = new Playlist();
+        private static Playlist pl = new Playlist();
+        List<PTrack> history = new List<PTrack>(); 
         List<User> users = new List<User>();
+
+        public static Action FuckNancy;
 
         public MainWindow(){
             InitializeComponent();
@@ -41,7 +45,7 @@ namespace OpenPlaylistServer
             var hostConfig = new HostConfiguration();
             hostConfig.UrlReservations.CreateAutomatically = true;
 
-            var host = new NancyHost(hostConfig, new Uri("http://localhost:1234"));
+            var host = new NancyHost(hostConfig, new Uri("http://localhost:5555"));
             host.Start();
 
             session.OnLogInError += OnLogInError;
@@ -50,8 +54,21 @@ namespace OpenPlaylistServer
             session.TrackEnded += TrackEnded;
             //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
 
+            FuckNancy = updateUI;
+
             UsersView.ItemsSource = users;
             PlaylistView.ItemsSource = pl._tracks;
+        }
+
+        public static void NancyRequest(Track track){
+            pl.AddByRef(track);
+            FuckNancy(); // This shit right here is fucking retarded, WPF crashes if items are not refreshed, and nancy does not allow delegates....
+        }
+
+        public void updateUI() {
+            Application.Current.Dispatcher.BeginInvoke((Action)(() => {
+                PlaylistView.Items.Refresh();
+            }));
         }
 
         private void TrackEnded() {
@@ -124,7 +141,7 @@ namespace OpenPlaylistServer
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
-            pl.Add("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            pl.AddByURI("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
             PlaylistView.Items.Refresh();
         }
 
@@ -140,7 +157,7 @@ namespace OpenPlaylistServer
 
         private void LoginButton_Click(object sender, RoutedEventArgs e) {
             //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
-            session.Login(UsernameBox.Text, PasswordBox.Password, false, appkey);
+            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
