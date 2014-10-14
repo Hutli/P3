@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,22 +32,32 @@ namespace OpenPlaylistServer
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
         private static NAudio.Wave.WaveOut waveOut;
 
+        Playlist pl = new Playlist();
+        List<User> users = new List<User>();
+
         public MainWindow(){
             InitializeComponent();
 
             var hostConfig = new HostConfiguration();
             hostConfig.UrlReservations.CreateAutomatically = true;
 
-
             var host = new NancyHost(hostConfig, new Uri("http://localhost:1234"));
             host.Start();
 
             session.OnLogInError += OnLogInError;
             session.OnLogInSuccess += OnLoginSuccess;
-            session.MusicDelivery += OnReceiveData;
+            session.MusicDelivery += OnRecieveData;
+            session.TrackEnded += TrackEnded;
             //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
-            
-            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
+
+            UsersView.ItemsSource = users;
+            PlaylistView.ItemsSource = pl._tracks;
+        }
+
+        private void TrackEnded() {
+            PTrack next = pl.NextTrack(users);
+            PlaylistView.Items.Refresh();
+            SpotifyLoggedIn.Instance.Play(next.Track);
         }
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
@@ -58,7 +68,7 @@ namespace OpenPlaylistServer
                 StopButton.IsEnabled = true;
             }));
 
-            spotifyLoggedIn.Search("dad");
+            //spotifyLoggedIn.Search("key");
         }
 
         void OnLogInError(LoginState loginState)
@@ -68,22 +78,7 @@ namespace OpenPlaylistServer
                 }));
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
-            SpotifyLoggedIn.Instance.Play(tracks);
-        }
-
-        private void StopButton_Click(object sender, RoutedEventArgs e) {
-            SpotifyLoggedIn.Instance.Stop(); //Hammertime
-            //Don't
-            waveOut.Stop(); //Believin'
-            waveOut = null;
-            activeFormat = null;
-            sampleStream = null;
-        }
-
-        private void OnReceiveData(int sample_rate, int channels, byte[] frames)
+        private void OnRecieveData(int sample_rate, int channels, byte[] frames)
         {
             if (activeFormat == null)
                 activeFormat = new NAudio.Wave.WaveFormat(sample_rate, 16, channels);
@@ -107,5 +102,50 @@ namespace OpenPlaylistServer
             sampleStream.AddSamples(frames, 0, frames.Length);
         }
 
+        //WPF Content
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            SpotifyLoggedIn.Instance.Play(tracks);
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e) {
+            SpotifyLoggedIn.Instance.Stop(); //Hammertime
+            //Don't
+            waveOut.Stop(); //Believin'
+            waveOut = null;
+            activeFormat = null;
+            sampleStream = null;
+        }
+
+        private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
+            pl.RemoveByTitle("The Rockafeller Skank");
+            PlaylistView.Items.Refresh();
+        }
+
+        private void AddTrack_Click(object sender, RoutedEventArgs e) {
+            pl.Add("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            PlaylistView.Items.Refresh();
+        }
+
+        private void MoveUp_Click(object sender, RoutedEventArgs e) {
+            pl.MoveUp((PTrack)PlaylistView.SelectedItem);
+            PlaylistView.Items.Refresh();
+        }
+
+        private void MoveDown_Click(object sender, RoutedEventArgs e) {
+            pl.MoveDown((PTrack)PlaylistView.SelectedItem);
+            PlaylistView.Items.Refresh();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e) {
+            //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
+            session.Login(UsernameBox.Text, PasswordBox.Password, false, appkey);
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
+            StopButton_Click(sender, e);
+            TrackEnded();
+        }
     }
 }
