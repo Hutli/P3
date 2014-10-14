@@ -36,12 +36,14 @@
                     <Button x:Name="AddTrack" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75" Click="AddTrack_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="HistoryView" Header="History">
+            <TabItem Header="History">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                    <ListView x:Name="HistoryView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn/>
+                                <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Width="100" Header="Artist" />
+                                <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

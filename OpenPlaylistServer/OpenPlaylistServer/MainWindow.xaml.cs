@@ -58,6 +58,7 @@ namespace OpenPlaylistServer
 
             UsersView.ItemsSource = users;
             PlaylistView.ItemsSource = pl._tracks;
+            HistoryView.ItemsSource = history;
         }
 
         public static void NancyRequest(Track track){
@@ -73,7 +74,9 @@ namespace OpenPlaylistServer
 
         private void TrackEnded() {
             PTrack next = pl.NextTrack(users);
+            history.Add(next);
             PlaylistView.Items.Refresh();
+            HistoryView.Items.Refresh();
             SpotifyLoggedIn.Instance.Play(next.Track);
         }
 
