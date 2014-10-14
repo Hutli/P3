@@ -54,7 +54,7 @@ namespace OpenPlaylistServer
             PlaylistView.ItemsSource = pl._tracks;
         }
 
-        private void TrackEnded(int i) {
+        private void TrackEnded() {
             PTrack next = pl.NextTrack(users);
             PlaylistView.Items.Refresh();
             SpotifyLoggedIn.Instance.Play(next.Track);
@@ -140,12 +140,12 @@ namespace OpenPlaylistServer
 
         private void LoginButton_Click(object sender, RoutedEventArgs e) {
             //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
-            session.Login(UsernameBox.Text, PasswordBox.Password, appkey);
+            session.Login(UsernameBox.Text, PasswordBox.Password, false, appkey);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
             StopButton_Click(sender, e);
-            TrackEnded(1);
+            TrackEnded();
         }
     }
 }
