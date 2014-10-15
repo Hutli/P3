@@ -37,7 +37,7 @@ namespace OpenPlaylistServer
         List<PTrack> history = new List<PTrack>(); 
         List<User> users = new List<User>();
 
-        public static Action FuckNancy;
+        public static Action UpdateUIDelegate;
 
         public MainWindow(){
             InitializeComponent();
@@ -54,7 +54,7 @@ namespace OpenPlaylistServer
             session.TrackEnded += TrackEnded;
             //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
 
-            FuckNancy = updateUI;
+            UpdateUIDelegate = UpdateUI;
 
             UsersView.ItemsSource = users;
             PlaylistView.ItemsSource = pl._tracks;
@@ -63,10 +63,10 @@ namespace OpenPlaylistServer
 
         public static void NancyRequest(Track track){
             pl.AddByRef(track);
-            FuckNancy(); // This shit right here is fucking retarded, WPF crashes if items are not refreshed, and nancy does not allow delegates....
+            UpdateUIDelegate(); // This shit right here is fucking retarded, WPF crashes if items are not refreshed, and nancy does not allow delegates....
         }
 
-        public void updateUI() {
+        public void UpdateUI() {
             Application.Current.Dispatcher.BeginInvoke((Action)(() => {
                 PlaylistView.Items.Refresh();
             }));
@@ -125,8 +125,14 @@ namespace OpenPlaylistServer
         //WPF Content
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
-            SpotifyLoggedIn.Instance.Play(tracks);
+            //Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            //Track t = pl
+            //SpotifyLoggedIn.Instance.Play(tracks);
+            PTrack next = pl.NextTrack(users);
+            history.Add(next);
+            PlaylistView.Items.Refresh();
+            HistoryView.Items.Refresh();
+            SpotifyLoggedIn.Instance.Play(next.Track);
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e) {
@@ -139,7 +145,7 @@ namespace OpenPlaylistServer
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            pl.RemoveByTitle("The Rockafeller Skank");
+            pl.Remove((PTrack)PlaylistView.SelectedItem);
             PlaylistView.Items.Refresh();
         }
 
