@@ -1,26 +1,25 @@
-\subsubsection{Music Catalog}
+\subsubsection{Music Catalogue}
 \label{ssub:Music_catalog}
-
 \sinote{skal smeltes sammen med spotify afsnittet i interviews. Jeg føler det burde stå her i stedet for i interviews}
-
-Spotify is chosen to be the music catalog of choice for the system described in this paper. Alternative music catalogs like Google Play Music offer comparable number of tracks. However, at least in the case of Google Play Music, they do not support third-party access to their library of tracks. This made Spotify a sensible choice.
+To have a selection of music for the users to browse, a music catalogue had to be chosen.
+Spotify is chosen to be the music catalogue of choice for the system described in this paper. Alternative music catalogues like Google Play Music offer comparable number of tracks. However, at least in the case of Google Play Music, they do not support third-party access to their library of tracks. This made Spotify a sensible choice.
 
 \paragraph{Access to Spotify}
 \label{par:Access_to_Spotify}
 
-As it is now established that Spotify is the music catalog of choice, it is important to think of ways to access their data. As of this paper, two main APIs are available: Spotify Web API and libspotify. They each have their benefits and restrictions.
+As it is now established that Spotify is the music catalogue of choice, it is important to think of ways to access their data. As of this paper, two main APIs are available: Spotify Web API and libspotify. They each have their benefits and restrictions.
 
 \paragraph{Spotify Web API}
 \label{par:spotify_web_api}
 
-The Web API is the easiest of the two to work with. It is not needed to login with a Spotify account to use this API, however when authorized rate limits improve. The API is accessed as a simple REST based interface to nearly all their data. That is, tracks, albums, artists, play lists, user profiles, album art and track previews are all accessible. Notice that this is only metadata about tracks, albums etc.. Besides the track previews, no music can be streamed using this API.
+The Web API is the easiest of the two to work with. It is not needed to login with a Spotify account to use this API, however when the user is authorized, rate limits improve. The API is accessed as a simple REST based interface to nearly all their data. That is, tracks, albums, artists, play lists, user profiles, album art and track previews are all accessible. Notice that this is only metadata about tracks, albums etc. Besides the track previews, no music can be streamed using this API.
 
 So the price of simplicity and ease of use is the limitation of only being allowed to access metadata. 
 
 \paragraph{Libspotify}
 \label{par:music_catalog_libspotify}
 
-Libspotify is a C library written and distributed by Spotify. Being a C library the simplicity of the simpler Web API is reduced. On the upside the library can access any data that the official Spotify Client can. In fact the official Spotify client uses libspotify. This implies that both metadata searching and music streaming is possible. The downside of all this power is the requirement of a Spotify Premium account and the complexity of using a C library.
+Libspotify is a C library written and distributed by Spotify. Being a C library, it is more complex than the Web API. On the upside, the library can access any data that the official Spotify client can. In fact, the official Spotify client uses libspotify. This implies that both accessing metadata, searching and music streaming is possible. The downside to this more powerful library is the requirement of a Spotify Premium account and the complexity of using a C library.
 
 \paragraph{Relevance}
 \label{par:relevance}
