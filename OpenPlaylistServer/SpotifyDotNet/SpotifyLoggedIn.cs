@@ -89,10 +89,17 @@ namespace SpotifyDotNet
             IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
 
             libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-            List<Track> trackList = new List<Track>();
+            
             if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
             {
                 IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
+                
+                // process events until all track is loaded
+                do
+                {
+                    Spotify.Instance.ProcessEvents();
+                } while (libspotify.sp_track_is_loaded(spTrackPtr) == false);
+                
                 return new Track(spTrackPtr);
             }
             else throw new ArgumentException("URI was not a track URI");
