@@ -67,14 +67,13 @@ namespace WebAPILib {
 					bool isExplicit = (bool)jsonTrack ["explicit"];
 					int trackNumber = (int)(jsonTrack ["track_number"]);
 					if (SearchResult.Tracks.Exists (a => id.Equals (a.ID)))
-						tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
+						_tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
 					else {
 						Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
 						SearchResult.addTrack (tmpTrack);
-						tracks.Add (tmpTrack);
+						_tracks.Add (tmpTrack);
 					}
 				}
-				_tracks = tracks;
 				_tracksCached = true;
 			}
 		}
@@ -104,9 +103,8 @@ namespace WebAPILib {
 		}
 
         public void addTrack(Track track) {
-            if(_tracks.Exists(a => track.ID.Equals(a.ID)))
-                throw new Exception(); //TODO Create spotify exception
-            _tracks.Add(track);
+            if(!_tracks.Exists(a => track.ID.Equals(a.ID)))
+                _tracks.Add(track);
         }
     }
 }
