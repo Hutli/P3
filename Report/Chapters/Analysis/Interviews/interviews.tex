@@ -1,6 +1,17 @@
 \label{interviews}
 
-To gain a greater understanding of the problem domain for this project, some interviews were conducted on various bars on the famous street, Jomfru Ane Gade, in Aalborg. The participants include staff from Fabrikken, LA Bar, Newcastle and Dan's Poolhall. The interviews were semi-structured in nature, with questions based in the following categories
+Understanding the people involved in the system is key when doing requirements analysis. It is important to get understanding of current workflows and problems associated with these. One technique towards understanding is interviewing. In this project we will be using interviews to get understanding. The following section describes how the interview was conducted and the results collected.
+
+\subsection{Procedure}
+\label{sub:procedure}
+
+Interviews can be structured, unstructured or anything in between~\cite{benyon2013designing}. Structured interviews are very strict in their form. Every question is pre-made and the interviewer follows the questions strictly. This reduces the effort needed by the interviewer. However this type of interviews should only be used when the answers given by the interviewee are simple and can fall into discrete categories. 
+
+On the other end, unstructured interviews allow for a high degree of flexibility. This form of interviews are good when knowledge in a particular field is not easily accessible. This flexibility comes with the need for the interviewee to be able to generate questions on the fly.
+
+The interviews described in this section are all semi-structured i.e. most questions are written beforehand but the interviewer is not strictly bound to these and can therefore drill into particular answers given by following up with related improvised questions. Hence the semi-structured nature of the interviews.
+
+The questions are based in the following categories:
 
 \begin{itemize}
   \item Management of the bars music system
@@ -9,28 +20,13 @@ To gain a greater understanding of the problem domain for this project, some int
   \item Music requirements and the dynamics thereof
 \end{itemize}
 
-\subsection{Procedure}
-\label{sub:procedure}
-
-Understanding
-Deb bogen metode
-Semi structured interviews fordele
-Andre strukturer - ulemper
-Procedure efter bogen
-
-Understanding people is key in analysing current workflows and problems associated with these. A typical way towards understanding involves interviewing. Interviews can be structured, semi-structured or anything in between. The interviews described in this section are all semi-structured i.e. most questions are written beforehand but the interviewer is not strictly bound to these and can therfore drill into a particular answer given.
-
-All interviews are voice recorded for later data analysis.
-
-\sinote{Ikke færdigt.}
-
-If some interesting answers to these questions were given, the interviewer would follow up on these answers with some improvised questions. Hence the semi-structured nature of the interviews.
+The full interview guide can be found in \cref{app:interview_guide}. The interviews are conducted by two persons. One is the interviewer and the other one is taking notes and managing the voice recording.
 
 \subsection{Participants}
 
-An important choice in interviewing is who to speak with. As this report focuses on the context of bars, the participants would have to have experience working at a bar. Therefore the sensible choice is to find participants in bars. As there are many bars and pubs situated in Aalborg, and only a few interviews are needed, only bars located on the famous street Jomfru Ane Gade in Aalborg are possible participants. At least three participants are needed to get a somewhat representative view of most bars in Jomfru Ane Gade.
+An important choice in interviewing is who to speak with. As this report focuses on the context of bars, the participants would have to have experience working at a bar and using the current music system at the bar. Therefore the sensible choice is to find participants in bars. There are different types of bar: sports bars, bars with DJs at night and bars with a pub atmosphere.
 
-The following participated in the interviews
+It was chosen to speak with four bars, to get a good representative view of most bars. The following bars were chosen since it will cover most types of bars:
 
 \begin{itemize}
   \item Fabrikken
@@ -39,15 +35,15 @@ The following participated in the interviews
   \item Dan's Poolhall
 \end{itemize}
 
-% krav til participants
-% realistiske participants
-% udvælgelse af participants
-% antal participants så spredning er stor nok
+\subsection{Data Collection}
+\label{sub:data_collection}
+
+During the interviews the participants were voice recorded and the designated interview helper was taking notes. 
 
 \subsection{Interview Analysis}
 \label{sub:interview_analysis}
 
-Based on the data collected during the interviews key points are expressed.
+After all the interviews were performed, the group collaboratively created a summary of the interviews by listening to the voices recorded. Based on the data collected during the interviews key points are expressed. 
 
 \subsubsection{Music Flow}
 \label{ssub:Music Flow}
@@ -56,11 +52,11 @@ Based on the data collected during the interviews key points are expressed.
 
 All bars want to be able to control what kind of music is playing. That is, they do not want a slow song playing right after a party hit in the middle of a party night. This is currently managed by prepopulating a playlist from which the music system plays tracks from. Customers can at any time request a track to be played, but no guarantees are given whether the requested song is played or not. When a request is given, the bartender must be the judge of whether or not the requested track is matching the current music theme. All participants' typical customers' age group was around 20-25.
 
-\subsection{Differences}
+\subsubsection{Automatic Music System and DJ}
 \label{sub:differences}
 Fabrikken and Dan's Poolhall have no DJ employed so their music system is in use throughout their opening hours, while LA Bar and Newcastle have a dedicated DJ playing at night. One participant uses MiB Pro, while the others use Spotify. A remark was made that MiB Pro did not have as large a selection of tracks as could be desired.
 
-\subsection{Specific Remarks}
+\subsubsection{Concerns with stability}
 \label{sub:specific_remarks}
 
 Dan's Poolhall is concerned that streaming music from the internet is risky, because of potential internet failures. A backup solution working offline would be ideal.
@@ -98,7 +94,7 @@ Dan's Poolhall is concerned that streaming music from the internet is risky, bec
 
 % When confronted with the features of the software system described in this paper, the overall response was positive, but some problems came to mind. The system would have to avoid interuptions in genres and slow songs being played in the middle of a party.
 
-\subsection{Summary}
+\subsubsection{Summary}
 \label{sub:summary}
 From these interviews, some requirements have been gathered based on the participants' responses. These requirements are listed beneath using the MoSCoW method, sorted by importance according to the participants and plausibility.
 \subsubsection{Must have}
