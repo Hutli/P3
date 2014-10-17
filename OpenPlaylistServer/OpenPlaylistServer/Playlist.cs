@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections;
 
 namespace OpenPlaylistServer {
-    class User {
+    public class User {
         private int _id;
         private PTrack _vote;
         static int incre;
@@ -31,16 +31,27 @@ namespace OpenPlaylistServer {
         }
     }
 
-    class PTrack 
-        //: Track kan vi lave ned arvning?
+    public class PTrack 
     {
-        private int _pScore;
+        private int _pScore = 0;
         private string _name;
         private int _duration;
         private Track _track;
+        private int _tScore = 0;
+
+        public int TScore
+        {
+            get { return _tScore;}
+            set { _tScore = value; }
+        }
 
         public void UpdatePScore(List<User> users) {
             _pScore += users.Count;
+        }
+
+        public void ResetPScore()
+        {
+            _pScore = 0;
         }
 
         public int PScore {
@@ -64,6 +75,8 @@ namespace OpenPlaylistServer {
         public Track Track{
             get{return _track;}
         }
+
+        public PTrack() { }
         
         public PTrack(Track track){
             _track = track;
@@ -72,7 +85,7 @@ namespace OpenPlaylistServer {
         }
     }
 
-    class Playlist{
+    public class Playlist{
         public List<PTrack> _tracks;
 
         public Playlist(){
@@ -106,6 +119,7 @@ namespace OpenPlaylistServer {
             _tracks.Remove(track);
         }
 
+        #region TestingPurposes
         public void MoveUp(PTrack track) {
             if(_tracks.Count == 0)
                 return;
@@ -127,62 +141,46 @@ namespace OpenPlaylistServer {
             _tracks[index + 1] = track;
             _tracks[index] = temp;
         }
+        #endregion
 
         public PTrack NextTrack(List<User> users) {
             CountVotes(users);
             Sort(_tracks);
             PTrack next = _tracks.First();
+            next.ResetPScore();
             _tracks.Remove(next);
             return next;
         }
 
-        public void Sort(List<PTrack> list) {
-            list.OrderBy(x => x.PScore);
+        public void Sort(List<PTrack> list) {        
+            list.Sort((x,y) => y.PScore.CompareTo(x.PScore));
         }
 
-        public List<PTrack> currentStanding(List<User> users){
-            List<List<User>> userList = new List<List<User>>();
-            foreach(User user in users) {
-                List<User> f = userList.Find(l => l.Any(u => u.Vote.Equals(user.Vote)));
-                if(f == null){
-                    List<User> newList = new List<User>();
-                    newList.Add(user);
-                    userList.Add(newList);
-                }else{
-                    f.Add(user);
+        public void CurrentStanding(List<User> users){
+            var grouping = users.GroupBy(u => u.Vote);
+            foreach (var track in grouping)
+            {
+                List<User> tempUsers = new List<User>();
+                foreach (var user in track)
+                {
+                    tempUsers.Add(user);
                 }
+                if(_tracks.Contains(track.Key))
+                    track.Key.TScore = tempUsers.Count;
             }
-
-            List<PTrack> returnList = new List<PTrack>();
-            foreach(PTrack track in _tracks) {
-                returnList.Add(track);
-            }
-
-            foreach(List<User> u in userList){
-                returnList.First(e => e.Equals(u[0].Vote)).UpdatePScore(users);
-            }
-
-            Sort(returnList);
-
-            return returnList;
         }
 
         private void CountVotes(List<User> users) {
-            List<List<User>> userList = new List<List<User>>();
-            foreach(User user in users) {
-                List<User> f = userList.Find(l => l.Any(u => u.Vote.Equals(user.Vote)));
-                if(f == null){
-                    List<User> newList = new List<User>();
-                    newList.Add(user);
-                    userList.Add(newList);
-                }else{
-                    f.Add(user);
+            var grouping = users.GroupBy(u => u.Vote);
+            foreach (var track in grouping)
+            {
+                List<User> tempUsers = new List<User>();
+                foreach (var user in track)
+                {
+                    tempUsers.Add(user);
                 }
-                user.Vote = null;
-            }
-
-            foreach(List<User> u in userList){
-                _tracks.First(e => e.Equals(u[0].Vote)).UpdatePScore(users);
+                if (_tracks.Contains(track.Key))
+                    track.Key.UpdatePScore(tempUsers);
             }
         }
     }

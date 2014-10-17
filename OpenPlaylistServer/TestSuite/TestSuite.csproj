@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{66BB5383-DCE0-46F0-BA6C-9D7847386221}</ProjectGuid>
+    <ProjectGuid>{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestServer</RootNamespace>
-    <AssemblyName>UnitTestServer</AssemblyName>
+    <RootNamespace>TestSuite</RootNamespace>
+    <AssemblyName>TestSuite</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,9 +44,35 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TestPlaylist.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\spotify_appkey.key" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenPlaylistServer\OpenPlaylistServer.csproj">
+      <Project>{2f5748f5-ae2a-4680-889c-1f6e1ec0b846}</Project>
+      <Name>OpenPlaylistServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpotifyDotNet\SpotifyDotNet.csproj">
+      <Project>{0d5c88b0-da42-43f0-9e81-b544f44e26d6}</Project>
+      <Name>SpotifyDotNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
