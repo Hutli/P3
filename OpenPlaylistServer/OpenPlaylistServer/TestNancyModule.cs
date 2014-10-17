@@ -12,12 +12,12 @@ namespace OpenPlaylistServer
     {
         public TestNancyModule()
         {
-            Get["/{trackId}"] = parameters => { 
-            var session = SpotifyDotNet.Spotify.Instance;
-            Track track = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId);
-            var spotifyLoggedIn = SpotifyLoggedIn.Instance;
+            Get["/{trackId}/{userId}/"] = parameters => { 
+            Track vote = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId);
+            string userId = parameters.userId;
 
-            MainWindow.NancyRequest(track);
+            MainWindow.UserVote(userId, vote);
+
             return "Success";
             };
         }

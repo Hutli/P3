@@ -9,11 +9,10 @@ using System.Collections;
 
 namespace OpenPlaylistServer {
     public class User {
-        private int _id;
+        private string _id;
         private PTrack _vote;
-        static int incre;
 
-        public int Id {
+        public string Id {
             get {
                 return _id;
             }
@@ -26,8 +25,14 @@ namespace OpenPlaylistServer {
             }
         }
 
-        public User() {
-            _id = incre++;
+        public User(string id) {
+            _id = id;
+        }
+
+        public User(string id, PTrack vote)
+        {
+            _id = id;
+            _vote = vote;
         }
     }
 
@@ -82,6 +87,11 @@ namespace OpenPlaylistServer {
             _track = track;
             _name = track.Name;
             _duration = track.Duration;
+        }
+
+        public override string ToString()
+        {
+            return _name;
         }
     }
 

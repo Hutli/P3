@@ -35,7 +35,7 @@ namespace OpenPlaylistServer
 
         private static Playlist pl = new Playlist();
         List<PTrack> history = new List<PTrack>(); 
-        List<User> users = new List<User>();
+        static List<User> users = new List<User>();
 
         public static Action UpdateUIDelegate;
 
@@ -61,14 +61,30 @@ namespace OpenPlaylistServer
             HistoryView.ItemsSource = history;
         }
 
-        public static void NancyRequest(Track track){
-            pl.AddByRef(track);
-            UpdateUIDelegate(); // This shit right here is fucking retarded, WPF crashes if items are not refreshed, and nancy does not allow delegates....
+        public static void UserVote(string userId, Track track)
+        {
+            PTrack ptrack = pl._tracks.FirstOrDefault(x => x.Track.Name == track.Name);
+            if (ptrack == null)
+            {
+                ptrack = new PTrack(track);
+                pl._tracks.Add(ptrack);
+            }
+            if (users.Any(x => x.Id == userId))
+            {
+                users.FirstOrDefault(x => x.Id == userId).Vote = ptrack;
+            }
+            else
+            {
+                users.Add(new User(userId,ptrack));
+            }
+
+            UpdateUIDelegate();
         }
 
         public void UpdateUI() {
             Application.Current.Dispatcher.BeginInvoke((Action)(() => {
                 PlaylistView.Items.Refresh();
+                UsersView.Items.Refresh();
             }));
         }
 
