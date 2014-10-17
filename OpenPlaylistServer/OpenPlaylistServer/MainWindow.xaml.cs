@@ -91,9 +91,9 @@ namespace OpenPlaylistServer
         private void TrackEnded() {
             PTrack next = pl.NextTrack(users);
             history.Add(next);
+            SpotifyLoggedIn.Instance.Play(next.Track);
             PlaylistView.Items.Refresh();
             HistoryView.Items.Refresh();
-            SpotifyLoggedIn.Instance.Play(next.Track);
         }
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
@@ -166,7 +166,7 @@ namespace OpenPlaylistServer
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
-            pl.AddByURI("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
+            pl.AddByURI("spotify:track:6UEYM83XCHYiJ0C4Z10g6J");
             PlaylistView.Items.Refresh();
         }
 
