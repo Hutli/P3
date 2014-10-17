@@ -39,7 +39,7 @@ However this is not abstracted enough. To the user of the library, no pointers s
 \subsubsection{Making it Thread-safe}
 \label{ssub:making_it_thread_safe}
 
-As stated in \cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}.
+As stated in~\cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}.
 
 \begin{lstlisting}[caption = {Example of using the lock keyword in C\#. \enquote{\_sync} is an object used to store the lock state}, label = {lst:lock_keyword}]
 lock(_sync) {

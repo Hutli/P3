@@ -22,15 +22,15 @@
 
 	\paragraph{Communication with client}
 	As the user has to find the track they wish to hear on their mobile device and the track has to be played on another device a means of communicating the request from one device to another had to be found.
-	For communicating the filter and votes between the server and client, Nancy \cite{nancy}, a lightweight framework for build http services on .Net, available from NuGet, was chosen. Nancy is easy to set up as selfhosting, and can asynchronised from the rest of the backend, only reporting back to the main thread when a request is executed. So the client simply has to send a http request on a designated port, to interact with the server... \chnote{Skal udvides vi har bare ikke rigtig undersøgt muligheder og begrænsninger} 
+	For communicating the filter and votes between the server and client, Nancy~\cite{nancy}, a lightweight framework for build http services on .Net, available from NuGet, was chosen. Nancy is easy to set up as selfhosting, and can asynchronised from the rest of the backend, only reporting back to the main thread when a request is executed. So the client simply has to send a http request on a designated port, to interact with the server... \chnote{Skal udvides vi har bare ikke rigtig undersøgt muligheder og begrænsninger} 
 
 	\paragraph{Audio output}
 	When receiving the data stream from Spotify, some way of outputting the actual audio is needed, the data stream is of type Pulse Code Modulation (PCM), in searching for a way to playback PCM data the following candidates were found:
 
 \begin{itemize}
-	\item Naudio \cite{naudio} - A well established open source library, still being updated, available through NuGet
-	\item Alvas.Audio \cite{alvas} - Proprietary C\# audio library for .Net. Requires a license.
-	\item BASS.NET \cite{bass} - A 3rd party .Net wrapper for the BASS audio library, still being updated. Requires a license.
+	\item Naudio~\cite{naudio} - A well established open source library, still being updated, available through NuGet
+	\item Alvas.Audio~\cite{alvas} - Proprietary C\# audio library for .Net. Requires a license.
+	\item BASS.NET~\cite{bass} - A 3rd party .Net wrapper for the BASS audio library, still being updated. Requires a license.
 	\item SoundPlayer - Intergrated in the .Net framework, but only supports .wav PCM data stream.
 \end{itemize}
 
