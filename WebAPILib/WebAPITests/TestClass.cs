@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using WebAPILib;
 
@@ -80,6 +82,12 @@ namespace WebAPITests
             }
         }
 
+        [Fact]
+        public void searchGetJObject() //Tests the getJObject method
+        {
+            JObject jo = search.getJobject("https://api.spotify.com/v1/albums/3j3cgkuyo015dghNYhHnZJ");
+            Assert.True(jo.HasValues);
+        }
         #endregion
 
         #region WebAPILib.Artist
