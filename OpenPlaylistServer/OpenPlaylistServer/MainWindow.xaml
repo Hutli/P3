@@ -25,8 +25,9 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="100" Header="Artist" />
-                                <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
+                                <GridViewColumn Width="80" Header="Artist" />
+                                <GridViewColumn Width="80" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
+                                <GridViewColumn Width="100" Header="Votes" DisplayMemberBinding="{Binding TScore}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

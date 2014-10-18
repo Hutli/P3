@@ -85,6 +85,7 @@ namespace OpenPlaylistServer
             Application.Current.Dispatcher.BeginInvoke((Action)(() => {
                 PlaylistView.Items.Refresh();
                 UsersView.Items.Refresh();
+                pl.CurrentStanding(users);
             }));
         }
 
@@ -92,8 +93,7 @@ namespace OpenPlaylistServer
             PTrack next = pl.NextTrack(users);
             history.Add(next);
             SpotifyLoggedIn.Instance.Play(next.Track);
-            PlaylistView.Items.Refresh();
-            HistoryView.Items.Refresh();
+            UpdateUI();
         }
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
