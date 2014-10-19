@@ -219,3 +219,7 @@ master.pdf
 
 # mac files
 *.DS_Store
+
+*.el
+
+*.fmt
