@@ -6,9 +6,28 @@ using System.Threading.Tasks;
 using Xunit;
 using OpenPlaylistServer;
 using SpotifyDotNet;
+using System.Threading;
 
 namespace TestSuite {
     public class TestPlaylist {
+
+        Spotify sp = Spotify.Instance;
+        SpotifyLoggedIn spl;
+        ManualResetEvent man = new ManualResetEvent(false);
+
+        
+        public TestPlaylist() {
+            sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey);
+            sp.OnLogInSuccess += (spotifyLoggedIn) => {
+                spl = spotifyLoggedIn;
+                man.Set();
+            };
+            sp.OnLogInError += (error) => { 
+                Assert.False(true);
+                man.Set(); 
+            };
+            man.WaitOne();
+        }
 
         [Fact]
         public void NextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
