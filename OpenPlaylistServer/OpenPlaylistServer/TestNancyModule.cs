@@ -5,20 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using Nancy;
 using SpotifyDotNet;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace OpenPlaylistServer
 {
     public class TestNancyModule : NancyModule
     {
-        public TestNancyModule()
+        public static event Action<string,Track> UserVoted;
+
+        public TestNancyModule(Playlist p)
         {
             Get["/{trackId}/{userId}/"] = parameters => { 
-            Track vote = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId);
-            string userId = parameters.userId;
+                Track vote = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId).Result;
+                string userId = parameters.userId;
+                //MainWindow.UserVote(userId, vote);
+            
+                UserVoted(userId, vote);
 
-            MainWindow.UserVote(userId, vote);
+                return "success";
+                //return Response.AsJson<object>(p._tracks);
+            };
 
-            return "Success";
+            Get["/car/{id}"] = parameters =>
+            {
+                int id = parameters.id;
+
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(id);
             };
         }
     }

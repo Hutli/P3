@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SpotifyDotNet
 {
@@ -83,26 +84,29 @@ namespace SpotifyDotNet
             _isPlaying = false;
         }
 
-        public Track TrackFromLink(String link)
+        public Task<Track> TrackFromLink(String link)
         {
-            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
-            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-            
-            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
+            var t = Task.Run<Track>(() =>
             {
-                IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
-                
-                // process events until all track is loaded
-                do
+                IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+                IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+
+                libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+
+                if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
                 {
-                    Spotify.Instance.ProcessEvents();
-                } while (libspotify.sp_track_is_loaded(spTrackPtr) == false);
-                
-                return new Track(spTrackPtr);
-            }
-            else throw new ArgumentException("URI was not a track URI");
+                    IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
+                    while (libspotify.sp_track_is_loaded(spTrackPtr) == false)
+                    {
+                        Task.Delay(2);
+                    }
+
+                    return new Track(spTrackPtr);
+                }
+                else throw new ArgumentException("URI was not a track URI");
+            });
+
+            return t;
         }
 
         public List<Track> PlaylistFromLink(String link)

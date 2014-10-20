@@ -47,9 +47,14 @@ namespace OpenPlaylistServer
 
             var host = new NancyHost(hostConfig, new Uri("http://localhost:5555"));
             host.Start();
+            TestNancyModule.UserVoted += (userId, track) =>
+            {
+                Dispatcher.BeginInvoke((Action) (() => { UserVote(userId, track); }));
+                
+            };
+            
 
-            session.OnLogInError += OnLogInError;
-            session.OnLogInSuccess += OnLoginSuccess;
+            
             session.MusicDelivery += OnRecieveData;
             session.TrackEnded += TrackEnded;
             //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
@@ -57,7 +62,11 @@ namespace OpenPlaylistServer
             UpdateUIDelegate = UpdateUI;
 
             UsersView.ItemsSource = users;
-            PlaylistView.ItemsSource = pl._tracks;
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(pl._tracks);
+            view.SortDescriptions.Add(new SortDescription("TScore", ListSortDirection.Descending));
+            PlaylistView.ItemsSource = view;
+
             HistoryView.ItemsSource = history;
         }
 
@@ -180,9 +189,20 @@ namespace OpenPlaylistServer
             PlaylistView.Items.Refresh();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e) {
+        private async void LoginButton_Click(object sender, RoutedEventArgs e) {
             //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
-            session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
+            Button test = (Button)sender;
+            test.IsEnabled = false;
+            var spotifyLoggedIn = await session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, appkey);
+            if (spotifyLoggedIn.Item2 == LoginState.OK)
+            {
+                OnLoginSuccess(spotifyLoggedIn.Item1);
+            }
+            else
+            {
+                OnLogInError(spotifyLoggedIn.Item2);
+            }
+            
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {

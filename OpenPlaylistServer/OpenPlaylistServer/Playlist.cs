@@ -96,11 +96,12 @@ namespace OpenPlaylistServer {
     }
 
     public class Playlist{
-        public List<PTrack> _tracks;
+        public ObservableCollection<PTrack> _tracks;
 
         public Playlist(){
-            _tracks = new List<PTrack>();
+            _tracks = new ObservableCollection<PTrack>();
         }
+
 
         private int _totalDuration;
 
@@ -111,8 +112,9 @@ namespace OpenPlaylistServer {
         }
 
         public void AddByURI(string trackId){
-            PTrack track = new PTrack(SpotifyLoggedIn.Instance.TrackFromLink(trackId));
-            _tracks.Add(track);
+            var track = SpotifyLoggedIn.Instance.TrackFromLink(trackId).Result;
+            PTrack ptrack = new PTrack(track);
+            _tracks.Add(ptrack);
         }
 
         public void AddByRef(Track track) {
@@ -155,7 +157,10 @@ namespace OpenPlaylistServer {
 
         public PTrack NextTrack(List<User> users) {
             CountVotes(users);
-            Sort(_tracks);
+            var tempList = _tracks.ToList();
+            Sort(tempList);
+            _tracks = new ObservableCollection<PTrack>(tempList);
+            
             PTrack next = _tracks.First();
             next.ResetPScore();
             _tracks.Remove(next);

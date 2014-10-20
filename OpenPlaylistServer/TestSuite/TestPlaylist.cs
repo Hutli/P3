@@ -17,18 +17,19 @@ namespace TestSuite {
 
         public TestsFixture()
         {
-            sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey);
-            sp.OnLogInSuccess += (spotifyLoggedIn) =>
+            var result = sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey).Result;
+            Assert.True(result.Item2 == LoginState.OK);
+            spl = result.Item1;
+            if (result.Item2 == LoginState.OK)
             {
-                spl = spotifyLoggedIn;
-                man.Set();
-            };
-            sp.OnLogInError += (error) =>
+                
+            }
+            else
             {
-                Assert.False(true);
-                man.Set();
-            };
-            man.WaitOne();
+                
+            }
+
+            
         }
 
         public void Dispose()
@@ -94,9 +95,9 @@ namespace TestSuite {
         [Fact]
         public void AddByURIAddsTrack() {
             Playlist pl = new Playlist();
-            Assert.False(pl._tracks.Exists(e => e.Name == "Obliteration of the Weak"));
+            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-            Assert.True(pl._tracks.Exists(e => e.Name == "Obliteration of the Weak"));
+            Assert.True(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
         }
 
         //[Fact]
