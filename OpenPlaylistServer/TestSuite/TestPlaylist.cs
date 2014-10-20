@@ -9,25 +9,44 @@ using SpotifyDotNet;
 using System.Threading;
 
 namespace TestSuite {
-    public class TestPlaylist {
-
-        Spotify sp = Spotify.Instance;
-        SpotifyLoggedIn spl;
+    public class TestsFixture : IDisposable
+    {
+        public Spotify sp = Spotify.Instance;
+        public SpotifyLoggedIn spl;
         ManualResetEvent man = new ManualResetEvent(false);
 
-        
-        public TestPlaylist() {
+        public TestsFixture()
+        {
             sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey);
-            sp.OnLogInSuccess += (spotifyLoggedIn) => {
+            sp.OnLogInSuccess += (spotifyLoggedIn) =>
+            {
                 spl = spotifyLoggedIn;
                 man.Set();
             };
-            sp.OnLogInError += (error) => { 
+            sp.OnLogInError += (error) =>
+            {
                 Assert.False(true);
-                man.Set(); 
+                man.Set();
             };
             man.WaitOne();
         }
+
+        public void Dispose()
+        {
+            //sp.Dispose();
+        }
+    }
+
+    public class TestPlaylist : IUseFixture<TestsFixture> {
+
+        private TestsFixture _data;
+
+        public void SetFixture(TestsFixture data)
+        {
+            _data = data;
+        }
+        
+        
 
         [Fact]
         public void NextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
@@ -76,7 +95,7 @@ namespace TestSuite {
         public void AddByURIAddsTrack() {
             Playlist pl = new Playlist();
             Assert.False(pl._tracks.Exists(e => e.Name == "Obliteration of the Weak"));
-            pl.AddByURI("19pTAbMZmWsgGkYZ4v2TM1");
+            pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
             Assert.True(pl._tracks.Exists(e => e.Name == "Obliteration of the Weak"));
         }
 
@@ -89,5 +108,7 @@ namespace TestSuite {
         //    pl.AddByRef(t);
         //    Assert.Single(pl._tracks, pt);
         //} 
+
+        
     }
 }
