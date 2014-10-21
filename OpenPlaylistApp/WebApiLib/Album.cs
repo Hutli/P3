@@ -39,7 +39,7 @@ namespace WebAPILib {
 		public string Href{ get { return "https://api.spotify.com/v1/albums/" + ID; } }
 
 		private void cache(){
-			JObject o = search.getJobject(Href);
+			JObject o = Search.getJobject(Href);
 			if (!_artistsCached) {
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject jsonArtist in o["artists"]) {
@@ -51,7 +51,7 @@ namespace WebAPILib {
 					} else {
 						Artist tmpArtist = new Artist (id, name, SearchResult);
 						tmpArtist.addAlbum (this);
-						SearchResult.addArtist (tmpArtist);
+						SearchResult.AddArtist (tmpArtist);
 						artists.Add (tmpArtist);
 					}
 				}
@@ -70,7 +70,7 @@ namespace WebAPILib {
 						_tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
 					else {
 						Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
-						SearchResult.addTrack (tmpTrack);
+						SearchResult.AddTrack (tmpTrack);
 						_tracks.Add (tmpTrack);
 					}
 				}
@@ -80,14 +80,14 @@ namespace WebAPILib {
 
         public override string URI { get { return "spotify:album:" + ID; } }
 
-		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
 			addArtists(artists);
 			foreach (Artist a in artists) {
 				a.addAlbum (this);
 			}
 		}
 
-		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult) : base(id, name, searchResult) {
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult) : base(id, name, searchResult) {
             _albumType = albumtype;
             _images = new List<Image>(images);
         }

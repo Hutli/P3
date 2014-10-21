@@ -10,31 +10,33 @@ using System.Threading.Tasks;
 
 namespace OpenPlaylistApp
 {
-	public class SearchResultModel : BaseViewModel
-	{
+    public class SearchResultModel : BaseViewModel
+    {
         private SearchType type;
         public string searchStr { get; set; }
-        public search Search { get; set; }
-		public ObservableCollection<SpotifyObject> songs { get; set;}
-		public SearchResultModel (string str, SearchType type)
-		{
-			songs = new ObservableCollection<SpotifyObject> ();
+        public Search Search { get; set; }
+        public ObservableCollection<SpotifyObject> songs { get; set; }
+        public SearchResultModel(string str, SearchType type)
+        {
+            songs = new ObservableCollection<SpotifyObject>();
             searchStr = str;
             this.type = type;
-		}
+        }
 
-		private Command loadSongsCommand;
+        private Command loadSongsCommand;
 
-		public Command LoadSongsCommand {
-			get { return loadSongsCommand ?? (loadSongsCommand = new Command (ExecuteloadSongsCommand)); }
-		}
+        public Command LoadSongsCommand
+        {
+            get { return loadSongsCommand ?? (loadSongsCommand = new Command(ExecuteloadSongsCommand)); }
+        }
 
-		public async void ExecuteloadSongsCommand(){
+        public async void ExecuteloadSongsCommand()
+        {
             await Task.Run(() =>
             {
-                IsBusy = true;   
-                Search = new search(searchStr, type);
-                if(type == SearchType.TRACK)
+                IsBusy = true;
+                Search = new Search(searchStr, type);
+                if (type == SearchType.TRACK)
                     foreach (var item in Search.Tracks)
                     {
                         songs.Add(item);
@@ -51,8 +53,8 @@ namespace OpenPlaylistApp
                     }
                 IsBusy = false;
             });
-		}
+        }
 
-	}
+    }
 }
 

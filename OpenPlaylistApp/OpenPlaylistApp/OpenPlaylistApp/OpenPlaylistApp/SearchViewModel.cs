@@ -9,6 +9,10 @@ namespace OpenPlaylistApp
     public class SearchViewModel : BaseViewModel
     {
         private SearchResultView result;
-        public SearchResultView Result { get { return result; } set { SetProperty(ref result, value, "Result"); } }
+        public SearchResultView Result
+        {
+            get { return result; }
+            set { SetProperty(ref result, value, "Result"); }
+        }
     }
 }

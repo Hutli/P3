@@ -11,7 +11,7 @@ using Xamarin.Forms.Platform.Android;
 
 namespace OpenPlaylistApp.Droid
 {
-    [Activity(Label = "OpenPlaylistApp", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "OpenPlaylist", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : AndroidActivity
     {
         protected override void OnCreate(Bundle bundle)

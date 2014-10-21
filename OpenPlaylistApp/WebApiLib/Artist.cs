@@ -8,7 +8,7 @@ namespace WebAPILib {
 		private List<Album> _albums = new List<Album> ();
 		private int _popularity;
 
-		public Artist (string id, string name, search searchResult) : base (id, name, searchResult) {
+		public Artist (string id, string name, Search searchResult) : base (id, name, searchResult) {
 		}
 
 		public List<string> Genres{ get { return new List<string> (_genres); } }

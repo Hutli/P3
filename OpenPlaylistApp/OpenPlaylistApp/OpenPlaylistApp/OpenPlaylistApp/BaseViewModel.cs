@@ -15,7 +15,11 @@ namespace OpenPlaylistApp
         }
 
         private bool isBusy;
-        public bool IsBusy { get { return isBusy; } set { SetProperty(ref isBusy, value, "IsBusy"); } }
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value, "IsBusy"); }
+        }
 
         protected void SetProperty<T>(
             ref T backingStore, T value,

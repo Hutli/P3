@@ -17,12 +17,16 @@ namespace OpenPlaylistApp
         public static HomePage Home { get; set; }
 
         private static Track track;
-        public static Track vote { get { return track; } 
-            set { 
-                track = value; Tracks.Clear(); 
+        public static Track vote
+        {
+            get { return track; }
+            set
+            {
+                track = value; Tracks.Clear();
                 Tracks.Add(track);
                 TrackSelected();
-            } }
+            }
+        }
 
         static PlaylistViewModel()
         {

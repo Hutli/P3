@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace OpenPlaylistApp
 {
-	public class HomePage : MasterDetailPage
-	{
+    public class HomePage : MasterDetailPage
+    {
         private MasterView master;
         public HomeViewModel ViewModel { get { return BindingContext as HomeViewModel; } }
 
         public Action GoToPlaylist { get; set; }
-		public HomePage ()
-		{
-			Title = "Home";
+        public HomePage()
+        {
+            Title = "Home";
             BindingContext = new HomeViewModel();
 
             var playlist = new PlaylistView();
@@ -28,31 +28,35 @@ namespace OpenPlaylistApp
             Detail = PlaylistNav;
             IsPresented = false;
 
-            GoToPlaylist = () => {
+            GoToPlaylist = () =>
+            {
                 master.SelectedPage = PlaylistNav;
                 IsPresented = false;
-                
+
             };
 
             PlaylistViewModel.Home = this;
             Master = master = new MasterView(ViewModel);
-            master.PageSelection = (x) => {
+            master.PageSelection = (x) =>
+            {
 
                 Detail = x;
                 Detail.Title = x.Title;
                 IsPresented = false;
 
             };
-		}
+        }
 
         public class MasterView : ContentPage
         {
-            public Page SelectedPage { get { return (Page)listView.SelectedItem; }
+            public Page SelectedPage
+            {
+                get { return (Page)listView.SelectedItem; }
                 set
                 {
                     foreach (var item in viewModel.Pages)
                     {
-                        if(item.Title == value.Title)
+                        if (item.Title == value.Title)
                         {
                             listView.SelectedItem = item;
                             PageSelection(item);
@@ -98,7 +102,7 @@ namespace OpenPlaylistApp
                 listView.ItemSelected += (sender, args) =>
                 {
                     var menuItem = listView.SelectedItem;
-                    if(PageSelection != null)
+                    if (PageSelection != null)
                     {
                         PageSelection((Page)menuItem);
                     }
@@ -116,6 +120,6 @@ namespace OpenPlaylistApp
             }
         }
 
-	}
+    }
 }
 
