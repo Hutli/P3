@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebAPILib {
+namespace WebApiLib {
 	public class Image {
 		private int _height;
 		private int _width;

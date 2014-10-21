@@ -4,7 +4,7 @@ using System.Text;
 using System.Net;
 using System.Net.Http;
 
-namespace WebAPILib
+namespace WebApiLib
 {
 	public static class Request
 	{

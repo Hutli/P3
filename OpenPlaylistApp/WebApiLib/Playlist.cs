@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebAPILib {
+namespace WebApiLib {
 	public class Playlist : SpotifyObject {
 		private List<Track> _tracks;
 

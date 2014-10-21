@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebAPILib {
+namespace WebApiLib {
 	public class Track : SpotifyObject {
 		private int _popularity;
 		private int _duration;

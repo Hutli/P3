@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebAPILib;
+using WebApiLib;
 using System.IO;
 using System.Text;
 using System.Net;
@@ -8,7 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WebAPILib {
+namespace WebApiLib {
 	public enum SearchType {
 		ALL,
 		ARTIST,
