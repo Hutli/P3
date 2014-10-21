@@ -11,6 +11,16 @@
 \graphicspath{{Images/}} % folder to use for images
 \usepackage{listings} % source code
 
+%flotte listings
+\usepackage[nottdefault]{sourcecodepro}
+\lstset{basicstyle=\fontfamily{SourceCodePro-TLF}\footnotesize,breaklines=true}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
 \usepackage[mode=multiuser,draft]{fixme} % fixme config
 \FXRegisterAuthor{si}{asi}{Simon}
 \FXRegisterAuthor{ka}{aka}{Kasper}
