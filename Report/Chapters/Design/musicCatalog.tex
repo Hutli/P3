@@ -1,12 +1,10 @@
 \subsubsection{Music Catalogue}
 \label{ssub:Music_catalog}
-To have a selection of music for the users to browse, a music catalogue had to be chosen. Spotify was chosen as the service from which the system would acquire its music data. This was done because a majority of the bars that were interviewed in \cref{interviews}, uses spotify for controlling their music during daytime. Spotify is also a well-established service for streaming music with over 20 million tracks.
+To have a selection of music for the users to browse, a music catalog had to be chosen. Spotify was chosen as the service from which the system would acquire its music data. This was done because a majority of the bars interviewed in \cref{interviews}, uses Spotify for controlling their music during daytime. Spotify is also a well-established service for streaming music with over 20 million tracks.
 
 Spotify provides a API that allows the programmer to develop applications that can access and manage data from spotify’s servers. This means the project group does not have to deal with licensing and a hosting of music data for the system.
 
 Spotify also provides a business plan that allows for playing music to the public. Spotify Business is only available in Sweden right now~\cite{spotifyBusiness}.
-
-%Spotify is chosen to be the music catalogue of choice for the system described in this paper. Alternative music catalogues like Google Play Music offer comparable number of tracks. However, at least in the case of Google Play Music, they do not support third-party access to their library of tracks. This made Spotify a sensible choice.
 
 \paragraph{Access to Spotify}
 \label{par:Access_to_Spotify}
@@ -18,7 +16,7 @@ As it is now established that Spotify is the music catalogue of choice, it is im
 
 The Web API is the easiest of the two to work with. It is not needed to login with a Spotify account to use this API, however when the user is authorized, rate limits improve. The API is accessed as a simple REST based interface to nearly all their data. That is, tracks, albums, artists, playlists, user profiles, album art and track previews are all accessible. Notice that this is only metadata about tracks, albums etc. Besides the track previews, no music can be streamed using this API.
 
-So the price of simplicity and ease of use is the limitation of only being allowed to access metadata. 
+So the price of simplicity and ease of use is the limitation of only being allowed to access metadata.
 
 \paragraph{Libspotify}
 \label{par:music_catalog_libspotify}
