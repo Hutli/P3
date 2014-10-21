@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e7b859d0-081d-4829-be2e-101839a586be</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>openPlaylist</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AlbumView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AlbumViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HomeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlaylistView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlaylistViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchResultView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchResultViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchTabView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchViewModel.cs" />
+  </ItemGroup>
+</Project>
