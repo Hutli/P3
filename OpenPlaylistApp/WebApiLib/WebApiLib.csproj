@@ -6,8 +6,8 @@
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{18D1298D-87F8-45FD-91AE-FD7BDDE81A72}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WebApiFormsLib</RootNamespace>
-    <AssemblyName>WebApiFormsLib</AssemblyName>
+    <RootNamespace>WebAPILib</RootNamespace>
+    <AssemblyName>WebAPILib</AssemblyName>
     <TargetFrameworkProfile>Profile49</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistApp.iOS", "Open
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistApp.Android", "OpenPlaylistApp\OpenPlaylistApp.Android\OpenPlaylistApp.Android.csproj", "{8D15B1F9-0FE6-4C8D-A427-D9AD29E57AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiLib", "..\WebApiLib\WebApiLib.csproj", "{18D1298D-87F8-45FD-91AE-FD7BDDE81A72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPILib", "..\WebApiLib\WebAPILib.csproj", "{18D1298D-87F8-45FD-91AE-FD7BDDE81A72}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
