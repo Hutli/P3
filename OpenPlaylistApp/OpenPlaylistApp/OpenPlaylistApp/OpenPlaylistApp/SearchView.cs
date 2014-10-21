@@ -19,12 +19,12 @@ namespace OpenPlaylistApp
             }
             set
             {
-            if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result))
+            if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result)) //Crashes
             {
                 layout.Children.Remove(ViewModel.Result);
             }
             ViewModel.Result = value;
-            layout.Children.Add(ViewModel.Result); //Crashes under debug
+            layout.Children.Add(ViewModel.Result);
         }}
         public SearchViewModel ViewModel { get { return BindingContext as SearchViewModel; } }
         public SearchView(SearchType type)

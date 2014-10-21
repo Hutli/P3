@@ -84,9 +84,9 @@
     <Content Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WebAPILib\WebApiFormsLib\WebApiFormsLib.csproj">
+    <ProjectReference Include="..\..\..\WebApiLib\WebApiLib.csproj">
       <Project>{18d1298d-87f8-45fd-91ae-fd7bdde81a72}</Project>
-      <Name>WebApiFormsLib</Name>
+      <Name>WebApiLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
