@@ -96,6 +96,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.1.0.6186\lib\MonoTouch10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WebApiLib\WebApiLib.csproj">
+      <Project>{18d1298d-87f8-45fd-91ae-fd7bdde81a72}</Project>
+      <Name>WebApiLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.1.0.6186\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.1.0.6186\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" />

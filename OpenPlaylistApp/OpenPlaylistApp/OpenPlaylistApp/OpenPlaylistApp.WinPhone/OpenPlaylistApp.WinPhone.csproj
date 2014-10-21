@@ -169,6 +169,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.1.0.6186\lib\WP80\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WebApiLib\WebApiLib.csproj">
+      <Project>{18d1298d-87f8-45fd-91ae-fd7bdde81a72}</Project>
+      <Name>WebApiLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
