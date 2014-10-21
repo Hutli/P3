@@ -14,13 +14,13 @@ namespace WebAPILib {
 			_duration = duration;
 			_isExplicit = isExplicit;
 			_trackNumber = trackNumber;
-			album.addTrack (this);
+			album.AddTrack (this);
 			_album = album;
 		}
 
 		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult, List<Artist> artists)
 			: this (id, name, popularity, duration, isExplicit, trackNumber, album, searchResult) {
-			album.addArtists (artists);
+			album.AddArtists (artists);
 		}
 
 		public int Popularity{ get { return _popularity; } }

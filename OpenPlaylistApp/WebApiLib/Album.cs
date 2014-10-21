@@ -46,11 +46,11 @@ namespace WebAPILib {
 					string id = Convert.ToString (jsonArtist ["id"]);
 					string name = Convert.ToString (jsonArtist ["name"]);
 					if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) {
-						SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this); 
+						SearchResult.Artists.Find (a => id.Equals (a.ID)).AddAlbum (this); 
 						artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
 					} else {
 						Artist tmpArtist = new Artist (id, name, SearchResult);
-						tmpArtist.addAlbum (this);
+						tmpArtist.AddAlbum (this);
 						SearchResult.AddArtist (tmpArtist);
 						artists.Add (tmpArtist);
 					}
@@ -81,9 +81,9 @@ namespace WebAPILib {
         public override string URI { get { return "spotify:album:" + ID; } }
 
 		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
-			addArtists(artists);
+			AddArtists(artists);
 			foreach (Artist a in artists) {
-				a.addAlbum (this);
+				a.AddAlbum (this);
 			}
 		}
 
@@ -92,17 +92,17 @@ namespace WebAPILib {
             _images = new List<Image>(images);
         }
 
-		public void addArtists(List<Artist> artists){
+		public void AddArtists(List<Artist> artists){
 			if (_artists.Count == 0) {
 				_artists = artists;
 				foreach (Artist a in _artists) {
-					a.addAlbum (this);
+					a.AddAlbum (this);
 				}
 				_artistsCached = true;
 			}
 		}
 
-        public void addTrack(Track track) {
+        public void AddTrack(Track track) {
             if(!_tracks.Exists(a => track.ID.Equals(a.ID)))
                 _tracks.Add(track);
         }
