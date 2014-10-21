@@ -44,6 +44,7 @@ namespace WebAPITests
             Assert.NotEmpty(sAlbum.Albums);
             foreach (Album a in sAlbum.Albums) { Assert.Single(sAlbum.Albums, a); }
             Assert.Empty(sAlbum.Tracks);
+            Assert.NotEmpty(sAlbum.Albums.First().Images); //getImages works
         }
 
         [Fact]
@@ -129,6 +130,8 @@ namespace WebAPITests
         {
             JObject jo = search.getJobject("https://api.spotify.com/v1/albums/3j3cgkuyo015dghNYhHnZJ");
             Assert.True(jo.HasValues, "JObject doesn't have values");
+            Assert.True((string)jo["id"] == "3j3cgkuyo015dghNYhHnZJ", "id is not correct");
+            Assert.True((string)jo["artists"].First()["external_urls"]["spotify"] == "https://open.spotify.com/artist/1vCWHaC5f2uS3yhpwWbIA6", "cannot find artist url via jobject");
         }
         #endregion
 
@@ -247,6 +250,28 @@ namespace WebAPITests
             {
                 Assert.Single(alb.Tracks, track);
             }
+        }
+
+        [Fact]
+        public void AlbumCache() {
+            search s = new search("obliteration of the weak", SearchType.ALL);
+            Image img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
+            Image img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
+            Image img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
+            List<Image> imgs = new List<Image> { img1, img2, img3 };
+            Album alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", imgs, s);
+
+            Assert.False(alb.TracksCached, "tracksCached is true");
+            Assert.False(alb.ArtistsCached, "ArtistsCached is true");
+            Assert.NotEmpty(alb.Tracks);
+            Assert.True(alb.Tracks.First().ID == "19pTAbMZmWsgGkYZ4v2TM1", "First track not identical");
+            Assert.True(alb.Tracks.Last().ID == "6j9UgNQbcwZGrHkOJYMUdK", "Last track not identical");
+            Assert.True(alb.Tracks.Count == 5, "Track count does not match");
+            Assert.True(alb.TracksCached, "TracksCached not set");
+            Assert.NotEmpty(alb.Artists);
+            Assert.True(alb.Artists.First().ID == "40UIlN4YEByXy4ewEZmqXu", "artist not identical");
+            Assert.True(alb.Artists.Count == 1, "artist count does not match");
+            Assert.True(alb.ArtistsCached, "ArtistsCached not set");
         }
         #endregion
     }
