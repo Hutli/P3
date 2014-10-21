@@ -9,7 +9,7 @@ namespace WebAPILib {
 		private int _trackNumber;
 		private Album _album = null;
 
-		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, search searchResult) : base (id, name, searchResult) {
+		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult) : base (id, name, searchResult) {
 			_popularity = popularity;
 			_duration = duration;
 			_isExplicit = isExplicit;
@@ -18,7 +18,7 @@ namespace WebAPILib {
 			_album = album;
 		}
 
-		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, search searchResult, List<Artist> artists)
+		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult, List<Artist> artists)
 			: this (id, name, popularity, duration, isExplicit, trackNumber, album, searchResult) {
 			album.addArtists (artists);
 		}

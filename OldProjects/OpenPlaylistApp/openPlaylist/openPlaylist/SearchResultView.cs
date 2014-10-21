@@ -8,14 +8,21 @@ using WebApiLib;
 
 namespace openPlaylist
 {
-   
+
     public class SearchResultView : ContentView
     {
-        public SearchResultModel ViewModel { get { return BindingContext as SearchResultModel; } }
+        public SearchResultModel ViewModel
+        {
+            get
+            {
+                return BindingContext as SearchResultModel;
+            }
+        }
+
         public SearchResultView(string str, SearchType type)
         {
             BindingContext = new SearchResultModel(str, type);
-            
+
             var layout = new StackLayout() { Spacing = 0 };
 
             var activity = new ActivityIndicator
@@ -32,18 +39,18 @@ namespace openPlaylist
 
             var cell = new DataTemplate(typeof(ImageCell));
 
-            switch(type)
+            switch (type)
             {
                 case SearchType.TRACK:
                     cell.SetBinding(TextCell.TextProperty, "Name");
                     cell.SetBinding(TextCell.DetailProperty, "Album.Artists[0].Name");
-                    cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[1].URL");
+                    //cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[1].URL"); //Images does not work
                     list.ItemTemplate = cell;
                     break;
                 case SearchType.ALBUM:
                     cell.SetBinding(TextCell.TextProperty, "Name");
                     cell.SetBinding(TextCell.DetailProperty, "Artists[0].Name");
-                    cell.SetBinding(ImageCell.ImageSourceProperty, "Images[1].URL");
+                    //cell.SetBinding(ImageCell.ImageSourceProperty, "Images[1].URL");
                     list.ItemTemplate = cell;
                     break;
                 case SearchType.ARTIST:
@@ -63,18 +70,18 @@ namespace openPlaylist
 
             Content = layout;
 
-            OnAppearing();  
+            OnAppearing();
 
         }
 
         void list_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if(e.SelectedItem is Track)
+            if (e.SelectedItem is Track)
             {
                 PlaylistViewModel.vote = (e.SelectedItem as Track);
                 PlaylistViewModel.Home.GoToPlaylist();
             }
-            else if(e.SelectedItem is Album)
+            else if (e.SelectedItem is Album)
             {
                 var page = new AlbumView(e.SelectedItem as Album);
                 PlaylistViewModel.Home.Detail = new NavigationPage(page) { Title = "Album" };
@@ -89,6 +96,6 @@ namespace openPlaylist
             ViewModel.LoadSongsCommand.Execute(null);
 
         }
-        
+
     }
 }

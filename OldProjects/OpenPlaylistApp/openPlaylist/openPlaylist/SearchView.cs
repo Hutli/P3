@@ -14,19 +14,29 @@ namespace openPlaylist
         private SearchType searchType;
         public SearchResultView Result
         {
-            get {
+            get
+            {
                 return ViewModel.Result;
             }
             set
             {
-            if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result)) //Crashes
-            {
-                layout.Children.Remove(ViewModel.Result);
+                if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result)) //Crashes
+                {
+                    layout.Children.Remove(ViewModel.Result);
+                }
+                ViewModel.Result = value;
+                layout.Children.Add(ViewModel.Result);
             }
-            ViewModel.Result = value;
-            layout.Children.Add(ViewModel.Result);
-        }}
-        public SearchViewModel ViewModel { get { return BindingContext as SearchViewModel; } }
+        }
+        public SearchViewModel ViewModel
+        {
+            get
+            {
+                return BindingContext as SearchViewModel;
+            }
+        }
+
+
         public SearchView(SearchType type)
         {
             BindingContext = new SearchViewModel();
