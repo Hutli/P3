@@ -10,13 +10,11 @@ using System.Threading;
 
 namespace TestSuite {
     #region Login
-    public class TestsFixture : IDisposable
-    {
+    public class TestsFixture : IDisposable {
         public SpotifyLoggedIn spl;
         ManualResetEvent man = new ManualResetEvent(false);
 
-        public TestsFixture()
-        {
+        public TestsFixture() {
             Tuple<SpotifyLoggedIn, LoginState> result = Spotify.Instance.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey).Result;
             Assert.True(result.Item2 == LoginState.OK, "Could not login to Spotify");
             spl = result.Item1;
@@ -29,14 +27,13 @@ namespace TestSuite {
 
         private TestsFixture _data;
 
-        public void SetFixture(TestsFixture data)
-        {
+        public void SetFixture(TestsFixture data) {
             _data = data;
         }
 
         #region Playlist
         [Fact]
-        public void NextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
+        public void PlaylistNextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
             PTrack pTrack1 = new PTrack();
@@ -61,7 +58,7 @@ namespace TestSuite {
         }
 
         [Fact]
-        public void CurrentStandingGivesCorrectRes() {
+        public void PlaylistCurrentStandingGivesCorrectRes() {
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
             PTrack pTrack1 = new PTrack();
@@ -79,7 +76,7 @@ namespace TestSuite {
         }
 
         [Fact]
-        public void AddByURIAddsTrack() {
+        public void PlaylistAddByURIAddsTrack() {
             Playlist pl = new Playlist();
             Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
@@ -87,7 +84,7 @@ namespace TestSuite {
         }
 
         [Fact]
-        public async void AddByRefAddsTrack() {
+        public async void PlaylistAddByRefAddsTrack() {
             Playlist pl = new Playlist();
             Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
             PTrack pt = new PTrack(t);
@@ -96,7 +93,7 @@ namespace TestSuite {
             Assert.Single(pl._tracks, pt);
         }
 
-        public void RemoveByTitleRemovesTrack() {
+        public void PlaylistRemoveByTitleRemovesTrack() {
             Playlist pl = new Playlist();
             Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
@@ -108,19 +105,30 @@ namespace TestSuite {
 
         #region PTrack
         [Fact]
-        public async void PTrackConstructor() {
-            Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+        public void PTrackConstructor() {
+            Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             PTrack pt = new PTrack(t);
             Assert.True(pt.Name == "Obliteration of the Weak", "Name does not match");
             Assert.True(pt.Track == t, "Track does not match");
-            Assert.True(pt.Duration == 232120, "Duration does not match");
+            Assert.True(pt.Duration == 232000, "Duration does not match");
         }
         #endregion
 
         #region SpotifyLoggedIn
         [Fact]
-        public void PlaylistFromLinkLoadsCorrectly() {
-            List<Track> tracks =  _data.spl.PlaylistFromLink("spotify:playlist:19pTAbMZmWsgGkYZ4v2TM1");
+        public void SpotifyLoggedInTrackFromLinkLoadsCorrectly() {
+            Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
+            Assert.True(t.Name == "Obliteration of the Weak", "Name does not match");
+            Assert.True(t.Duration == 232000, "Duration does not match");
+        }
+
+        [Fact]
+        public void SpotifyLoggedInPlaylistFromLinkLoadsCorrectly() {
+            List<Track> tracks = _data.spl.PlaylistFromLink("spotify:user:1166648382:playlist:7d1QMj15EBsNiG23ilPSOv");
+            Assert.NotEmpty(tracks);
+            Assert.True(tracks.First().Name == "The Worst Is Yet To Come", "Name of first element does not match");
+            Assert.True(tracks.Last().Name == "Dear Father", "Name of last element does not match");
+            Assert.True(tracks.Count == 200, "Track count does not match");
         }
         #endregion
 
