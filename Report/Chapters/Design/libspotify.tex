@@ -1,4 +1,4 @@
-As stated in \cref{par:music_catalog_libspotify} the only way to stream tracks off Spotify is using the C library libspotify. Being written as a C library, one has to take care of managing memory allocation correctly in order to avoid runtime exceptions while using libspotify. 
+As stated in \cref{par:music_catalog_libspotify} the only way to stream tracks off Spotify is using the C library libspotify. Being written as a C library, one has to take care of managing memory allocation correctly in order to avoid runtime exceptions while using libspotify.
 
 To make it harder to cause these runtime errors and to ease interoperability in the C\# environment, a C\# library can be written that abstracts the error prone elements of C programs away. The C\# library \enquote{SpotifyDotNet} developed for use in the software described in this paper, does just that.
 
@@ -19,15 +19,15 @@ sp_error sp_session_login ( sp_session *session,
 \end{lstlisting}
 
 \begin{lstlisting}[caption = {Login method using a external implementation from libspotify.dll - C\#}, label={fig:loginCsharp}]
-public static extern sp_error sp_session_login ( IntPtr sessionPtr, 
-                                                 string username, 
-                                                 string password, 
-                                                 bool rememberMe, 
-                                                 string blob 
+public static extern sp_error sp_session_login ( IntPtr sessionPtr,
+                                                 string username,
+                                                 string password,
+                                                 bool rememberMe,
+                                                 string blob
                                                )
 \end{lstlisting}
 
-However this is not abstracted enough. To the user of the library, no pointers should be visible. This is solved by encapsulating state and data inside the Spotify class. This class is the entry point to using libspotify in C\#. See \cref{fig:spotifydotnet_class} for a complete class diagrams. The main operation on the class is the Login method. This method is asynchronous so will return execution to the caller right away. When login has occurred, either OnLogInSuccess or OnLogInError callbacks will be called. These are implemented as C\# events, making it possible for multiple subscribers to listen to this callback. The OnLogInSuccess event sends with it a SpotifyLoggedIn object, also seen in \cref{fig:spotifydotnet_class}, which has methods to be used only when correctly logged into Spotify. By only exposing the SpotifyLoggedIn object when correctly logged in, certain errors like searching without being logged in, can be detected at compile time.
+However this is not abstracted enough. To the user of the library, no pointers should be visible. This is solved by encapsulating state and data inside the Spotify class. This class is the entry point to using libspotify in C\#. See \cref{fig:spotifydotnet_class} for complete class diagrams. The main operation on the class is the Login method. This method is asynchronous so it will utilise the C\# feature of Tasks. A Task is simply a promise that something will happen in the future. In this context, the login method returns an \enquote{Task<Tuple<SpotifyLoggedIn,LoginState>>}. So the login method promises that it will return \enquote{Tuple<SpotifyLoggedIn,LoginState>} at some time in the future. When login has occurred, LoginState will describe the state of the login process. If LoginState is \enquote{OK}, the login was successful and SpotifyLoggedIn will be non-null. If LoginState was anything other than \enquote{OK}, SpotifyLoggedin would be null. The SpotifyLoggedIn object sent with the login method, exposes all methods that are available when logged into Spotify. See \cref{fig:spotifydotnet_class}. By only exposing the SpotifyLoggedIn object when correctly logged in, certain errors like searching without being logged in, can be detected at compile time.
 
 \begin{figure}
   \centering
@@ -39,7 +39,7 @@ However this is not abstracted enough. To the user of the library, no pointers s
 \subsubsection{Making it Thread-safe}
 \label{ssub:making_it_thread_safe}
 
-As stated in~\cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}.
+As stated in~\cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}. Locks are a way to avoid race conditions i.e. threads modifying the same chunk of memory at the same time. Race conditions lead to non-deterministic results, which is always to be avoided. Locks solve this issue by synchronizing the threads. Whatever code blocks are wrapped around locks can only be accessed by one thread at a time.
 
 \begin{lstlisting}[caption = {Example of using the lock keyword in C\#. \enquote{\_sync} is an object used to store the lock state}, label = {lst:lock_keyword}]
 lock(_sync) {
