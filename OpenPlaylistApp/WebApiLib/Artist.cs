@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace WebApiLib {
+namespace WebAPILib {
 	public class Artist: SpotifyObject {
 		private List<string> _genres = new List<string> ();
 		private List<Album> _albums = new List<Album> ();

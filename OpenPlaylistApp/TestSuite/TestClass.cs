@@ -8,43 +8,22 @@ using Newtonsoft.Json.Linq;
 using Xunit;
 using WebAPILib;
 
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
-namespace WebAPITests {
-    //Test-playlist for WebAPI
-<<<<<<< 32a14aebd425f4d8101ea06682bd381aa3e3761e:OpenPlaylistApp/TestSuite/TestClass.cs
-    public class WebAPITests
-    {
-        #region WebAPILib.Search
-=======
-    public class WebAPITests {
-        #region WebAPILib.search
->>>>>>> 857bc1e051265874964aa2f939a55fef2194e610:WebAPILib/WebAPITests/TestClass.cs
-=======
 namespace WebAPITests
 {
     //Test-playlist for WebAPI
     public class WebAPITests
     {
         #region WebAPILib.Search
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
         [Fact]
         public void SearchAllConstructor() {
             Search sAll = new Search("dad", SearchType.ALL);
 
             Assert.NotEmpty(sAll.Artists);
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Artist art in sAll.Artists) { Assert.Single(sAll.Artists, art); }
             Assert.NotEmpty(sAll.Albums);
             foreach(Album alb in sAll.Albums) { Assert.Single(sAll.Albums, alb); }
             Assert.NotEmpty(sAll.Tracks);
             foreach(Track t in sAll.Tracks) { Assert.Single(sAll.Tracks, t); }
-=======
-            foreach (Artist art in sAll.Artists) { Assert.Single(sAll.Artists, art); }
-            Assert.NotEmpty(sAll.Albums);
-            foreach (Album alb in sAll.Albums) { Assert.Single(sAll.Albums, alb); }
-            Assert.NotEmpty(sAll.Tracks);
-            foreach (Track t in sAll.Tracks) { Assert.Single(sAll.Tracks, t); }
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
         }
 
         [Fact]
@@ -52,11 +31,7 @@ namespace WebAPITests
             Search sArtist = new Search("dad", SearchType.ARTIST);
 
             Assert.NotEmpty(sArtist.Artists);
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Artist a in sArtist.Artists) { Assert.Single(sArtist.Artists, a); }
-=======
-            foreach (Artist a in sArtist.Artists) { Assert.Single(sArtist.Artists, a); }
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
             Assert.Empty(sArtist.Albums);
             Assert.Empty(sArtist.Tracks);
         }
@@ -67,11 +42,7 @@ namespace WebAPITests
 
             Assert.Empty(sAlbum.Artists);
             Assert.NotEmpty(sAlbum.Albums);
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Album a in sAlbum.Albums) { Assert.Single(sAlbum.Albums, a); }
-=======
-            foreach (Album a in sAlbum.Albums) { Assert.Single(sAlbum.Albums, a); }
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
             Assert.Empty(sAlbum.Tracks);
             Assert.NotEmpty(sAlbum.Albums.First().Images); //getImages works
         }
@@ -83,11 +54,7 @@ namespace WebAPITests
             Assert.NotEmpty(sTrack.Artists);
             Assert.NotEmpty(sTrack.Albums);
             Assert.NotEmpty(sTrack.Tracks);
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Track t in sTrack.Tracks) { Assert.Single(sTrack.Tracks, t); }
-=======
-            foreach (Track t in sTrack.Tracks) { Assert.Single(sTrack.Tracks, t); }
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
         }
 
         [Fact]
@@ -143,10 +110,6 @@ namespace WebAPITests
         [Fact]
         public void SearchNoDuplicatesInResults() //Tests for duplicates in Search results
         {
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
-<<<<<<< 32a14aebd425f4d8101ea06682bd381aa3e3761e:OpenPlaylistApp/TestSuite/TestClass.cs
-=======
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
             Search s = new Search("dad", SearchType.ALL);
             foreach (Artist a in s.Artists)
             {
@@ -160,15 +123,9 @@ namespace WebAPITests
             {
                 Assert.Single(s.Tracks, a);
             }
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
-=======
-            search s = new search("dad", SearchType.ALL);
             foreach(Artist a in s.Artists) { Assert.Single(s.Artists, a); }
             foreach(Album a in s.Albums) { Assert.Single(s.Albums, a); }
             foreach(Track a in s.Tracks) { Assert.Single(s.Tracks, a); }
->>>>>>> 857bc1e051265874964aa2f939a55fef2194e610:WebAPILib/WebAPITests/TestClass.cs
-=======
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
         }
 
         [Fact]
@@ -257,34 +214,16 @@ namespace WebAPITests
             Album alb = new Album("3j3cgkuyo015dghNYhHnZJ", "testAlbum", "asdf", imgs, s);
             Album alb2 = new Album("3j3cgkuyo015dghNYhHnZJ", "testAlbum", "asdf", imgs, s);
 
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Artist art in artists) {
                 Assert.False(alb.Artists.Contains(art), "Artist contained");
             }
-<<<<<<< 32a14aebd425f4d8101ea06682bd381aa3e3761e:OpenPlaylistApp/TestSuite/TestClass.cs
             alb2.AddArtists(artists);
-            foreach (Artist art in artists)
-            {
-=======
-            alb2.addArtists(artists);
             foreach(Artist art in artists) {
->>>>>>> 857bc1e051265874964aa2f939a55fef2194e610:WebAPILib/WebAPITests/TestClass.cs
                 Assert.True(alb2.Artists.Contains(art), "Artist not contained");
             }
-            foreach(Artist art in alb.Artists) {
-=======
-            foreach (Artist art in artists)
-            {
-                Assert.False(alb.Artists.Contains(art), "Artist contained");
-            }
-            alb2.AddArtists(artists);
-            foreach (Artist art in artists)
-            {
-                Assert.True(alb2.Artists.Contains(art), "Artist not contained");
-            }
+
             foreach (Artist art in alb.Artists)
             {
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
                 Assert.Single(alb.Artists, art);
             }
         }
@@ -309,12 +248,7 @@ namespace WebAPITests
             Assert.True(alb2.Tracks.Contains(t), "track not contained");
             alb2.AddTrack(t);
             Assert.Single(alb2.Tracks, t);
-<<<<<<< 9f86c7756f02e6f4360643b458b2a659a121648a
             foreach(Track track in alb.Tracks) {
-=======
-            foreach (Track track in alb.Tracks)
-            {
->>>>>>> 6bf2e022263be6323dd0a3121e7d975445943b9c
                 Assert.Single(alb.Tracks, track);
             }
         }

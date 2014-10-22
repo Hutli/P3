@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WebApiLib {
+namespace WebAPILib {
     public class Album : SpotifyObject {
         private string _albumType;
         private List<Image> _images = new List<Image>();

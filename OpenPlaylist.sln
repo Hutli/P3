@@ -32,7 +32,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "OpenPlaylistSe
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{c0c10e8d-ba00-4a50-87f9-e95b55e4a45b}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{2205d30a-ba6d-4d6c-bf73-011280eb0c56}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{8d15b1f9-0fe6-4c8d-a427-d9ad29e57aa7}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{9a56fc8d-82c1-4f13-9699-62b8573bcd9b}*SharedItemsImports = 13
@@ -79,7 +78,7 @@ Global
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|Mixed Platforms.ActiveCfg = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|Mixed Platforms.Build.0 = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|Mixed Platforms.Deploy.0 = Release|x86
-		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|x64.ActiveCfg = Ad-Hoc|Any CPU
+		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|x64.ActiveCfg = Debug|Any CPU
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|x86.ActiveCfg = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|x86.Build.0 = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.Ad-Hoc|x86.Deploy.0 = Release|x86
@@ -94,7 +93,7 @@ Global
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|Mixed Platforms.ActiveCfg = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|Mixed Platforms.Build.0 = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|Mixed Platforms.Deploy.0 = Release|x86
-		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|x64.ActiveCfg = AppStore|Any CPU
+		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|x64.ActiveCfg = Debug|Any CPU
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|x86.ActiveCfg = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|x86.Build.0 = Release|x86
 		{C0C10E8D-BA00-4A50-87F9-E95B55E4A45B}.AppStore|x86.Deploy.0 = Release|x86

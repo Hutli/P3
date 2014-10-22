@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApiLib {
+namespace WebAPILib {
 	public abstract class SpotifyObject {
 		protected string _id;
 		protected string _name;
