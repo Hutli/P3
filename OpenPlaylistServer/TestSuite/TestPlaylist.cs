@@ -9,46 +9,34 @@ using SpotifyDotNet;
 using System.Threading;
 
 namespace TestSuite {
-    public class TestsFixture : IDisposable
-    {
+
+    #region login
+    public class TestsFixture : IDisposable {
         public Spotify sp = Spotify.Instance;
         public SpotifyLoggedIn spl;
         ManualResetEvent man = new ManualResetEvent(false);
 
-        public TestsFixture()
-        {
-            var result = sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey).Result;
-            Assert.True(result.Item2 == LoginState.OK);
+        public TestsFixture() {
+            Tuple<SpotifyLoggedIn, LoginState> result = sp.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, TestSuite.Properties.Resources.spotify_appkey).Result;
+            Assert.True(result.Item2 == LoginState.OK, "couldn't login to Spotify");
             spl = result.Item1;
-            if (result.Item2 == LoginState.OK)
-            {
-                
-            }
-            else
-            {
-                
-            }
-
-            
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             //sp.Dispose();
         }
     }
 
+    #endregion
     public class TestPlaylist : IUseFixture<TestsFixture> {
 
         private TestsFixture _data;
 
-        public void SetFixture(TestsFixture data)
-        {
+        public void SetFixture(TestsFixture data) {
             _data = data;
         }
-        
-        
 
+        #region Playlist
         [Fact]
         public void NextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
             List<User> users = new List<User>();
@@ -100,16 +88,51 @@ namespace TestSuite {
             Assert.True(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
         }
 
-        //[Fact]
-        //public void AddByRefAddsTrack() {   PROBLEM! Track har ingen constructor
-        //    Playlist pl = new Playlist();
-        //    Track t = new Track();
-        //    PTrack pt = new PTrack(t);
-        //    Assert.False(pl._tracks.Contains(pt));
-        //    pl.AddByRef(t);
-        //    Assert.Single(pl._tracks, pt);
-        //} 
+        [Fact]
+        public async void AddByRefAddsTrack() {
+            Playlist pl = new Playlist();
+            Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            PTrack pt = new PTrack(t);
+            Assert.False(pl._tracks.Contains(pt));
+            pl.AddByRef(t);
+            Assert.Single(pl._tracks, pt);
+        }
 
-        
+        public void RemoveByTitleRemovesTrack() {
+            Playlist pl = new Playlist();
+            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.True(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            pl.RemoveByTitle("Obliteration of the Weak");
+            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+        }
+        #endregion
+
+        #region PTrack
+        [Fact]
+        public async void PTrackConstructor() {
+            Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            PTrack pt = new PTrack(t);
+            Assert.True(pt.Name == "Obliteration of the Weak", "Name does not match");
+            Assert.True(pt.Track == t, "Track does not match");
+            Assert.True(pt.Duration == 232120, "Duration does not match");
+        } 
+        #endregion
+
+        #region SpotifyLoggedIn
+
+        [Fact]
+        public async void TrackFromLinkLoadsCorrectly() {
+            Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.True(t.Name == "Obliteration of the Weak", "Name does not match");
+            Assert.True(t.Duration == 232120, "Duration does not match");
+        }
+
+        //[Fact]
+        //public void PlaylistFromLinkLoadsCorrectly() {
+        //    _data.spl.PlaylistFromLink("spotify:playlist:6tOAPmQEwcp9n3KOFYVIzq");
+
+        //}
+        #endregion
     }
 }

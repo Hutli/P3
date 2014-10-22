@@ -171,7 +171,7 @@ namespace OpenPlaylistServer {
             list.Sort((x,y) => y.PScore.CompareTo(x.PScore));
         }
 
-        public void CurrentStanding(List<User> users){
+        public void CurrentStanding(List<User> users){ //Counts votes in userlist and updates tracks' temp scores
             var grouping = users.GroupBy(u => u.Vote);
             foreach (var track in grouping)
             {
@@ -185,7 +185,7 @@ namespace OpenPlaylistServer {
             }
         }
 
-        private void CountVotes(List<User> users) {
+        private void CountVotes(List<User> users) { //Counts votes in userlist and updates tracks' permanent scores
             var grouping = users.GroupBy(u => u.Vote);
             foreach (var track in grouping)
             {
