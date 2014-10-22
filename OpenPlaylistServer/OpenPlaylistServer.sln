@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistServer", "OpenPlaylistServer\OpenPlaylistServer.csproj", "{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyDotNet", "SpotifyDotNet\SpotifyDotNet.csproj", "{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{13499ED9-C030-43B7-9EE3-EADB5E97BB6A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "TestSuite\TestSuite.csproj", "{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
