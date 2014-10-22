@@ -96,11 +96,6 @@ namespace SpotifyDotNet
                 if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
                 {
                     IntPtr spTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
-                    while (libspotify.sp_track_is_loaded(spTrackPtr) == false)
-                    {
-                        Task.Delay(2);
-                    }
-
                     return new Track(spTrackPtr);
                 }
                 else throw new ArgumentException("URI was not a track URI");
@@ -109,22 +104,45 @@ namespace SpotifyDotNet
             return t;
         }
 
-        public List<Track> PlaylistFromLink(String link)
+        public Task<List<Track>> PlaylistFromLink(String link)
         {
-            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
-            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-            List<Track> trackList = new List<Track>();
-
-            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST)
+            var t = Task.Run<List<Track>>(() =>
             {
-                IntPtr Playlist = libspotify.sp_playlist_create(_sessionPtr, spLinkPtr);
-                for (int i = 0; i < libspotify.sp_playlist_num_tracks(Playlist); i++)
-                    trackList.Add(new Track(libspotify.sp_playlist_track(Playlist, i)));
-                return trackList;
-            }
-            else throw new ArgumentException("URI was not a playlist URI");
+
+                lock (_sync)
+                {
+                    IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+                    IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+
+                    libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+                    List<Track> trackList = new List<Track>();
+
+                    if (linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST)
+                    {
+                        IntPtr playlistPtr = libspotify.sp_playlist_create(_sessionPtr, spLinkPtr);
+
+                        // wait until playlist is loaded including metadata
+                        while (libspotify.sp_playlist_is_loaded(playlistPtr) == false)
+                        {
+                            Task.Delay(2);
+                        }
+
+                        int numTracks = libspotify.sp_playlist_num_tracks(playlistPtr);
+
+                        foreach (var i in Enumerable.Range(0, numTracks))
+                        {
+                            var trackPtr = libspotify.sp_playlist_track(playlistPtr, i);
+                            var track = new Track(trackPtr);
+                            trackList.Add(track);
+                        }
+                    }
+                    else throw new ArgumentException("URI was not a playlist URI");
+
+                    return trackList;
+                }
+            });
+
+            return t;
         }
     }
 }

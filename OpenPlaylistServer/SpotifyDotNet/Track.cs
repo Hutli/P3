@@ -23,8 +23,14 @@ namespace SpotifyDotNet
         {
             this._trackPtr = trackPtr;
 
+            // wait until track is loaded including metadata
+            while (libspotify.sp_track_is_loaded(_trackPtr) == false)
+            {
+                Task.Delay(2);
+            }
+
             // name
-            IntPtr trackNamePtr = libspotify.sp_track_name(trackPtr);
+            IntPtr trackNamePtr = libspotify.sp_track_name(_trackPtr);
             Name = Marshal.PtrToStringAnsi(trackNamePtr);
         }
 
