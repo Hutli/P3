@@ -1,6 +1,7 @@
 using libspotifydotnet;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpotifyDotNet
@@ -34,9 +35,10 @@ namespace SpotifyDotNet
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
         private static readonly Spotify _instance = new Spotify();
         private Task _notifyMainTask;
+        private ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
+        private SpotifyLoggedIn spotifyLoggedIn;
+        private LoginState _loginState;
 
-        public event Action<LoginState> OnLogInError;
-        public event Action<SpotifyLoggedIn> OnLogInSuccess;
         public event Action<int, int, byte[]>  MusicDelivery;
         public event Action TrackEnded;
         public event Action<SearchResult> SearchComplete;
@@ -69,11 +71,8 @@ namespace SpotifyDotNet
                     case libspotify.sp_error.OK:
                         // login was successful, so no need to check for anything else. Just signal Success.
                         loginState = LoginState.OK;
-                        var spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
-                        OnLogInSuccess(spotifyLoggedIn);
-
-                        return;
-
+                        spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
+                        break;
                     case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
                         loginState = LoginState.BadUsernameOrPassword;
                         break;
@@ -90,8 +89,8 @@ namespace SpotifyDotNet
                         throw new Exception("Unknown case " + error);
                 }
 
-                OnLogInError(loginState);
-
+                _loginState = loginState;
+                _loggedInResetEvent.Set();
             });
 
             _searchCompleteDelegate = new SearchCompleteDelegate((IntPtr search, IntPtr userData) =>
@@ -102,6 +101,7 @@ namespace SpotifyDotNet
                     SearchComplete(searchResults);
                 }
             });
+            
             _searchComplete = Marshal.GetFunctionPointerForDelegate(_searchCompleteDelegate);
 
             _notifyMainDelegate = new NotifyMainDelegate((IntPtr session) => NotifyMain(session));
@@ -214,13 +214,20 @@ namespace SpotifyDotNet
             System.GC.SuppressFinalize(this);
         }
 
-        public void Login(string username, string password, bool rememberMe, byte[] appkey)
+        public Task<Tuple<SpotifyLoggedIn,LoginState>> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
-            Init(appkey);
-            lock (_sync)
+            Task<Tuple<SpotifyLoggedIn, LoginState>> t = new Task<Tuple<SpotifyLoggedIn, LoginState>>(() =>
             {
-                libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
-            }
+                Init(appkey);
+                lock (_sync)
+                {
+                    libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
+                }
+                _loggedInResetEvent.WaitOne();
+                return new Tuple<SpotifyLoggedIn,LoginState>(spotifyLoggedIn,_loginState);
+            });
+            t.Start();
+            return t;
         }
     }
 }
