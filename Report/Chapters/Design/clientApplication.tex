@@ -6,7 +6,7 @@ When designing a client application, many things have to be considered. \chnote{
 \paragraph{Native Application or Web Application}
 \label{par:native_application_or_web_application}
 
-As described in \sinote{reference til sted i analysen hvor context bliver beskrevet} the client application is used in bars and pubs. Therefore the application has to run on a mobile platform. As the mobile platform is in rapid growth, new possibilities appear and disappear quickly. However smartphones have become common property \chnote{source}. Applications on smartphones can either be native applications that are installed on the device or be web applications that are accessed through the device's browser. The key differences between the two types of applications can be summarised by; native applications often feel more responsive and look more integrated in the smartphone environment. On the downside native applications have to be installed on the device, taking time to install and filling up the smarthone's memory. Web applications on the other hand are ready in an instant.
+As described in \cref{sub:pact_context} the client application is used in bars and pubs. Therefore the application has to run on a mobile platform. As the mobile platform is in rapid growth, new possibilities appear and disappear quickly. However smartphones have become common property, with 73\% of households in Denmark owning a smartphone \cite{smartphone2014}. Applications on smartphones can either be native applications that are installed on the device or be web applications that are accessed through the device's browser. The key differences between the two types of applications can be summarised by; native applications often feel more responsive and look more integrated in the smartphone environment. On the downside native applications have to be installed on the device, taking time to install and filling up the smartphone's internal storage. Web applications on the other hand are ready in an instant \cite{charland2011mobile}.
 
 As the responsiveness of the application is important for a pleasant user experience, it is chosen to develop the client application as a native application. By making it native to the platform, the look and feel of the application is more familiar to the user because user interface elements share the same traits as the rest of the well-known platform.
 
@@ -15,7 +15,7 @@ As the responsiveness of the application is important for a pleasant user experi
 
 Many native application development frameworks exist, including Android SDK, iOS SDK, Windows Phone SDK, Qt, Xamarin.Forms and more. They each have their different characteristics. Android SDK makes it possible to build Android applications. The applications are written in the programming language Java. Similarly you can use iOS SDK to build iOS applications and Windows Phone SDK to build Windows Phone applications using Objective C or Swift, and C\# respectively. Qt is cross platform, so the application written using Qt can run on a variety of systems including Android, iOS and Windows Phone. Qt is written in the programming language C++. Xamarin.Forms is also cross platform and is written in C\#.
 
-With so many good frameworks it is hard to choose one to go with. Fortunately the semester description helps to decide by specifying that all programming should be in C\#. This narrows the possibilities of frameworks down to Xamarin.Forms or limiting the platforms to only Windows Phone devices. 
+With so many good frameworks it is hard to choose one to go with. Fortunately the semester description helps to decide by specifying that all programming should be in C\#. This narrows the possibilities of frameworks down to Xamarin.Forms or limiting the platforms to only Windows Phone devices.
 
 Limiting the application to only Windows Phone devices would drastically limit the amount of devices which could run the application
 
@@ -26,7 +26,7 @@ Because Xamarin.Forms enables native applications for all three large mobile pla
 \paragraph{User Authorization}
 \label{par:user_authorization}
 
-In order to differentiate users of the client application, some mechanism of authorization is needed in the client application. Possible mechanisms are: logging in with already established login services like Google login and Facebook login, logging in with a self made login system or basing the authorization off a device id e.g. IMEI number or a phone number.
+In order to differentiate users of the client application, some mechanism of authorization is needed in the client application. Possible mechanisms are: logging in with already established login services like Google login and Facebook login, logging in with a self made login system or basing the authorization of a device id e.g. IMEI number or a phone number.
 
 The good thing about reusing login services like Facebook login or Google login which are well known is that users do not need to create a new account just for using the client application. Another benefit is that security is taken care of externally i.e. secure password storage is not a concern in the development of this application. Some users might have a stigma against these services or fear of their privacy by using the services e.g. that the client application would post on their Facebook wall.
 
