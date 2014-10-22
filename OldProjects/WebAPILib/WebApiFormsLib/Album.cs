@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace WebAPILib {
+namespace WebApiLib {
     public class Album : SpotifyObject {
         private string _albumType;
         private List<Image> _images = new List<Image>();
@@ -39,19 +39,19 @@ namespace WebAPILib {
 		public string Href{ get { return "https://api.spotify.com/v1/albums/" + ID; } }
 
 		private void cache(){
-			JObject o = search.getJobject(Href);
+			JObject o = Search.getJobject(Href);
 			if (!_artistsCached) {
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject jsonArtist in o["artists"]) {
 					string id = Convert.ToString (jsonArtist ["id"]);
 					string name = Convert.ToString (jsonArtist ["name"]);
 					if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) {
-						SearchResult.Artists.Find (a => id.Equals (a.ID)).addAlbum (this); 
+						SearchResult.Artists.Find (a => id.Equals (a.ID)).AddAlbum (this); 
 						artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
 					} else {
 						Artist tmpArtist = new Artist (id, name, SearchResult);
-						tmpArtist.addAlbum (this);
-						SearchResult.addArtist (tmpArtist);
+						tmpArtist.AddAlbum (this);
+						SearchResult.AddArtist (tmpArtist);
 						artists.Add (tmpArtist);
 					}
 				}
@@ -70,7 +70,7 @@ namespace WebAPILib {
 						_tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
 					else {
 						Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
-						SearchResult.addTrack (tmpTrack);
+						SearchResult.AddTrack (tmpTrack);
 						_tracks.Add (tmpTrack);
 					}
 				}
@@ -80,29 +80,29 @@ namespace WebAPILib {
 
         public override string URI { get { return "spotify:album:" + ID; } }
 
-		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
-			addArtists(artists);
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult, List<Artist> artists) : this(id,name,albumtype,images,searchResult){
+			AddArtists(artists);
 			foreach (Artist a in artists) {
-				a.addAlbum (this);
+				a.AddAlbum (this);
 			}
 		}
 
-		public Album(string id, string name, string albumtype, IEnumerable<Image> images, search searchResult) : base(id, name, searchResult) {
+		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult) : base(id, name, searchResult) {
             _albumType = albumtype;
             _images = new List<Image>(images);
         }
 
-		public void addArtists(List<Artist> artists){
+		public void AddArtists(List<Artist> artists){
 			if (_artists.Count == 0) {
 				_artists = artists;
 				foreach (Artist a in _artists) {
-					a.addAlbum (this);
+					a.AddAlbum (this);
 				}
 				_artistsCached = true;
 			}
 		}
 
-        public void addTrack(Track track) {
+        public void AddTrack(Track track) {
             if(!_tracks.Exists(a => track.ID.Equals(a.ID)))
                 _tracks.Add(track);
         }

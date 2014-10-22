@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebAPILib {
+namespace WebApiLib {
 	public class Playlist : SpotifyObject {
 		private List<Track> _tracks;
 
-		public Playlist (string id, string name, search searchResult) : base(id, name, searchResult) {
+		public Playlist (string id, string name, Search searchResult) : base(id, name, searchResult) {
 		}
 			
 		public List<Track> Tracks{ get { return new List<Track> (_tracks); } }
