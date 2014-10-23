@@ -11,7 +11,7 @@ namespace WebAPILib {
 		public List<Track> Tracks{ get { return new List<Track> (_tracks); } }
 
 		public void addTrack (Track track) {
-			if (!_tracks.Exists (t => t.ID == track.ID))
+			if (!_tracks.Exists (t => t.ID == track.ID)) // No duplicates
 				_tracks.Add (track); //TODO Vote when the track is already there
 		}
 

@@ -20,7 +20,7 @@ namespace WebAPILib {
 		public override string URI{ get { return "spotify:artist:" + ID; } }
 
 		public void AddAlbum (Album album) {
-			if (!_albums.Exists (a => a.ID.Equals (album.ID)))
+			if (!_albums.Exists (a => a.ID.Equals (album.ID))) //No duplicates
 				_albums.Add (album);
 		}
 	}

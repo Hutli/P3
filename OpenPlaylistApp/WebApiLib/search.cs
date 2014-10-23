@@ -28,17 +28,17 @@ namespace WebAPILib {
 		public List<Track> Tracks { get { return _tracks; } }
 
 		public void AddArtist (Artist artist) {
-			if (!_artists.Exists (a => a.ID == artist.ID))
+            if(!_artists.Exists(a => a.ID == artist.ID)) //No duplicates
 				_artists.Add (artist);
 		}
 
 		public void AddAlbum (Album album) {
-			if (!_albums.Exists (a => a.ID == album.ID))
+            if(!_albums.Exists(a => a.ID == album.ID)) //No duplicates
 				_albums.Add (album);
 		}
 
 		public void AddTrack (Track track) {
-			if (!_tracks.Exists (a => a.ID == track.ID))
+            if(!_tracks.Exists(a => a.ID == track.ID)) //No duplicates
 				_tracks.Add (track);
 		}
 
@@ -70,7 +70,7 @@ namespace WebAPILib {
 			}
 		}
 
-		private List<Artist> GetArtists (JToken jsonCode) {
+		private List<Artist> GetArtists (JToken jsonCode) { //Gets list of artists (no duplicates) from json
 			List<Artist> artists = new List<Artist> ();
 			foreach (JObject jsonArtist in jsonCode) {
 				string id = (string)(jsonArtist ["id"]);
@@ -86,7 +86,7 @@ namespace WebAPILib {
 			return artists;
 		}
 
-		private List<Album> GetAlbums (JToken jsonCode) {
+        private List<Album> GetAlbums(JToken jsonCode) { //Gets list of albums (no duplicates) from json
 			List<Album> albums = new List<Album> ();
 			foreach (JObject jsonAlbum in jsonCode) {
 				string id = (string)(jsonAlbum ["id"]);
@@ -104,7 +104,7 @@ namespace WebAPILib {
 			return albums;
 		}
 
-		private List<Track> GetTracks (JToken jsonCode) {
+        private List<Track> GetTracks(JToken jsonCode) { //Gets list of tracks (no duplicates) from json
 			List<Track> tracks = new List<Track> ();
 			foreach (JObject jsonTrack in jsonCode) {
 				string id = (string)(jsonTrack ["id"]);
@@ -139,7 +139,7 @@ namespace WebAPILib {
 			return tracks;
 		}
 
-		private List<Image> GetImages (JObject imageList) {
+        private List<Image> GetImages(JObject imageList) { //Gets list of images from json
 			List<Image> images = new List<Image> ();
 			foreach (JObject image in imageList["images"]) {
 				int height = (int)(image ["height"]);
@@ -150,7 +150,7 @@ namespace WebAPILib {
 			return images;
 		}
 
-		public static JObject getJobject (string url) {
+		public static JObject getJobject (string url) { // Gets JObject from link to spotify
 			string str = Request.get (url);
 			JObject o = JObject.Parse (str);
 			return o;

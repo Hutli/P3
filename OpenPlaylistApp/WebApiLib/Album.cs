@@ -22,7 +22,7 @@ namespace WebAPILib {
 
         public List<Artist> Artists {
             get {
-				if (!_artistsCached)
+				if (!_artistsCached) //If artists aren't loaded, load artists from spotify
 					cache ();
                 return new List<Artist>(_artists);
             }
@@ -30,7 +30,7 @@ namespace WebAPILib {
 
 		public List<Track> Tracks { 
 			get {
-				if (!_tracksCached)
+                if(!_tracksCached) //If artists aren't loaded, load artists from spotify
 					cache ();
 				return new List<Track>(_tracks);
 			} 
@@ -38,7 +38,7 @@ namespace WebAPILib {
 
 		public string Href{ get { return "https://api.spotify.com/v1/albums/" + ID; } }
 
-		private void cache(){
+		private void cache(){ //Loads artists and tracks from spotify if they aren't already loaded
 			JObject o = Search.getJobject(Href);
 			if (!_artistsCached) {
 				List<Artist> artists = new List<Artist> ();
