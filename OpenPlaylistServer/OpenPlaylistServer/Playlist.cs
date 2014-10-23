@@ -9,10 +9,10 @@ using System.Collections;
 
 namespace OpenPlaylistServer {
     public class Playlist{
-        public ObservableCollection<PTrack> _tracks;
+        public List<PTrack> _tracks;
 
         public Playlist(){
-            _tracks = new ObservableCollection<PTrack>();
+            _tracks = new List<PTrack>();
         }
 
 
@@ -70,18 +70,17 @@ namespace OpenPlaylistServer {
 
         public PTrack NextTrack(List<User> users) {
             CountVotes(users);
-            var tempList = _tracks.ToList();
-            Sort(tempList);
-            _tracks = new ObservableCollection<PTrack>(tempList);
-            
+
+            Sort(_tracks);
             PTrack next = _tracks.First();
             next.ResetPScore();
             _tracks.Remove(next);
             return next;
         }
 
-        public void Sort(List<PTrack> list) {        
-            list.Sort((x,y) => y.PScore.CompareTo(x.PScore));
+        public void Sort(List<PTrack> list) {
+            
+            list.Sort((x,y) => y.TScore.CompareTo(x.TScore));
         }
 
         public void CurrentStanding(List<User> users){

@@ -63,14 +63,15 @@ namespace OpenPlaylistServer
 
             UsersView.ItemsSource = users;
 
-            ICollectionView view = CollectionViewSource.GetDefaultView(pl._tracks);
-            view.SortDescriptions.Add(new SortDescription("TScore", ListSortDirection.Descending));
-            PlaylistView.ItemsSource = view;
+            //ICollectionView view = CollectionViewSource.GetDefaultView(pl._tracks);
+            //view.SortDescriptions.Add(new SortDescription("TScore", ListSortDirection.Descending));
+            //PlaylistView.ItemsSource = view;
+            PlaylistView.ItemsSource = pl._tracks;
 
             HistoryView.ItemsSource = history;
         }
 
-        public static void UserVote(string userId, Track track)
+        public void UserVote(string userId, Track track)
         {
             PTrack ptrack = pl._tracks.FirstOrDefault(x => x.Track.Name == track.Name);
             if (ptrack == null)
@@ -87,14 +88,18 @@ namespace OpenPlaylistServer
                 users.Add(new User(userId,ptrack));
             }
 
+            
+
             UpdateUIDelegate();
         }
 
         public void UpdateUI() {
             Application.Current.Dispatcher.BeginInvoke((Action)(() => {
+                pl.CurrentStanding(users);
+                pl.Sort(pl._tracks);
                 PlaylistView.Items.Refresh();
                 UsersView.Items.Refresh();
-                pl.CurrentStanding(users);
+                
             }));
         }
 

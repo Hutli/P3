@@ -124,7 +124,7 @@ namespace TestSuite {
 
         [Fact]
         public void SpotifyLoggedInPlaylistFromLinkLoadsCorrectly() {
-            List<Track> tracks = _data.spl.PlaylistFromLink("spotify:user:1166648382:playlist:7d1QMj15EBsNiG23ilPSOv");
+            List<Track> tracks = _data.spl.PlaylistFromLink("spotify:user:1166648382:playlist:7d1QMj15EBsNiG23ilPSOv").Result;
             Assert.NotEmpty(tracks);
             Assert.True(tracks.First().Name == "The Worst Is Yet To Come", "Name of first element does not match");
             Assert.True(tracks.Last().Name == "Dear Father", "Name of last element does not match");
