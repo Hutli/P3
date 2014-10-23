@@ -7,7 +7,7 @@ To make it harder to cause these runtime errors and to ease interoperability in 
 
 The goal of the SpofityDotNet library is to minimize runtime exceptions caused by memory related errors. To do this, the error prone unmanaged C code has to be accessed as secure managed C\# code.
 
-SpotifyDotNet uses existing bindings, hosted on \url{http://libspotifydotnet.codeplex.com/} \sinote{Hvad med licens?}, to interface with libspotify from C\#. As an example let's look at the login function from libspotify. See \cref{fig:loginC}. The corresponding binding can be seen in \cref{fig:loginCsharp}. As can be seen, a C pointer maps directly to an IntPtr struct in C\#. \enquote{const char*} becomes a common string object in C\#. A C bool is simply a C\# bool.
+SpotifyDotNet uses existing bindings, hosted on \url{http://libspotifydotnet.codeplex.com/}, to interface with libspotify from C\#. As an example let's look at the login function from libspotify. See \cref{fig:loginC}. The corresponding binding can be seen in \cref{fig:loginCsharp}. As can be seen, a C pointer maps directly to an IntPtr struct in C\#. \enquote{const char*} becomes a common string object in C\#. A C bool is simply a C\# bool.
 
 \begin{lstlisting}[caption = {Libspotify login function prototype - C}, label = {fig:loginC}]
 sp_error sp_session_login ( sp_session *session,
