@@ -81,8 +81,12 @@ namespace OpenPlaylistApp
                 Track track = (Track)e.SelectedItem;
                 PlaylistViewModel.vote = track;
                 Session session = Session.Instance();
-                Task t = new Task(() => session.SendVote(App.venue, track, App.user));
-                t.Start();
+                Task<string> t = session.SendVote(App.venue, track, App.user);
+                try
+                {
+                    t.Start();
+                }
+                catch { /*Connection faulted*/ }
             }
             else if (e.SelectedItem is Album)
             {

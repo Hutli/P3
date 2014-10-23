@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
 using WebAPILib;
+using System.Threading.Tasks;
 
 namespace OpenPlaylistApp
 {
@@ -23,17 +24,13 @@ namespace OpenPlaylistApp
         }
         
 
-        public async void SendVote(Venue venue, Track track, User user){
+        public async Task<string> SendVote(Venue venue, Track track, User user){
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, track.URI + "/" + user.Name);
             using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(venue.IP + "/" + track.URI + "/" + user.Name))
+            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
-                string result = await content.ReadAsStringAsync();
-
-                if (result != null)
-                {
-
-                }
+                return await content.ReadAsStringAsync();
             }
         }
     }
