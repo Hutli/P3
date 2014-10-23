@@ -44,7 +44,7 @@ namespace OpenPlaylistApp
                 case SearchType.TRACK:
                     cell.SetBinding(TextCell.TextProperty, "Name");
                     cell.SetBinding(TextCell.DetailProperty, "Album.Artists[0].Name");
-                    //cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[1].URL"); //Images does not work
+                    cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
                     list.ItemTemplate = cell;
                     break;
                 case SearchType.ALBUM:
@@ -85,8 +85,9 @@ namespace OpenPlaylistApp
                 try
                 {
                     t.Start();
+                } catch(Exception e) {
+                    throw ConnectionToServerFaultedException("An error occured: '{0}'",e);
                 }
-                catch { /*Connection faulted*/ }
             }
             else if (e.SelectedItem is Album)
             {
