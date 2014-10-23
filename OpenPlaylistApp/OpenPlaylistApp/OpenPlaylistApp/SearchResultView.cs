@@ -78,8 +78,11 @@ namespace OpenPlaylistApp
         {
             if (e.SelectedItem is Track)
             {
-                PlaylistViewModel.vote = (e.SelectedItem as Track);
-                PlaylistViewModel.Home.GoToPlaylist();
+                Track track = (Track)e.SelectedItem;
+                PlaylistViewModel.vote = track;
+                Session session = Session.Instance();
+                Task t = new Task(() => session.SendVote(App.venue, track, App.user));
+                t.Start();
             }
             else if (e.SelectedItem is Album)
             {
