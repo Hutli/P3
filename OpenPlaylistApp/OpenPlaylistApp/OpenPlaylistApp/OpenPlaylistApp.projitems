@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AlbumViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HomeViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlaylistView.cs" />
@@ -22,5 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SearchTabView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SearchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Venue.cs" />
   </ItemGroup>
 </Project>

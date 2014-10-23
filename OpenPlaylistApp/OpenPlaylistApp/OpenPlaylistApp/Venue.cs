@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OpenPlaylistApp
 {
-    class Venue
+    public class Venue
     {
         private string _name;
         private string _ip;
