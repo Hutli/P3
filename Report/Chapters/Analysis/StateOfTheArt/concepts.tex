@@ -1,11 +1,11 @@
-When analysing the state of the art it was found that many different
+During research of the state of the art, it was found that many different
 concepts were being used in interactive music systems. Three systems
-were chosen, SecretDJ, Mixgar and Rockbot, since they together
+were chosen as focus points, SecretDJ, Mixgar and Rockbot, as they together
 represent many concepts found during research and illustrates the
 implementation of these.
 
-The rest of this section will focus on describing each concept and its
-specific implementations. These concepts serve as inspiration later in
+The rest of this section will focus on describing each concept and the
+specific implementations of it. These concepts serve as inspiration for
 the design phase of this project.
 
 \subsection{Playlist}
@@ -17,15 +17,14 @@ given time.
 
 \subsection{Voting}
 All three systems implement voting of tracks in some way. SecretDJ and
-Rockbot only allow up-votes i.e. users can only vote for a track to be
-played sooner. Mixgar also implement the concept of down-voting
-tracks, enabling the user to vote for tracks to have their playback
-postponed.
+Rockbot only allow up-votes i.e. users can only vote for a track they would like to be
+played. Mixgar also implements the concept of down-voting
+tracks, enabling the user to vote for tracks they would not like to be played.
 
 \subsection{Requesting}
 The three systems each implement requesting in different ways. The
 first implementation method of the concept, done by Rockbot, is
-unlimited requests.  Any user can add unlimited tracks to the
+unlimited requests. Users can add unlimited tracks to the
 playlist. To balance this, requests made by more active and liked
 users, start in better positions.
 
@@ -39,16 +38,14 @@ automatically rearranged by the system. This approach is described in
 greater detail in \cref{sub:auto_rearrange_playlist}.
 
 \subsection{Social Network Integration}
-SecretDJ and Mixgar utilises social networks to better target the
-music to the users by analysing their music preferences. The
-integration of social networks also allow social interaction between
-the users of the system based on their votes.
+SecretDJ and Mixgar utilise social networks to better target the users by analysing their music preferences. The
+integration of social networks also allow social interaction between the users of the system, based on their music preferences.
 
 \subsection{Automatic Rearrangement of Playlist}
 \label{sub:auto_rearrange_playlist}
-In the case of Mixgar the users cannot request tracks and their votes
-does not directly and completely decide the flow of the music. Mixgar
-works with the concept of the system adding tracks to the playlist
+In the case of Mixgar, the users cannot request tracks and their votes
+do not directly decide the flow of the music. 
+Mixgar works with the concept of the system adding tracks to the playlist
 automatically. First off the system utilises the users’ Facebook likes
 to find out what artists and genres the users like. With this data, a
 playlist is created. The system now accumulates data about the party’s
@@ -66,29 +63,23 @@ what is played since it is their bar and neither the system nor the users
 should be able subdue the venues' wishes.
 
 \subsection{Administrative Restriction of Playlist}
-In both Mixgar and Rockbot's system the administrators are able to
+In both Mixgar's and Rockbot's system, the administrators are able to
 restrict what users are able to add to the playlist. This means that
 the administrators of the venues can decide which genres, artists,
-albums etc. are allowed or disallowed to be added by the users.
+albums etc. are allowed to be added by the users.
 
 \subsection{User Ranking}
 SecretDJ and Rockbot implements the concept of an user having a rank or
 level. This rank is determined by activity in the system or by other
-users' votes. Higher ranked users have benefits such as higher degrees
-of influence on the music being played.
+users' votes. Higher ranked users have benefits such as more influence on the music being played.
 
 \subsection{Check-in}
-Rockbot implements the concept of checking-in at a venue. Checking-in
+Rockbot implements the concept of checking in at a venue. Checking in
 can only be performed when in close proximity to the venue. When and
-only when checked-in the user can interact with the music system.
+only when checked in, can the user interact with the music system.
 
-\subsection{All Time Available Venue Information}
+\subsection{Real Time Venue Information}
 SecretDJ gives its users the ability to list all the venues that are
 using the SecretDJ system. The list includes general information on
 the bar, distance to the user and what kind of music the venue is
 playing.
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "../../../master"
-%%% End:
