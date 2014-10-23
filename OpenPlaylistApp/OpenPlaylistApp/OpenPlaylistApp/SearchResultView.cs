@@ -85,8 +85,8 @@ namespace OpenPlaylistApp
                 try
                 {
                     t.Start();
-                } catch(Exception e) {
-                    throw ConnectionToServerFaultedException("An error occured: '{0}'",e);
+                } catch(Exception ex) {
+                    throw new ConnectionToServerFaultedException("An error occured: '{0}'",ex);
                 }
             }
             else if (e.SelectedItem is Album)
