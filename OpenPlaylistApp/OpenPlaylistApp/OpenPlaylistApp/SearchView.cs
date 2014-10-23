@@ -20,7 +20,7 @@ namespace OpenPlaylistApp
             }
             set
             {
-                if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result)) //Crashes
+                if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result))
                 {
                     layout.Children.Remove(ViewModel.Result);
                 }

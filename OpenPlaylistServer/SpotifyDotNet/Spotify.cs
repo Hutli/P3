@@ -169,7 +169,7 @@ namespace SpotifyDotNet
             config.application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey, 0);
             config.application_key_size = appkey.Length;
             config.api_version = libspotify.SPOTIFY_API_VERSION;
-            config.user_agent = "openPlaylist";
+            config.user_agent = "OpenPlaylist";
             config.cache_location = "tmp"; // ToDo change
             config.settings_location = "tmp"; // ToDo
             config.callbacks = callbacksPtr;
