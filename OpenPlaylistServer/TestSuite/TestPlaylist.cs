@@ -36,8 +36,8 @@ namespace TestSuite {
         public void PlaylistNextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
-            PTrack pTrack1 = new PTrack();
-            PTrack pTrack2 = new PTrack();
+            PlaylistTrack pTrack1 = new PlaylistTrack();
+            PlaylistTrack pTrack2 = new PlaylistTrack();
             User a = new User("1234");
             User b = new User("2345");
             User c = new User("3456");
@@ -61,7 +61,7 @@ namespace TestSuite {
         public void PlaylistCurrentStandingGivesCorrectRes() {
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
-            PTrack pTrack1 = new PTrack();
+            PlaylistTrack pTrack1 = new PlaylistTrack();
             User a = new User("1234");
 
             users.Add(a);
@@ -87,7 +87,7 @@ namespace TestSuite {
         public async void PlaylistAddByRefAddsTrack() {
             Playlist pl = new Playlist();
             Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-            PTrack pt = new PTrack(t);
+            PlaylistTrack pt = new PlaylistTrack(t);
             Assert.False(pl._tracks.Contains(pt));
             pl.AddByRef(t);
             Assert.Single(pl._tracks, pt);
@@ -107,7 +107,7 @@ namespace TestSuite {
         [Fact]
         public void PTrackConstructor() {
             Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
-            PTrack pt = new PTrack(t);
+            PlaylistTrack pt = new PlaylistTrack(t);
             Assert.True(pt.Name == "Obliteration of the Weak", "Name does not match");
             Assert.True(pt.Track == t, "Track does not match");
             Assert.True(pt.Duration == 232000, "Duration does not match");

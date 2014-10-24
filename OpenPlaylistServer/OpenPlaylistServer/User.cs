@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OpenPlaylistServer {
     public class User {
         private string _id;
-        private PTrack _vote;
+        private PlaylistTrack _vote;
 
         public string Id {
             get {
@@ -15,7 +15,7 @@ namespace OpenPlaylistServer {
             }
         }
 
-        public PTrack Vote {
+        public PlaylistTrack Vote {
             get {
                 return _vote;
             }
@@ -28,7 +28,7 @@ namespace OpenPlaylistServer {
             _id = id;
         }
 
-        public User(string id, PTrack vote) {
+        public User(string id, PlaylistTrack vote) {
             _id = id;
             _vote = vote;
         }

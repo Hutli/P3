@@ -18,7 +18,7 @@ namespace SpotifyDotNet
 
         private SpotifyLoggedIn() { }
 
-        internal SpotifyLoggedIn(ref IntPtr _sessionPtr, object _sync ,ref IntPtr _searchComplete)
+        internal SpotifyLoggedIn(ref IntPtr _sessionPtr, object _sync, ref IntPtr _searchComplete)
         {
             _instance = this;
             this._searchComplete = _searchComplete;
@@ -48,7 +48,7 @@ namespace SpotifyDotNet
                 libspotifydotnet.sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
             }
         }
-        
+
         public void Play(Track track)
         {
             if (_isPlaying)
@@ -106,6 +106,20 @@ namespace SpotifyDotNet
             });
 
             return t;
+        }
+
+        internal IntPtr TrackUriToIntPtr(string link)
+        {
+            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+            IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+
+            libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+
+            if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
+            {
+                return libspotify.sp_link_as_track(spLinkPtr);
+            }
+            else throw new ArgumentException("URI was not a track URI");
         }
 
         public Task<List<Track>> PlaylistFromLink(String link)

@@ -34,6 +34,11 @@ namespace SpotifyDotNet
             Name = Marshal.PtrToStringAnsi(trackNamePtr);
         }
 
+        public Track(string trackUri)
+        {
+            _trackPtr = SpotifyLoggedIn.Instance.TrackUriToIntPtr(trackUri);
+        }
+
         ~Track()
         {
             Dispose();

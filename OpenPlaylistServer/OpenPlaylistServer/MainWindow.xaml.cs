@@ -34,7 +34,7 @@ namespace OpenPlaylistServer
         private static NAudio.Wave.WaveOut waveOut;
 
         private static Playlist pl = new Playlist();
-        List<PTrack> history = new List<PTrack>(); 
+        List<PlaylistTrack> history = new List<PlaylistTrack>(); 
         static List<User> users = new List<User>();
 
         public static Action UpdateUIDelegate;
@@ -73,10 +73,9 @@ namespace OpenPlaylistServer
 
         public void UserVote(string userId, Track track)
         {
-            PTrack ptrack = pl._tracks.FirstOrDefault(x => x.Track.Name == track.Name);
+            PlaylistTrack ptrack = pl._tracks.FirstOrDefault(x => x.Name == track.Name);
             if (ptrack == null)
             {
-                ptrack = new PTrack(track);
                 pl._tracks.Add(ptrack);
             }
             if (users.Any(x => x.Id == userId))
@@ -104,13 +103,9 @@ namespace OpenPlaylistServer
         }
 
         private void TrackEnded() {
-            PTrack next = pl.NextTrack(users);
-            if (next == null)
-            {
-                return;
-            }
+            PlaylistTrack next = pl.NextTrack(users);
             history.Add(next);
-            SpotifyLoggedIn.Instance.Play(next.Track);
+            SpotifyLoggedIn.Instance.Play(next);
             UpdateUI();
         }
 
@@ -162,15 +157,11 @@ namespace OpenPlaylistServer
             //Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
             //Track t = pl
             //SpotifyLoggedIn.Instance.Play(tracks);
-            PTrack next = pl.NextTrack(users);
-            if (next == null)
-            {
-                return;
-            }
+            PlaylistTrack next = pl.NextTrack(users);
             history.Add(next);
             PlaylistView.Items.Refresh();
             HistoryView.Items.Refresh();
-            SpotifyLoggedIn.Instance.Play(next.Track);
+            SpotifyLoggedIn.Instance.Play(next);
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e) {
@@ -183,7 +174,7 @@ namespace OpenPlaylistServer
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            pl.Remove((PTrack)PlaylistView.SelectedItem);
+            pl.Remove((PlaylistTrack)PlaylistView.SelectedItem);
             PlaylistView.Items.Refresh();
         }
 
@@ -193,12 +184,12 @@ namespace OpenPlaylistServer
         }
 
         private void MoveUp_Click(object sender, RoutedEventArgs e) {
-            pl.MoveUp((PTrack)PlaylistView.SelectedItem);
+            pl.MoveUp((PlaylistTrack)PlaylistView.SelectedItem);
             PlaylistView.Items.Refresh();
         }
 
         private void MoveDown_Click(object sender, RoutedEventArgs e) {
-            pl.MoveDown((PTrack)PlaylistView.SelectedItem);
+            pl.MoveDown((PlaylistTrack)PlaylistView.SelectedItem);
             PlaylistView.Items.Refresh();
         }
 

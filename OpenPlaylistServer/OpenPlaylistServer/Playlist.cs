@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +9,10 @@ using System.Collections;
 
 namespace OpenPlaylistServer {
     public class Playlist{
-        public List<PTrack> _tracks;
+        public List<PlaylistTrack> _tracks;
 
         public Playlist(){
-            _tracks = new List<PTrack>();
+            _tracks = new List<PlaylistTrack>();
         }
 
 
@@ -24,68 +24,55 @@ namespace OpenPlaylistServer {
             }
         }
 
-        public void AddByURI(string trackId){
-            var track = SpotifyLoggedIn.Instance.TrackFromLink(trackId).Result;
-            PTrack ptrack = new PTrack(track);
+        public void AddByURI(string trackUri){
+            PlaylistTrack ptrack = new PlaylistTrack(trackUri);
             _tracks.Add(ptrack);
-        }
-
-        public void AddByRef(Track track) {
-            PTrack pTrack = new PTrack(track);
-            _tracks.Add(pTrack);
         }
 
         public void RemoveByTitle(string name) {
             if(_tracks.Any(e => e.Name.Equals(name)))
-                _tracks.Remove(_tracks.First(e => e.Track.Name.Equals(name)));
+                _tracks.Remove(_tracks.First(e => e.Name.Equals(name)));
         }
 
-        public void Remove(PTrack track) {
+        public void Remove(PlaylistTrack track) {
             _tracks.Remove(track);
         }
 
         #region TestingPurposes
-        public void MoveUp(PTrack track) {
+        public void MoveUp(PlaylistTrack track) {
             if(_tracks.Count == 0)
                 return;
             int index = _tracks.IndexOf(track);
             if(index == 0)
                 return;
-            PTrack temp;
+            PlaylistTrack temp;
             temp = _tracks[index - 1];
             _tracks[index - 1] = track;
             _tracks[index] = temp;
         }
 
-        public void MoveDown(PTrack track) {
+        public void MoveDown(PlaylistTrack track) {
             int index = _tracks.IndexOf(track);
             if(index == _tracks.Count - 1)
                 return;
-            PTrack temp;
+            PlaylistTrack temp;
             temp = _tracks[index + 1];
             _tracks[index + 1] = track;
             _tracks[index] = temp;
         }
         #endregion
 
-        public PTrack NextTrack(List<User> users) {
-            
-            // no tracks in playlist
-            if (_tracks.Count() == 0)
-            {
-                return null;
-            }
-
+        public PlaylistTrack NextTrack(List<User> users) {
             CountVotes(users);
 
             Sort(_tracks);
-            PTrack next = _tracks.First();
+            PlaylistTrack next = _tracks.First();
             next.ResetPScore();
             _tracks.Remove(next);
             return next;
         }
 
-        public void Sort(List<PTrack> list) {
+        public void Sort(List<PlaylistTrack> list) {
             
             list.Sort((x,y) => y.TScore.CompareTo(x.TScore));
         }
