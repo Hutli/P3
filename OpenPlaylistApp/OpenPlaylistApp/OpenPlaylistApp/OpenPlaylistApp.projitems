@@ -26,5 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)SearchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Venue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VenueView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VenueViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VenueViewTab.cs" />
   </ItemGroup>
 </Project>

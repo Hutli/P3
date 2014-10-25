@@ -16,21 +16,23 @@ namespace OpenPlaylistApp
             BindingContext = new HomeViewModel();
 
             var playlist = new PlaylistView();
-
             var searchTabs = new SearchTabView();
+            var venueTab = new VenueViewTab();
 
-            var PlaylistNav = new NavigationPage(playlist) { Title = playlist.Title };
-            var SearchNav = new NavigationPage(searchTabs) { Title = searchTabs.Title };
+            var playlistNav = new NavigationPage(playlist) { Title = playlist.Title };
+            var searchNav = new NavigationPage(searchTabs) { Title = searchTabs.Title };
+            var venueNav = new NavigationPage(venueTab) { Title = venueTab.Title };
 
-            ViewModel.Pages.Add(PlaylistNav);
-            ViewModel.Pages.Add(SearchNav);
+            ViewModel.Pages.Add(playlistNav);
+            ViewModel.Pages.Add(searchNav);
+            ViewModel.Pages.Add(venueNav);
 
-            Detail = PlaylistNav;
+            Detail = playlistNav;
             IsPresented = false;
 
             GoToPlaylist = () =>
             {
-                master.SelectedPage = PlaylistNav;
+                master.SelectedPage = playlistNav;
                 IsPresented = false;
 
             };

@@ -11,8 +11,8 @@ namespace OpenPlaylistApp
 	{
         public static HomePage Home;
 
-        public static User user = new User("Heider");
-        public static Venue venue = new Venue("HeiderBierHaus", "192.168.1.148");
+        public static User user = new User("Empty");
+        public static Venue venue = new Venue("Empty","Empty");
 
         public static Page GetMainPage()
         {

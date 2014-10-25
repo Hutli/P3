@@ -74,21 +74,21 @@ namespace OpenPlaylistApp
 
         }
 
-        void list_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async void list_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem is Track)
             {
                 Track track = (Track)e.SelectedItem;
                 PlaylistViewModel.vote = track;
                 Session session = Session.Instance();
-                Task<string> t = session.SendVote(App.venue, track, App.user);
+                
                 try
                 {
-                    t.Start();
+                    var json = await session.SendVote(App.venue, track, App.user);
                 } catch(Exception ex) {
                     //throw new ConnectionToServerFaultedException("An error occured: '{0}'",ex);
                     
-                    App.GetMainPage().DisplayAlert("Error","Could not connect to server", "OK");
+                    App.GetMainPage().DisplayAlert("Error",ex.Message, "OK");
                 }
             }
             else if (e.SelectedItem is Album)
