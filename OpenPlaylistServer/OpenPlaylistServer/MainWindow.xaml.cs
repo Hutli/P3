@@ -105,6 +105,10 @@ namespace OpenPlaylistServer
 
         private void TrackEnded() {
             PTrack next = pl.NextTrack(users);
+            if (next == null)
+            {
+                return;
+            }
             history.Add(next);
             SpotifyLoggedIn.Instance.Play(next.Track);
             UpdateUI();
@@ -159,6 +163,10 @@ namespace OpenPlaylistServer
             //Track t = pl
             //SpotifyLoggedIn.Instance.Play(tracks);
             PTrack next = pl.NextTrack(users);
+            if (next == null)
+            {
+                return;
+            }
             history.Add(next);
             PlaylistView.Items.Refresh();
             HistoryView.Items.Refresh();

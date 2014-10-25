@@ -69,6 +69,13 @@ namespace OpenPlaylistServer {
         #endregion
 
         public PTrack NextTrack(List<User> users) {
+            
+            // no tracks in playlist
+            if (_tracks.Count() == 0)
+            {
+                return null;
+            }
+
             CountVotes(users);
 
             Sort(_tracks);
