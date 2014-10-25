@@ -16,13 +16,19 @@ namespace OpenPlaylistServer
 
         public TestNancyModule(Playlist p)
         {
-            Get["/{trackId}/{userId}/"] = parameters => { 
-                Track vote = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId).Result;
+            Get["/{trackId}/{userId}/"] = parameters => {
+                
                 string userId = parameters.userId;
-                //MainWindow.UserVote(userId, vote);
-            
-                UserVoted(userId, vote);
-
+                try
+                {
+                    Track vote = SpotifyLoggedIn.Instance.TrackFromLink(parameters.trackId).Result;
+                    UserVoted(userId, vote);
+                }
+                catch (ArgumentException ex)
+                {
+                    
+                }
+                
                 return "success";
                 //return Response.AsJson<object>(p._tracks);
             };

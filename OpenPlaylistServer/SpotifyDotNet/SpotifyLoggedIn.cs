@@ -91,6 +91,10 @@ namespace SpotifyDotNet
                 IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
                 IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
 
+                if (spLinkPtr == IntPtr.Zero)
+                {
+                    throw new ArgumentException("URI was not a track URI");
+                }
                 libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
 
                 if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
