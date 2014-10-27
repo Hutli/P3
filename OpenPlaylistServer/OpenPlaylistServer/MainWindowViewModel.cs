@@ -12,11 +12,14 @@ namespace OpenPlaylistServer
     class MainWindowViewModel : IMainWindowViewModel
     {
         private IPlaylistService _playlistService;
-        
+        private IUserService _userService;
+        private IPlaybackService _playbackService;
 
-        public MainWindowViewModel(IPlaylistService playlistService)
+        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
         {
             this._playlistService = playlistService;
+            this._userService = userService;
+            this._playbackService = playbackService;
         }
 
         public ReadOnlyObservableCollection<PlaylistTrack> Tracks
@@ -27,27 +30,31 @@ namespace OpenPlaylistServer
             }
         }
 
+        public ReadOnlyObservableCollection<User> Users
+        {
+            get
+            {
+                return _userService.Users;
+            }
+        }
 
         public void TrackEnded()
         {
             PlaylistTrack next = _playlistService.NextTrack();
-            //history.Add(next);
-            //SpotifyLoggedIn.Instance.Play(next.Track);
-            //UpdateUI();
         }
 
-
-        public PlaylistTrack NextTrack()
+        public void PlayButtonClicked()
         {
-            return _playlistService.NextTrack();
+            var nextTrack = _playlistService.NextTrack();
+            if (nextTrack != null)
+            {
+                _playbackService.Play(nextTrack);
+            }
         }
 
-
-        public void PlayButonClicked()
+        public void StopButtonClicked()
         {
-            //history.Add(next);
-            SpotifyLoggedIn.Instance.Play(NextTrack());
+            _playbackService.Stop();
         }
-
     }
 }

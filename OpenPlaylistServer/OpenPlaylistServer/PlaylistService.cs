@@ -61,16 +61,15 @@ namespace OpenPlaylistServer
         public PlaylistTrack NextTrack()
         {
             CountAndUpdatePVotes();
-            Sort();
-            PlaylistTrack next = _tracks.First();
-            next.ResetPScore();
-            _tracks.Remove(next);
-            return next;
-        }
+            PlaylistTrack next = _tracks.OrderByDescending<PlaylistTrack, int>(x => x.TotalScore).FirstOrDefault();
 
-        private void Sort()
-        {
-            //_tracks.Sort((x, y) => y.TScore.CompareTo(x.TScore));
+            if (next != null)
+            {
+                next.ResetPScore();
+                _tracks.Remove(next);
+            }
+
+            return next;
         }
 
         private void CountAndUpdatePVotes()

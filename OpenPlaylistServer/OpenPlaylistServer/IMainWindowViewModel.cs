@@ -13,8 +13,8 @@ namespace OpenPlaylistServer
 
         void TrackEnded();
 
-        PlaylistTrack NextTrack();
+        void PlayButtonClicked();
 
-        void PlayButonClicked();
+        void StopButtonClicked();
     }
 }

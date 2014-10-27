@@ -92,11 +92,12 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="IMainWindowViewModel.cs" />
+    <Compile Include="IPlaybackService.cs" />
     <Compile Include="IPlaylistService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IVoteService.cs" />
     <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="Playlist.cs" />
+    <Compile Include="PlaybackService.cs" />
     <Compile Include="PlaylistService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -27,10 +27,5 @@ namespace OpenPlaylistServer {
         public User(string id) {
             _id = id;
         }
-
-        //public User(string id, playlistTrack vote) {
-        //    _id = id;
-        //    _vote = vote;
-        //}
     }
 }

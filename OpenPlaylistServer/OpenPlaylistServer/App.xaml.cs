@@ -17,16 +17,6 @@ namespace OpenPlaylistServer
     {
         public App()
         {
-
-            //var container = new TinyIoCContainer();
-            //container.AutoRegister();
-            //container.Register<IMainWindow>().UsingConstructor<MainWindow>( () => { return new MainWindow(IVoteService });
-            //container.Register<IMainWindow, MainWindow>();
-            //var test = container.Resolve<MainWindow>();
-            //container.Resolve<IMainWindow>();
-
-            //MainWindow = (Window)container.Resolve<MainWindow>();
-
             Bootstrapper.Initialise();
         }
 
@@ -37,7 +27,6 @@ namespace OpenPlaylistServer
             
             MainWindow = (Window)container.GetInstance<IMainWindow>();
             MainWindow.ShowDialog();
-            //MainWindow = (Window) container.Resolve<IMainWindow>();
         }
     }
 

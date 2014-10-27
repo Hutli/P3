@@ -5,7 +5,9 @@ using System.Text;
 
 namespace OpenPlaylistServer
 {
-    public interface IMainWindow
+    public interface IPlaybackService
     {
+        void Play(PlaylistTrack track);
+        void Stop();
     }
 }

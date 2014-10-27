@@ -69,7 +69,12 @@
             </TabItem>
             <TabItem Header="Users">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="UsersView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="205*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="UsersView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" Grid.ColumnSpan="3" ItemsSource="{Binding Users}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="ID" DisplayMemberBinding="{Binding Id}" />

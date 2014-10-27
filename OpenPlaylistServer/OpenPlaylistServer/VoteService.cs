@@ -17,11 +17,6 @@ namespace OpenPlaylistServer
             _userService = userService;
         }
 
-        public VoteService()
-        {
-            // TODO: Complete member initialization
-        }
-
         public async void Vote(string userId, string trackUri)
         {
             User user;
@@ -60,9 +55,6 @@ namespace OpenPlaylistServer
             //  set user's vote to new track
             user.Vote = playlistTrack;
             user.Vote.TScore += 1;
-
-            //MainWindow.UpdateUI();
-            //_mainWindowService.UpdateUI();
         }
     }
 }
