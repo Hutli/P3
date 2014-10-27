@@ -24,7 +24,7 @@ namespace OpenPlaylistServer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMainWindow
     {
         Spotify session = Spotify.Instance;
         private static byte[] appkey = OpenPlaylistServer.Properties.Resources.spotify_appkey;
@@ -33,81 +33,130 @@ namespace OpenPlaylistServer
         private static NAudio.Wave.BufferedWaveProvider sampleStream;
         private static NAudio.Wave.WaveOut waveOut;
 
-        private static Playlist pl = new Playlist();
+        //private static Playlist pl = new Playlist();
         List<PlaylistTrack> history = new List<PlaylistTrack>(); 
         static List<User> users = new List<User>();
 
         public static Action UpdateUIDelegate;
+        private IMainWindowViewModel _viewModel;
 
-        public MainWindow(){
+        public MainWindow(IMainWindowViewModel viewModel){
             InitializeComponent();
+
+            _viewModel = viewModel;
 
             var hostConfig = new HostConfiguration();
             hostConfig.UrlReservations.CreateAutomatically = true;
 
             var host = new NancyHost(hostConfig, new Uri("http://localhost:5555"));
             host.Start();
-            TestNancyModule.UserVoted += (userId, track) =>
-            {
-                Dispatcher.BeginInvoke((Action) (() => { UserVote(userId, track); }));
-                
-            };
+            //VoteModule.UserVoted += (userId, trackUri) =>
+            //{
+            //    Dispatcher.BeginInvoke((Action)(() => { UserVote(userId, trackUri); }));
+
+            //};
             
 
             
             session.MusicDelivery += OnRecieveData;
-            session.TrackEnded += TrackEnded;
+            //session.TrackEnded += TrackEnded;
+            session.TrackEnded += viewModel.TrackEnded;
+            
             //session.SearchComplete += (results) => SpotifyLoggedIn.Instance.Play(results.Tracks.First());
 
             UpdateUIDelegate = UpdateUI;
 
             UsersView.ItemsSource = users;
 
-            //ICollectionView view = CollectionViewSource.GetDefaultView(pl._tracks);
+
+
+
+            //var view = CollectionViewSource.GetDefaultView(pl._tracks);
             //view.SortDescriptions.Add(new SortDescription("TScore", ListSortDirection.Descending));
+            //// do not show tracks without votes
+            //var pred = new Predicate<Object>((obj) =>
+            //{
+            //    var playlistTrack = obj as playlistTrack;
+            //    if (playlistTrack != null)
+            //    {
+            //        return playlistTrack.TotalScore < 1;
+            //    }
+            //    return false;
+            //});
+
+            //view.Filter += view_Filter;
+            //view.Filter = pred;
             //PlaylistView.ItemsSource = view;
-            PlaylistView.ItemsSource = pl._tracks;
+            
+            //PlaylistView.ItemsSource = pl.Tracks;
+            DataContext = viewModel;
+            //PlaylistView.ItemsSource = viewModel.Tracks;
 
             HistoryView.ItemsSource = history;
         }
 
-        public void UserVote(string userId, Track track)
-        {
-            PlaylistTrack ptrack = pl._tracks.FirstOrDefault(x => x.Name == track.Name);
-            if (ptrack == null)
-            {
-                pl._tracks.Add(ptrack);
-            }
-            if (users.Any(x => x.Id == userId))
-            {
-                users.FirstOrDefault(x => x.Id == userId).Vote = ptrack;
-            }
-            else
-            {
-                users.Add(new User(userId,ptrack));
-            }
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+        //}
 
-            
+        //public async void UserVote(string userId, string trackUri)
+        //{
+        //    User user;
+        //    Track track = await SpotifyLoggedIn.Instance.TrackFromLink(trackUri);
 
-            UpdateUIDelegate();
-        }
+        //    // is playlistTrack already voted on?
+        //    playlistTrack playlistTrack = pl.Tracks.FirstOrDefault(x => x.Track.Name == track.Name);
+        //    if (playlistTrack == null)
+        //    {
+        //        // playlistTrack is not already voted on, so creating new instance and adding to list
+        //        playlistTrack = new playlistTrack(track);
+        //        pl.AddByRef(playlistTrack);
+        //    }
+
+        //    // Is user known?
+        //    if (users.Any(x => x.Id == userId))
+        //    {
+        //        // User is known
+        //        user = users.FirstOrDefault(x => x.Id == userId);
+                
+        //        // If user has already voted
+        //        if (user.Vote != null)
+        //        {
+        //            // remove 1 vote on old track
+        //            var oldVote = user.Vote;
+        //            oldVote.TScore -= 1;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // user is not known. Adding user to list of known users
+        //        user = new User(userId);
+        //        users.Add(user);
+        //    }
+
+        //    //  set user's vote to new track
+        //    user.Vote = playlistTrack;
+        //    user.Vote.TScore += 1;
+
+        //    //UpdateUIDelegate();
+        //}
 
         public void UpdateUI() {
             Application.Current.Dispatcher.BeginInvoke((Action)(() => {
-                pl.CurrentStanding(users);
-                pl.Sort(pl._tracks);
-                PlaylistView.Items.Refresh();
-                UsersView.Items.Refresh();
-                
+                //pl.CurrentStanding(users);
+                //pl.Sort(pl._tracks);
+                //PlaylistView.Items.Refresh();
+                //UsersView.Items.Refresh();
             }));
         }
 
-        private void TrackEnded() {
-            PlaylistTrack next = pl.NextTrack(users);
-            history.Add(next);
-            SpotifyLoggedIn.Instance.Play(next);
-            UpdateUI();
-        }
+        //private void TrackEnded() {
+        //    playlistTrack next = pl.NextTrack(users);
+        //    history.Add(next);
+        //    SpotifyLoggedIn.Instance.Play(next.Track);
+        //    UpdateUI();
+        //}
 
         private void OnLoginSuccess(SpotifyLoggedIn spotifyLoggedIn)
         {
@@ -154,14 +203,16 @@ namespace OpenPlaylistServer
         //WPF Content
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+            _viewModel.PlayButonClicked();
             //Track tracks = SpotifyLoggedIn.Instance.TrackFromLink("spotify:track:7eWYXAP87TFfF7fn2LEL1b");
             //Track t = pl
             //SpotifyLoggedIn.Instance.Play(tracks);
-            PlaylistTrack next = pl.NextTrack(users);
-            history.Add(next);
-            PlaylistView.Items.Refresh();
-            HistoryView.Items.Refresh();
-            SpotifyLoggedIn.Instance.Play(next);
+            //playlistTrack next = pl.NextTrack(users);
+            //_viewModel.NextTrack();
+            ////history.Add(next);
+            //PlaylistView.Items.Refresh();
+            //HistoryView.Items.Refresh();
+            //SpotifyLoggedIn.Instance.Play(next.Track);
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e) {
@@ -174,23 +225,23 @@ namespace OpenPlaylistServer
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            pl.Remove((PlaylistTrack)PlaylistView.SelectedItem);
-            PlaylistView.Items.Refresh();
+            //pl.Remove((playlistTrack)PlaylistView.SelectedItem);
+            //PlaylistView.Items.Refresh();
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
-            pl.AddByURI("spotify:track:6UEYM83XCHYiJ0C4Z10g6J");
-            PlaylistView.Items.Refresh();
+            //pl.AddByURI("spotify:track:6UEYM83XCHYiJ0C4Z10g6J");
+            //PlaylistView.Items.Refresh();
         }
 
         private void MoveUp_Click(object sender, RoutedEventArgs e) {
-            pl.MoveUp((PlaylistTrack)PlaylistView.SelectedItem);
-            PlaylistView.Items.Refresh();
+            //pl.MoveUp((playlistTrack)PlaylistView.SelectedItem);
+            //PlaylistView.Items.Refresh();
         }
 
         private void MoveDown_Click(object sender, RoutedEventArgs e) {
-            pl.MoveDown((PlaylistTrack)PlaylistView.SelectedItem);
-            PlaylistView.Items.Refresh();
+            //pl.MoveDown((playlistTrack)PlaylistView.SelectedItem);
+            //PlaylistView.Items.Refresh();
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
@@ -206,12 +257,12 @@ namespace OpenPlaylistServer
             {
                 OnLogInError(spotifyLoggedIn.Item2);
             }
-            
+
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
             StopButton_Click(sender, e);
-            TrackEnded();
+            _viewModel.TrackEnded();
         }
     }
 }

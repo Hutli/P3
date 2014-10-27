@@ -8,20 +8,21 @@
             <TabItem Header="Spotify">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="413*"/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="LoggedInStatus" Content="Status.." Margin="178,84,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-                    <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="215,194,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top"/>
-                    <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="215,221,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75"/>
-                    <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="190,143,0,0" VerticalAlignment="Top" Width="120"/>
-                    <TextBox x:Name="UsernameBox" HorizontalAlignment="Left" Height="23" Margin="190,115,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="120"/>
-                    <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="215,168,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
-                    <Image HorizontalAlignment="Left" Height="74" Margin="216,10,0,0" VerticalAlignment="Top" Width="74" Source="Resources/openPlaylistLogoSpotifyColorsLit.png" MouseDown="Image_MouseDown"/>
+                    <Label x:Name="LoggedInStatus" Content="Status.." Margin="107,84,0,0" HorizontalAlignment="Left" Width="150" Height="26" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
+                    <Button IsEnabled="False" x:Name="PlayButton" Content="Play" Margin="144,194,0,0" Click="PlayButton_Click" HorizontalAlignment="Left" Width="75" Height="22" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Button IsEnabled="False" x:Name="StopButton" Content="Stop" Margin="144,221,0,0" Click="StopButton_Click" RenderTransformOrigin="0.547,0.409" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Grid.Column="1"/>
+                    <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="119,143,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+                    <TextBox x:Name="UsernameBox" HorizontalAlignment="Left" Height="23" Margin="119,115,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+                    <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="144,168,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click" Grid.Column="1"/>
+                    <Image HorizontalAlignment="Left" Height="74" Margin="145,10,0,0" VerticalAlignment="Top" Width="74" Source="Resources/openPlaylistLogoSpotifyColorsLit.png" MouseDown="Image_MouseDown" Grid.Column="1"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Playlist">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="PlaylistView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                    <ListView x:Name="PlaylistView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Tracks}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />

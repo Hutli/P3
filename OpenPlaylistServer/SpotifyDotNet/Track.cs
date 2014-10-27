@@ -18,8 +18,14 @@ namespace SpotifyDotNet
         public String Name { get; private set; }
         public Boolean IsLoaded { get { return libspotify.sp_track_is_loaded(_trackPtr); } }
         public int Duration { get { return libspotify.sp_track_duration(_trackPtr); } }
+        public string Uri { get; private set; }
 
         internal Track(IntPtr trackPtr)
+        {
+            Init(trackPtr);
+        }
+
+        private void Init(IntPtr trackPtr)
         {
             this._trackPtr = trackPtr;
 
@@ -37,6 +43,8 @@ namespace SpotifyDotNet
         public Track(string trackUri)
         {
             _trackPtr = SpotifyLoggedIn.Instance.TrackUriToIntPtr(trackUri);
+            Uri = trackUri;
+            Init(_trackPtr);
         }
 
         ~Track()

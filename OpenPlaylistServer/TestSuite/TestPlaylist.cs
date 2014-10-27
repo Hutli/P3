@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,51 +36,52 @@ namespace TestSuite {
         public void PlaylistNextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
-            PlaylistTrack pTrack1 = new PlaylistTrack();
-            PlaylistTrack pTrack2 = new PlaylistTrack();
+            PlaylistTrack PlaylistTrack1 = new PlaylistTrack("spotify:track:5HWfldQwYjuvDXp1hWMlAH");
+            PlaylistTrack PlaylistTrack2 = new PlaylistTrack();
             User a = new User("1234");
             User b = new User("2345");
             User c = new User("3456");
 
-            pl._tracks.Add(pTrack1);
-            pl._tracks.Add(pTrack2);
+            pl.Add(PlaylistTrack1);
+            
+            pl.AddByRef(PlaylistTrack2);
 
-            a.Vote = pTrack2;
-            b.Vote = pTrack1;
-            c.Vote = pTrack1;
+            a.Vote = PlaylistTrack2;
+            b.Vote = PlaylistTrack1;
+            c.Vote = PlaylistTrack1;
 
             users.Add(a); //votes for track 2
-            Assert.Equal(pTrack2, pl.NextTrack(users)); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
+            Assert.Equal(PlaylistTrack2, pl.NextTrack(users)); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
 
             users.Add(b); //votes for track 1
             users.Add(c); //votes for track 1
-            Assert.Equal(pTrack1, pl.NextTrack(users)); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
+            Assert.Equal(PlaylistTrack1, pl.NextTrack(users)); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
         }
 
         [Fact]
         public void PlaylistCurrentStandingGivesCorrectRes() {
             List<User> users = new List<User>();
             Playlist pl = new Playlist();
-            PlaylistTrack pTrack1 = new PlaylistTrack();
+            PlaylistTrack PlaylistTrack1 = new PlaylistTrack();
             User a = new User("1234");
 
             users.Add(a);
-            a.Vote = pTrack1;
-            pl._tracks.Add(pTrack1);
+            a.Vote = PlaylistTrack1;
+            pl.AddByRef(PlaylistTrack1);
 
-            Assert.Equal(0, pTrack1.TScore);
+            Assert.Equal(0, PlaylistTrack1.TScore);
 
             pl.CurrentStanding(users);
 
-            Assert.Equal(1, pTrack1.TScore);
+            Assert.Equal(1, PlaylistTrack1.TScore);
         }
 
         [Fact]
         public void PlaylistAddByURIAddsTrack() {
             Playlist pl = new Playlist();
-            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-            Assert.True(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
         }
 
         [Fact]
@@ -88,24 +89,24 @@ namespace TestSuite {
             Playlist pl = new Playlist();
             Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
             PlaylistTrack pt = new PlaylistTrack(t);
-            Assert.False(pl._tracks.Contains(pt));
-            pl.AddByRef(t);
-            Assert.Single(pl._tracks, pt);
+            Assert.False(pl.Tracks.Contains(pt));
+            pl.AddByRef(pt);
+            Assert.Single(pl.Tracks, pt);
         }
 
         public void PlaylistRemoveByTitleRemovesTrack() {
             Playlist pl = new Playlist();
-            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-            Assert.True(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
             pl.RemoveByTitle("Obliteration of the Weak");
-            Assert.False(pl._tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
         }
         #endregion
 
-        #region PTrack
+        #region PlaylistTrack
         [Fact]
-        public void PTrackConstructor() {
+        public void PlaylistTrackConstructor() {
             Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             PlaylistTrack pt = new PlaylistTrack(t);
             Assert.True(pt.Name == "Obliteration of the Weak", "Name does not match");

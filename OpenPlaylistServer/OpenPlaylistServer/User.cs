@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +28,9 @@ namespace OpenPlaylistServer {
             _id = id;
         }
 
-        public User(string id, PlaylistTrack vote) {
-            _id = id;
-            _vote = vote;
-        }
+        //public User(string id, playlistTrack vote) {
+        //    _id = id;
+        //    _vote = vote;
+        //}
     }
 }

@@ -54,12 +54,21 @@
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.0.23.2\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy.Bootstrappers.StructureMap">
+      <HintPath>..\..\packages\Nancy.Bootstrappers.StructureMap.0.23.2\lib\net40\Nancy.Bootstrappers.StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.23.2\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.7.1.17, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\..\packages\structuremap.3.1.4.143\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -80,15 +89,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="IMainWindow.cs" />
+    <Compile Include="IMainWindowViewModel.cs" />
+    <Compile Include="IPlaylistService.cs" />
+    <Compile Include="IUserService.cs" />
+    <Compile Include="IVoteService.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Playlist.cs" />
+    <Compile Include="PlaylistService.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PTrack.cs" />
-    <Compile Include="TestNancyModule.cs" />
+    <Compile Include="PlaylistTrack.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="VoteModule.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="VoteService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

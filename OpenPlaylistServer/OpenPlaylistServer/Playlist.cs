@@ -9,12 +9,20 @@ using System.Collections;
 
 namespace OpenPlaylistServer {
     public class Playlist{
-        public List<PlaylistTrack> _tracks;
+        private ObservableCollection<PlaylistTrack> _tracks;
 
         public Playlist(){
-            _tracks = new List<PlaylistTrack>();
+            _tracks = new ObservableCollection<PlaylistTrack>();
         }
 
+        public IEnumerable<PlaylistTrack> Tracks { 
+            get {
+                    foreach (var item in _tracks)
+                    {
+                        yield return item;
+                    }
+                } 
+        }
 
         private int _totalDuration;
 
@@ -25,8 +33,8 @@ namespace OpenPlaylistServer {
         }
 
         public void AddByURI(string trackUri){
-            PlaylistTrack ptrack = new PlaylistTrack(trackUri);
-            _tracks.Add(ptrack);
+            PlaylistTrack PlaylistTrack = new PlaylistTrack(trackUri);
+            _tracks.Add(PlaylistTrack);
         }
 
         public void RemoveByTitle(string name) {
@@ -65,7 +73,7 @@ namespace OpenPlaylistServer {
         public PlaylistTrack NextTrack(List<User> users) {
             CountVotes(users);
 
-            Sort(_tracks);
+            //Sort(_tracks);
             PlaylistTrack next = _tracks.First();
             next.ResetPScore();
             _tracks.Remove(next);
@@ -92,16 +100,20 @@ namespace OpenPlaylistServer {
         }
 
         private void CountVotes(List<User> users) {
+            // group users by which track they have voted on
             var grouping = users.GroupBy(u => u.Vote);
+
             foreach (var track in grouping)
             {
-                List<User> tempUsers = new List<User>();
+                int numVotesOnTrack = 0;
+
+                // count how many users voted for each track and update the pScore (permanent score)
                 foreach (var user in track)
                 {
-                    tempUsers.Add(user);
+                    numVotesOnTrack += 1;
                 }
-                if (_tracks.Contains(track.Key))
-                    track.Key.UpdatePScore(tempUsers);
+                
+                track.Key.UpdatePScore(numVotesOnTrack);
             }
         }
     }
