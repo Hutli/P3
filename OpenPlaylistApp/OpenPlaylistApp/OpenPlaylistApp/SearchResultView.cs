@@ -44,7 +44,7 @@ namespace OpenPlaylistApp
                 case SearchType.TRACK:
                     cell.SetBinding(TextCell.TextProperty, "Name");
                     cell.SetBinding(TextCell.DetailProperty, "Album.Artists[0].Name");
-                    cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
+                    //cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
                     list.ItemTemplate = cell;
                     break;
                 case SearchType.ALBUM:
@@ -79,7 +79,7 @@ namespace OpenPlaylistApp
             if (e.SelectedItem is Track)
             {
                 Track track = (Track)e.SelectedItem;
-                PlaylistViewModel.vote = track;
+                //PlaylistViewModel.vote = track;
                 Session session = Session.Instance();
                 
                 try
@@ -88,7 +88,7 @@ namespace OpenPlaylistApp
                 } catch(Exception ex) {
                     //throw new ConnectionToServerFaultedException("An error occured: '{0}'",ex);
                     
-                    App.GetMainPage().DisplayAlert("Error",ex.Message, "OK");
+                    App.GetMainPage().DisplayAlert("Error",ex.Message, "OK", "Cancel");
                 }
             }
             else if (e.SelectedItem is Album)
