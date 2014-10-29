@@ -1,57 +1,51 @@
 \subsection{FACTOR}
-\subsubsection{Functionality:}
+\subsubsection{Functionality}
 \begin{itemize}
-    \item Search for tracks
-    \item Submit votes/requests
-    \item Login
-    \item Choose music retrictions
-    \item Choose next track
+    \item Enable users to submit votes
+    \item Administrative overriding of playlist ordering
+    \item Limit the track space the users can search in, at any given time
+    \item View history of played tracks
+    \item Playback of tracks
 \end{itemize}
 
-\subsubsection{Application-domain:}
+\subsubsection{Application Domain}
 \begin{itemize}
-    \item Audiosystem
-    \item Bartenders/Administrators
-    \item Bargoers
+    \item Administration of tracks and request
+    \item The order of the tracks on the playlist
+    \item Playback of the playlist
 \end{itemize}
 
-\subsubsection{Conditions:}
+\subsubsection{Conditions}
 \begin{itemize}
-    \item Boundaries of what music is allowed at the specific bar 
-    \item Efficiently execute a music related intent, while remaining easily accessible even for slightly intoxicated users.
+    \item The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users.
+    \item Limitation of what music is allowed at the venue
     \item Has to keep track of what users are on location
 \end{itemize}
 
-
-
-\subsubsection{Technology:}
+\subsubsection{Technology}
 \begin{itemize}
     \item Smartphones
     \item Computer (local server)
     \item Internet
-    \item Spotify
+    \item Digital music library
 \end{itemize}
 
-A cheap computer with a with varying stability of internet access and a Spotify Premium license, smartphone with varying internet access.
-
-\subsubsection{Objects:}
+\subsubsection{Objects}
 \begin{itemize}
     \item Tracks
-    \item Votes/Requests
-    \item Users/Devices
-    \item Queue/Playlist
+    \item Votes
+    \item Users
+    \item Playlist
     \item Filter
     \item Admin
 \end{itemize}
 
-
-\subsubsection{Responsibility:}
+\subsubsection{Responsibility}
 \begin{itemize}
-    \item Social interaction
-    \item Icebreaker
-    \item Influence
+    \item User influence on music playback
+    \item Administrative control for the venue
 \end{itemize}
 
-\subsection{Systemdefinition}
-
-An information system, capable of efficiently executing a music related intent, within boundaries of set by the bar, while remaining easily accessible even for slightly intoxicated users.  The system should be able to help bartenders keep track of what music the bargoers wants to listen to \chnote{and whether the requests on track is still relevant(is the user still on location?)}, and be fair in the progression of the music, argued by the history of previously played tracks, when a track was requested and how many bargoes has the same request. The system has to run on a cheap computer with a varying stability of internet access and a Spotify Premium license, and smartphones with varying internet access. The system should introduce a social interaction by displaying already requested tracks to all bargoers, suggesting a democratic environment at the bar, for bargoes to have an influence on, but also serve as an icebreaker for the visitors between.
+\subsection{System Definition}
+An information system enabling users to vote for and request tracks while at a venue. The system should enable the administrators to override the specific tracks and limit the track space the users can search in, at any given time. The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users. The system should display already requested tracks to all customers, as to improve discoverability.
+The administrative server has to be able to run on an inexpensive computer with a varying stability of internet access and access to a music catalogue. The client application has to run on smartphones with varying internet access.

@@ -10,7 +10,9 @@
 \usepackage{graphicx} % insertion of images
 \graphicspath{{Images/}} % folder to use for images
 \usepackage{listings} % source code
-
+%itemize spacing
+\usepackage{enumitem}
+\setlist[1]{itemsep=-5pt}
 %flotte listings
 \lstset{language=[Sharp]C}
 \usepackage[nottdefault]{sourcecodepro}
@@ -45,10 +47,10 @@ bibencoding=utf8,
 
 % http://tex.stackexchange.com/questions/42063/illogical-twoside-margins
 % layout page auto-centering horizontally and allow for press binding
-\usepackage[hcentering,bindingoffset=8mm]{geometry} 
+\usepackage[hcentering,bindingoffset=8mm]{geometry}
 
 \usepackage{hyperref} % hyperlinks in pdf
-\usepackage{cleveref} % clever references. Use with \cref... 
+\usepackage{cleveref} % clever references. Use with \cref...
 
   % ¤¤ Kapiteludssende ¤¤ %
 \usepackage{titlesec}
@@ -68,7 +70,7 @@ bibencoding=utf8,
 
 \fancypagestyle{BasicStyle}{
 	\fancyhead[OL, ER]{
-		{\Large Aalborg Universitet}\\
+		{\Large Aalborg University}\\
 		Group ds318e14}
 	\fancyhead[OR]{\nouppercase{\rightmark} \includegraphics[scale=0.25]{aau_logo_cropped.png}}
 	\fancyhead[EL]{\includegraphics[scale=0.25]{aau_logo_cropped.png} \nouppercase{\leftmark}}
