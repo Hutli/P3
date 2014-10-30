@@ -17,8 +17,6 @@ namespace WebAPILib {
 
 		public string Name { get { return _name; } }
 
-		public virtual string URI { get { return ""; } }
-		//TODO generate URI
+		public virtual string URI { get { return ""; } } //TODO generate URI
 	}
 }
-
