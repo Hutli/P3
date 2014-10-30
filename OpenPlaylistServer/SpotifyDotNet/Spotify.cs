@@ -216,7 +216,7 @@ namespace SpotifyDotNet
 
         public Task<Tuple<SpotifyLoggedIn,LoginState>> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
-            Task<Tuple<SpotifyLoggedIn, LoginState>> t = new Task<Tuple<SpotifyLoggedIn, LoginState>>(() =>
+            var t = Task<Tuple<SpotifyLoggedIn, LoginState>>.Factory.StartNew(() =>
             {
                 Init(appkey);
                 lock (_sync)
@@ -226,7 +226,6 @@ namespace SpotifyDotNet
                 _loggedInResetEvent.WaitOne();
                 return new Tuple<SpotifyLoggedIn,LoginState>(spotifyLoggedIn,_loginState);
             });
-            t.Start();
             return t;
         }
     }
