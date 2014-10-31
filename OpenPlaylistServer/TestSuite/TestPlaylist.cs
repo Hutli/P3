@@ -32,31 +32,33 @@ namespace TestSuite {
         }
 
         #region Playlist
-        //[Fact]
-        //public void PlaylistNextTrackHasHighestVotes() { //Tests that the next track is the one with highest votes
-        //    List<User> users = new List<User>();
-        //    Playlist pl = new Playlist();
-        //    PlaylistTrack PlaylistTrack1 = new PlaylistTrack("spotify:track:5HWfldQwYjuvDXp1hWMlAH");
-        //    PlaylistTrack PlaylistTrack2 = new PlaylistTrack();
-        //    User a = new User("1234");
-        //    User b = new User("2345");
-        //    User c = new User("3456");
+        [Fact]
+        public void PlaylistNextTrackHasHighestVotes()
+        { //Tests that the next track is the one with highest votes
+            List<User> users = new List<User>();
+            
+            //Playlist pl = new Playlist();
+            PlaylistTrack PlaylistTrack1 = new PlaylistTrack("spotify:track:5HWfldQwYjuvDXp1hWMlAH");
+            PlaylistTrack PlaylistTrack2 = new PlaylistTrack();
+            User a = new User("1234");
+            User b = new User("2345");
+            User c = new User("3456");
 
-        //    pl.Add(PlaylistTrack1);
+            pl.Add(PlaylistTrack1);
 
-        //    pl.AddByRef(PlaylistTrack2);
+            pl.AddByRef(PlaylistTrack2);
 
-        //    a.Vote = PlaylistTrack2;
-        //    b.Vote = PlaylistTrack1;
-        //    c.Vote = PlaylistTrack1;
+            a.Vote = PlaylistTrack2;
+            b.Vote = PlaylistTrack1;
+            c.Vote = PlaylistTrack1;
 
-        //    users.Add(a); //votes for track 2
-        //    Assert.Equal(PlaylistTrack2, pl.NextTrack(users)); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
+            users.Add(a); //votes for track 2
+            Assert.Equal(PlaylistTrack2, pl.NextTrack(users)); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
 
-        //    users.Add(b); //votes for track 1
-        //    users.Add(c); //votes for track 1
-        //    Assert.Equal(PlaylistTrack1, pl.NextTrack(users)); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
-        //}
+            users.Add(b); //votes for track 1
+            users.Add(c); //votes for track 1
+            Assert.Equal(PlaylistTrack1, pl.NextTrack(users)); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
+        }
 
         //[Fact]
         //public void PlaylistCurrentStandingGivesCorrectRes() {
@@ -105,14 +107,14 @@ namespace TestSuite {
         #endregion
 
         #region PlaylistTrack
-        //[Fact]
-        //public void PlaylistTrackConstructor() {
-        //    Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
-        //    PlaylistTrack pt = new PlaylistTrack(t);
-        //    Assert.True(pt.Name == "Obliteration of the Weak", "Name does not match");
-        //    Assert.True(pt.Track == t, "Track does not match");
-        //    Assert.True(pt.Duration == 232000, "Duration does not match");
-        //}
+        [Fact]
+        public void PlaylistTrackConstructor()
+        {
+            //Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
+            PlaylistTrack pt = new PlaylistTrack("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.Equal("Obliteration of the Weak", pt.Name);
+            Assert.Equal(232000, pt.Duration);
+        }
         #endregion
 
         #region SpotifyLoggedIn
