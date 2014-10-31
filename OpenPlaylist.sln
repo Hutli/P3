@@ -27,6 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "OpenPlaylistSe
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{c0c10e8d-ba00-4a50-87f9-e95b55e4a45b}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{2205d30a-ba6d-4d6c-bf73-011280eb0c56}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{8d15b1f9-0fe6-4c8d-a427-d9ad29e57aa7}*SharedItemsImports = 4
 		OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.projitems*{9a56fc8d-82c1-4f13-9699-62b8573bcd9b}*SharedItemsImports = 13
