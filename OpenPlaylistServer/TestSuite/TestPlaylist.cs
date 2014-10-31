@@ -119,8 +119,9 @@ namespace TestSuite {
         [Fact]
         public void SpotifyLoggedInTrackFromLinkLoadsCorrectly() {
             Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
-            Assert.True(t.Name == "Obliteration of the Weak", "Name does not match");
-            Assert.True(t.Duration == 232000, "Duration does not match");
+            
+            Assert.Equal("Obliteration of the Weak", t.Name);
+            Assert.Equal(232000, t.Duration);
         }
 
         // This has never worked
