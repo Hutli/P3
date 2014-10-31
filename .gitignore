@@ -8,6 +8,7 @@
 *.userprefs
 *.designer.cs
 !Resources.Designer.cs
+/tmp/
 
 # Build results
 [Dd]ebug/
