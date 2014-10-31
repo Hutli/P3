@@ -183,12 +183,10 @@ namespace SpotifyDotNet
 
         private void NotifyMain(IntPtr session)
         {
-            _notifyMainTask = new Task(() =>
+            _notifyMainTask = Task.Run(() =>
             {
                 ProcessEvents();
             });
-
-            _notifyMainTask.Start();
         }
 
         internal void ProcessEvents()
@@ -205,7 +203,11 @@ namespace SpotifyDotNet
 
         public void Dispose()
         {
-            _notifyMainTask.Dispose();
+            if (_notifyMainTask != null)
+            {
+                _notifyMainTask.Dispose();
+            }
+            
             lock (_sync)
             {
                 libspotify.sp_session_release(_sessionPtr);
@@ -216,7 +218,7 @@ namespace SpotifyDotNet
 
         public Task<Tuple<SpotifyLoggedIn,LoginState>> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
-            var t = Task<Tuple<SpotifyLoggedIn, LoginState>>.Factory.StartNew(() =>
+            var t = Task<Tuple<SpotifyLoggedIn, LoginState>>.Run(() =>
             {
                 Init(appkey);
                 lock (_sync)
