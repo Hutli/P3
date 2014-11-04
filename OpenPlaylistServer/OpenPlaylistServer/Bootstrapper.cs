@@ -17,19 +17,5 @@ namespace OpenPlaylistServer
         {
             return ObjectFactory.Container;
         }
-
-        public static void Initialise()
-        {
-            ObjectFactory.Initialize(x =>
-            {
-                x.For<IMainWindow>().Use<MainWindow>();
-                x.For<IMainWindowViewModel>().Use<MainWindowViewModel>();
-
-                x.ForSingletonOf<IPlaylistService>().Use<PlaylistService>();
-                x.ForSingletonOf<IVoteService>().Use<VoteService>();
-                x.ForSingletonOf<IUserService>().Use<UserService>();
-                x.ForSingletonOf<IPlaybackService>().Use<PlaybackService>();
-            });
-        }
     }
 }

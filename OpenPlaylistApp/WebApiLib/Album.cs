@@ -38,17 +38,17 @@ namespace WebAPILib {
 
 		public string Href{ get { return "https://api.spotify.com/v1/albums/" + ID; } }
 
-		private void cache(){ //Loads artists and tracks from spotify if they aren't already loaded
+		private void cache(){ //Loads artists and tracks from spotify
 			JObject o = Search.getJobject(Href);
-			if (!_artistsCached) {
+			if (!_artistsCached) { //Load artists
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject jsonArtist in o["artists"]) {
 					string id = Convert.ToString (jsonArtist ["id"]);
 					string name = Convert.ToString (jsonArtist ["name"]);
-					if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) {
+					if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) { //If artist already exists, add album to artist
 						SearchResult.Artists.Find (a => id.Equals (a.ID)).AddAlbum (this); 
 						artists.Add (SearchResult.Artists.Find (a => id.Equals (a.ID)));
-					} else {
+					} else { //If artist does not exist, create new artists
 						Artist tmpArtist = new Artist (id, name, SearchResult);
 						tmpArtist.AddAlbum (this);
 						SearchResult.AddArtist (tmpArtist);
@@ -58,7 +58,7 @@ namespace WebAPILib {
 				_artists = artists;
 				_artistsCached = true;
 			}
-			if (!_tracksCached) {
+			if (!_tracksCached) { //Load Tracks
 				List<Track> tracks = new List<Track> ();
 				foreach (JObject jsonTrack in o["tracks"]["items"]) {
 					string id = (string)(jsonTrack ["id"]);
@@ -68,7 +68,7 @@ namespace WebAPILib {
 					int trackNumber = (int)(jsonTrack ["track_number"]);
 					if (SearchResult.Tracks.Exists (a => id.Equals (a.ID)))
 						_tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
-					else {
+					else { //
 						Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
 						SearchResult.AddTrack (tmpTrack);
 						_tracks.Add (tmpTrack);

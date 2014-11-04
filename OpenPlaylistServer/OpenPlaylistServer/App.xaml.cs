@@ -17,7 +17,16 @@ namespace OpenPlaylistServer
     {
         public App()
         {
-            Bootstrapper.Initialise();
+            ObjectFactory.Initialize(x =>
+            {
+                x.For<IMainWindow>().Use<MainWindow>();
+                x.For<IMainWindowViewModel>().Use<MainWindowViewModel>();
+
+                x.ForSingletonOf<IPlaylistService>().Use<PlaylistService>();
+                x.ForSingletonOf<IVoteService>().Use<VoteService>();
+                x.ForSingletonOf<IUserService>().Use<UserService>();
+                x.ForSingletonOf<IPlaybackService>().Use<PlaybackService>();
+            });
         }
 
         protected override void OnStartup(StartupEventArgs e)

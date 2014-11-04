@@ -99,10 +99,16 @@ namespace SpotifyDotNet
 
                 if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
                 {
-                    IntPtr sPlaylistTrackPtr = libspotify.sp_link_as_track(spLinkPtr);
-                    return new Track(sPlaylistTrackPtr);
+                    IntPtr trackLinkPtr = libspotify.sp_link_as_track(spLinkPtr);
+                    //libspotify.sp_link_release(spLinkPtr);
+
+                    return new Track(trackLinkPtr);
                 }
-                else throw new ArgumentException("URI was not a track URI");
+                else
+                {
+                    //libspotify.sp_link_release(spLinkPtr);
+                    throw new ArgumentException("URI was not a track URI");
+                }
             });
 
             return t;

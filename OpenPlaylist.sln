@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenPlaylistApp", "OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp\OpenPlaylistApp.shproj", "{9A56FC8D-82C1-4F13-9699-62B8573BCD9B}"
 EndProject
@@ -22,11 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistServer", "OpenPlaylistServer\OpenPlaylistServer\OpenPlaylistServer.csproj", "{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyDotNet", "OpenPlaylistServer\SpotifyDotNet\SpotifyDotNet.csproj", "{0D5C88B0-DA42-43F0-9E81-B544F44E26D6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{13499ED9-C030-43B7-9EE3-EADB5E97BB6A}"
-	ProjectSection(SolutionItems) = preProject
-		OpenPlaylistServer\.nuget\packages.config = OpenPlaylistServer\.nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "OpenPlaylistServer\TestSuite\TestSuite.csproj", "{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B}"
 EndProject
@@ -405,7 +400,6 @@ Global
 		{89BFBABE-6865-438B-945E-6924C3E94883} = {C7A060F0-6AEC-4785-A433-34F152122CAD}
 		{2F5748F5-AE2A-4680-889C-1F6E1EC0B846} = {2DE8C8E7-CE29-4610-8538-2607BEC3965C}
 		{0D5C88B0-DA42-43F0-9E81-B544F44E26D6} = {2DE8C8E7-CE29-4610-8538-2607BEC3965C}
-		{13499ED9-C030-43B7-9EE3-EADB5E97BB6A} = {2DE8C8E7-CE29-4610-8538-2607BEC3965C}
 		{B8FD539C-23E2-4E8B-ABC9-6A12CE7C9F6B} = {2DE8C8E7-CE29-4610-8538-2607BEC3965C}
 	EndGlobalSection
 EndGlobal

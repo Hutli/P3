@@ -1,65 +1,36 @@
-To find the initial base concepts of the system it was choosen to look at the current State of the Art. During research of this, it was found that many different concepts were being used. Three systems
-were chosen as focus points, SecretDJ, Mixgar and Rockbot, as they together
-represent many concepts found during research and illustrates the
-implementation of these.
+To find the initial base concepts of the system it was choosen to look at the current State of the Art. During research of this, it was found that many different concepts were being used. Three systems were chosen as focus points, SecretDJ, Mixgar and Rockbot, as they together represent many concepts found during research and illustrates the implementation of these.
 
-The rest of this section will focus on describing each concept and the
-specific implementations of it. These concepts serve as inspiration for
-the design phase of this project.
+The rest of this section will focus on describing each concept and the specific implementations of it. These concepts serve as inspiration for the design phase of this project.
 
 \subsection{Playlist}
-All three systems work with the concept of a playlist. Tracks are
-added to the playlist by user requests. The tracks can now change
-positions in the queue in two ways. The users can vote on the tracks
-or the music system can decide what the most fitting track is at any 
-given time.
+All three systems work with the concept of a playlist. Tracks are added to the playlist by user requests. The tracks can now change positions in the queue in two ways. The users can vote on the tracks or the music system can decide what the most fitting track is at any given time.
 
 \subsection{Voting}
-All three systems implement voting of tracks in some way. SecretDJ and
-Rockbot only allow up-votes i.e. users can only vote for a track they would like to be
-played. Mixgar also implements the concept of down-voting
-tracks, enabling the user to vote for tracks they would not like to be played.
+All three systems implement voting of tracks in some way. SecretDJ and Rockbot only allow up-votes i.e. users can only vote for a track they would like to be played. Mixgar also implements the concept of down-voting tracks, enabling the user to vote for tracks they would not like to be played.
 
 \subsection{Requesting}
-The three systems each implement requesting in different ways. The
-first implementation method of the concept, done by Rockbot, is
-unlimited requests. Users can add unlimited tracks to the
-playlist. To balance this, requests made by more active and liked
+The three systems each implement requesting in different ways. The first implementation method of the concept, done by Rockbot, is unlimited requests. Users can add unlimited tracks to the playlist. To balance this, requests made by more active and liked
 users, start in better positions.
 
-The second approach is that users have a limited amount of
-requests. This is done by SecretDJ where the limit initially starts at
-four tracks per user per day and then rises as the user becomes more
-active and liked.
+The second approach is that users have a limited amount of requests. This is done by SecretDJ where the limit initially starts at four tracks per user per day and then rises as the user becomes more active and liked.
 
-The third and last implementation is done by Mixgar. The playlist is
-automatically rearranged by the system. This approach is described in
-greater detail in \cref{sub:auto_rearrange_playlist}.
+The third and last implementation is done by Mixgar. Tracks are  automatically added to playlist by the system. This is done from the users preferences when they arrive at the venue giving the user a indirect request system. This approach is described in greater detail in \cref{sub:auto_rearrange_playlist}.
+
+\subsection{Unifying Votes and Requests}
+A concept was derived from the ideas of voting and requesting. In this concept, votes and request are the same thing. This is done by perceiving all tracks in the music catalogue of the venue, as being eligible for votes, but only tracks with at least one vote will be put on the playlist. This voids the need for requests, while still keeping the functionality, and simplifying the whole system.
+For these reasons, the rest of the project will work under this unified concept, and will refer to user requests as votes.
 
 \subsection{Social Network Integration}
-SecretDJ and Mixgar utilise social networks to better target the users by analysing their music preferences. The
-integration of social networks also allow social interaction between the users of the system, based on their music preferences.
+SecretDJ and Mixgar utilise social networks to better target the users by analysing their music preferences. The integration of social networks also allow social interaction between the users of the system, based on their music preferences.
 
 \subsection{Automatic Rearrangement of Playlist}
 \label{sub:auto_rearrange_playlist}
-In the case of Mixgar, the users cannot request tracks and their votes
-do not directly decide the flow of the music. 
-Mixgar works with the concept of the system adding tracks to the playlist
-automatically. First off the system utilises the users’ Facebook likes
-to find out what artists and genres the users like. With this data, a
-playlist is created. The system now accumulates data about the party’s
-mood curve from the users votes and the progression of tracks that are played. The system
-can then, based upon this, automatically arrange tracks in the
-playlist.
+In the case of Mixgar, the users cannot request tracks and their votes do not directly decide the flow of the music. 
+Mixgar works with the concept of the system adding tracks to the playlist automatically. First off the system utilises the users’ Facebook likes to find out what artists and genres the users like. With this data, a playlist is created. The system now accumulates data about the party’s mood curve from the users votes and the progression of tracks that are played. The system can then, based upon this, automatically arrange tracks in the playlist.
 
 \subsection{Administrative Editing of Playlist}
-Both Rockbot and
-Mixgar implements the ability for administrators at venues to remove, add
-and move tracks around on the playlist, essentially overriding user choice. Especially for Rockbot, this
-is a very strong selling point for businesses which suggests that it
-is very important for the venues to have the last say and control in
-what is played since it is their bar and neither the system nor the users
-should be able subdue the venues' wishes.
+Both Rockbot and Mixgar implements the ability for administrators at venues to remove, add and move tracks around on the playlist, essentially overriding user choice. Especially for Rockbot, this is a very strong selling point for businesses which suggests that it
+is very important for the venues to have the last say and control in what is played since it is their bar and neither the system nor the users should be able subdue the venues' wishes.
 
 \subsection{Administrative Restriction of Playlist}
 In both Mixgar's and Rockbot's system, the administrators are able to

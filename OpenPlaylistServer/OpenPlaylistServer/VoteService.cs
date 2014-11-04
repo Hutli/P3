@@ -17,7 +17,7 @@ namespace OpenPlaylistServer
             _userService = userService;
         }
 
-        public async void Vote(string userId, string trackUri)
+        public void Vote(string userId, string trackUri)
         {
             User user;
             
