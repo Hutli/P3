@@ -90,6 +90,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Filter.cs" />
+    <Compile Include="FilterItem.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="IMainWindowViewModel.cs" />
     <Compile Include="IPlaybackService.cs" />
