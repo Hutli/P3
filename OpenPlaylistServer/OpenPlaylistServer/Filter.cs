@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OpenPlaylistServer {
     public class Filter {
-        private List<FilterItem> Filter = new List<FilterItem>();
+        private List<FilterItem> _filter = new List<FilterItem>();
         public void AddFilter(FilterItem filter) {
-            Filter.Add(filter);
+            _filter.Add(filter);
         }
         public void AddFilter(Object attribtute, Object limit, Boolean white) {
             FilterItem tmp = new FilterItem(attribtute, limit, white);
-            Filter.Add(tmp);
+            _filter.Add(tmp);
         }
 
         public void ApplyFilter(List<PlaylistTrack> tracks){
