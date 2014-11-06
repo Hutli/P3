@@ -20,7 +20,7 @@ The system is used by people who go to bar-like environments, and are possibly i
 \subsection{Activities}
 \label{sub:pact_activities}
 
-Usage of the system requires the user to interact with their smartphone or similar device. Firstly the user must install the application on their device and sign in using their Facebook or Google account. When the user has signed in to the application, they will either have to go to the voting screen or request screen. When in the voting screen, the user can press an upvote button or downvote button for each track in the playlist. In the request screen, users can browse the available library, find a track they like and add it to the playlist.
+Usage of the system requires the user to interact with their smartphone or similar device. Firstly the user must install the application on their device. The installation process should not take a long time, or else the user might forget about the application. After the installation, the user must check-in to a venue. When the user is checked-in, the current playlist of the venue will be displayed. The transition from the check-in to the playlist screen should occur in less than 100 milliseconds as to not frustrate the user. From the playlist screen the user can vote on a track. Finding which track to vote for should not be a complex action, as this is an expected frequently done action.
 
 \subsection{Context}
 \label{sub:pact_context}
@@ -34,6 +34,11 @@ A dark environment with a lot of noise is common in bars/pubs. As people are oft
 
 The system runs on a host computer with an audio system connected and a business license for Spotify. This host computer is located at the installation site.
 
-For users to operate this system a smartphone with internet connection and adequate battery life is required. Login to the system requires a Facebook/Google account.
+For users to operate this system a smartphone with internet connection and adequate battery life is required.
 
 When designing the system, different smartphones and their characteristics have to be considered.
+
+\subsection{Summary}
+\label{sec:pact_summary}
+
+As the people using the system are possibly intoxicated and in contexts where a lot of social activity takes place, the system must be intuitive and efficient in its actions and navigation, as to not interrupt social connections. Therefor the system should focus on providing a small set of functionality that is easy to discover and fast to use.
