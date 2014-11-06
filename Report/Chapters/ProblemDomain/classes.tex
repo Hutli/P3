@@ -7,6 +7,8 @@
 \item A \textbf{Restriction} class allowing follow limiting the set of allowed tracks to be added to the playlist.
 \end{itemize}
 
+In order for the customer to be able to vote for a track, a uniform way of referencing to tracks is need, to achieve this a repertoire/catalogue \chnote{decide} is induced. The customer can the browse for a desired track.
+
 \noindent{As candidates for events, these possible actions on classes are considered:}
 \begin{itemize}
 \item Submitting/Canceling votes:
@@ -20,7 +22,7 @@
 \item New track is playing:
     When a another track instance ended, due to being skipped or reached the end. This should affect the \textbf{vote} count of a \textbf{track}. If a \textbf{customer}s track is played his vote should be neglected.
 \item Adding/Removing restrictions:
-    When the administrator either adds or removes a restriction for the system, this may also be by time intervals. Already added \textbf{track} that does not meet the requirements should be neglected. Cascading down through the specific \textbf{costumers} \textbf{vote}, and the playlist.
+    When the administrator either adds or removes a restriction for the system, this may also be by time intervals. Already added \textbf{track} that does not meet the requirements should be neglected. Cascading through the specific \textbf{costumers} \textbf{vote}, and the \textbf{playlist}.
 \end{itemize}
 
 The following event table is used to describe what classes are involved in the immediate events of the problem domain:
