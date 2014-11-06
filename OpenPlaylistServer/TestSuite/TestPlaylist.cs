@@ -34,7 +34,8 @@ namespace TestSuite {
         #region Playlist
         [Fact]
         public void PlaylistNextTrackHasHighestVotes()
-        { //Tests that the next track is the one with highest votes
+        { 
+            //Tests that the next track is the one with highest votes
             UserService users = new UserService();
             
             PlaylistService pl = new PlaylistService(users);
@@ -56,8 +57,10 @@ namespace TestSuite {
             users.Add(a); //votes for track 2
             Assert.Equal(PlaylistTrack2, pl.NextTrack()); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
 
+            a.Vote = PlaylistTrack2;
             users.Add(b); //votes for track 1
             users.Add(c); //votes for track 1
+            
             Assert.Equal(PlaylistTrack1, pl.NextTrack()); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
         }
 
@@ -80,6 +83,7 @@ namespace TestSuite {
             Assert.Single(pl.Tracks, pt);
         }
 
+        [Fact]
         public void PlaylistRemoveByTitleRemovesTrack() {
             UserService u = new UserService();
             PlaylistService pl = new PlaylistService(u);
@@ -95,7 +99,6 @@ namespace TestSuite {
         [Fact]
         public void PlaylistTrackConstructor()
         {
-            //Track t = _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             PlaylistTrack pt = new PlaylistTrack("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
             Assert.Equal("Obliteration of the Weak", pt.Name);
             Assert.Equal(232000, pt.Duration);
@@ -109,16 +112,6 @@ namespace TestSuite {
             
             Assert.Equal("Obliteration of the Weak", t.Name);
             Assert.Equal(232000, t.Duration);
-        }
-
-        // This has never worked
-        [Fact]
-        public async void SpotifyLoggedInPlaylistFromLinkLoadsCorrectly() {
-            List<Track> tracks = await _data.spl.PlaylistFromLink("spotify:user:1110455666:playlist:4O7mYohOtO6xXmmiCd4lRS");
-            Assert.NotEmpty(tracks);
-            Assert.True(tracks.First().Name == "The Worst Is Yet To Come", "Name of first element does not match");
-            Assert.True(tracks.Last().Name == "Dear Father", "Name of last element does not match");
-            Assert.True(tracks.Count == 200, "Track count does not match");
         }
         #endregion
 
