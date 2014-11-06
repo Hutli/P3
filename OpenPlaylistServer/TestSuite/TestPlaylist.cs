@@ -35,75 +35,60 @@ namespace TestSuite {
         [Fact]
         public void PlaylistNextTrackHasHighestVotes()
         { //Tests that the next track is the one with highest votes
-            List<User> users = new List<User>();
+            UserService users = new UserService();
             
-            //Playlist pl = new Playlist();
+            PlaylistService pl = new PlaylistService(users);
             PlaylistTrack PlaylistTrack1 = new PlaylistTrack("spotify:track:5HWfldQwYjuvDXp1hWMlAH");
-            PlaylistTrack PlaylistTrack2 = new PlaylistTrack();
+            PlaylistTrack PlaylistTrack2 = new PlaylistTrack("spotify:track:66ybn25Oh0CZ8dvrNrVDI1");
+
+
             User a = new User("1234");
             User b = new User("2345");
             User c = new User("3456");
 
             pl.Add(PlaylistTrack1);
-
-            pl.AddByRef(PlaylistTrack2);
+            pl.Add(PlaylistTrack2);
 
             a.Vote = PlaylistTrack2;
             b.Vote = PlaylistTrack1;
             c.Vote = PlaylistTrack1;
 
             users.Add(a); //votes for track 2
-            Assert.Equal(PlaylistTrack2, pl.NextTrack(users)); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
+            Assert.Equal(PlaylistTrack2, pl.NextTrack()); //t1 has 0 votes, t2 has 1 vote, tests that t2 is next
 
             users.Add(b); //votes for track 1
             users.Add(c); //votes for track 1
-            Assert.Equal(PlaylistTrack1, pl.NextTrack(users)); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
+            Assert.Equal(PlaylistTrack1, pl.NextTrack()); //t1 has 2 votes, t2 has 1 vote, tests that t1 is next
         }
 
-        //[Fact]
-        //public void PlaylistCurrentStandingGivesCorrectRes() {
-        //    List<User> users = new List<User>();
-        //    Playlist pl = new Playlist();
-        //    PlaylistTrack PlaylistTrack1 = new PlaylistTrack();
-        //    User a = new User("1234");
+        [Fact]
+        public void PlaylistAddByURIAddsTrack() {
+            UserService u = new UserService();
+            PlaylistService pl = new PlaylistService(u);
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
+        }
 
-        //    users.Add(a);
-        //    a.Vote = PlaylistTrack1;
-        //    pl.AddByRef(PlaylistTrack1);
+        [Fact]
+        public void PlaylistAddAddsTrack() {
+            UserService u = new UserService();
+            PlaylistService pl = new PlaylistService(u);
+            PlaylistTrack pt = new PlaylistTrack("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.False(pl.Tracks.Contains(pt));
+            pl.Add(pt);
+            Assert.Single(pl.Tracks, pt);
+        }
 
-        //    Assert.Equal(0, PlaylistTrack1.TScore);
-
-        //    pl.CurrentStanding(users);
-
-        //    Assert.Equal(1, PlaylistTrack1.TScore);
-        //}
-
-        //[Fact]
-        //public void PlaylistAddByURIAddsTrack() {
-        //    Playlist pl = new Playlist();
-        //    Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
-        //    pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-        //    Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
-        //}
-
-        //[Fact]
-        //public async void PlaylistAddByRefAddsTrack() {
-        //    Playlist pl = new Playlist();
-        //    Track t = await _data.spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-        //    PlaylistTrack pt = new PlaylistTrack(t);
-        //    Assert.False(pl.Tracks.Contains(pt));
-        //    pl.AddByRef(pt);
-        //    Assert.Single(pl.Tracks, pt);
-        //}
-
-        //public void PlaylistRemoveByTitleRemovesTrack() {
-        //    Playlist pl = new Playlist();
-        //    Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
-        //    pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
-        //    Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
-        //    pl.RemoveByTitle("Obliteration of the Weak");
-        //    Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
-        //}
+        public void PlaylistRemoveByTitleRemovesTrack() {
+            UserService u = new UserService();
+            PlaylistService pl = new PlaylistService(u);
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            pl.AddByURI("spotify:track:19pTAbMZmWsgGkYZ4v2TM1");
+            Assert.True(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
+            pl.RemoveByTitle("Obliteration of the Weak");
+            Assert.False(pl.Tracks.Any(e => e.Name == "Obliteration of the Weak"));
+        }
         #endregion
 
         #region PlaylistTrack
@@ -127,14 +112,14 @@ namespace TestSuite {
         }
 
         // This has never worked
-        //[Fact]
-        //public void SpotifyLoggedInPlaylistFromLinkLoadsCorrectly() {
-        //    List<Track> tracks = _data.spl.PlaylistFromLink("spotify:user:1110455666:playlist:4O7mYohOtO6xXmmiCd4lRS").Result;
-        //    Assert.NotEmpty(tracks);
-        //    Assert.True(tracks.First().Name == "The Worst Is Yet To Come", "Name of first element does not match");
-        //    Assert.True(tracks.Last().Name == "Dear Father", "Name of last element does not match");
-        //    Assert.True(tracks.Count == 200, "Track count does not match");
-        //}
+        [Fact]
+        public async void SpotifyLoggedInPlaylistFromLinkLoadsCorrectly() {
+            List<Track> tracks = await _data.spl.PlaylistFromLink("spotify:user:1110455666:playlist:4O7mYohOtO6xXmmiCd4lRS");
+            Assert.NotEmpty(tracks);
+            Assert.True(tracks.First().Name == "The Worst Is Yet To Come", "Name of first element does not match");
+            Assert.True(tracks.Last().Name == "Dear Father", "Name of last element does not match");
+            Assert.True(tracks.Count == 200, "Track count does not match");
+        }
         #endregion
 
     }
