@@ -154,52 +154,5 @@ namespace SpotifyDotNet
             }
             else throw new ArgumentException("URI was not a track URI");
         }
-
-        /// <summary>
-        /// Gets all tracks in a playlist
-        /// </summary>
-        /// <param name="uri">Valid Spotify playlist URI</param>
-        /// <returns>List of tracks in playlist</returns>
-        [Obsolete("This method does not currently work.")]
-        public Task<List<Track>> PlaylistFromLink(String link)
-        {
-            var t = Task.Run<List<Track>>(() =>
-            {
-
-                lock (_sync)
-                {
-                    IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
-                    IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-                    libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-                    List<Track> trackList = new List<Track>();
-
-                    if (linkType == libspotify.sp_linktype.SP_LINKTYPE_PLAYLIST)
-                    {
-                        IntPtr playlistPtr = libspotify.sp_playlist_create(_sessionPtr, spLinkPtr);
-
-                        // wait until playlist is loaded including metadata
-                        while (libspotify.sp_playlist_is_loaded(playlistPtr) == false)
-                        {
-                            Task.Delay(2);
-                        }
-
-                        int numTracks = libspotify.sp_playlist_num_tracks(playlistPtr);
-
-                        foreach (var i in Enumerable.Range(0, numTracks))
-                        {
-                            var trackPtr = libspotify.sp_playlist_track(playlistPtr, i);
-                            var track = new Track(trackPtr);
-                            trackList.Add(track);
-                        }
-                    }
-                    else throw new ArgumentException("URI was not a playlist URI");
-
-                    return trackList;
-                }
-            });
-
-            return t;
-        }
     }
 }
