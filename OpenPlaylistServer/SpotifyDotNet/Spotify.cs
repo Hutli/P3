@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpotifyDotNet
 {
+    /// <summary>
+    /// Possible states of the login operation
+    /// </summary>
     public enum LoginState
     {
         OK,
@@ -15,6 +18,10 @@ namespace SpotifyDotNet
         BadUsernameOrPassword
     }
 
+    /// <summary>
+    /// The main entry point for logging into Spotify. 
+    /// For anything other than logging in, use the SpotifyLoggedIn class obtained through <see cref="Login"/> method.
+    /// </summary>
     public class Spotify
     {
         private IntPtr _sessionPtr = IntPtr.Zero;
@@ -39,11 +46,30 @@ namespace SpotifyDotNet
         private SpotifyLoggedIn spotifyLoggedIn;
         private LoginState _loginState;
 
+        /// <summary>
+        /// Delivers audio data after SpotifyLoggedIn.Play(track) is excecuted.
+        /// </summary>
         public event Action<int, int, byte[]>  MusicDelivery;
+
+        /// <summary>
+        /// Signaled when a track has ended streaming.
+        /// </summary>
         public event Action TrackEnded;
+
+        /// <summary>
+        /// Called when a search has completed. Occurs after the call to SpotifyLoggedIn.Search(query).
+        /// </summary>
         public event Action<SearchResult> SearchComplete;
-        public TimeSpan BufferedDuration { get; set; }
-        public int BufferedBytes { get; set; }
+
+        /// <summary>
+        /// Used to tell how much data is currently buffered elsewhere
+        /// </summary>
+        public TimeSpan BufferedDuration { private get; set; }
+
+        /// <summary>
+        /// How many bytes are currently buffered elsewhere?
+        /// </summary>
+        public int BufferedBytes { private get; set; }
 
         private Spotify() { }
 
@@ -52,6 +78,9 @@ namespace SpotifyDotNet
             Dispose();
         }
 
+        /// <summary>
+        /// Returns an instance of the Spotify class.
+        /// </summary>
         public static Spotify Instance
         {
             get
@@ -216,6 +245,17 @@ namespace SpotifyDotNet
             System.GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Logs into Spotify
+        /// </summary>
+        /// <param name="username">Spotify username</param>
+        /// <param name="password">Spotify password</param>
+        /// <param name="rememberMe">Should login details be remembered for later use?</param>
+        /// <param name="appkey">The Spotify appKey retrieved as a registered spotify developer</param>
+        /// <returns>A tuple with the first element containing the spotifyLoggedIn object. 
+        ///          If login was unsuccessful spotifyLoggedIn object will be null, 
+        ///          and the second element of the tuple will contain the error desription.
+        /// </returns>
         public Task<Tuple<SpotifyLoggedIn,LoginState>> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
             var t = Task<Tuple<SpotifyLoggedIn, LoginState>>.Run(() =>

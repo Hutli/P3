@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SpotifyDotNet
 {
+    /// <summary>
+    /// Interaction with spotify services. Must be logged in through Spotify class.
+    /// </summary>
     public class SpotifyLoggedIn
     {
         private IntPtr _searchComplete;
@@ -26,6 +29,9 @@ namespace SpotifyDotNet
             this._sessionPtr = _sessionPtr;
         }
 
+        /// <summary>
+        /// Get an instance of SpotifyLoggedIn. Throws exception if not logged in via Spotify class.
+        /// </summary>
         public static SpotifyLoggedIn Instance
         {
             get
@@ -38,6 +44,10 @@ namespace SpotifyDotNet
             }
         }
 
+        /// <summary>
+        /// Starts a search. Will return results in the SearchComplete event on Spotify class.
+        /// </summary>
+        /// <param name="query">The query to search for</param>
         public void Search(string query)
         {
             IntPtr queryPointer = Marshal.StringToHGlobalAnsi(query);
@@ -49,6 +59,10 @@ namespace SpotifyDotNet
             }
         }
 
+        /// <summary>
+        /// Start receiving audio data on the given track. Data is delivered through the MusicDelivery event.
+        /// </summary>
+        /// <param name="track">The track to receive audio data on</param>
         public void Play(Track track)
         {
             if (_isPlaying)
@@ -78,17 +92,25 @@ namespace SpotifyDotNet
             Console.WriteLine("duration: " + track.Duration);
         }
 
+        /// <summary>
+        /// Stop receiving audio data.
+        /// </summary>
         public void Stop()
         {
             libspotify.sp_session_player_unload(_sessionPtr);
             _isPlaying = false;
         }
 
-        public Task<Track> TrackFromLink(String link)
+        /// <summary>
+        /// Get a track from a spotify URI. The uri must be a valid spotify track URI.
+        /// </summary>
+        /// <param name="uri">Valid Spotify track URI</param>
+        /// <returns></returns>
+        public Task<Track> TrackFromLink(String uri)
         {
             var t = Task.Run<Track>(() =>
             {
-                IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+                IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
                 IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
 
                 if (spLinkPtr == IntPtr.Zero)
@@ -114,9 +136,14 @@ namespace SpotifyDotNet
             return t;
         }
 
-        internal IntPtr TrackUriToIntPtr(string link)
+        /// <summary>
+        /// Creates a pointer to a track.
+        /// </summary>
+        /// <param name="uri">Valid Spotify track uri</param>
+        /// <returns>Pointer to a spotify track</returns>
+        internal IntPtr TrackUriToIntPtr(string uri)
         {
-            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(link);
+            IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
             IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
 
             libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
@@ -128,6 +155,12 @@ namespace SpotifyDotNet
             else throw new ArgumentException("URI was not a track URI");
         }
 
+        /// <summary>
+        /// Gets all tracks in a playlist
+        /// </summary>
+        /// <param name="uri">Valid Spotify playlist URI</param>
+        /// <returns>List of tracks in playlist</returns>
+        [Obsolete("This method does not currently work.")]
         public Task<List<Track>> PlaylistFromLink(String link)
         {
             var t = Task.Run<List<Track>>(() =>

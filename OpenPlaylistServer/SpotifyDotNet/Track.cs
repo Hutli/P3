@@ -15,9 +15,24 @@ namespace SpotifyDotNet
     {
         private IntPtr _trackPtr;
 
+        /// <summary>
+        /// The name of the track
+        /// </summary>
         public String Name { get; private set; }
+
+        /// <summary>
+        /// Has the track loaded all its metadata?
+        /// </summary>
         public Boolean IsLoaded { get { return libspotify.sp_track_is_loaded(_trackPtr); } }
+
+        /// <summary>
+        /// Duration of the track in milliseconds
+        /// </summary>
         public int Duration { get { return libspotify.sp_track_duration(_trackPtr); } }
+        
+        /// <summary>
+        /// The spotify track URI. Will only get correct string if track object was created with a spotify URI.
+        /// </summary>
         public string Uri { get; private set; }
 
         internal Track(IntPtr trackPtr)
@@ -52,12 +67,17 @@ namespace SpotifyDotNet
             Dispose();
         }
 
-        public SpError Load(IntPtr sessionPtr)
+        /// <summary>
+        /// Tell spotify to load this track for playback.
+        /// </summary>
+        /// <param name="sessionPtr">The sessionPtr of the spotify session</param>
+        /// <returns>Status of operation</returns>
+        internal SpError Load(IntPtr sessionPtr)
         {
             return libspotify.sp_session_player_load(sessionPtr, _trackPtr);
         }
 
-        public Availability GetAvailability(IntPtr sessionPtr)
+        internal Availability GetAvailability(IntPtr sessionPtr)
         {
             return libspotify.sp_track_get_availability(sessionPtr, _trackPtr);
         }
