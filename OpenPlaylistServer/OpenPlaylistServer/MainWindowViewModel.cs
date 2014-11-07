@@ -41,6 +41,9 @@ namespace OpenPlaylistServer
         public void TrackEnded()
         {
             PlaylistTrack next = _playlistService.NextTrack();
+            if(next != null) {
+                _playbackService.Play(next);
+            }
         }
 
         public void PlayButtonClicked()
