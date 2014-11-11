@@ -4,12 +4,31 @@
 
 \subsubsection{Mobile client}
 
+As described in \cref{sub:smartphone_usage}, execution of an request should be quick and easy, to keep down the time spend using the system. Throughout this section we will be follow guidelines from this book \cite{DEB}, to achieve this.
+
+\textbf{Navigation}
+
+Users build mental navigation maps of the systems their using, and they tend to keep using already memorised paths to certain view, see "Box 14.5: How people navigate" \cite{DEB}.
+First tip to achieve this is that the user should always be able to find "home", where the user started navigating, from every possible window of the system. This was achieved by having a home button in the top left corner, that always returns to home.
+Another tip is to provide a simple and short path to all view, this was achieved by making all views accessible from home. 
+
 \begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth]{Images/UserInterface.pdf}
   \caption{Diagram of navigation in the user interface}
   \label{fig:UserInterface}
 \end{figure}
+
+\begin{itemize}
+\item Venue view: The user is presented a list of venues for the user to check in at, see \cref{fig:VenueSketch}.
+\item Playlist view: The user is now checked in at a venue and is presented with the playlist of the venue, including with is current playing. See \cref{fig:PlaylistSketch}. 
+\item Browse view: From here the user can choose to a track to add to the playlist from a top- and hot list or choose to make a search query by clicking the magnifyglass. See \cref{fig:BrowseSketch}
+\item Search view: Search results are displayed, these can be added to playlist.
+\end{itemize}
+
+When "browsing" for music in the system, the user is in the procces of adding to the playlist, therefore navigating to the process adding, browsing top- and hot lists and searching for a specific track is grouped as "one" page visually, by a "+" icon see \cref{fig:PlaylistSketch}. To ensure that if a user wants to return to previously requested a search query after pressing home, now the "+" icon takes them back to their results. Also if the user already did one search, one might want to do another shortening to path while maintaining the mental mapping.
+
+Should the user want to change wants venue, one is checked in at, another list view of venue "swiped" in from the left. Following the reading direction of left to right, giving a notion of upper layered/level \chnote{decide} list, from which the user can change between lower level play\textbf{lists}.
 
 % \begin{figure}
 %   \centering
@@ -19,27 +38,24 @@
 % \end{figure}
 % First the user is presented with the systems logo, and a single button. The caption of the button suggest to the user that, one is about to "check in". As shown in \cref{fig:sketch1}. 
 
-The user is presented a list of venues for the user to check in at, see \cref{fig:sketch2}.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.25\linewidth]{Images/sketch3.png}
+  \caption{A "+" icon suggest to perform an action of "addition", which in this context is adding to the playlist, if clicked the user can now browse through tracks and add them to the playlist. The "top" played tracks of that specific venue is display, or user can view publicly trending "hot" tracks. Shown in \cref{fig:BrowseSketch}.}
+  \label{fig:PlaylistSketch}
+\end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.25\linewidth]{Images/sketch2.png}
   \caption{Sketch2}
-  \label{fig:sketch2}
+  \label{fig:VenueSketch}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.25\linewidth]{Images/sketch3.png}
-  \caption{Sketch3}
-  \label{fig:sketch3}
-\end{figure}
-
-The user is now checked in at a venue and is presented with the playlist of the venue, including with is current playing. See \cref{fig:sketch3}. A little "+" icon suggest to perform an action of "addition", which in this context is adding to the playlist, if clicked the user can now browse through tracks and add them to the playlist. The "top" played tracks of that specific venue is display, or user can view publicly trending "hot" tracks. Shown in \cref{fig:sketch4}. Additionaly the magnifying glass at the very top is symbolising an action of searching, when clicked the user can search for specific tracks.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.25\linewidth]{Images/sketch4.png}
-  \caption{Sketch4}
-  \label{fig:sketch4}
+  \caption{the magnifying glass at the very top is symbolising an action of searching, when clicked the user can search for specific tracks.}
+  \label{fig:BrowseSketch}
 \end{figure}
