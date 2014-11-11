@@ -67,7 +67,7 @@ namespace SpotifyDotNet
         public TimeSpan BufferedDuration { private get; set; }
 
         /// <summary>
-        /// How many bytes are currently buffered elsewhere?
+        /// The number of bytes currently buffered elsewhere.
         /// </summary>
         public int BufferedBytes { private get; set; }
 
@@ -79,7 +79,7 @@ namespace SpotifyDotNet
         }
 
         /// <summary>
-        /// Returns an instance of the Spotify class.
+        /// Returns the instance of the Spotify class.
         /// </summary>
         public static Spotify Instance
         {
