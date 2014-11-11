@@ -9,14 +9,14 @@ namespace OpenPlaylistApp
 {
 	public class App
 	{
-        public static HomePage Home;
+        public static PlaylistPage Home;
 
         public static User user = new User("Empty");
         public static Venue venue = new Venue("Empty","Empty");
 
         public static Page GetMainPage()
         {
-            return Home ?? (Home = new HomePage());
+            return Home ?? (Home = new PlaylistPage());
         }
 	}
 }
