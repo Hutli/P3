@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 
 using Xamarin.Forms.Platform.Android;
+using Android.Telephony;
 
 namespace OpenPlaylistApp.Droid
 {
@@ -19,6 +20,10 @@ namespace OpenPlaylistApp.Droid
             base.OnCreate(bundle);
 
             Xamarin.Forms.Forms.Init(this, bundle);
+
+            //Assign IMEI
+            var tm = (TelephonyManager)GetSystemService(TelephonyService);
+            App.user = new User(tm.DeviceId);
 
             SetPage(App.GetMainPage());
         }

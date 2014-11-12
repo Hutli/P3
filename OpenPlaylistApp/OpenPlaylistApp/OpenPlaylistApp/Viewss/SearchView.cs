@@ -8,7 +8,7 @@ using WebAPILib;
 
 namespace OpenPlaylistApp
 {
-    public class SearchView : ContentPage
+    public class SearchView : ContentView
     {
         public StackLayout layout { get; set; }
         private SearchType searchType;

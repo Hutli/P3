@@ -61,7 +61,7 @@ namespace OpenPlaylistApp
                 
                 try
                 {
-                    var json = await session.SendVote(App.venue, track, App.user);
+                    var json = await session.SendVote(App.user.Venue, track, App.user);
                 } catch(Exception ex) {
                     //throw new ConnectionToServerFaultedException("An error occured: '{0}'",ex);
                     

@@ -26,7 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\NowPlayingView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\PlaylistView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchResultView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchTabView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\VenueView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\VolumeView.cs" />

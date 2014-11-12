@@ -8,6 +8,11 @@ namespace OpenPlaylistApp
 {
     public class HomePage : MasterDetailPage
     {
+        NavigationPage detailPage;
+        ContentPage playlistPage;
+        ContentPage browsePage;
+        ContentPage venuePage;
+
         public HomePage()
         {
             Title = "Home";
@@ -20,13 +25,26 @@ namespace OpenPlaylistApp
             App.venues.Add(new Venue("two", ""));
 
             var playlistView = new PlaylistView();
+            var browseView = new SearchView(SearchType.TRACK);
             var venueView = new VenueView();
 
-            var playlistPage = new ContentPage() { Content = playlistView };
-            var venuePage = new ContentPage() {Title="Pointless", Content = venueView };
+            playlistPage = new ContentPage() {Title="PlaylistPage", Content = playlistView };
+            browsePage = new ContentPage() { Title = "BrowsePage", Content = browseView };
+            venuePage = new ContentPage() {Title="VenuePage", Content = venueView };
+
+            detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
 
             Master = venuePage;
-            Detail = playlistPage;
+            Detail = detailPage;
+        }
+
+        public void BrowseClicked(){
+            detailPage.PushAsync(browsePage);
+        }
+
+        public void BackPressed()
+        {
+            detailPage.PopAsync();
         }
     }
 }

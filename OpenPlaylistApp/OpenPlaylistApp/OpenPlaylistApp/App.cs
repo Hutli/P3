@@ -11,22 +11,15 @@ namespace OpenPlaylistApp
 	public class App
 	{
         public static HomePage home = new HomePage();
-        public static SearchView search = new SearchView(SearchType.TRACK);
 
         public static ObservableCollection<Track> playlist;
         public static ObservableCollection<Venue> venues;
 
-        public static User user; //Make this platform specific, with IMEI
-        public static Venue venue; //Venue checked in at
+        public static User user; //Make platform specific, with IMEI, and construct it there
 
         public static Page GetMainPage()
         {
             return home;
-        }
-
-        public static Page GetBrowsePage()
-        {
-            return search;
         }
 	}
 }
