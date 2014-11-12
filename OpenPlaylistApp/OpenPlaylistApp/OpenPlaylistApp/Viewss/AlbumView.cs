@@ -40,12 +40,6 @@ namespace OpenPlaylistApp
 
             list.ItemsSource = ViewModel.Tracks;
 
-            list.ItemSelected += (sender, item) =>
-            {
-                PlaylistViewModel.vote = (item.SelectedItem as Track);
-                PlaylistViewModel.Home.GoToPlaylist();
-            };
-
             stack.Children.Add(list);
 
             Content = stack;

@@ -3,4 +3,5 @@
 	<uses-sdk android:minSdkVersion="15" />
 	<application android:label="OpenPlaylist" android:icon="@drawable/Icon"></application>
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

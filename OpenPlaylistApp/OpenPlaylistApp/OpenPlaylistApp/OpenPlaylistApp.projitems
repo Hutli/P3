@@ -9,25 +9,25 @@
     <Import_RootNamespace>OpenPlaylistApp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AlbumView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AlbumViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Venue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HomeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlaylistView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlaylistViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchResultView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchResultViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchTabView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SearchViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Venue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VenueView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VenueViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VenueViewTab.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VenueTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TrackTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\AlbumViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\HomeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\SearchResultViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\SearchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\AlbumView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\NowPlayingView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\PlaylistView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchResultView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\VenueView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Viewss\VolumeView.cs" />
   </ItemGroup>
 </Project>

@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-
+using WebAPILib;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp
 {
 	public class App
 	{
-        public static HomePage Home;
+        public static HomePage home = new HomePage();
 
-        public static User user = new User("Empty");
-        public static Venue venue = new Venue("Empty","Empty");
+        public static ObservableCollection<Track> playlist;
+        public static ObservableCollection<Venue> venues;
+
+        public static User user; //Make platform specific, with IMEI, and construct it there
 
         public static Page GetMainPage()
         {
-            return Home ?? (Home = new HomePage());
+            return home;
         }
 	}
 }
