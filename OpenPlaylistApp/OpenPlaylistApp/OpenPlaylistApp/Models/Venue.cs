@@ -7,12 +7,25 @@ namespace OpenPlaylistApp
     public class Venue
     {
         private string _name;
+        private string _detail;
+        private string _iconUrl;
         private string _ip;
 
         public string Name
         {
             get { return _name; }
             set { _name = value; }
+        }
+        public string Detail
+        {
+            get { return _detail; }
+            set { _detail = value; }
+        }
+
+        public string IconUrl
+        {
+            get { return _iconUrl; }
+            set { _iconUrl = value; }
         }
 
         public string IP
