@@ -20,7 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\AlbumViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\HomeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\SearchResultViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\SearchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\AlbumView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewss\NowPlayingView.cs" />

@@ -13,7 +13,16 @@ namespace OpenPlaylistApp
             var list = new ListView();
             list.ItemTemplate = new VenueTemplate();
             list.ItemsSource = App.venues;
+            list.ItemSelected += ItemSelected;
             Content = list;
+        }
+
+        public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem is Venue)
+            {
+                App.user.Venue = (Venue)e.SelectedItem;
+            }
         }
     }
 }
