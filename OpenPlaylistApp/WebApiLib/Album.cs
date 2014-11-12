@@ -38,7 +38,11 @@ namespace WebAPILib {
 
 		public string Href{ get { return "https://api.spotify.com/v1/albums/" + ID; } }
 
-		private void cache(){ //Loads artists and tracks from spotify
+        /// <summary>
+        /// Loads artists and tracks from Spotify into album's artists and tracks
+        /// Only runs once (if _artistsCached or _tracksCached is false)
+        /// </summary>
+		private void cache(){
 			JObject o = Search.getJobject(Href);
 			if (!_artistsCached) { //Load artists
 				List<Artist> artists = new List<Artist> ();
@@ -91,7 +95,11 @@ namespace WebAPILib {
             _albumType = albumtype;
             _images = new List<Image>(images);
         }
-
+        
+        /// <summary>
+        /// Adds artists to album
+        /// </summary>
+        /// <param name="artists"> Artist to be added</param>
 		public void AddArtists(List<Artist> artists){
 			if (_artists.Count == 0) {
 				_artists = artists;
@@ -102,6 +110,10 @@ namespace WebAPILib {
 			}
 		}
 
+        /// <summary>
+        /// Adds track to album
+        /// </summary>
+        /// <param name="track">Track to be added</param>
         public void AddTrack(Track track) {
             if(!_tracks.Exists(a => track.ID.Equals(a.ID)))
                 _tracks.Add(track);

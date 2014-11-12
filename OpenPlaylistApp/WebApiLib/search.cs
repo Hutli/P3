@@ -68,7 +68,12 @@ namespace WebAPILib {
             }
         }
 
-        private List<Artist> GetArtists(JToken jsonCode) { //Gets list of artists (no duplicates) from json
+        /// <summary>
+        /// Gets list of unique artists from JSON
+        /// </summary>
+        /// <param name="jsonCode">JSON collection of artists</param>
+        /// <returns>List of artists contained in JSON</returns>
+        private List<Artist> GetArtists(JToken jsonCode) {
             List<Artist> artists = new List<Artist>();
             foreach(JObject jsonArtist in jsonCode) {
                 string id = (string)(jsonArtist["id"]);
@@ -85,7 +90,12 @@ namespace WebAPILib {
             return artists;
         }
 
-        private List<Album> GetAlbums(JToken jsonCode) { //Gets list of albums (no duplicates) from json
+        /// <summary>
+        /// Gets list of unique albums from JSON
+        /// </summary>
+        /// <param name="jsonCode">JSON collection of albums</param>
+        /// <returns>List of albums contained in JSON</returns>
+        private List<Album> GetAlbums(JToken jsonCode) { 
             List<Album> albums = new List<Album>();
             foreach(JObject jsonAlbum in jsonCode) {
                 string id = (string)(jsonAlbum["id"]);
@@ -104,7 +114,12 @@ namespace WebAPILib {
             return albums;
         }
 
-        private List<Track> GetTracks(JToken jsonCode) { //Gets list of tracks (no duplicates) from json
+        /// <summary>
+        /// Gets list of unique tracks from JSON
+        /// </summary>
+        /// <param name="jsonCode">JSON collection of tracks</param>
+        /// <returns>List of tracks contained in JSON</returns>
+        private List<Track> GetTracks(JToken jsonCode) {
             List<Track> tracks = new List<Track>();
             foreach(JObject jsonTrack in jsonCode) {
                 string id = (string)(jsonTrack["id"]);
@@ -140,7 +155,12 @@ namespace WebAPILib {
             return tracks;
         }
 
-        private List<Image> GetImages(JObject imageList) { //Gets list of images from json
+        /// <summary>
+        /// Gets list of images from JSON
+        /// </summary>
+        /// <param name="imageList">JSON collection of images</param>
+        /// <returns>List of images in JSON</returns>
+        private List<Image> GetImages(JObject imageList) {
             List<Image> images = new List<Image>();
             foreach(JObject image in imageList["images"]) {
                 int height = (int)(image["height"]);
@@ -151,7 +171,12 @@ namespace WebAPILib {
             return images;
         }
 
-        public static JObject getJobject(string url) { // Gets JObject from link to spotify
+        /// <summary>
+        /// Gets JObject from link to Spotify
+        /// </summary>
+        /// <param name="url">Link to Spotify</param>
+        /// <returns>JObject retrieved from Spotify</returns>
+        public static JObject getJobject(string url) {
             string str = Request.get(url);
             JObject o = JObject.Parse(str);
             return o;

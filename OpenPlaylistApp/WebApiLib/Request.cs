@@ -8,7 +8,11 @@ namespace WebAPILib
 {
 	public static class Request
 	{
-
+        /// <summary>
+        /// Gets JSON from URL
+        /// </summary>
+        /// <param name="url">URL to JSON</param>
+        /// <returns>JSON</returns>
 		public static string get(string url)
 		{
 			string str = null;
