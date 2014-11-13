@@ -3,6 +3,8 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WebAPILib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace OpenPlaylistApp
 {
@@ -20,10 +22,6 @@ namespace OpenPlaylistApp
             App.playlist = new ObservableCollection<Track>();
             App.venues = new ObservableCollection<Venue>();
             App.search = new ObservableCollection<Track>();
-            
-            //Testing purpose
-            App.venues.Add(new Venue("one", "192.168.1.168"));
-            App.venues.Add(new Venue("two", "192.168.1.169"));
 
             var playlistView = new PlaylistView();
             var browseView = new SearchView();
@@ -46,6 +44,24 @@ namespace OpenPlaylistApp
         public void BackPressed()
         {
             detailPage.PopAsync();
+        }
+
+        async void GetVenues()
+        {
+            Session session = Session.Instance();
+            try
+            {
+                var str = await session.GetVenues();
+                JObject o = JObject.Parse(str);
+                foreach (var item in o.Values())
+                {
+                    App.venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
+            }
         }
     }
 }
