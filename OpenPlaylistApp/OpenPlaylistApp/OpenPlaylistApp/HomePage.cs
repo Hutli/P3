@@ -19,13 +19,14 @@ namespace OpenPlaylistApp
 
             App.playlist = new ObservableCollection<Track>();
             App.venues = new ObservableCollection<Venue>();
+            App.search = new ObservableCollection<Track>();
             
             //Testing purpose
-            App.venues.Add(new Venue("one", ""));
-            App.venues.Add(new Venue("two", ""));
+            App.venues.Add(new Venue("one", "192.168.1.168"));
+            App.venues.Add(new Venue("two", "192.168.1.169"));
 
             var playlistView = new PlaylistView();
-            var browseView = new SearchView(SearchType.TRACK);
+            var browseView = new SearchView();
             var venueView = new VenueView();
 
             playlistPage = new ContentPage() {Title="PlaylistPage", Content = playlistView };

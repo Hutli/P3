@@ -83,3 +83,21 @@ bibencoding=utf8,
 
 \pagenumbering{roman}
 \pagestyle{empty} % Use empty at first
+
+%%%%%%%%%% macros
+\newcommand{\actortable}[2] {
+\vspace{1cm}
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+    \rule{\textwidth}{1pt}
+    \begin{center}
+        \textbf{#1}\hfill
+    \end{center}
+    \rule{\textwidth}{1pt}
+    #2
+
+    \rule{\textwidth}{1pt}
+\end{minipage}
+\end{center}
+\vspace{1cm}
+}

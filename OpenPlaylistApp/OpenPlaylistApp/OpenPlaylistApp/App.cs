@@ -14,6 +14,7 @@ namespace OpenPlaylistApp
 
         public static ObservableCollection<Track> playlist;
         public static ObservableCollection<Venue> venues;
+        public static ObservableCollection<Track> search;
 
         public static User user; //Make platform specific, with IMEI, and construct it there
 
