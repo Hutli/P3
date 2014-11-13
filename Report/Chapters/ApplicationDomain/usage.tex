@@ -1,6 +1,23 @@
 \subsubsection{Actors}
 The actors of this system is the administrator, a bartender or a bar owner in charge of the music and the guest wanting to request and affect the music.
 
+\begin{table}[h]
+\begin{tabular}{lcc}
+\hline
+                   & \multicolumn{1}{l}{\textbf{Actor}} & \multicolumn{1}{l}{} \\
+\textbf{Use case}  & Administrator                      & Customer             \\ \hline
+play music         & \checkmark                         &                      \\
+stop music         & \checkmark                         &                      \\
+next track         & \checkmark                         &                      \\
+add restriction    & \checkmark                         &                      \\
+remove restriction & \checkmark                         &                      \\
+check out          &                                    & \checkmark           \\
+check in at venue  &                                    & \checkmark           \\
+vote               &                                    & \checkmark           \\
+cancel vote        &                                    & \checkmark           \\ \hline
+\end{tabular}
+\end{table}
+
 \actortable{Administrator}{
     \textbf{Purpose:} A person in charge of the music, wants to be able to have control over the system, what kind of music is being enqueued and what is currently playing.
 

@@ -215,6 +215,7 @@ FakesAssemblies/
 *.vrb
 *.xdy
 *.lox
+personaPrint.pdf
 
 # binary report file
 master.pdf
