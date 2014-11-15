@@ -203,6 +203,7 @@ namespace SpotifyDotNet
             config.settings_location = "tmp"; // ToDo
             config.callbacks = callbacksPtr;
 
+            //TODO: skal måske ikke bruges lock
             lock (_sync)
             {
                 libspotify.sp_session_create(ref config, out _sessionPtr);

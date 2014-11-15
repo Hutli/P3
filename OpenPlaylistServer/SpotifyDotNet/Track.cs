@@ -47,7 +47,8 @@ namespace SpotifyDotNet
             // wait until track is loaded including metadata
             while (libspotify.sp_track_is_loaded(_trackPtr) == false)
             {
-                Task.Delay(2);
+                // do not destroy cpu
+                Task.Delay(1);
             }
 
             // name
