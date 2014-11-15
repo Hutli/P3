@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using OpenPlaylistApp.Models;
 using WebAPILib;
 using Xamarin.Forms;
 

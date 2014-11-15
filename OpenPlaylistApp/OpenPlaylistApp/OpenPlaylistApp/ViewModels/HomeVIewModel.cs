@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
-namespace TestApp2
+namespace OpenPlaylistApp.ViewModels
 {
-    public class HomeVIewModel : BaseViewModel
-    {
-        public ObservableDictionary<string, Page> Pages { get; set; }
 
-        public HomeVIewModel()
+    public class HomeViewModel : BaseViewModel
+    {
+        public ObservableCollection<Page> Pages { get; set; }
+
+        public HomeViewModel()
         {
-            Pages = new ObservableDictionary<string, Page>();
+            Pages = new ObservableCollection<Page>();
         }
     }
 }

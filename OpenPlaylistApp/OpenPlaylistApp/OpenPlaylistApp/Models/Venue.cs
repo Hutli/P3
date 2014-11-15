@@ -1,4 +1,4 @@
-﻿namespace OpenPlaylistApp
+﻿namespace OpenPlaylistApp.Models
 {
     public class Venue
     {

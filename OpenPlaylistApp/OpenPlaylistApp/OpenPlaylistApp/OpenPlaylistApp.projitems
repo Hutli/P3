@@ -17,16 +17,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VenueTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TrackTemplate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\AlbumViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\BaseViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\HomeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModelss\SearchViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\AlbumView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\NowPlayingView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\PlaylistView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchResultView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\SearchView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\VenueView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Viewss\VolumeView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlbumViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HomeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AlbumView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NowPlayingView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\PlaylistView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SearchResultView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SearchView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\VenueView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\VolumeView.cs" />
   </ItemGroup>
 </Project>

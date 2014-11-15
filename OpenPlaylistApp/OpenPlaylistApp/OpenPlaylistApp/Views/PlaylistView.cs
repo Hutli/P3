@@ -1,41 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace TestApp2
+namespace OpenPlaylistApp.Views
 {
-    class PlaylistView : TabbedPage
+    class PlaylistView : ContentView
     {
         public PlaylistView()
         {
-            Title = "Playlist";
-            var stack = new StackLayout() { Spacing = 0 };
-            //var label = new Label() { Text = "Current playlist: ", Font = Font.SystemFontOfSize(NamedSize.Large) };
-            //stack.Children.Add(label);
+            Button button = new Button { Text = String.Format("+") };
 
-            var list = new ListView();
+            button.Clicked += (sender, args) => App.Home.BrowseClicked();
 
-            PlaylistVIewModel.TrackSelected += () =>
-            {
-                list.SelectedItem = PlaylistVIewModel.vote;
-            };
+            NowPlayingView npv = new NowPlayingView();
 
-            list.ItemsSource = PlaylistVIewModel.Tracks;
-            list.IsEnabled = false;
-            var cell = new DataTemplate(typeof(ImageCell));
-            cell.SetBinding(TextCell.TextProperty, "Name");
-            cell.SetBinding(TextCell.DetailProperty, "Album.Artists[0].Name");
-            cell.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[1].URL");
-            list.ItemTemplate = cell;
+            var list = new ListView {ItemTemplate = new TrackTemplate(), ItemsSource = App.Playlist};
 
-            stack.Children.Add(list);
-            this.IsEnabled = false;
-            var con = new ContentPage() { Title = "Current Playlist", Content = stack };
-            this.Children.Add(con);
+            VolumeView vv = new VolumeView();
+
+            StackLayout layout = new StackLayout { Children = { button, npv, list, vv } };
+
+            Content = layout;
         }
-
     }
 }

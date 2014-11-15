@@ -1,6 +1,6 @@
 ﻿using WebAPILib;
 
-namespace OpenPlaylistApp
+namespace OpenPlaylistApp.Models
 {
     public class User
     {

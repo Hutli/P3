@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WebAPILib {
 	public class Playlist : SpotifyObject {
-		private List<Track> _tracks;
+		private List<Track> _tracks = new List<Track>();
 
 		public Playlist (string id, string name, Search searchResult) : base(id, name, searchResult) {}
 			

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace TestApp2
+namespace OpenPlaylistApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public BaseViewModel()
+        private bool _isBusy;
+        public bool IsBusy
         {
-
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value, "IsBusy"); }
         }
-
-        private bool isBusy;
-        public bool IsBusy { get { return isBusy; } set { SetProperty(ref isBusy, value, "IsBusy"); } }
 
         protected void SetProperty<T>(
             ref T backingStore, T value,

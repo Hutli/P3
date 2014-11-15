@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using OpenPlaylistApp.ViewModels;
 using WebAPILib;
-
-namespace TestApp2
+using Xamarin.Forms;
+namespace OpenPlaylistApp.Views
 {
     public class AlbumView : ContentPage
     {
@@ -17,14 +12,14 @@ namespace TestApp2
 
             var stack = new StackLayout();
 
-            stack.Children.Add(new Label() { Text = "Tracks for " + album.Name + ": ", Font = Font.SystemFontOfSize(NamedSize.Large) });
+            stack.Children.Add(new Label { Text = "Tracks for " + album.Name + ": ", Font = Font.SystemFontOfSize(NamedSize.Large) });
 
             var activity = new ActivityIndicator
             {
                 IsEnabled = true
             };
 
-            activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            activity.SetBinding(IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
             stack.Children.Add(activity);
@@ -40,12 +35,6 @@ namespace TestApp2
 
             list.ItemsSource = ViewModel.Tracks;
 
-            list.ItemSelected += (sender, item) =>
-            {
-                 PlaylistVIewModel.vote = (item.SelectedItem as Track);
-                 PlaylistVIewModel.Home.GoToPlaylist();
-            };
-
             stack.Children.Add(list);
 
             Content = stack;
@@ -56,7 +45,7 @@ namespace TestApp2
         {
             base.OnAppearing();
             ViewModel.IsBusy = true;
-            ViewModel.getTrack();
+            ViewModel.GetTrack();
         }
     }
 }

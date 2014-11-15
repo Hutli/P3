@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebAPILib;
 
-namespace OpenPlaylistApp
+namespace OpenPlaylistApp.Models
 {
     public class Session
     {

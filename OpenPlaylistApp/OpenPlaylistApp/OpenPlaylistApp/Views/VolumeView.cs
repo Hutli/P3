@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace OpenPlaylistApp
+namespace OpenPlaylistApp.Views
 {
     class VolumeView : ContentView
     {

@@ -1,45 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using WebAPILib;
+using Xamarin.Forms;
 
-namespace TestApp2
+namespace OpenPlaylistApp.Views
 {
-    public class SearchView : ContentPage
+    public class SearchView : ContentView
     {
-        public StackLayout layout { get; set; }
-        private SearchType searchType;
-        public SearchResultView Result
-        {
-            get {
-                return ViewModel.Result;
-            }
-            set
-            {
-            if (ViewModel.Result != null && layout.Children.Contains(ViewModel.Result))
-            {
-                layout.Children.Remove(ViewModel.Result);
-            }
-            ViewModel.Result = value;
-            layout.Children.Add(ViewModel.Result);
-        }}
-        public SearchViewModel ViewModel { get { return BindingContext as SearchViewModel; } }
-        public SearchView(SearchType type)
-        {
-            BindingContext = new SearchViewModel();
-            searchType = type;
+        public SearchResultView Result;
 
-            layout = new StackLayout();
+        public SearchView()
+        {
+            BindingContext = Result;
+
+            StackLayout layout = new StackLayout();
 
             var search = new SearchBar();
 
+            NewSearch("dad");
+
+            Result = new SearchResultView();
+
             search.SearchButtonPressed += search_SearchButtonPressed;
-            //search.TextChanged += search_SearchButtonPressed;
+            //search.TextChanged += search_SearchButtonPressed; search as you type, maybe introduce delay
 
             layout.Children.Add(search);
+            layout.Children.Add(Result);
 
             Content = layout;
         }
@@ -47,7 +33,20 @@ namespace TestApp2
         void search_SearchButtonPressed(object sender, EventArgs e)
         {
             string str = ((SearchBar)sender).Text;
-            Result = new SearchResultView(str, searchType);
+            App.Search.Clear();
+            NewSearch(str);
+        }
+
+        public async void NewSearch(string searchStr)
+        {
+            await Task.Run(() =>
+            {
+                Search search = new Search(searchStr, SearchType.Track);
+                foreach (Track item in search.Tracks)
+                    App.Search.Add(item);
+            });
+
+            Result = new SearchResultView();
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Xamarin.Forms;
+﻿using OpenPlaylistApp.Models;
+using Xamarin.Forms;
 
-namespace OpenPlaylistApp
+namespace OpenPlaylistApp.Views
 {
     public class VenueView : ContentView
     {

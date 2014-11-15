@@ -1,14 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WebAPILib;
 
-namespace TestApp2
+namespace OpenPlaylistApp.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
-        private SearchResultView result;
-        public SearchResultView Result { get { return result; } set { SetProperty(ref result, value, "Result"); } }
+        public SearchViewModel(string str)
+        {
+            App.Search.Clear();
+            ExecuteloadSongsCommand(str);
+        }
+
+        public async void ExecuteloadSongsCommand(string searchStr)
+        {
+            await Task.Run(() =>
+            {
+                IsBusy = true;
+                Search search = new Search(searchStr, SearchType.Track);
+                foreach (Track item in search.Tracks)
+                    App.Search.Add(item);
+                IsBusy = false;
+            });
+        }
+
     }
 }
+
