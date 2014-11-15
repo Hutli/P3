@@ -48,11 +48,9 @@ namespace OpenPlaylistServer
             }
 
             //  set user's vote to new track
-            if (user != null)
-            {
-                user.Vote = playlistTrack;
-                user.Vote.TScore += 1;
-            }
+            if (user == null) return;
+            user.Vote = playlistTrack;
+            user.Vote.TScore += 1;
         }
     }
 }

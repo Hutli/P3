@@ -11,7 +11,7 @@ namespace WebAPILib
         /// <returns>JSON</returns>
 		public static string Get(string url)
 		{
-			string str = null;
+			string str;
 
 			using (var client = new HttpClient ()) {
 				//client.BaseAddress = new URI("http://localhost:9000/");

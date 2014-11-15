@@ -52,7 +52,7 @@ namespace SpotifyDotNet
             lock (_sync)
             {
                 IntPtr searchPtr = libspotify.sp_search_create(_sessionPtr, queryPointer, 0, 10, 0, 10, 0, 10, 0, 10,
-                sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
+                sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero); //TODO vi bruger aldrig searchPtr?
             }
         }
 

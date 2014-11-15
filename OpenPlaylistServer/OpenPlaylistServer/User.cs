@@ -1,17 +1,8 @@
 namespace OpenPlaylistServer {
     public class User {
-        private PlaylistTrack _vote;
-
         public string Id { get; private set; }
 
-        public PlaylistTrack Vote {
-            get {
-                return _vote;
-            }
-            set {
-                _vote = value;
-            }
-        }
+        public PlaylistTrack Vote { get; set; }
 
         public User(string id) {
             Id = id;
