@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.Http;
 using WebAPILib;
 using System.Threading.Tasks;
@@ -16,11 +14,7 @@ namespace OpenPlaylistApp
 
         public static Session Instance()
         {
-            if (session == null)
-            {
-                session = new Session();
-            }
-            return session;
+            return session ?? (session = new Session());
         }
 
         public async Task<string> GetVenues()

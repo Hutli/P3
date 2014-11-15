@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace WebAPILib {
+﻿namespace WebAPILib {
 	public abstract class SpotifyObject {
 		protected string _id;
 		protected string _name;
 
-		public SpotifyObject (string id, string name, Search searchResult) {
+	    protected SpotifyObject (string id, string name, Search searchResult) {
 			_id = id;
 			_name = name;
 			SearchResult = searchResult;

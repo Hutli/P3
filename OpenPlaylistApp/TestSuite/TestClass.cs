@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using WebAPILib;
@@ -16,7 +12,7 @@ namespace WebAPITests
         #region WebAPILib.Search
         [Fact]
         public void SearchAllConstructor() {
-            Search sAll = new Search("dad", SearchType.ALL);
+            Search sAll = new Search("dad", SearchType.All);
 
             Assert.NotEmpty(sAll.Artists);
             foreach(Artist art in sAll.Artists) { Assert.Single(sAll.Artists, art); }
@@ -28,7 +24,7 @@ namespace WebAPITests
 
         [Fact]
         public void SearchArtistConstructor() {
-            Search sArtist = new Search("dad", SearchType.ARTIST);
+            Search sArtist = new Search("dad", SearchType.Artist);
 
             Assert.NotEmpty(sArtist.Artists);
             foreach(Artist a in sArtist.Artists) { Assert.Single(sArtist.Artists, a); }
@@ -38,7 +34,7 @@ namespace WebAPITests
 
         [Fact]
         public void SearchAlbumConstructor() {
-            Search sAlbum = new Search("dad", SearchType.ALBUM);
+            Search sAlbum = new Search("dad", SearchType.Album);
 
             Assert.Empty(sAlbum.Artists);
             Assert.NotEmpty(sAlbum.Albums);
@@ -49,7 +45,7 @@ namespace WebAPITests
 
         [Fact]
         public void SearchTrackConstructor() {
-            Search sTrack = new Search("dad", SearchType.TRACK);
+            Search sTrack = new Search("dad", SearchType.Track);
 
             Assert.NotEmpty(sTrack.Artists);
             Assert.NotEmpty(sTrack.Albums);
@@ -60,7 +56,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddArtist() //Tests Search.addArtist
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
 
             Assert.False(s.Artists.Contains(a), "artist contained");
@@ -73,7 +69,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddAlbum() //Tests Search.addArtist
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
@@ -91,7 +87,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddTrack() //Tests Search.AddTrack
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             List<Artist> artists = new List<Artist> { new Artist("1234", "testArtist", s) };
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
@@ -110,7 +106,7 @@ namespace WebAPITests
         [Fact]
         public void SearchNoDuplicatesInResults() //Tests for duplicates in Search results
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             foreach (Artist a in s.Artists)
             {
                 Assert.Single(s.Artists, a);
@@ -131,7 +127,7 @@ namespace WebAPITests
         [Fact]
         public void SearchGetJObject() //Tests the getJObject method
         {
-            JObject jo = Search.getJobject("https://api.spotify.com/v1/albums/3j3cgkuyo015dghNYhHnZJ");
+            JObject jo = Search.GetJobject("https://api.spotify.com/v1/albums/3j3cgkuyo015dghNYhHnZJ");
             Assert.True(jo.HasValues, "JObject doesn't have values");
             Assert.True((string)jo["id"] == "3j3cgkuyo015dghNYhHnZJ", "id is not correct");
             Assert.True((string)jo["artists"].First()["external_urls"]["spotify"] == "https://open.spotify.com/artist/1vCWHaC5f2uS3yhpwWbIA6", "cannot find artist url via jobject");
@@ -141,9 +137,9 @@ namespace WebAPITests
         #region WebAPILib.Artist
         [Fact]
         public void ArtistConstructor() {
-            Search s = new Search("dad", SearchType.ALL);
-            string id = "1234";
-            string name = "testArtist";
+            Search s = new Search("dad", SearchType.All);
+            const string id = "1234";
+            const string name = "testArtist";
             Artist a = new Artist(id, name, s);
             Assert.True(a.Name == name, "name not equal");
             Assert.True(a.ID == id, "id not equal");
@@ -152,7 +148,7 @@ namespace WebAPITests
         [Fact]
         public void ArtistAddAlbum() // Tests Artist.AddAlbum
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
@@ -171,10 +167,10 @@ namespace WebAPITests
         #region WebAPILib.Album
         [Fact]
         public void AlbumConstructor() {
-            string id = "3j3cgkuyo015dghNYhHnZJ";
-            string name = "testAlbum";
-            string type = "asdf";
-            Search s = new Search("dad", SearchType.ALL);
+            const string id = "3j3cgkuyo015dghNYhHnZJ";
+            const string name = "testAlbum";
+            const string type = "asdf";
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -203,7 +199,7 @@ namespace WebAPITests
         [Fact]
         public void AlbumAddArtist() // Tests Album.AddArtist
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -231,7 +227,7 @@ namespace WebAPITests
         [Fact]
         public void AlbumAddTrack() // Tests Album.AddTrack
         {
-            Search s = new Search("dad", SearchType.ALL);
+            Search s = new Search("dad", SearchType.All);
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -255,7 +251,7 @@ namespace WebAPITests
 
         [Fact]
         public void AlbumCache() {
-            Search s = new Search("obliteration of the weak", SearchType.ALL);
+            Search s = new Search("obliteration of the weak", SearchType.All);
             Image img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             Image img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");

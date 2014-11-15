@@ -1,10 +1,5 @@
-﻿using SpotifyDotNet;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenPlaylistServer
 {
@@ -29,8 +24,8 @@ namespace OpenPlaylistServer
         public void AddByURI(string trackUri)
         {
             //var track = SpotifyLoggedIn.Instance.TrackFromLink(trackUri).Result;
-            PlaylistTrack PlaylistTrack = new PlaylistTrack(trackUri);
-            _tracks.Add(PlaylistTrack);
+            PlaylistTrack playlistTrack = new PlaylistTrack(trackUri);
+            _tracks.Add(playlistTrack);
         }
 
         //public void AddByRef(playlistTrack playlistTrack)
@@ -61,13 +56,11 @@ namespace OpenPlaylistServer
         public PlaylistTrack NextTrack()
         {
             CountAndUpdatePVotes();
-            PlaylistTrack next = _tracks.OrderByDescending<PlaylistTrack, int>(x => x.TotalScore).FirstOrDefault();
+            PlaylistTrack next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
 
-            if (next != null)
-            {
-                next.ResetPScore();
-                _tracks.Remove(next);
-            }
+            if (next == null) return null;
+            next.ResetPScore();
+            _tracks.Remove(next);
 
             return next;
         }
@@ -80,13 +73,9 @@ namespace OpenPlaylistServer
 
             foreach (var track in grouping)
             {
-                int numVotesOnTrack = 0;
+                int numVotesOnTrack = track.Count();
 
                 // count how many users voted for each track and update the pScore (permanent score)
-                foreach (var user in track)
-                {
-                    numVotesOnTrack += 1;
-                }
 
                 track.Key.UpdatePScore(numVotesOnTrack);
             }

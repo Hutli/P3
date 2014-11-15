@@ -1,9 +1,6 @@
 ﻿using libspotifydotnet;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SpotifyDotNet
@@ -17,16 +14,16 @@ namespace SpotifyDotNet
         private object _sync;
         private IntPtr _sessionPtr;
         private static SpotifyLoggedIn _instance;
-        private bool _isPlaying = false;
+        private bool _isPlaying;
 
         private SpotifyLoggedIn() { }
 
-        internal SpotifyLoggedIn(ref IntPtr _sessionPtr, object _sync, ref IntPtr _searchComplete)
+        internal SpotifyLoggedIn(ref IntPtr sessionPtr, object sync, ref IntPtr searchComplete)
         {
             _instance = this;
-            this._searchComplete = _searchComplete;
-            this._sync = _sync;
-            this._sessionPtr = _sessionPtr;
+            _searchComplete = searchComplete;
+            _sync = sync;
+            _sessionPtr = sessionPtr;
         }
 
         /// <summary>
@@ -55,7 +52,7 @@ namespace SpotifyDotNet
             lock (_sync)
             {
                 IntPtr searchPtr = libspotify.sp_search_create(_sessionPtr, queryPointer, 0, 10, 0, 10, 0, 10, 0, 10,
-                libspotifydotnet.sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
+                sp_search_type.SP_SEARCH_STANDARD, _searchComplete, IntPtr.Zero);
             }
         }
 
@@ -108,7 +105,7 @@ namespace SpotifyDotNet
         /// <returns></returns>
         public Task<Track> TrackFromLink(String uri)
         {
-            var t = Task.Run<Track>(() =>
+            var t = Task.Run(() =>
             {
                 IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
                 IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
@@ -126,11 +123,8 @@ namespace SpotifyDotNet
 
                     return new Track(trackLinkPtr);
                 }
-                else
-                {
-                    //libspotify.sp_link_release(spLinkPtr);
-                    throw new ArgumentException("URI was not a track URI");
-                }
+                //libspotify.sp_link_release(spLinkPtr);
+                throw new ArgumentException("URI was not a track URI");
             });
 
             return t;
@@ -152,7 +146,7 @@ namespace SpotifyDotNet
             {
                 return libspotify.sp_link_as_track(spLinkPtr);
             }
-            else throw new ArgumentException("URI was not a track URI");
+            throw new ArgumentException("URI was not a track URI");
         }
     }
 }

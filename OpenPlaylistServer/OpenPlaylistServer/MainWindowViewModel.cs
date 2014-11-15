@@ -1,11 +1,4 @@
-﻿using SpotifyDotNet;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer
 {
@@ -17,9 +10,9 @@ namespace OpenPlaylistServer
 
         public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
         {
-            this._playlistService = playlistService;
-            this._userService = userService;
-            this._playbackService = playbackService;
+            _playlistService = playlistService;
+            _userService = userService;
+            _playbackService = playbackService;
         }
 
         public ReadOnlyObservableCollection<PlaylistTrack> Tracks

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace OpenPlaylistApp
 {
@@ -10,9 +7,7 @@ namespace OpenPlaylistApp
 
         public VenueView()
         {
-            var list = new ListView();
-            list.ItemTemplate = new VenueTemplate();
-            list.ItemsSource = App.venues;
+            var list = new ListView {ItemTemplate = new VenueTemplate(), ItemsSource = App.Venues};
             list.ItemSelected += ItemSelected;
             Content = list;
         }
@@ -21,7 +16,7 @@ namespace OpenPlaylistApp
         {
             if (e.SelectedItem is Venue)
             {
-                App.user.Venue = (Venue)e.SelectedItem;
+                App.User.Venue = (Venue)e.SelectedItem;
             }
         }
     }

@@ -1,13 +1,5 @@
-﻿using Nancy;
-using Nancy.Bootstrapper;
-using Nancy.Bootstrappers.StructureMap;
-using Nancy.TinyIoc;
+﻿using Nancy.Bootstrappers.StructureMap;
 using StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenPlaylistServer
 {

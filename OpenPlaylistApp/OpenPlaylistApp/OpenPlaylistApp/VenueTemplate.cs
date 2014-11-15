@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace OpenPlaylistApp
 {
@@ -9,8 +6,8 @@ namespace OpenPlaylistApp
     class VenueTemplate : DataTemplate
     {
         public VenueTemplate():base(typeof(ImageCell)){
-            this.SetBinding(ImageCell.TextProperty, "Name");
-            this.SetBinding(ImageCell.DetailProperty, "Detail");
+            this.SetBinding(TextCell.TextProperty, "Name");
+            this.SetBinding(TextCell.DetailProperty, "Detail");
             this.SetBinding(ImageCell.ImageSourceProperty, "IconUrl");
         }
     }

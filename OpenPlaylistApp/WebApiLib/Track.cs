@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WebAPILib {
 	public class Track : SpotifyObject {
-		private int _popularity;
-		private int _duration;
-		private bool _isExplicit;
-		private int _trackNumber;
-		private Album _album = null;
-
-		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult) : base (id, name, searchResult) {
-			_popularity = popularity;
-			_duration = duration;
-			_isExplicit = isExplicit;
-			_trackNumber = trackNumber;
+	    public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult) : base (id, name, searchResult) {
+			Popularity = popularity;
+			Duration = duration;
+			IsExplicit = isExplicit;
+			TrackNumber = trackNumber;
 			album.AddTrack (this);
-			_album = album;
+			Album = album;
 		}
 
 		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Album album, Search searchResult, List<Artist> artists)
@@ -23,17 +16,17 @@ namespace WebAPILib {
 			album.AddArtists (artists);
 		}
 
-		public int Popularity{ get { return _popularity; } }
+	    public int Popularity { get; private set; }
 
-		public int Duration{ get { return _duration; } }
+	    public int Duration { get; private set; }
 
-		public bool IsExplicit{ get { return _isExplicit; } }
+	    public bool IsExplicit { get; private set; }
 
-		public int TrackNumber{ get { return _trackNumber; } }
+	    public int TrackNumber { get; private set; }
 
-		public Album Album { get { return _album; } }
+	    public Album Album { get; private set; }
 
-		public override string URI{ get { return "spotify:track:" + ID; } }
+	    public override string URI{ get { return "spotify:track:" + ID; } }
 	}
 }
 

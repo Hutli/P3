@@ -1,10 +1,5 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 
 using Xamarin.Forms.Platform.Android;
@@ -23,7 +18,7 @@ namespace OpenPlaylistApp.Droid
 
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
-            App.user = new User(tm.DeviceId);
+            App.User = new User(tm.DeviceId);
 
             SetPage(App.GetMainPage());
         }

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenPlaylistServer {
     public class FilterItem {
-        Object Attribute = new Object();
-        Object Limit = new Object();
-        Boolean White = new Boolean();
+        Object _attribute = new Object();
+        Object _limit = new Object();
+        Boolean _white;
         public FilterItem(Object attribute, Object limit, Boolean white) {
-            Attribute = attribute;
-            Limit = limit;
-            White = white;
+            _attribute = attribute;
+            _limit = limit;
+            _white = white;
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using WebAPILib;
 
 namespace OpenPlaylistApp
@@ -17,14 +12,14 @@ namespace OpenPlaylistApp
 
             var stack = new StackLayout();
 
-            stack.Children.Add(new Label() { Text = "Tracks for " + album.Name + ": ", Font = Font.SystemFontOfSize(NamedSize.Large) });
+            stack.Children.Add(new Label { Text = "Tracks for " + album.Name + ": ", Font = Font.SystemFontOfSize(NamedSize.Large) });
 
             var activity = new ActivityIndicator
             {
                 IsEnabled = true
             };
 
-            activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            activity.SetBinding(IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
             stack.Children.Add(activity);
@@ -50,7 +45,7 @@ namespace OpenPlaylistApp
         {
             base.OnAppearing();
             ViewModel.IsBusy = true;
-            ViewModel.getTrack();
+            ViewModel.GetTrack();
         }
     }
 }

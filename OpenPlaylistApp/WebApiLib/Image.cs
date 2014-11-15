@@ -1,23 +1,16 @@
-﻿using System;
-
-namespace WebAPILib {
+﻿namespace WebAPILib {
 	public class Image {
-		private int _height;
-		private int _width;
-		private string _url;
-
-		public Image (int height, int width, string url) {
-			_height = height;
-			_width = width;
-			_url = url;
+	    public Image (int height, int width, string url) {
+			Height = height;
+			Width = width;
+			URL = url;
 		}
 
-		public int Height{ get { return _height; } }
+	    public int Height { get; private set; }
 
-		public int Width{ get { return _width; } }
+	    public int Width { get; private set; }
 
-		public string URL{ get { return _url; } }
-
+	    public string URL { get; private set; }
 	}
 }
 

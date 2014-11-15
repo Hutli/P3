@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SpotifyDotNet;
 using System.ComponentModel;
 
 namespace OpenPlaylistServer {
     public class PlaylistTrack : Track, INotifyPropertyChanged {
-        private int _pScore = 0;
-        private int _tScore = 0;
+        private int _pScore;
+        private int _tScore;
 
         public int TScore
         {

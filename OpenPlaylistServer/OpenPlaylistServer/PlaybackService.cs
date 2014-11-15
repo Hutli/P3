@@ -1,9 +1,4 @@
 ﻿using SpotifyDotNet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenPlaylistServer
 {
@@ -23,16 +18,18 @@ namespace OpenPlaylistServer
             }
         }
 
-        private void OnRecieveData(int sample_rate, int channels, byte[] frames)
+        private void OnRecieveData(int sampleRate, int channels, byte[] frames)
         {
             if (_activeFormat == null)
-                _activeFormat = new NAudio.Wave.WaveFormat(sample_rate, 16, channels);
+                _activeFormat = new NAudio.Wave.WaveFormat(sampleRate, 16, channels);
 
             if (_sampleStream == null)
             {
-                _sampleStream = new NAudio.Wave.BufferedWaveProvider(_activeFormat);
-                _sampleStream.DiscardOnBufferOverflow = true;
-                _sampleStream.BufferLength = 3000000;
+                _sampleStream = new NAudio.Wave.BufferedWaveProvider(_activeFormat)
+                {
+                    DiscardOnBufferOverflow = true,
+                    BufferLength = 3000000
+                };
             }
 
             if (_waveOut == null)
@@ -62,13 +59,11 @@ namespace OpenPlaylistServer
             {
                 spotify.Stop();
             }
-            if (_waveOut != null && _sampleStream != null)
-            {
-                _waveOut.Stop();
-                _waveOut = null;
-                _sampleStream.ClearBuffer();
-                _sampleStream = null;
-            }
+            if (_waveOut == null || _sampleStream == null) return;
+            _waveOut.Stop();
+            _waveOut = null;
+            _sampleStream.ClearBuffer();
+            _sampleStream = null;
         }
     }
 }

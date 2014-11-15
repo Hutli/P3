@@ -1,9 +1,6 @@
 ﻿using libspotifydotnet;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 using Availability = libspotifydotnet.libspotify.sp_availability;
@@ -42,7 +39,7 @@ namespace SpotifyDotNet
 
         private void Init(IntPtr trackPtr)
         {
-            this._trackPtr = trackPtr;
+            _trackPtr = trackPtr;
 
             // wait until track is loaded including metadata
             while (libspotify.sp_track_is_loaded(_trackPtr) == false)
@@ -87,7 +84,7 @@ namespace SpotifyDotNet
         {
             libspotify.sp_track_release(_trackPtr);
 
-            System.GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
     }
 }

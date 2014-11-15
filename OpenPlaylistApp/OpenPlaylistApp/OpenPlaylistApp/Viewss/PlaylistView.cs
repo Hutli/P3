@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebAPILib;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp
@@ -15,13 +9,11 @@ namespace OpenPlaylistApp
         {
             Button button = new Button { Text = String.Format("+") };
 
-            button.Clicked += (sender, args) => App.home.BrowseClicked();
+            button.Clicked += (sender, args) => App.Home.BrowseClicked();
 
             NowPlayingView npv = new NowPlayingView();
 
-            var list = new ListView();
-            list.ItemTemplate = new TrackTemplate();
-            list.ItemsSource = App.playlist;
+            var list = new ListView {ItemTemplate = new TrackTemplate(), ItemsSource = App.Playlist};
 
             VolumeView vv = new VolumeView();
 

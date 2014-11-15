@@ -1,19 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OpenPlaylistServer {
     public class User {
-        private string _id;
         private PlaylistTrack _vote;
 
-        public string Id {
-            get {
-                return _id;
-            }
-        }
+        public string Id { get; private set; }
 
         public PlaylistTrack Vote {
             get {
@@ -25,7 +14,7 @@ namespace OpenPlaylistServer {
         }
 
         public User(string id) {
-            _id = id;
+            Id = id;
         }
     }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Xamarin.Forms;
-using System.Collections.Specialized;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using WebAPILib;
-using System.Threading;
+﻿using WebAPILib;
 using System.Threading.Tasks;
 
 namespace OpenPlaylistApp
@@ -14,7 +7,7 @@ namespace OpenPlaylistApp
     {
         public SearchViewModel(string str)
         {
-            App.search.Clear();
+            App.Search.Clear();
             ExecuteloadSongsCommand(str);
         }
 
@@ -23,9 +16,9 @@ namespace OpenPlaylistApp
             await Task.Run(() =>
             {
                 IsBusy = true;
-                Search search = new Search(searchStr, SearchType.TRACK);
+                Search search = new Search(searchStr, SearchType.Track);
                 foreach (Track item in search.Tracks)
-                    App.search.Add(item);
+                    App.Search.Add(item);
                 IsBusy = false;
             });
         }

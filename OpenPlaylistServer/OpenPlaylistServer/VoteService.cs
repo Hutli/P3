@@ -1,9 +1,4 @@
-﻿using SpotifyDotNet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace OpenPlaylistServer
 {
@@ -38,7 +33,7 @@ namespace OpenPlaylistServer
                 user = _userService.Users.FirstOrDefault(x => x.Id == userId);
 
                 // If user has already voted
-                if (user.Vote != null)
+                if (user != null && user.Vote != null)
                 {
                     // remove 1 vote on old track
                     var oldVote = user.Vote;
@@ -53,8 +48,11 @@ namespace OpenPlaylistServer
             }
 
             //  set user's vote to new track
-            user.Vote = playlistTrack;
-            user.Vote.TScore += 1;
+            if (user != null)
+            {
+                user.Vote = playlistTrack;
+                user.Vote.TScore += 1;
+            }
         }
     }
 }

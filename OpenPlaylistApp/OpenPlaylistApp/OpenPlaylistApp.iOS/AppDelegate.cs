@@ -16,7 +16,7 @@ namespace OpenPlaylistApp.iOS
     public partial class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        UIWindow window;
+        UIWindow _window;
 
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -29,11 +29,12 @@ namespace OpenPlaylistApp.iOS
         {
             Forms.Init();
 
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
+            _window = new UIWindow(UIScreen.MainScreen.Bounds)
+            {
+                RootViewController = App.GetMainPage().CreateViewController()
+            };
 
-            window.RootViewController = App.GetMainPage().CreateViewController();
-
-            window.MakeKeyAndVisible();
+            _window.MakeKeyAndVisible();
 
             return true;
         }

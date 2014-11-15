@@ -1,37 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace WebAPILib {
     public class Album : SpotifyObject {
-        private string _albumType;
         private List<Image> _images = new List<Image>();
         private List<Artist> _artists = new List<Artist>();
         private List<Track> _tracks = new List<Track>();
-		private bool _tracksCached = false;
-		private bool _artistsCached = false;
 
-		public bool TracksCached { get { return _tracksCached; } }
+        public bool TracksCached { get; private set; }
 
-		public bool ArtistsCached { get { return _artistsCached; } }
+        public bool ArtistsCached { get; private set; }
 
-        public string AlbumType { get { return _albumType; } }
+        public string AlbumType { get; private set; }
 
         public List<Image> Images { get { return new List<Image>(_images); } }
 
         public List<Artist> Artists {
             get {
-				if (!_artistsCached) //If artists aren't loaded, load artists from spotify
-					cache ();
+				if (!ArtistsCached) //If artists aren't loaded, load artists from spotify
+					Cache ();
                 return new List<Artist>(_artists);
             }
         }
 
 		public List<Track> Tracks { 
 			get {
-                if(!_tracksCached) //If artists aren't loaded, load artists from spotify
-					cache ();
+                if(!TracksCached) //If artists aren't loaded, load artists from spotify
+					Cache ();
 				return new List<Track>(_tracks);
 			} 
 		}
@@ -42,9 +38,9 @@ namespace WebAPILib {
         /// Loads artists and tracks from Spotify into album's artists and tracks
         /// Only runs once (if _artistsCached or _tracksCached is false)
         /// </summary>
-		private void cache(){
-			JObject o = Search.getJobject(Href);
-			if (!_artistsCached) { //Load artists
+		private void Cache(){
+			JObject o = Search.GetJobject(Href);
+			if (!ArtistsCached) { //Load artists
 				List<Artist> artists = new List<Artist> ();
 				foreach (JObject jsonArtist in o["artists"]) {
 					string id = Convert.ToString (jsonArtist ["id"]);
@@ -60,26 +56,25 @@ namespace WebAPILib {
 					}
 				}
 				_artists = artists;
-				_artistsCached = true;
+				ArtistsCached = true;
 			}
-			if (!_tracksCached) { //Load Tracks
-				List<Track> tracks = new List<Track> ();
-				foreach (JObject jsonTrack in o["tracks"]["items"]) {
-					string id = (string)(jsonTrack ["id"]);
-					string name = (string)(jsonTrack ["name"]);
-					int duration = (int)(jsonTrack ["duration_ms"]);
-					bool isExplicit = (bool)jsonTrack ["explicit"];
-					int trackNumber = (int)(jsonTrack ["track_number"]);
-					if (SearchResult.Tracks.Exists (a => id.Equals (a.ID)))
-						_tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
-					else { //
-						Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
-						SearchResult.AddTrack (tmpTrack);
-						_tracks.Add (tmpTrack);
-					}
-				}
-				_tracksCached = true;
-			}
+            if (TracksCached) return; //Load Tracks
+            List<Track> tracks = new List<Track> ();
+            foreach (JObject jsonTrack in o["tracks"]["items"]) {
+                string id = (string)(jsonTrack ["id"]);
+                string name = (string)(jsonTrack ["name"]);
+                int duration = (int)(jsonTrack ["duration_ms"]);
+                bool isExplicit = (bool)jsonTrack ["explicit"];
+                int trackNumber = (int)(jsonTrack ["track_number"]);
+                if (SearchResult.Tracks.Exists (a => id.Equals (a.ID)))
+                    _tracks.Add (SearchResult.Tracks.Find (a => id.Equals (a.ID)));
+                else { //
+                    Track tmpTrack = new Track (id, name, 0, duration, isExplicit, trackNumber, this, SearchResult); //TODO Spotify don't want to tell ud popularity
+                    SearchResult.AddTrack (tmpTrack);
+                    _tracks.Add (tmpTrack);
+                }
+            }
+            TracksCached = true;
 		}
 
         public override string URI { get { return "spotify:album:" + ID; } }
@@ -92,7 +87,7 @@ namespace WebAPILib {
 		}
 
 		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult) : base(id, name, searchResult) {
-            _albumType = albumtype;
+            AlbumType = albumtype;
             _images = new List<Image>(images);
         }
         
@@ -101,13 +96,12 @@ namespace WebAPILib {
         /// </summary>
         /// <param name="artists"> Artist to be added</param>
 		public void AddArtists(List<Artist> artists){
-			if (_artists.Count == 0) {
-				_artists = artists;
-				foreach (Artist a in _artists) {
-					a.AddAlbum (this);
-				}
-				_artistsCached = true;
-			}
+            if (_artists.Count != 0) return;
+            _artists = artists;
+            foreach (Artist a in _artists) {
+                a.AddAlbum (this);
+            }
+            ArtistsCached = true;
 		}
 
         /// <summary>

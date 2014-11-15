@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using WebAPILib;
@@ -36,7 +33,7 @@ namespace OpenPlaylistApp
         void search_SearchButtonPressed(object sender, EventArgs e)
         {
             string str = ((SearchBar)sender).Text;
-            App.search.Clear();
+            App.Search.Clear();
             NewSearch(str);
         }
 
@@ -44,9 +41,9 @@ namespace OpenPlaylistApp
         {
             await Task.Run(() =>
             {
-                Search search = new Search(searchStr, SearchType.TRACK);
+                Search search = new Search(searchStr, SearchType.Track);
                 foreach (Track item in search.Tracks)
-                    App.search.Add(item);
+                    App.Search.Add(item);
             });
 
             Result = new SearchResultView();
