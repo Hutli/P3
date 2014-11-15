@@ -69,7 +69,8 @@ namespace WebAPILib {
         /// <returns>List of artists contained in JSON</returns>
         private List<Artist> GetArtists(IEnumerable<JToken> jsonCode) {
             List<Artist> artists = new List<Artist>();
-            foreach(JObject jsonArtist in jsonCode) {
+            foreach(var jToken in jsonCode) {
+                var jsonArtist = (JObject) jToken;
                 string id = (string)(jsonArtist["id"]);
                 string name = (string)(jsonArtist["name"]);
                 if(_artists.Exists(a => a.ID.Equals(id))) {
@@ -91,7 +92,8 @@ namespace WebAPILib {
         /// <returns>List of albums contained in JSON</returns>
         private List<Album> GetAlbums(IEnumerable<JToken> jsonCode) { 
             List<Album> albums = new List<Album>();
-            foreach(JObject jsonAlbum in jsonCode) {
+            foreach(var jToken in jsonCode) {
+                var jsonAlbum = (JObject) jToken;
                 string id = (string)(jsonAlbum["id"]);
                 string name = (string)(jsonAlbum["name"]);
                 string albumType = (string)(jsonAlbum["album_type"]);
@@ -115,7 +117,8 @@ namespace WebAPILib {
         /// <returns>List of tracks contained in JSON</returns>
         private List<Track> GetTracks(IEnumerable<JToken> jsonCode) {
             List<Track> tracks = new List<Track>();
-            foreach(JObject jsonTrack in jsonCode) {
+            foreach(var jToken in jsonCode) {
+                var jsonTrack = (JObject) jToken;
                 string id = (string)(jsonTrack["id"]);
                 if (_tracks.Exists(a => a.ID.Equals(id))) continue;
                 string name = (string)(jsonTrack["name"]);
@@ -155,7 +158,8 @@ namespace WebAPILib {
         /// <returns>List of images in JSON</returns>
         private IEnumerable<Image> GetImages(IDictionary<string, JToken> imageList) {
             List<Image> images = new List<Image>();
-            foreach(JObject image in imageList["images"]) {
+            foreach(var jToken in imageList["images"]) {
+                var image = (JObject) jToken;
                 int height = (int)(image["height"]);
                 int width = (int)(image["width"]);
                 string imageUrl = (string)(image["url"]);

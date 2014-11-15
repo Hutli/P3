@@ -3,8 +3,7 @@ using System.ComponentModel;
 
 namespace OpenPlaylistServer {
     public class PlaylistTrack : Track, INotifyPropertyChanged {
-        private int _pScore;
-        private int _tScore;
+        private int _tScore = 0;
 
         public int TScore
         {
@@ -23,29 +22,24 @@ namespace OpenPlaylistServer {
         {
             get
             {
-                return _tScore + _pScore;
+                return _tScore + PScore;
             }
         }
 
         public void UpdatePScore(int scoreDiff) {
-            _pScore += scoreDiff;
+            PScore += scoreDiff;
         }
 
         public void ResetPScore() {
-            _pScore = 0;
+            PScore = 0;
         }
 
-        public int PScore
-        {
-            get
-            {
-                return _pScore;
-            }
-        }
+        public int PScore { get; private set; }
 
         public PlaylistTrack(string trackUri)
             : base(trackUri)
         {
+            PScore = 0;
         }
 
         public override string ToString()

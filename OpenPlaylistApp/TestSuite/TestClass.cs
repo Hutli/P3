@@ -70,7 +70,6 @@ namespace WebAPITests
         public void SearchAddAlbum() //Tests Search.addArtist
         {
             Search s = new Search("dad", SearchType.All);
-            Artist a = new Artist("1234", "testArtist", s);
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
             Image img3 = new Image(64, 64, "https://i.scdn.co/image/d709f676d5c16db8941b1084b3ca348d35de04af");

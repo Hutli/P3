@@ -42,8 +42,9 @@ namespace WebAPILib {
 			JObject o = Search.GetJobject(Href);
 			if (!ArtistsCached) { //Load artists
 				List<Artist> artists = new List<Artist> ();
-				foreach (JObject jsonArtist in o["artists"]) {
-					string id = Convert.ToString (jsonArtist ["id"]);
+				foreach (var jToken in o["artists"]) {
+				    var jsonArtist = (JObject) jToken;
+				    string id = Convert.ToString (jsonArtist ["id"]);
 					string name = Convert.ToString (jsonArtist ["name"]);
 					if (SearchResult.Artists.Exists (a => id.Equals (a.ID))) { //If artist already exists, add album to artist
 						SearchResult.Artists.Find (a => id.Equals (a.ID)).AddAlbum (this); 
@@ -60,7 +61,8 @@ namespace WebAPILib {
 			}
             if (TracksCached) return; //Load Tracks
             List<Track> tracks = new List<Track> ();
-            foreach (JObject jsonTrack in o["tracks"]["items"]) {
+            foreach (var jToken in o["tracks"]["items"]) {
+                var jsonTrack = (JObject) jToken;
                 string id = (string)(jsonTrack ["id"]);
                 string name = (string)(jsonTrack ["name"]);
                 int duration = (int)(jsonTrack ["duration_ms"]);

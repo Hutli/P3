@@ -37,7 +37,7 @@ namespace OpenPlaylistApp
                 
             try
             {
-                var json = await session.SendVote(App.User.Venue, track, App.User);
+                var json = await session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
             } catch(Exception ex) {
                 App.GetMainPage().DisplayAlert("Error",ex.Message, "OK", "Cancel");
             }
