@@ -30,7 +30,7 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
-        async void list_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        void list_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (!(e.SelectedItem is Track)) return;
             Track track = (Track)e.SelectedItem;
@@ -38,7 +38,7 @@ namespace OpenPlaylistApp.Views
                 
             try
             {
-                var json = await session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
+                var json = session.SendVote(App.User.Venue, track, App.User).Result; //TODO vi bruger ikke variablen
             } catch(Exception ex) {
                 App.GetMainPage().DisplayAlert("Error",ex.Message, "OK", "Cancel");
             }

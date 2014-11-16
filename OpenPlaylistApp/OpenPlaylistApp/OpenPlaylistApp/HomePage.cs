@@ -44,12 +44,12 @@ namespace OpenPlaylistApp
             detailPage.PopAsync();
         }
 
-        async void GetVenues()
+        void GetVenues()
         {
             Session session = Session.Instance();
             try
             {
-                var str = await session.GetVenues();
+                var str = session.GetVenues().Result;
                 JObject o = JObject.Parse(str);
                 foreach (var item in o.Values())
                 {
