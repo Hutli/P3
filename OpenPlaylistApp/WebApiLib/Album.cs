@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace WebAPILib {
@@ -51,28 +50,27 @@ namespace WebAPILib {
                 _artists = artists;
                 ArtistsCached = true;
             }
-            if (!TracksCached)
-            { //Load Tracks
-                List<Track> tracks = new List<Track>();
-                foreach (JObject jsonTrack in o["tracks"]["items"])
+            if (TracksCached) return; //Load Tracks
+            List<Track> tracks = new List<Track>();
+            foreach (var jToken in o["tracks"]["items"])
+            {
+                var jsonTrack = (JObject) jToken;
+                string id = (string)(jsonTrack["id"]);
+                if (SearchResult.Tracks.Exists(a => id.Equals(a.ID)))
+                    _tracks.Add(SearchResult.Tracks.Find(a => id.Equals(a.ID)));
+                else
                 {
-                    string id = (string)(jsonTrack["id"]);
-                    if (SearchResult.Tracks.Exists(a => id.Equals(a.ID)))
-                        _tracks.Add(SearchResult.Tracks.Find(a => id.Equals(a.ID)));
-                    else
-                    {
-                        string name = (string)(jsonTrack["name"]);
-                        int popularity = (int)(jsonTrack["popularity"]);
-                        int duration = (int)(jsonTrack["duration_ms"]);
-                        bool isExplicit = (bool)jsonTrack["explicit"];
-                        int trackNumber = (int)(jsonTrack["track_number"]);
-                        Track tmpTrack = new Track(id, name, popularity, duration, isExplicit, trackNumber, SearchResult, this); //TODO Spotify don't want to tell ud popularity
-                        SearchResult.AddTrack(tmpTrack);
-                        _tracks.Add(tmpTrack);
-                    }
+                    string name = (string)(jsonTrack["name"]);
+                    int popularity = (int)(jsonTrack["popularity"]);
+                    int duration = (int)(jsonTrack["duration_ms"]);
+                    bool isExplicit = (bool)jsonTrack["explicit"];
+                    int trackNumber = (int)(jsonTrack["track_number"]);
+                    Track tmpTrack = new Track(id, name, popularity, duration, isExplicit, trackNumber, SearchResult, this); //TODO Spotify don't want to tell ud popularity
+                    SearchResult.AddTrack(tmpTrack);
+                    _tracks.Add(tmpTrack);
                 }
-                TracksCached = true;
             }
+            TracksCached = true;
         }
 
         public override string URI { get { return "spotify:album:" + ID; } }
@@ -120,7 +118,7 @@ namespace WebAPILib {
             string returnString = string.Format("{0} by ", Name);
             foreach (Artist a in Artists)
             {
-                if (Artists.FindLast(x => true) == a)
+                if (Equals(Artists.FindLast(x => true), a))
                     returnString += string.Format(a.Name);
                 else
                     returnString += string.Format("{0}, ", a.Name);

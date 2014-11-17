@@ -22,16 +22,14 @@ namespace WebAPILib {
             get
             {
                 JObject o = Search.GetJobject(Href);
-                if (!AlbumsCached)
-                { //Load albums
-                    List<Album> albums = SearchResult.GetAlbums(o["albums"]);
-                    foreach (Album a in albums)
-                    {
-                        a.AddArtists(new List<Artist> { this });
-                    }
-                    _albums = albums;
-                    AlbumsCached = true;
+                if (AlbumsCached) return new List<Album>(_albums); //Load albums
+                List<Album> albums = SearchResult.GetAlbums(o["albums"]);
+                foreach (Album a in albums)
+                {
+                    a.AddArtists(new List<Artist> { this });
                 }
+                _albums = albums;
+                AlbumsCached = true;
                 return new List<Album>(_albums);
             }
         }

@@ -108,8 +108,9 @@ namespace WebAPILib {
         public List<Album> GetAlbums(JToken jsonCode, List<Artist> inputArtists)
         {
             List<Album> albums = new List<Album>();
-            foreach (JObject jsonAlbum in jsonCode)
+            foreach (var jToken in jsonCode)
             {
+                var jsonAlbum = (JObject) jToken;
                 string id = (string)(jsonAlbum["id"]);
                 if (_albums.Exists(a => a.ID.Equals(id)))
                     albums.Add(_albums.Find(a => a.ID.Equals(id)));

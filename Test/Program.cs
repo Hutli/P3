@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebAPILib;
 namespace Test
 {
@@ -18,7 +15,7 @@ namespace Test
             Console.WriteLine((DateTime.Now - timer).TotalMilliseconds);
             for (int i = 0; i < trackSearch.Tracks.Count(); i++)
             {
-                Console.WriteLine(string.Format("{0} | {1}", trackSearch.Tracks[i], allSearch.Tracks[i]));
+                Console.WriteLine("{0} | {1}", trackSearch.Tracks[i], allSearch.Tracks[i]);
             }
 
             Console.WriteLine("DONE");

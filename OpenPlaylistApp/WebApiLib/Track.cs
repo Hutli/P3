@@ -6,7 +6,7 @@ namespace WebAPILib {
 		private int _duration;
 		private bool _isExplicit;
 		private int _trackNumber;
-		private Album _album = null;
+		private Album _album;
 
         public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult)
             : base(id, name, searchResult)
