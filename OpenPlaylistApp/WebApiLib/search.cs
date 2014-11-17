@@ -41,8 +41,6 @@ namespace WebAPILib {
                 _tracks.Add(track);
         }
 
-        public readonly string SearchString;
-
         public Search(string searchString) : this(searchString, SearchType.All) { }
 
         public Search(string searchString, SearchType type)
@@ -149,7 +147,6 @@ namespace WebAPILib {
                 else
                 {
                     string name = (string)(jsonTrack["name"]);
-                    int popularity = (int)(jsonTrack["popularity"]);
                     int duration = (int)(jsonTrack["duration_ms"]);
                     bool isExplicit = (bool)jsonTrack["explicit"];
                     int trackNumber = (int)(jsonTrack["track_number"]);
@@ -166,11 +163,11 @@ namespace WebAPILib {
                         string albumName = (string)(jsonTrack["album"]["name"]);
                         string albumType = (string)(jsonTrack["album"]["album_type"]);
                         IEnumerable<Image> images = GetImages(jsonTrack["album"].ToObject<JObject>());
-                        album = new Album(id, name, albumType, images, this, artists);
+                        album = new Album(albumID, albumName, albumType, images, this, artists);
                         AddAlbum(album);
                     }
 
-                    track = new Track(id, name, popularity, duration, isExplicit, trackNumber, this, album, artists);
+                    track = new Track(id, name, duration, isExplicit, trackNumber, this, album, artists);
                 }
                 tracks.Add(track);
                 AddTrack(track);

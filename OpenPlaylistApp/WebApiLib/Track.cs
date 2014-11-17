@@ -4,25 +4,16 @@ namespace WebAPILib
 {
     public class Track : SpotifyObject
     {
-        private int _popularity;
-        private int _duration;
-        private bool _isExplicit;
-        private int _trackNumber;
-        private Album _album;
-
-        public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult, Album album, List<Artist> artists)
+        public Track(string id, string name, int duration, bool isExplicit, int trackNumber, Search searchResult, Album album, List<Artist> artists)
             : base(id, name, searchResult)
         {
-            _popularity = popularity;
-            _duration = duration;
-            _isExplicit = isExplicit;
-            _trackNumber = trackNumber;
-            album.AddTrack(this);
-            _album = album;
-            album.AddArtists(artists);
+            Duration = duration;
+            IsExplicit = isExplicit;
+            TrackNumber = trackNumber;
+            Album = album;
+            Album.AddTrack(this);
+            Album.AddArtists(artists);
         }
-
-        public int Popularity { get; private set; }
 
         public int Duration { get; private set; }
 

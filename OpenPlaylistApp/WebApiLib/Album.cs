@@ -41,23 +41,30 @@ namespace WebAPILib {
         {
             JObject o = Search.GetJobject(Href);
             if (!ArtistsCached)
-            { //Load artists
+            {
+                //Load artists
                 List<Artist> artists = SearchResult.GetArtists(o["artists"]);
                 foreach (Artist a in artists)
                     a.AddAlbum(this);
                 _artists = artists;
                 ArtistsCached = true;
             }
-            if (!TracksCached)
-            { //Load Tracks
-                List<Track> tracks = SearchResult.GetTracks(o["tracks"]); //new List<Track>();
-                foreach (Track t in tracks)
-                    _tracks.Add(t);
-                TracksCached = true;
+            if (TracksCached) return;
+            //Load Tracks
+            List<Track> tracks = SearchResult.GetTracks(o["tracks"]); //new List<Track>();
+            foreach (Track t in tracks)
+                _tracks.Add(t);
+            TracksCached = true;
             TracksCached = true;
         }
 
-        public override string URI { get { return "spotify:album:" + ID; } }
+        public override string URI
+            {
+                get
+                {
+                    return "spotify:album:" + ID;
+                }
+            }
 
         public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult, List<Artist> artists)
             : this(id, name, albumtype, images, searchResult)

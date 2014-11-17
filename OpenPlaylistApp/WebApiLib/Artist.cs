@@ -12,8 +12,6 @@ namespace WebAPILib {
 
         public bool AlbumsCached { get; private set; }
 
-	    public int Popularity { get; private set; }
-
 	    public override string URI{ get { return "spotify:artist:" + ID; } }
         public string Href { get { return "https://api.spotify.com/v1/artists/" + ID; } }
 

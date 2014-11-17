@@ -93,7 +93,7 @@ namespace WebAPITests
             Image img3 = new Image(64, 64, "https://i.scdn.co/image/d709f676d5c16db8941b1084b3ca348d35de04af");
             List<Image> imgs = new List<Image> { img1, img2, img3 };
             Album alb = new Album("1234", "testAlbum", "asdf", imgs, s);
-            Track t = new Track("1234", "testTrack", 10, 10, true, 10, s, alb, artists);
+            Track t = new Track("1234", "testTrack", 10, true, 10, s, alb, artists);
 
             Assert.False(s.Tracks.Contains(t), "track contained");
             s.AddTrack(t);
@@ -236,7 +236,7 @@ namespace WebAPITests
             List<Image> imgs = new List<Image> { img1, img2, img3 };
             Album alb = new Album("3j3cgkuyo015dghNYhHnZJ", "testAlbum", "asdf", imgs, s);
             Album alb2 = new Album("3j3cgkuyo015dghNYhHnZJ", "testAlbum", "asdf", imgs, s);
-            Track t = new Track("1234", "testTrack", 10, 10, true, 10, s, alb, artists);
+            Track t = new Track("1234", "testTrack", 10, true, 10, s, alb, artists);
 
             alb2.AddTrack(t);
             Assert.True(alb2.Tracks.Contains(t), "track not contained");
