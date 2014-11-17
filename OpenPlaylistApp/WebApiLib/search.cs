@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace WebAPILib {
@@ -10,10 +10,13 @@ namespace WebAPILib {
 
     }
 
-    public class Search {
+    public class Search
+    {
         private List<Artist> _artists = new List<Artist>();
         private List<Album> _albums = new List<Album>();
         private List<Track> _tracks = new List<Track>();
+
+        public bool LockSearch;
 
         public List<Artist> Artists { get { return _artists; } }
 
@@ -21,18 +24,21 @@ namespace WebAPILib {
 
         public List<Track> Tracks { get { return _tracks; } }
 
-        public void AddArtist(Artist artist) {
-            if(!_artists.Exists(a => a.ID == artist.ID)) //No duplicates
+        public void AddArtist(Artist artist)
+        {
+            if (!_artists.Exists(a => a.Equals(artist))) //No duplicates
                 _artists.Add(artist);
         }
 
-        public void AddAlbum(Album album) {
-            if(!_albums.Exists(a => a.ID == album.ID)) //No duplicates
+        public void AddAlbum(Album album)
+        {
+            if (!_albums.Exists(a => a.Equals(album))) //No duplicates
                 _albums.Add(album);
         }
 
-        public void AddTrack(Track track) {
-            if(!_tracks.Exists(a => a.ID == track.ID)) //No duplicates
+        public void AddTrack(Track track)
+        {
+            if (!_tracks.Exists(a => a.Equals(track))) //No duplicates
                 _tracks.Add(track);
         }
 
@@ -40,24 +46,33 @@ namespace WebAPILib {
 
         public Search(string searchString) : this(searchString, SearchType.All) { }
 
-        public Search(string searchString, SearchType type) {
-            switch(type) {
-                case SearchType.All:
-                case SearchType.Artist:
-                    JObject oArtists = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist");
-                    GetArtists(oArtists["artists"]["items"]); //TODO Vi kalder en metode og smider returværdien væk?
-                    if(type == SearchType.All)
-                        goto case SearchType.Album; //TODO FIX C#!
+        public Search(string searchString, SearchType type)
+        {
+            switch (type)
+            {
+                case SearchType.ALL:
+                    JObject json = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist,album,track&market=DK");
+                    foreach (Artist a in GetArtists(json["artists"]["items"]))
+                        AddArtist(a);
+                    foreach (Album a in GetAlbums(json["albums"]["items"]))
+                        AddAlbum(a);
+                    foreach (Track t in GetTracks(json["tracks"]["items"]))
+                        AddTrack(t);
                     break;
-                case SearchType.Album:
-                    JObject oAlbums = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album");
-                    GetAlbums(oAlbums["albums"]["items"]); //TODO Vi kalder en metode og smider returværdien væk?
-                    if(type == SearchType.All)
-                        goto case SearchType.Track; //TODO FIX C#!
+                case SearchType.ARTIST:
+                    JObject jsonArtist = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist&market=DK");
+                    foreach (Artist a in GetArtists(jsonArtist["artists"]["items"]))
+                        AddArtist(a);
                     break;
-                case SearchType.Track:
-                    JObject oTracks = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track");
-                    GetTracks(oTracks["tracks"]["items"]); //TODO Vi kalder en metode og smider returværdien væk?
+                case SearchType.ALBUM:
+                    JObject jsonAlbums = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album&market=DK");
+                    foreach (Album a in GetAlbums(jsonAlbums["albums"]["items"]))
+                        AddAlbum(a);
+                    break;
+                case SearchType.TRACK:
+                    JObject jsonTracks = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track&market=DK");
+                    foreach (Track t in GetTracks(jsonTracks["tracks"]["items"]))
+                        AddTrack(t);
                     break;
             }
         }
@@ -72,11 +87,11 @@ namespace WebAPILib {
             foreach(var jToken in jsonCode) {
                 var jsonArtist = (JObject) jToken;
                 string id = (string)(jsonArtist["id"]);
-                string name = (string)(jsonArtist["name"]);
-                if(_artists.Exists(a => a.ID.Equals(id))) {
+                if (_artists.Exists(a => a.ID.Equals(id)))
                     artists.Add(_artists.Find(a => a.ID.Equals(id)));
-                }
-                else {
+                else
+                {
+                    string name = (string)(jsonArtist["name"]);
                     Artist artist = new Artist(id, name, this);
                     artists.Add(artist);
                     AddArtist(artist);
@@ -90,24 +105,33 @@ namespace WebAPILib {
         /// </summary>
         /// <param name="jsonCode">JSON collection of albums</param>
         /// <returns>List of albums contained in JSON</returns>
-        private List<Album> GetAlbums(IEnumerable<JToken> jsonCode) { 
+        
+        public List<Album> GetAlbums(JToken jsonCode, List<Artist> inputArtists)
+        {
             List<Album> albums = new List<Album>();
-            foreach(var jToken in jsonCode) {
-                var jsonAlbum = (JObject) jToken;
+            foreach (JObject jsonAlbum in jsonCode)
+            {
                 string id = (string)(jsonAlbum["id"]);
-                string name = (string)(jsonAlbum["name"]);
-                string albumType = (string)(jsonAlbum["album_type"]);
-                IEnumerable<Image> images = GetImages(jsonAlbum);
-                if(_albums.Exists(a => a.ID.Equals(id))) {
+                if (_albums.Exists(a => a.ID.Equals(id)))
                     albums.Add(_albums.Find(a => a.ID.Equals(id)));
-                }
-                else {
+                else
+                {
+                    string name = (string)(jsonAlbum["name"]);
+                    string albumType = (string)(jsonAlbum["album_type"]);
+                    List<Image> images = GetImages(jsonAlbum);
                     Album album = new Album(id, name, albumType, images, this);
                     albums.Add(album);
                     AddAlbum(album);
                 }
             }
+            foreach (Album a in albums)
+                a.AddArtists(inputArtists);
             return albums;
+        }
+
+        public List<Album> GetAlbums(JToken jsonCode)
+        {
+            return GetAlbums(jsonCode, new List<Artist>());
         }
 
         /// <summary>
@@ -150,6 +174,30 @@ namespace WebAPILib {
             }
             return tracks;
         }
+
+        /*public void EvaluateAll()
+        {
+            JObject artists = getJobject("https://api.spotify.com/v1/artists?ids=" + GetAllIds(_artists.Select<Artist, SpotifyObject>(a => (SpotifyObject)a).ToList()));
+            JObject albums = getJobject("https://api.spotify.com/v1/artists?ids=" + GetAllIds(_albums.Select<Album, SpotifyObject>(a => (SpotifyObject)a).ToList()));
+            JObject tracks = getJobject("https://api.spotify.com/v1/artists?ids=" + GetAllIds(_tracks.Select<Track, SpotifyObject>(t => (SpotifyObject)t).ToList()));
+            //tracks.
+        }
+
+        private string GetAllIds(List<SpotifyObject> inputList){
+            string ids = "";
+            foreach (SpotifyObject s in inputList)
+            {
+                if (!(s == inputList.FindLast(x => true)))
+                {
+                    ids += string.Format("{0},", s.ID);
+                }
+                else
+                {
+                    ids += string.Format("{0}", s.ID);
+                }
+            }
+            return ids;
+        }*/
 
         /// <summary>
         /// Gets list of images from JSON
