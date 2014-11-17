@@ -38,7 +38,7 @@
     <Compile Include="Artist.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Playlist.cs" />
-    <Compile Include="search.cs" />
+    <Compile Include="Search.cs" />
     <Compile Include="SpotifyObject.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="Request.cs" />
