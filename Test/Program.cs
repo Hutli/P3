@@ -11,10 +11,10 @@ namespace Test
         static void Main(string[] args)
         {
             DateTime timer = DateTime.Now;
-            Search trackSearch = new Search("DAD", SearchType.TRACK);
+            Search trackSearch = new Search("DAD", SearchType.Track);
             Console.WriteLine((DateTime.Now - timer).TotalMilliseconds);
             timer = DateTime.Now;
-            Search allSearch = new Search("DAD", SearchType.ALL);
+            Search allSearch = new Search("DAD");
             Console.WriteLine((DateTime.Now - timer).TotalMilliseconds);
             for (int i = 0; i < trackSearch.Tracks.Count(); i++)
             {

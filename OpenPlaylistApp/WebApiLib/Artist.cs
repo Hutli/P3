@@ -1,17 +1,17 @@
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace WebAPILib {
 	public class Artist: SpotifyObject {
 		private List<string> _genres = new List<string> ();
 		private List<Album> _albums = new List<Album> ();
 
-	    public Artist (string id, string name, Search searchResult) : base (id, name, searchResult) {
+        public Artist(string id, string name, Search searchResult) : base(id, name, searchResult) { }
 
         public List<string> Genres { get { return new List<string>(_genres); } }
 
-        public bool AlbumsCached { get { return _albumsCached; } }
+        public bool AlbumsCached { get; private set; }
 
-<<<<<<< 89a92838e03891fa2117d454d5144112f7ffc202
 	    public int Popularity { get; private set; }
 
 	    public override string URI{ get { return "spotify:artist:" + ID; } }
@@ -21,8 +21,8 @@ namespace WebAPILib {
         {
             get
             {
-                JObject o = Search.getJobject(Href);
-                if (!_albumsCached)
+                JObject o = Search.GetJobject(Href);
+                if (!AlbumsCached)
                 { //Load albums
                     List<Album> albums = SearchResult.GetAlbums(o["albums"]);
                     foreach (Album a in albums)
@@ -30,13 +30,11 @@ namespace WebAPILib {
                         a.AddArtists(new List<Artist> { this });
                     }
                     _albums = albums;
-                    _albumsCached = true;
+                    AlbumsCached = true;
                 }
                 return new List<Album>(_albums);
             }
         }
-
-        public override string URI { get { return "spotify:artist:" + ID; } }
 
         /// <summary>
         /// Adds album to artist

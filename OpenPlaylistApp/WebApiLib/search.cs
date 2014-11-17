@@ -7,7 +7,6 @@ namespace WebAPILib {
         Artist,
         Album,
         Track
-
     }
 
     public class Search
@@ -50,8 +49,8 @@ namespace WebAPILib {
         {
             switch (type)
             {
-                case SearchType.ALL:
-                    JObject json = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist,album,track&market=DK");
+                case SearchType.All:
+                    JObject json = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist,album,track&market=DK");
                     foreach (Artist a in GetArtists(json["artists"]["items"]))
                         AddArtist(a);
                     foreach (Album a in GetAlbums(json["albums"]["items"]))
@@ -59,18 +58,18 @@ namespace WebAPILib {
                     foreach (Track t in GetTracks(json["tracks"]["items"]))
                         AddTrack(t);
                     break;
-                case SearchType.ARTIST:
-                    JObject jsonArtist = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist&market=DK");
+                case SearchType.Artist:
+                    JObject jsonArtist = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist&market=DK");
                     foreach (Artist a in GetArtists(jsonArtist["artists"]["items"]))
                         AddArtist(a);
                     break;
-                case SearchType.ALBUM:
-                    JObject jsonAlbums = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album&market=DK");
+                case SearchType.Album:
+                    JObject jsonAlbums = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album&market=DK");
                     foreach (Album a in GetAlbums(jsonAlbums["albums"]["items"]))
                         AddAlbum(a);
                     break;
-                case SearchType.TRACK:
-                    JObject jsonTracks = getJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track&market=DK");
+                case SearchType.Track:
+                    JObject jsonTracks = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track&market=DK");
                     foreach (Track t in GetTracks(jsonTracks["tracks"]["items"]))
                         AddTrack(t);
                     break;
@@ -82,7 +81,7 @@ namespace WebAPILib {
         /// </summary>
         /// <param name="jsonCode">JSON collection of artists</param>
         /// <returns>List of artists contained in JSON</returns>
-        private List<Artist> GetArtists(IEnumerable<JToken> jsonCode) {
+        public List<Artist> GetArtists(IEnumerable<JToken> jsonCode) {
             List<Artist> artists = new List<Artist>();
             foreach(var jToken in jsonCode) {
                 var jsonArtist = (JObject) jToken;
@@ -118,7 +117,7 @@ namespace WebAPILib {
                 {
                     string name = (string)(jsonAlbum["name"]);
                     string albumType = (string)(jsonAlbum["album_type"]);
-                    List<Image> images = GetImages(jsonAlbum);
+                    IEnumerable<Image> images = GetImages(jsonAlbum.ToObject<JObject>());
                     Album album = new Album(id, name, albumType, images, this);
                     albums.Add(album);
                     AddAlbum(album);
@@ -139,7 +138,7 @@ namespace WebAPILib {
         /// </summary>
         /// <param name="jsonCode">JSON collection of tracks</param>
         /// <returns>List of tracks contained in JSON</returns>
-        private List<Track> GetTracks(IEnumerable<JToken> jsonCode) {
+        public List<Track> GetTracks(IEnumerable<JToken> jsonCode) {
             List<Track> tracks = new List<Track>();
             foreach(var jToken in jsonCode) {
                 var jsonTrack = (JObject) jToken;
@@ -167,7 +166,7 @@ namespace WebAPILib {
                     album = Albums.Find(a => a.ID.Equals(albumId));
                 }
 
-                Track track = new Track(id, name, popularity, duration, isExplicit, trackNumber, album, this, artists);
+                Track track = new Track(id, name, popularity, duration, isExplicit, trackNumber, this, album, artists);
 
                 tracks.Add(track);
                 AddTrack(track);

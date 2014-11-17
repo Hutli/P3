@@ -38,10 +38,10 @@ namespace WebAPILib {
         /// Loads artists and tracks from Spotify into album's artists and tracks
         /// Only runs once (if _artistsCached or _tracksCached is false)
         /// </summary>
-        private void cache()
+        private void Cache()
         {
-            JObject o = Search.getJobject(Href);
-            if (!_artistsCached)
+            JObject o = Search.GetJobject(Href);
+            if (!ArtistsCached)
             { //Load artists
                 List<Artist> artists = SearchResult.GetArtists(o["artists"]);
                 foreach (Artist a in artists)
@@ -49,9 +49,9 @@ namespace WebAPILib {
                     a.AddAlbum(this);
                 }
                 _artists = artists;
-                _artistsCached = true;
+                ArtistsCached = true;
             }
-            if (!_tracksCached)
+            if (!TracksCached)
             { //Load Tracks
                 List<Track> tracks = new List<Track>();
                 foreach (JObject jsonTrack in o["tracks"]["items"])
@@ -71,7 +71,7 @@ namespace WebAPILib {
                         _tracks.Add(tmpTrack);
                     }
                 }
-                _tracksCached = true;
+                TracksCached = true;
             }
         }
 
@@ -86,11 +86,6 @@ namespace WebAPILib {
                 a.AddAlbum(this);
             }
         }
-
-			foreach (Artist a in artists) {
-				a.AddAlbum (this);
-			}
-		}
 
 		public Album(string id, string name, string albumtype, IEnumerable<Image> images, Search searchResult) : base(id, name, searchResult) {
             AlbumType = albumtype;
