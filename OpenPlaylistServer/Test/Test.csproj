@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29CA0BA0-DB0B-4A37-8C93-18B7EE66A04F}</ProjectGuid>
+    <ProjectGuid>{7DDC36B1-9CAA-4C6E-9F9A-58E22A9A0F49}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test</RootNamespace>
@@ -48,12 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenPlaylistApp\WebAPILib\WebAPILib.csproj">
-      <Project>{18d1298d-87f8-45fd-91ae-fd7bdde81a72}</Project>
-      <Name>WebAPILib</Name>
+    <ProjectReference Include="..\WebAPI\WebAPI.csproj">
+      <Project>{1d3ce9dc-ad45-4740-bfcf-831efb00e8df}</Project>
+      <Name>WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
