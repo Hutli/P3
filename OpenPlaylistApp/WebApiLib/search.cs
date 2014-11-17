@@ -105,7 +105,7 @@ namespace WebAPILib {
         /// <param name="jsonCode">JSON collection of albums</param>
         /// <returns>List of albums contained in JSON</returns>
         
-        public List<Album> GetAlbums(JToken jsonCode, List<Artist> inputArtists)
+        public List<Album> GetAlbums(IEnumerable<JToken> jsonCode, List<Artist> inputArtists)
         {
             List<Album> albums = new List<Album>();
             foreach (var jToken in jsonCode)
@@ -119,17 +119,15 @@ namespace WebAPILib {
                     string name = (string)(jsonAlbum["name"]);
                     string albumType = (string)(jsonAlbum["album_type"]);
                     IEnumerable<Image> images = GetImages(jsonAlbum.ToObject<JObject>());
-                    Album album = new Album(id, name, albumType, images, this);
+                    Album album = new Album(id, name, albumType, images, this, inputArtists);
                     albums.Add(album);
                     AddAlbum(album);
                 }
             }
-            foreach (Album a in albums)
-                a.AddArtists(inputArtists);
             return albums;
         }
 
-        public List<Album> GetAlbums(JToken jsonCode)
+        public List<Album> GetAlbums(IEnumerable<JToken> jsonCode)
         {
             return GetAlbums(jsonCode, new List<Artist>());
         }
@@ -139,36 +137,41 @@ namespace WebAPILib {
         /// </summary>
         /// <param name="jsonCode">JSON collection of tracks</param>
         /// <returns>List of tracks contained in JSON</returns>
+
         public List<Track> GetTracks(IEnumerable<JToken> jsonCode) {
             List<Track> tracks = new List<Track>();
             foreach(var jToken in jsonCode) {
                 var jsonTrack = (JObject) jToken;
                 string id = (string)(jsonTrack["id"]);
-                if (_tracks.Exists(a => a.ID.Equals(id))) continue;
-                string name = (string)(jsonTrack["name"]);
-                int popularity = (int)(jsonTrack["popularity"]);
-                int duration = (int)(jsonTrack["duration_ms"]);
-                bool isExplicit = (bool)jsonTrack["explicit"];
-                int trackNumber = (int)(jsonTrack["track_number"]);
+                Track track;
+                if (_tracks.Exists(a => a.ID.Equals(id)))
+                    track = _tracks.Find(a => a.ID.Equals(id));
+                else
+                {
+                    string name = (string)(jsonTrack["name"]);
+                    int popularity = (int)(jsonTrack["popularity"]);
+                    int duration = (int)(jsonTrack["duration_ms"]);
+                    bool isExplicit = (bool)jsonTrack["explicit"];
+                    int trackNumber = (int)(jsonTrack["track_number"]);
 
-                List<Artist> artists = GetArtists(jsonTrack["artists"]);
+                    List<Artist> artists = GetArtists(jsonTrack["artists"]);
 
-                IEnumerable<Image> images = GetImages(jsonTrack["album"].ToObject<JObject>());
+                    Album album; //= GetAlbums(jsonTrack["album"], artists)[0];
+                    
+                    string albumID = (string)(jsonTrack["album"]["id"]);
+                    if (_albums.Exists(a => a.ID.Equals(id)))
+                        album = _albums.Find(a => a.ID.Equals(id));
+                    else
+                    {
+                        string albumName = (string)(jsonTrack["album"]["name"]);
+                        string albumType = (string)(jsonTrack["album"]["album_type"]);
+                        IEnumerable<Image> images = GetImages(jsonTrack["album"].ToObject<JObject>());
+                        album = new Album(id, name, albumType, images, this, artists);
+                        AddAlbum(album);
+                    }
 
-                Album album;
-                string albumId = (string)jsonTrack["album"]["id"];
-                if(!Albums.Exists(a => a.ID.Equals(albumId))) {
-                    string albumName = (string)jsonTrack["album"]["name"];
-                    string albumType = (string)jsonTrack["album"]["album_type"];
-                    album = new Album(albumId, albumName, albumType, images, this, artists);
-                    AddAlbum(album);
+                    track = new Track(id, name, popularity, duration, isExplicit, trackNumber, this, album, artists);
                 }
-                else {
-                    album = Albums.Find(a => a.ID.Equals(albumId));
-                }
-
-                Track track = new Track(id, name, popularity, duration, isExplicit, trackNumber, this, album, artists);
-
                 tracks.Add(track);
                 AddTrack(track);
             }

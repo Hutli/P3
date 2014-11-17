@@ -44,32 +44,16 @@ namespace WebAPILib {
             { //Load artists
                 List<Artist> artists = SearchResult.GetArtists(o["artists"]);
                 foreach (Artist a in artists)
-                {
                     a.AddAlbum(this);
-                }
                 _artists = artists;
                 ArtistsCached = true;
             }
-            if (TracksCached) return; //Load Tracks
-            List<Track> tracks = new List<Track>();
-            foreach (var jToken in o["tracks"]["items"])
-            {
-                var jsonTrack = (JObject) jToken;
-                string id = (string)(jsonTrack["id"]);
-                if (SearchResult.Tracks.Exists(a => id.Equals(a.ID)))
-                    _tracks.Add(SearchResult.Tracks.Find(a => id.Equals(a.ID)));
-                else
-                {
-                    string name = (string)(jsonTrack["name"]);
-                    int popularity = (int)(jsonTrack["popularity"]);
-                    int duration = (int)(jsonTrack["duration_ms"]);
-                    bool isExplicit = (bool)jsonTrack["explicit"];
-                    int trackNumber = (int)(jsonTrack["track_number"]);
-                    Track tmpTrack = new Track(id, name, popularity, duration, isExplicit, trackNumber, SearchResult, this); //TODO Spotify don't want to tell ud popularity
-                    SearchResult.AddTrack(tmpTrack);
-                    _tracks.Add(tmpTrack);
-                }
-            }
+            if (!TracksCached)
+            { //Load Tracks
+                List<Track> tracks = SearchResult.GetTracks(o["tracks"]); //new List<Track>();
+                foreach (Track t in tracks)
+                    _tracks.Add(t);
+                TracksCached = true;
             TracksCached = true;
         }
 

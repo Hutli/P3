@@ -1,44 +1,43 @@
 ﻿using System.Collections.Generic;
 
-namespace WebAPILib {
-	public class Track : SpotifyObject {
-        public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult)
+namespace WebAPILib
+{
+    public class Track : SpotifyObject
+    {
+        private int _popularity;
+        private int _duration;
+        private bool _isExplicit;
+        private int _trackNumber;
+        private Album _album;
+
+        public Track(string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult, Album album, List<Artist> artists)
             : base(id, name, searchResult)
         {
-            Popularity = popularity;
-            Duration = duration;
-            IsExplicit = isExplicit;
-            TrackNumber = trackNumber;
+            _popularity = popularity;
+            _duration = duration;
+            _isExplicit = isExplicit;
+            _trackNumber = trackNumber;
+            album.AddTrack(this);
+            _album = album;
+            album.AddArtists(artists);
         }
 
-		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult, Album album)
-            : this(id, name, popularity, duration, isExplicit, trackNumber, searchResult)
-        {
-            album.AddTrack(this);
-			Album = album;
-		}
+        public int Popularity { get; private set; }
 
-		public Track (string id, string name, int popularity, int duration, bool isExplicit, int trackNumber, Search searchResult, Album album, List<Artist> artists)
-			: this (id, name, popularity, duration, isExplicit, trackNumber, searchResult, album) {
-			album.AddArtists (artists);
-		}
+        public int Duration { get; private set; }
 
-	    public int Popularity { get; private set; }
+        public bool IsExplicit { get; private set; }
 
-	    public int Duration { get; private set; }
+        public int TrackNumber { get; private set; }
 
-	    public bool IsExplicit { get; private set; }
+        public Album Album { get; private set; }
 
-	    public int TrackNumber { get; private set; }
-
-	    public Album Album { get; private set; }
-
-		public override string URI{ get { return "spotify:track:" + ID; } }
+        public override string URI { get { return "spotify:track:" + ID; } }
 
         public override string ToString()
         {
             return string.Format("{0} on {1}", Name, Album);
         }
-	}
+    }
 }
 

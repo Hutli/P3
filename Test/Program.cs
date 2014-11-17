@@ -18,6 +18,9 @@ namespace Test
                 Console.WriteLine("{0} | {1}", trackSearch.Tracks[i], allSearch.Tracks[i]);
             }
 
+            Console.WriteLine(allSearch.Tracks[0].Album.Name);
+            Console.WriteLine(allSearch.Tracks[0].Album.Artists[0].Name);
+
             Console.WriteLine("DONE");
             Console.ReadLine();
         }
