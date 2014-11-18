@@ -7,7 +7,7 @@ The authors of~\cite{mathiassen2001objektorienteret} operate with three
 main structuring techniques.
 
 \begin{description}
-\item[Generalisation] Generalisation is used to describe a \enquote{is-a}
+\item[Generalisation] Generalisation is used to describe an \enquote{is a}
   relationship between classes. A class is called a
   superclass when another class inherits attributes and operations
   from this superclass. The other class is now a subclass of the
@@ -21,7 +21,8 @@ main structuring techniques.
   a line between each class.
 \end{description} \chnote{Hvorfor er det beskrevet?}
 
-Based on these structuring techniques, a class diagram showing the structure of the classes in the problem domain of the system has been made. See \cref{fig:pd_structure}. Every \enquote{User} class has an association with either zero or one \enquote{Track} classes, i.e. they have voted on a track. A \enquote{Track} can have an association with an \enquote{Audio system} class in that it is currently being played. The \enquote{Playlist} class contains zero or more \enquote{Track} classes, i.e. the tracks yet to be played. A \enquote{Playlist} class has an association with a \enquote{Filter}, i.e. the playlist is filtered by a filter.
+
+Based on these structuring techniques, a class diagram showing the structure of the classes in the problem domain of the system has been made. See \cref{fig:pd_structure}. A \textit{User} can have an association with a \textit{Track}, i.e. they have voted on a track. A \textit{Track} can have an association with an \textit{Audio system}, which means it is currently being played. A \textit{Playlist} contains zero or more \textit{Track}s, i.e. the tracks yet to be played. A \textit{Playlist} also has an association with a \textit{Restriction}, i.e. the playlist is filtered.
 
 \begin{figure}
   \centering

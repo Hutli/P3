@@ -1,18 +1,19 @@
-\noindent{As candidates for events, these possible actions on classes are considered:}
-\begin{itemize}
-\item Submitting/Cancelling votes:
-    When a user votes for a track, or cancels it. If the \textbf{vote} fits within the \textbf{restrictions}, the voted for \textbf{track}s vote count is changed and potentially its order in the \textbf{playlist} class. The specific \textbf{user}s vote is also changed.
-\item Checking in/out of venues:
-    User checks in at the venue, one wants to vote at. This allows the user to \textbf{vote}.
-\item Searching for a track:
-    When a user is searching for a desired track in the repertoire/catalogue of tracks. The user should receive relevant search results that fit within the \textbf{restriction}s.
-\item Adding/Removing a new track to the playlist:
-    If the track a user voted for is not on the playlist already, or if the track only had one vote that got cancelled.
-\item New track is playing:
-    When a another track instance ended, due to being skipped or reached the end. This should affect the \textbf{vote} count of a \textbf{track}. If a \textbf{user}s track is played his vote should be neglected.
-\item Adding/Removing restrictions:
-    When the administrator either adds or removes a restriction for the system, this may also be by time intervals. Already added \textbf{track} that does not meet the requirements should be neglected. Cascading through the specific \textbf{users} \textbf{vote}, and the \textbf{playlist}.
-\end{itemize}
+As candidates for events, these possible actions on classes are considered:
+\begin{description}
+\item[Submitting/Cancelling votes]
+    When a user votes for a track, or cancels it. If the \textit{Track} that is voted for fits within the \textit{Restriction}, the\textit{Track}s vote count is changed and potentially its order in the \textit{Playlist}. The specific \textit{User}s vote is also changed.
+\item[Checking in/out of venues]
+    A \textit{User} checks in at a venue. This allows the user to vote for \textit{Track}s there.
+\item[Searching for a track]
+    When a \textit{User} is searching for a desired \textit{Track} in the catalogue of \textit{Track}s. The \textit{User} should receive relevant search results that fit within the \textit{Restriction}s.
+\item[Adding/Removing a track from the \textit{Playlist}]
+    If a \textit{User} has voted for a \textit{Track}, which is not on the \textit{Playlist}, or if a \textit{Track} only had one vote which has been cancelled.
+\item[New track is playing]
+    When a \textit{Track} has ended, due to it being skipped or reaching the end. This should affect the vote count of the \textit{Track}. If the \textit{Track}, a \textit{User} has voted for, is played, the \textit{User}s vote should be reset.
+\item[Adding/Removing restrictions]
+    When the administrator either adds or removes a \textit{Restriction} from the \textit{Playlist}. \textit{Track}s on the \textit{Playlist} that do not meet the \textit{Restriction}s should be removed. The \textit{User}s' votes should also be voided if it does not meet the \textit{Restriction}.
+\end{description}
+
 
 The following event table is used to describe what classes are involved in the immediate events of the problem domain:
 
