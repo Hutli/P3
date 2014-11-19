@@ -16,7 +16,7 @@ namespace Test
             Console.WriteLine(testTracks[0].Album.Artists[0].Name);
             foreach (Track t in testTracks)
             {
-                Console.WriteLine(t);
+                Console.WriteLine(string.Format("{0} | {1}", t.Name, t.Album.Artists[0].Genres.Count == 0 ? "none" : t.Album.Artists[0].Genres[0]));
             }
             Console.ReadLine();
         }

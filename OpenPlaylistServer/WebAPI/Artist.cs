@@ -7,7 +7,9 @@ namespace WebAPI
     {
         private List<string> _genres = new List<string>();
 
-        public Artist(string id, string name) : base(id, name) { }
+        public Artist(string id, string name, List<string> genres) : base(id, name) {
+            _genres = new List<string>(genres);
+        }
 
         public List<string> Genres { get { return new List<string>(_genres); } }
 
