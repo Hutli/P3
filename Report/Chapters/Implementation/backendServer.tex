@@ -1,0 +1,49 @@
+\section{Backend Server}
+\label{imp:backendServer}
+
+As described in \cref{techPlat:backendServer}, HTTP endpoints must be
+available to the client from the server. This section presents all the
+available endpoints and describes key implementation
+details. Additionally the details of the playback of tracks from
+Spotify are detailed.
+
+Nancy, a lightweight framework for building HTTP services in C\# is leveraged
+to cut down development time.
+
+\sinote{mangler implementation details.. hvordan er det implementeret?}
+
+\subsection{Checking-in}
+For checking in to a venue, the client has to send a unique user ID to
+the endpoint shown in \cref{lst:endpoint_checkin}
+
+\begin{lstlisting}[label={lst:endpoint_checkin}, caption={HTTP endpoint allowing client to check-in to a venue. Text surrounded by curly brackets are parameters.}]
+http://server:port/checkin/{userID}
+\end{lstlisting}
+
+\subsection{Searching}
+To search, just a search query is needed.
+
+\begin{lstlisting}[label={lst:endpoint_search}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/search/{query}
+\end{lstlisting}
+
+\subsubsection{Returns}
+Tracks on Spotify that matches the query requested and are allowed to
+be played at the venue. This is formatted in JSON.
+
+\subsection{Voting}
+
+\begin{lstlisting}[label={lst:endpoint_vote}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/vote/{userID}/{trackId}
+\end{lstlisting}
+
+\subsection{Check-out}
+
+\begin{lstlisting}[label={lst:endpoint_checkout}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/checkout/{userID}
+\end{lstlisting}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../master"
+%%% End:

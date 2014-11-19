@@ -5,27 +5,3 @@ To have a selection of music for the users to browse, a music catalog had to be 
 Spotify provides an API that allows the programmer to develop applications that can access and manage data from Spotify’s servers. This means the project group does not have to deal with licensing and hosting of music data.
 
 Spotify also provides a business plan that allows for playing music to the public. Spotify Business is only available in Sweden right now~\cite{spotifyBusiness}.
-
-\subsection{Access to Spotify}
-\label{sub:Access_to_Spotify}
-
-As it is now established that Spotify is the music catalogue of choice, it is important to think of ways to access their data. As of this paper, two main APIs are available: Spotify Web API and libspotify. They each have their benefits and restrictions.
-
-\subsubsection{Spotify Web API}
-\label{techPlat:music_catalog_web_api}
-
-The Web API is the easiest of the two to work with. It is not needed to login with a Spotify account to use this API, however when the user is authorized, rate limits improve. The API is accessed as a simple REST based interface to nearly all their data. That is, tracks, albums, artists, playlists, user profiles, album art and track previews are all accessible. Notice that this is only metadata about tracks, albums etc. Besides the track previews, no music can be streamed using this API.
-
-So the price of simplicity and ease of use is the limitation of only being allowed to access metadata.
-
-\subsubsection{Libspotify}
-\label{techPlat:music_catalog_libspotify}
-
-Libspotify is a C library written and distributed by Spotify. It is more feature-rich and complex than the Web API. The library can access any data that the official Spotify client can. In fact, the official Spotify client uses libspotify. This implies that both accessing metadata, searching and music streaming is possible. The downside to this more powerful library is the requirement of a Spotify Premium account and the complexity of managing memory and threads.
-
-\subsection{Conclusion}
-\label{ssub:music_catalog_conclusion}
-
-Based on the knowledge acquired above it is determined that the web API is best used for retrieving metadata by searching Spotify's data. It is easily integrated in different contexts, as the only requirement is an internet connection.
-
-Libspotify is best used in a context where playback of tracks are needed and the requirement of a Spotify Premium account is no problem.
