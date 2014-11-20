@@ -25,10 +25,7 @@ namespace OpenPlaylistApp.Views
 
         void search_SearchButtonPressed(object sender, EventArgs e)
         {
-            layout.Children.Remove(Result);
             var searchVM = new SearchViewModel(((SearchBar)sender).Text);
-            layout.Children.Add(Result);
-            Content.Focus();
         }
     }
 }
