@@ -9,21 +9,13 @@ namespace OpenPlaylistApp.ViewModels
         public bool IsBusy
         {
             get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value, "IsBusy"); }
+            set
+            {
+                if (value.Equals(_isBusy)) return;
+                _isBusy = value;
+                OnPropertyChanged("IsBusy");
+            }
         }
-
-        protected void SetProperty<T>(
-            ref T backingStore, T value,
-            string propertyName)
-        {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return;
-
-            backingStore = value;
-
-            OnPropertyChanged(propertyName);
-        }
-
 
         #region INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;

@@ -16,7 +16,7 @@ namespace OpenPlaylistApp.ViewModels
             await Task.Run(() =>
             {
                 IsBusy = true;
-                Search search = new Search(searchStr, SearchType.Track);
+                Search search = new Search(searchStr);
                 foreach (Track item in search.Tracks)
                     App.Search.Add(item);
                 IsBusy = false;

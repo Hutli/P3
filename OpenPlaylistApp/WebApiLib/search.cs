@@ -41,37 +41,10 @@ namespace WebAPILib {
                 _tracks.Add(track);
         }
 
-        public Search(string searchString) : this(searchString, SearchType.All) { }
-
-        public Search(string searchString, SearchType type)
-        {
-            switch (type)
-            {
-                case SearchType.All:
-                    JObject json = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist,album,track&market=DK");
-                    foreach (Artist a in GetArtists(json["artists"]["items"]))
-                        AddArtist(a);
-                    foreach (Album a in GetAlbums(json["albums"]["items"]))
-                        AddAlbum(a);
-                    foreach (Track t in GetTracks(json["tracks"]["items"]))
-                        AddTrack(t);
-                    break;
-                case SearchType.Artist:
-                    JObject jsonArtist = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=artist&market=DK");
-                    foreach (Artist a in GetArtists(jsonArtist["artists"]["items"]))
-                        AddArtist(a);
-                    break;
-                case SearchType.Album:
-                    JObject jsonAlbums = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=album&market=DK");
-                    foreach (Album a in GetAlbums(jsonAlbums["albums"]["items"]))
-                        AddAlbum(a);
-                    break;
-                case SearchType.Track:
-                    JObject jsonTracks = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track&market=DK");
-                    foreach (Track t in GetTracks(jsonTracks["tracks"]["items"]))
-                        AddTrack(t);
-                    break;
-            }
+        public Search(string searchString){
+            JObject jsonTracks = GetJobject("https://api.spotify.com/v1/search?limit=10&q=" + searchString + "&type=track&market=DK");
+            foreach (Track t in GetTracks(jsonTracks["tracks"]["items"]))
+                AddTrack(t);
         }
 
         /// <summary>

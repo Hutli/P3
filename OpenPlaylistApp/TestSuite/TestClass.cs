@@ -11,41 +11,8 @@ namespace WebAPITests
     {
         #region WebAPILib.Search
         [Fact]
-        public void SearchAllConstructor() {
-            Search sAll = new Search("dad", SearchType.All);
-
-            Assert.NotEmpty(sAll.Artists);
-            foreach(Artist art in sAll.Artists) { Assert.Single(sAll.Artists, art); }
-            Assert.NotEmpty(sAll.Albums);
-            foreach(Album alb in sAll.Albums) { Assert.Single(sAll.Albums, alb); }
-            Assert.NotEmpty(sAll.Tracks);
-            foreach(Track t in sAll.Tracks) { Assert.Single(sAll.Tracks, t); }
-        }
-
-        [Fact]
-        public void SearchArtistConstructor() {
-            Search sArtist = new Search("dad", SearchType.Artist);
-
-            Assert.NotEmpty(sArtist.Artists);
-            foreach(Artist a in sArtist.Artists) { Assert.Single(sArtist.Artists, a); }
-            Assert.Empty(sArtist.Albums);
-            Assert.Empty(sArtist.Tracks);
-        }
-
-        [Fact]
-        public void SearchAlbumConstructor() {
-            Search sAlbum = new Search("dad", SearchType.Album);
-
-            Assert.Empty(sAlbum.Artists);
-            Assert.NotEmpty(sAlbum.Albums);
-            foreach(Album a in sAlbum.Albums) { Assert.Single(sAlbum.Albums, a); }
-            Assert.Empty(sAlbum.Tracks);
-            Assert.NotEmpty(sAlbum.Albums.First().Images); //getImages works
-        }
-
-        [Fact]
-        public void SearchTrackConstructor() {
-            Search sTrack = new Search("dad", SearchType.Track);
+        public void SearchConstructor() {
+            Search sTrack = new Search("dad");
 
             Assert.NotEmpty(sTrack.Artists);
             Assert.NotEmpty(sTrack.Albums);
@@ -56,7 +23,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddArtist() //Tests Search.addArtist
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Artist a = new Artist("1234", "testArtist", s);
 
             Assert.False(s.Artists.Contains(a), "artist contained");
@@ -69,7 +36,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddAlbum() //Tests Search.addArtist
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
             Image img3 = new Image(64, 64, "https://i.scdn.co/image/d709f676d5c16db8941b1084b3ca348d35de04af");
@@ -86,7 +53,7 @@ namespace WebAPITests
         [Fact]
         public void SearchAddTrack() //Tests Search.AddTrack
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             List<Artist> artists = new List<Artist> { new Artist("1234", "testArtist", s) };
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
@@ -105,7 +72,7 @@ namespace WebAPITests
         [Fact]
         public void SearchNoDuplicatesInResults() //Tests for duplicates in Search results
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             foreach (Artist a in s.Artists)
             {
                 Assert.Single(s.Artists, a);
@@ -136,7 +103,7 @@ namespace WebAPITests
         #region WebAPILib.Artist
         [Fact]
         public void ArtistConstructor() {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             const string id = "1234";
             const string name = "testArtist";
             Artist a = new Artist(id, name, s);
@@ -147,7 +114,7 @@ namespace WebAPITests
         [Fact]
         public void ArtistAddAlbum() // Tests Artist.AddAlbum
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Artist a = new Artist("1234", "testArtist", s);
             Image img1 = new Image(640, 640, "https://i.scdn.co/image/f8717f432506ab213c4de0c66d6ac24cd07ecf72");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/502bc1e1726e2594cd0045473e10d9166fa79dd8");
@@ -169,7 +136,7 @@ namespace WebAPITests
             const string id = "3j3cgkuyo015dghNYhHnZJ";
             const string name = "testAlbum";
             const string type = "asdf";
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -198,7 +165,7 @@ namespace WebAPITests
         [Fact]
         public void AlbumAddArtist() // Tests Album.AddArtist
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -226,7 +193,7 @@ namespace WebAPITests
         [Fact]
         public void AlbumAddTrack() // Tests Album.AddTrack
         {
-            Search s = new Search("dad", SearchType.All);
+            Search s = new Search("dad");
             Artist a = new Artist("1234", "testArtist", s);
             Artist b = new Artist("2345", "testArtist2", s);
             List<Artist> artists = new List<Artist> { a, b };
@@ -249,7 +216,7 @@ namespace WebAPITests
 
         [Fact]
         public void AlbumCache() {
-            Search s = new Search("obliteration of the weak", SearchType.All);
+            Search s = new Search("obliteration of the weak");
             Image img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             Image img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             Image img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
