@@ -8,5 +8,10 @@
 \section{Paper Prototype}
 \input{Chapters/UserDesign/paperPrototype.tex}
 
+<<<<<<< Updated upstream
 \section{System Definition}\label{systemDefinition}
+\input{Chapters/SystemChoice/systemDefinition.tex}
+=======
+\section{System Definition}
 \input{Chapters/ProblemAnalysis/systemDefinition.tex}
+>>>>>>> Stashed changes
