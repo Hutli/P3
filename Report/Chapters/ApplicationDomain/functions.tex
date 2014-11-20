@@ -1,4 +1,15 @@
-As part of the analasys of the application domain an analysis of the functions are needed.
+As part of the analysis of the application domain an analysis of the functions are needed. It is done in order to get an understanding of what the system should do. A function is something that make the model usable by the user and supports they use cases. There are three different kinds of functions:
+
+\emph{Update} functions are functions that are triggered by an event in the problem or application domain that then needs to update the state of the model. Update function is used to keep the model up to date with reality.
+
+\emph{Signaling} functions are triggered by changes in the model. They notify the actors or do a direct action in the problem domain.
+
+\emph{Read} functions are functions that makes the model readable by the outside. It is used by an actor when he need updates from the model in the system.
+
+\emph{Compute} functions are similar to  read functions but instead of just reading the model they do some extra computation. They might also read different places in the model and combining them with some computation.
+
+In \cref{table:functionlist} is a table of function from the system. The functions was made based on Use cases and the systems definition. The table also includes the complexity of the functions. This is a subjective assessment made in collaboration with the users of the system. It tells how difficult a function is to develop. Most functions can can be specified with just a name but some of the more complex functions needs to have a detailed specification.
+
 \begin{table}[h]
 \begin{tabular}{lll}
 \hline
@@ -13,7 +24,11 @@ Change song votes              & Simple & Update  \\
 Play something on the speakers & Medium & Signal  \\
 Change playing state           & Medium & Update  \\
 Song vote                      & Medium & Update  \\
-Get next song                  & Medium & Compute \\
+Get next song                  & Complex & Compute \\
 Noget med søg                  &        &         \\ \hline
 \end{tabular}
+\caption{Function list}
+\label{table:functionlist}
 \end{table}
+
+\frnote{Specification of complex functions}
