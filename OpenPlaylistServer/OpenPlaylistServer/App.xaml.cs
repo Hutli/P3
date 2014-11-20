@@ -19,6 +19,7 @@ namespace OpenPlaylistServer
                 x.ForSingletonOf<IVoteService>().Use<VoteService>();
                 x.ForSingletonOf<IUserService>().Use<UserService>();
                 x.ForSingletonOf<IPlaybackService>().Use<PlaybackService>();
+                x.For<ISearchService>().Use<SearchService>();
             });
         }
 

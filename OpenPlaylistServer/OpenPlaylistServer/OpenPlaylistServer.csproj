@@ -67,6 +67,9 @@
     <Reference Include="NAudio">
       <HintPath>..\..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\..\packages\structuremap.3.0.1.114\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -93,6 +96,7 @@
     <Compile Include="IMainWindowViewModel.cs" />
     <Compile Include="IPlaybackService.cs" />
     <Compile Include="IPlaylistService.cs" />
+    <Compile Include="ISearchService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IVoteService.cs" />
     <Compile Include="MainWindowViewModel.cs" />
@@ -104,6 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SearchService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="VoteModule.cs" />
     <Compile Include="User.cs" />
@@ -135,6 +140,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\OpenPlaylistApp\WebAPILib\WebAPILib.csproj">
+      <Project>{18d1298d-87f8-45fd-91ae-fd7bdde81a72}</Project>
+      <Name>WebAPILib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpotifyDotNet\SpotifyDotNet.csproj">
       <Project>{0d5c88b0-da42-43f0-9e81-b544f44e26d6}</Project>
       <Name>SpotifyDotNet</Name>
