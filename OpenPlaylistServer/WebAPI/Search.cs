@@ -9,7 +9,7 @@ namespace WebAPI
 {
     public static class WebAPIMethods
     {
-        public static List<Track> Search(string searchString, int limit)
+        public static IEnumerable<Track> Search(string searchString, int limit)
         {
             JObject jsonTracks = GetJobject("https://api.spotify.com/v1/search?limit=" + limit + "&q=" + searchString + "&type=track&market=DK");
             return GetTracks(jsonTracks["tracks"]["items"]);

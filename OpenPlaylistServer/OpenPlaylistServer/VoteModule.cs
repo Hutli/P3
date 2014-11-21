@@ -3,7 +3,6 @@ using System.Linq;
 using Nancy;
 using System.Windows;
 using Newtonsoft.Json;
-using WebAPILib;
 
 namespace OpenPlaylistServer
 {
@@ -20,9 +19,8 @@ namespace OpenPlaylistServer
 
             Get["/search/{query}"] = parameters =>
             {
-                Search search = searchService.Search(parameters.query);
-                var t = search.Tracks;
-                return JsonConvert.SerializeObject(t, Formatting.Indented);
+                var tracks = searchService.Search(parameters.query);
+                return JsonConvert.SerializeObject(tracks, Formatting.Indented);
             };
         }
     }

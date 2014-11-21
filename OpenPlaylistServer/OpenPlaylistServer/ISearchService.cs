@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SpotifyDotNet;
-using WebAPILib;
+using Track = WebAPI.Track;
 
 namespace OpenPlaylistServer
 {
     public interface ISearchService
     {
-        Search Search(string query);
+        IEnumerable<Track> Search(string query);
     }
 }

@@ -1,14 +1,16 @@
-﻿using SpotifyDotNet;
-using WebAPILib;
+﻿using System.Collections;
+using System.Collections.Generic;
+using SpotifyDotNet;
+using WebAPI;
+using Track = WebAPI.Track;
 
 namespace OpenPlaylistServer
 {
     class SearchService : ISearchService
     {
-        public Search Search(string query)
+        public IEnumerable<Track> Search(string query)
         {
-            var searchResult = new Search(query);
-            return searchResult;
+            return WebAPIMethods.Search(query, 20);
         }
     }
 }

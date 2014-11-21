@@ -1,3 +1,5 @@
+using System;
+
 namespace WebAPI {
 	public abstract class SpotifyObject {
 		protected string _id;
@@ -16,7 +18,12 @@ namespace WebAPI {
 
         public override bool Equals(object obj)
         {
-            return ((SpotifyObject)obj).ID.Equals(ID);
+            SpotifyObject spotifyObject = obj as SpotifyObject;
+            if (spotifyObject == null)
+            {
+                return false;
+            }
+            return spotifyObject.ID.Equals(ID);
         }
     }
 }
