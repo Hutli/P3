@@ -1,6 +1,8 @@
 using System;
+using Newtonsoft.Json;
 
 namespace WebAPI {
+    [JsonObject(MemberSerialization.OptIn)]
 	public abstract class SpotifyObject {
 		protected string _id;
 		protected string _name;
@@ -12,6 +14,7 @@ namespace WebAPI {
 
         public string ID { get { return _id; } }
 
+        [JsonProperty]
         public string Name { get { return _name; } }
 
         public virtual string URI { get { return ""; } } //TODO generate URI

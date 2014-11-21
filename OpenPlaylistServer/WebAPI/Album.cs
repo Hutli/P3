@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace WebAPI
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Album : SpotifyObject
     {
         private List<Image> _images = new List<Image>();
@@ -16,6 +18,7 @@ namespace WebAPI
 
         public List<Image> Images { get { return new List<Image>(_images); } }
 
+        [JsonProperty]
         public List<Artist> Artists { get { return new List<Artist>(_artists); } }
 
         public string Href { get { return "https://api.spotify.com/v1/albums/" + ID; } }
