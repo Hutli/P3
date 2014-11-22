@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenPlaylistApp.ViewModels;
 using Xamarin.Forms;
+using OpenPlaylistApp.Models;
 
 namespace OpenPlaylistApp.Views
 {
@@ -19,13 +20,15 @@ namespace OpenPlaylistApp.Views
             Content = layout;
             search.SearchButtonPressed += search_SearchButtonPressed;
             //search.TextChanged += search_SearchButtonPressed; search as you type, maybe introduce delay
+            Venue test = new Venue("Heiders", "Lol", "192.168.1.148", "");
 
-            
+            HomePage.Venues.Add(test);
         }
 
         void search_SearchButtonPressed(object sender, EventArgs e)
         {
-            var searchVM = new SearchViewModel(((SearchBar)sender).Text);
+            var searchView = new SearchResultView(((SearchBar)sender).Text);
+            Result = searchView;
         }
     }
 }

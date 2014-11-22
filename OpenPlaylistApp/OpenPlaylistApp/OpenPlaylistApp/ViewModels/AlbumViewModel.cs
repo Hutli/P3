@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using WebAPILib;
+using WebAPI;
 
 namespace OpenPlaylistApp.ViewModels
 {
@@ -16,14 +16,14 @@ namespace OpenPlaylistApp.ViewModels
 
         public void GetTrack()
         {
-            Task.Run(() =>
+            /*Task.Run(() =>
             {
                 foreach (var item in Album.Tracks)
                 {
                     Tracks.Add(item);
                 }
                 IsBusy = false;
-            });
+            });*/
         }
     }
 }

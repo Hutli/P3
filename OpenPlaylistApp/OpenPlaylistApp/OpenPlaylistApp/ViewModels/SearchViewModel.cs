@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using WebAPILib;
+using WebAPI;
 
 namespace OpenPlaylistApp.ViewModels
 {
@@ -7,7 +7,7 @@ namespace OpenPlaylistApp.ViewModels
     {
         public SearchViewModel(string str)
         {
-            App.Search.Clear();
+            HomePage.Search.Clear();
             ExecuteloadSongsCommand(str);
         }
 
@@ -16,10 +16,10 @@ namespace OpenPlaylistApp.ViewModels
             await Task.Run(() =>
             {
                 IsBusy = true;
-                Search search = new Search(searchStr);
+                /*Search search = new Search(searchStr);
                 foreach (Track item in search.Tracks)
                     App.Search.Add(item);
-                IsBusy = false;
+                IsBusy = false;*/
             });
         }
 

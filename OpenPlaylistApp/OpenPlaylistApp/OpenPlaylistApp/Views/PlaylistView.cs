@@ -13,7 +13,7 @@ namespace OpenPlaylistApp.Views
 
             NowPlayingView npv = new NowPlayingView();
 
-            var list = new ListView {ItemTemplate = new TrackTemplate(), ItemsSource = App.Playlist};
+            var list = new ListView {ItemTemplate = new TrackTemplate(), ItemsSource = HomePage.Playlist};
 
             VolumeView vv = new VolumeView();
 

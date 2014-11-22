@@ -1,4 +1,4 @@
-﻿using WebAPILib;
+﻿using WebAPI;
 
 namespace OpenPlaylistApp.Models
 {

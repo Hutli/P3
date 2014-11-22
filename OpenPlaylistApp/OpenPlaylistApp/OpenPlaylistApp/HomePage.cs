@@ -3,7 +3,7 @@ using OpenPlaylistApp.Models;
 using OpenPlaylistApp.Views;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
-using WebAPILib;
+using WebAPI;
 using Newtonsoft.Json.Linq;
 
 namespace OpenPlaylistApp
@@ -13,13 +13,17 @@ namespace OpenPlaylistApp
         NavigationPage detailPage;
         ContentPage browsePage;
 
+        public static ObservableCollection<Track> Playlist = new ObservableCollection<Track>();
+        public static ObservableCollection<Venue> Venues = new ObservableCollection<Venue>();
+        public static ObservableCollection<Track> Search = new ObservableCollection<Track>();
+
         public HomePage()
         {
             Title = "Home";
 
-            App.Playlist = new ObservableCollection<Track>();
-            App.Venues = new ObservableCollection<Venue>();
-            App.Search = new ObservableCollection<Track>();
+            Playlist = new ObservableCollection<Track>();
+            Venues = new ObservableCollection<Venue>();
+            Search = new ObservableCollection<Track>();
 
             var playlistView = new PlaylistView();
             var browseView = new SearchView();
@@ -53,7 +57,7 @@ namespace OpenPlaylistApp
                 JObject o = JObject.Parse(str);
                 foreach (var item in o.Values())
                 {
-                    App.Venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
+                    HomePage.Venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
                 }
             }
             catch (Exception ex)
