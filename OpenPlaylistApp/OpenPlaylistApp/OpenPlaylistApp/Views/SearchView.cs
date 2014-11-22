@@ -7,28 +7,24 @@ namespace OpenPlaylistApp.Views
 {
     public class SearchView : ContentView
     {
-        public SearchResultView Result;
-        SearchBar search = new SearchBar();
+        SearchResultView srw;
+        SearchBar searchBar = new SearchBar();
         StackLayout layout = new StackLayout();
 
         public SearchView()
         {
-            BindingContext = Result;
-            Result = new SearchResultView();
-            layout.Children.Add(search);
-            layout.Children.Add(Result);
+            layout.Children.Add(searchBar);
             Content = layout;
-            search.SearchButtonPressed += search_SearchButtonPressed;
+            searchBar.SearchButtonPressed += search_SearchButtonPressed;
             //search.TextChanged += search_SearchButtonPressed; search as you type, maybe introduce delay
-            Venue test = new Venue("Heiders", "Lol", "192.168.1.148", "");
-
-            HomePage.Venues.Add(test);
         }
 
         void search_SearchButtonPressed(object sender, EventArgs e)
         {
-            var searchView = new SearchResultView(((SearchBar)sender).Text);
-            Result = searchView;
+            if (srw != null)
+                layout.Children.Remove(srw);
+            srw = new SearchResultView(((SearchBar)sender).Text);
+            layout.Children.Add(srw);
         }
     }
 }

@@ -4,6 +4,7 @@ using OpenPlaylistApp.Models;
 using WebAPI;
 using Xamarin.Forms;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace OpenPlaylistApp.Views
 {
@@ -12,29 +13,14 @@ namespace OpenPlaylistApp.Views
     {
         public SearchResultView(string searchStr)
         {
-            var layout = new StackLayout { Spacing = 0 };
-
-            var activity = new ActivityIndicator
-            {
-                IsEnabled = true
-            };
-
             GetResults(searchStr);
-
-            activity.SetBinding(IsVisibleProperty, "IsBusy");
-            activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
             var list = new ListView {ItemsSource = HomePage.Search, ItemTemplate = new TrackTemplate()};
 
             list.ItemSelected += list_ItemSelected;
 
-            layout.Children.Add(activity);
-            layout.Children.Add(list);
-
-            Content = layout;
+            Content = list;
         }
-
-        public SearchResultView() { }
 
         async void GetResults(string searchStr)
         {
@@ -42,8 +28,8 @@ namespace OpenPlaylistApp.Views
             try
             {
                 var json = await session.Search(App.User.Venue, searchStr);
-                HomePage.Search = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, HomePage.Search.GetType());
-                App.GetMainPage().DisplayAlert("Error", App.User.Venue.IP + " " + searchStr, "OK", "Cancel");
+                HomePage.Search = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                App.GetMainPage().DisplayAlert("Error", HomePage.Search[0].Name, "OK", "Cancel");
             }
             catch (Exception ex)
             {
