@@ -20,7 +20,7 @@ namespace OpenPlaylistApp.Models
         public async Task<string> GetVenues()
         {
             using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync("openplaylist.tk/venues/"))
+            using (HttpResponseMessage response = await client.GetAsync("http://op.zz.vc/"))
             using (HttpContent content = response.Content)
             {
                 return await content.ReadAsStringAsync();

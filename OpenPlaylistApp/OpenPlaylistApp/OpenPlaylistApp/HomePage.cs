@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using WebAPI;
 using Newtonsoft.Json.Linq;
 using OpenPlaylistApp.ViewModels;
+using System.Collections.Generic;
 
 namespace OpenPlaylistApp
 {
@@ -23,10 +24,6 @@ namespace OpenPlaylistApp
 
             Playlist = new ObservableCollection<Track>();
             Venues = new ObservableCollection<Venue>();
-
-            Venue test = new Venue("Heiders", "Lol", "192.168.1.148", "");
-
-            Venues.Add(test);
 
             var playlistView = new PlaylistView();
             var browseView = new SearchView();
@@ -51,16 +48,22 @@ namespace OpenPlaylistApp
             detailPage.PopAsync();
         }
 
-        void GetVenues()
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            GetVenues();
+        }
+
+        async void GetVenues()
         {
             Session session = Session.Instance();
             try
             {
-                var str = session.GetVenues().Result;
-                JObject o = JObject.Parse(str);
-                foreach (var item in o.Values())
+                var str = await session.GetVenues();
+                JArray v = JArray.Parse(str);
+                foreach (var item in v)
                 {
-                    HomePage.Venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
+                    Venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
                 }
             }
             catch (Exception ex)
