@@ -4,5 +4,6 @@
     {
         void Play(PlaylistTrack track);
         void Stop();
+        PlaylistTrack GetCurrentPlaying();
     }
 }

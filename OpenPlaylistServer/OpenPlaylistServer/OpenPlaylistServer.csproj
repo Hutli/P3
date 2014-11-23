@@ -106,6 +106,7 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="IVoteService.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="NowPlayingModule.cs" />
     <Compile Include="PlaybackService.cs" />
     <Compile Include="PlaylistService.cs" />
     <Compile Include="PlaylistTrack.cs" />
@@ -115,6 +116,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Restriction.cs" />
+    <Compile Include="SearchModule.cs" />
     <Compile Include="SearchService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="VoteModule.cs" />

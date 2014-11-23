@@ -8,6 +8,7 @@ namespace OpenPlaylistServer
         private NAudio.Wave.WaveFormat _activeFormat;
         private NAudio.Wave.BufferedWaveProvider _sampleStream;
         private NAudio.Wave.WaveOut _waveOut;
+        private PlaylistTrack _currentPlaying;
 
         public PlaybackService()
         {
@@ -49,6 +50,7 @@ namespace OpenPlaylistServer
             if (spotify != null && track != null)
             {
                 spotify.Play(track);
+                _currentPlaying = track;
             }
         }
 
@@ -58,12 +60,19 @@ namespace OpenPlaylistServer
             if (spotify != null)
             {
                 spotify.Stop();
+                _currentPlaying = null;
             }
             if (_waveOut == null || _sampleStream == null) return;
             _waveOut.Stop();
             _waveOut = null;
             _sampleStream.ClearBuffer();
             _sampleStream = null;
+        }
+
+
+        public PlaylistTrack GetCurrentPlaying()
+        {
+            return _currentPlaying;
         }
     }
 }
