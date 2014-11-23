@@ -28,7 +28,7 @@ namespace OpenPlaylistApp.Models
         }
 
         public async Task<string> SendVote(Venue venue, Track track, User user){
-            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, track.URI + "/" + user.Name);
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)

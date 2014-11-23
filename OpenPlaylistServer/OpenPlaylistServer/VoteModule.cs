@@ -16,7 +16,7 @@ namespace OpenPlaylistServer
 
         public VoteModule(IVoteService vs, ISearchService searchService, IFilterService filterService)
         {
-            Get["/{trackUri}/{userId}/"] = parameters => {
+            Get["/{trackUri}/{userId}"] = parameters => {
                 Application.Current.Dispatcher.BeginInvoke(  (Action)(() => vs.Vote(parameters.userId, parameters.trackUri)));
                 
                 return "Success";

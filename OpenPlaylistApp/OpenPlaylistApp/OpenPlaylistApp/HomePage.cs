@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using WebAPI;
 using Newtonsoft.Json.Linq;
+using OpenPlaylistApp.ViewModels;
 
 namespace OpenPlaylistApp
 {
@@ -15,7 +16,6 @@ namespace OpenPlaylistApp
 
         public static ObservableCollection<Track> Playlist;
         public static ObservableCollection<Venue> Venues;
-        public static ObservableCollection<Track> Search;
 
         public HomePage()
         {
@@ -23,7 +23,6 @@ namespace OpenPlaylistApp
 
             Playlist = new ObservableCollection<Track>();
             Venues = new ObservableCollection<Venue>();
-            Search = new ObservableCollection<Track>();
 
             Venue test = new Venue("Heiders", "Lol", "192.168.1.148", "");
 

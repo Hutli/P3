@@ -1,28 +1,48 @@
-﻿using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using OpenPlaylistApp.Models;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using WebAPI;
+using Xamarin.Forms;
 
 namespace OpenPlaylistApp.ViewModels
 {
-    public class SearchViewModel : BaseViewModel
+    public class SearchViewModel : INotifyPropertyChanged
     {
-        public SearchViewModel(string str)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Track> Results
         {
-            HomePage.Search.Clear();
-            ExecuteloadSongsCommand(str);
+            get;
+            set;
         }
 
-        public async void ExecuteloadSongsCommand(string searchStr)
+        public SearchViewModel(string searchStr)
         {
-            await Task.Run(() =>
+            Results = new ObservableCollection<Track>();
+            GetResults(searchStr);
+        }
+
+
+        async void GetResults(string searchStr){
+            Session session = Session.Instance();
+            ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
+            try
             {
-                IsBusy = true;
-                /*Search search = new Search(searchStr);
-                foreach (Track item in search.Tracks)
-                    App.Search.Add(item);
-                IsBusy = false;*/
-            });
+                var json = await session.Search(App.User.Venue, searchStr);
+                returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                foreach (Track t in returnValue)
+                {
+                    Results.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
+            }
         }
-
     }
 }
 
