@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace WebAPI
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptOut)]
     public class Track : SpotifyObject
     {
         public Track(string id, string name, int duration, bool isExplicit, int trackNumber, Album album)

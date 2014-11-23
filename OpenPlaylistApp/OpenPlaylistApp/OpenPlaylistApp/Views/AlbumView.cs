@@ -1,5 +1,5 @@
 ﻿using OpenPlaylistApp.ViewModels;
-using WebAPILib;
+using WebAPI;
 using Xamarin.Forms;
 namespace OpenPlaylistApp.Views
 {

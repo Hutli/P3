@@ -8,7 +8,7 @@ namespace OpenPlaylistApp.Views
 
         public VenueView()
         {
-            var list = new ListView {ItemTemplate = new VenueTemplate(), ItemsSource = App.Venues};
+            var list = new ListView {ItemTemplate = new VenueTemplate(), ItemsSource = HomePage.Venues};
             list.ItemSelected += ItemSelected;
             Content = list;
         }

@@ -24,7 +24,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AlbumView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NowPlayingView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\PlaylistView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\SearchResultView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SearchView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VenueView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VolumeView.cs" />

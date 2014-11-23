@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using WebAPILib;
+using WebAPI;
 
 namespace WebAPITests
 {

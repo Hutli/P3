@@ -33,10 +33,12 @@ namespace SpotifyDotNet
         private delegate int MusicDeliveryDelegate(IntPtr session, IntPtr audioFormat, IntPtr frames, int numFrames);
         private delegate void GetAudioBufferStatsDelegate(IntPtr session, IntPtr bufferStats);
         private delegate void LoggedInDelegate(IntPtr session, libspotify.sp_error err);
+        private delegate void LoggedOutDelegate(IntPtr session);
         private delegate void NotifyMainDelegate(IntPtr session);
         private delegate void TrackEndedDelegate(IntPtr session);
         private MusicDeliveryDelegate _musicDeliveryDelegate;
         private LoggedInDelegate _loggedInCallbackDelegate;
+        private LoggedOutDelegate _loggedOutCallbackDelegate;
         private NotifyMainDelegate _notifyMainDelegate;
         private TrackEndedDelegate _trackEndedDelegate;
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
@@ -122,6 +124,11 @@ namespace SpotifyDotNet
                 _loggedInResetEvent.Set();
             };
 
+            _loggedOutCallbackDelegate = (session) =>
+            {
+
+            };
+
             _searchCompleteDelegate = (search, userData) =>
             {
                 var searchResults = new SearchResult(search);
@@ -184,7 +191,8 @@ namespace SpotifyDotNet
                 notify_main_thread = Marshal.GetFunctionPointerForDelegate(_notifyMainDelegate),
                 music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate),
                 get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate),
-                end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate)
+                end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate),
+                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate)
             };
 
 
@@ -234,10 +242,11 @@ namespace SpotifyDotNet
             {
                 _notifyMainTask.Dispose();
             }
-            
+
             lock (_sync)
             {
-                libspotify.sp_session_release(_sessionPtr);
+                if (_sessionPtr != IntPtr.Zero)
+                    libspotify.sp_session_release(_sessionPtr); // this suggest we need to log out before releasing http://stackoverflow.com/questions/14350355/libspotify-destruction-procedure
             }
 
             GC.SuppressFinalize(this);

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace WebAPI
 {
+    [JsonObject(MemberSerialization.OptOut)]
     public class Artist : SpotifyObject
     {
         private List<string> _genres = new List<string>();

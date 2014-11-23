@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 
 namespace WebAPI {
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptOut)]
 	public abstract class SpotifyObject {
 		protected string _id;
 		protected string _name;

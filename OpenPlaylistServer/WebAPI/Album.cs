@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WebAPI
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptOut)]
     public class Album : SpotifyObject
     {
         private List<Image> _images = new List<Image>();
