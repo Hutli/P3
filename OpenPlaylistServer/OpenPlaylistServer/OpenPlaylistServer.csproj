@@ -116,6 +116,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Restriction.cs" />
+    <Compile Include="PlaylistModule.cs" />
     <Compile Include="SearchModule.cs" />
     <Compile Include="SearchService.cs" />
     <Compile Include="UserService.cs" />
