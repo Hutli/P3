@@ -17,11 +17,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VenueTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TrackTemplate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AlbumViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HomeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VenueViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlaylistViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\AlbumView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NowPlayingView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\PlaylistView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SearchView.cs" />

@@ -1,16 +1,27 @@
 ﻿using OpenPlaylistApp.Models;
+using OpenPlaylistApp.ViewModels;
+using System;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp.Views
 {
     public class VenueView : ContentView
     {
+        VenueViewModel venueViewModel;
+        ListView listView = new ListView();
 
         public VenueView()
         {
-            var list = new ListView {ItemTemplate = new VenueTemplate(), ItemsSource = HomePage.Venues};
-            list.ItemSelected += ItemSelected;
-            Content = list;
+            GetVenues();
+            listView.ItemSelected += ItemSelected;
+            Content = listView;
+        }
+
+        async void GetVenues()
+        {
+            venueViewModel = new VenueViewModel();
+            listView.ItemsSource = venueViewModel.Results;
+            listView.ItemTemplate = new VenueTemplate();
         }
 
         public void ItemSelected(object sender, SelectedItemChangedEventArgs e)

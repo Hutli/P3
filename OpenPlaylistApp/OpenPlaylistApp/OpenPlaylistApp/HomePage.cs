@@ -14,29 +14,26 @@ namespace OpenPlaylistApp
 {
     public class HomePage : MasterDetailPage
     {
-        NavigationPage detailPage;
-        ContentPage browsePage;
+        private NavigationPage detailPage;
+        private ContentPage browsePage;
+        private ContentPage playlistPage;
+        private ContentPage venuePage;
 
-        private PlaylistView _playlistView;
-
-        public static ObservableCollection<Track> Playlist;
-        public static ObservableCollection<Venue> Venues;
+        private PlaylistView playlistView;
+        private SearchView searchView;
+        private VenueView venueView;
 
         public HomePage()
         {
             Title = "Home";
 
-            Playlist = new ObservableCollection<Track>();
-            Venues = new ObservableCollection<Venue>();
+            playlistView = new PlaylistView();
+            searchView = new SearchView();
+            venueView = new VenueView();
 
-            _playlistView = new PlaylistView();
-
-            var browseView = new SearchView();
-            var venueView = new VenueView();
-
-            ContentPage playlistPage = new ContentPage {Title="PlaylistPage", Content = _playlistView };
-            browsePage = new ContentPage { Title = "BrowsePage", Content = browseView };
-            ContentPage venuePage = new ContentPage {Title="VenuePage", Content = venueView };
+            playlistPage = new ContentPage {Title="PlaylistPage", Content = playlistView };
+            browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
+            venuePage = new ContentPage {Title="VenuePage", Content = venueView };
 
             detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
 			NavigationPage.SetHasNavigationBar (playlistPage, true);
@@ -55,30 +52,6 @@ namespace OpenPlaylistApp
         public void BackPressed()
         {
             detailPage.PopAsync();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            GetVenues();
-        }
-
-        async void GetVenues()
-        {
-            Session session = Session.Instance();
-            try
-            {
-                var str = await session.GetVenues();
-                JArray v = JArray.Parse(str);
-                foreach (var item in v)
-                {
-                    Venues.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"],(string)item["iconUrl"]));
-                }
-            }
-            catch (Exception ex)
-            {
-                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
-            }
         }
     }
 }

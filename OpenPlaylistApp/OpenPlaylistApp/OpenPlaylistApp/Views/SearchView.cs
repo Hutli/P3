@@ -13,12 +13,13 @@ namespace OpenPlaylistApp.Views
         SearchBar searchBar = new SearchBar();
         ListView listView = new ListView();
         StackLayout layout = new StackLayout();
-        SearchViewModel searchModel;
+        SearchViewModel searchViewModel;
 
         public SearchView()
         {
-            listView.ItemSelected += ItemSelected;
-            searchBar.SearchButtonPressed += search_SearchButtonPressed;
+            Session session = Session.Instance();
+            listView.ItemSelected += session.ItemSelected; //Vote
+            searchBar.SearchButtonPressed += SearchButtonPressed;
 
             ActivityIndicator ac = new ActivityIndicator()
             {
@@ -38,29 +39,13 @@ namespace OpenPlaylistApp.Views
             //search.TextChanged += search_SearchButtonPressed; search as you type, maybe introduce delay
         }
 
-        async void search_SearchButtonPressed(object sender, EventArgs e)
+        async void SearchButtonPressed(object sender, EventArgs e)
         {
-            searchModel = new SearchViewModel(((SearchBar)sender).Text);
-            searchModel.isBusy = true;
-            listView.ItemsSource = searchModel.Results;
+            searchViewModel = new SearchViewModel(((SearchBar)sender).Text);
+            searchViewModel.isBusy = true;
+            listView.ItemsSource = searchViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
-            searchModel.isBusy = false;
-        }
-
-        async void ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (!(e.SelectedItem is Track)) return;
-            Track track = (Track)e.SelectedItem;
-            Session session = Session.Instance();
-
-            try
-            {
-                var json = await session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
-            }
-            catch (Exception ex)
-            {
-                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
-            }
+            searchViewModel.isBusy = false;
         }
     }
 }

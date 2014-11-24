@@ -1,20 +1,30 @@
-﻿using WebAPI;
+﻿using System;
+using WebAPI;
 
 namespace OpenPlaylistApp.Models
 {
     public class User
     {
-        public string Id { get; private set; }
+        public event Action<Venue> VenueChanged;
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
         public Track Vote { get; set; }
 
-        public Venue Venue { get; set; }
+        private Venue _venue;
 
-        public User(string id)
+        public Venue Venue {
+            get { return _venue; }
+            set { _venue = value;
+            if(VenueChanged != null)
+                VenueChanged(_venue);
+            }
+        }
+
+        public User()
         {
-            Id = id;
         }
     }
 }
