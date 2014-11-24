@@ -28,10 +28,10 @@ namespace OpenPlaylistApp.iOS
             _window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
                 RootViewController = App.GetMainPage().CreateViewController()
+                
             };
-
             _window.MakeKeyAndVisible();
-
+            
             return true;
         }
     }

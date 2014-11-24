@@ -20,7 +20,7 @@ namespace OpenPlaylistApp.Droid
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
             App.User = new User(tm.DeviceId);
 
-            SetPage(App.GetMainPage());
+			SetPage(App.GetMainPage());
         }
     }
 }

@@ -39,6 +39,11 @@ namespace OpenPlaylistApp
             ContentPage venuePage = new ContentPage {Title="VenuePage", Content = venueView };
 
             detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
+			NavigationPage.SetHasNavigationBar (playlistPage, true);
+			ToolbarItem tbi = null;
+			tbi = new ToolbarItem ("+", null, () => BrowseClicked(), 0, 0);
+			ToolbarItems.Add (tbi);
+            
 
             Master = venuePage;
             Detail = detailPage;

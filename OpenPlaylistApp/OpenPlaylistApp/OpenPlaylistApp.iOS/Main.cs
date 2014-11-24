@@ -1,4 +1,5 @@
-﻿using MonoTouch.UIKit;
+﻿using System;
+using MonoTouch.UIKit;
 using OpenPlaylistApp.Models;
 
 namespace OpenPlaylistApp.iOS
@@ -10,6 +11,7 @@ namespace OpenPlaylistApp.iOS
         {
             var uid = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
             App.User = new User(uid);
+            
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
