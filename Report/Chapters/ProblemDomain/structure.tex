@@ -21,7 +21,7 @@ main structuring techniques.
   a line between each class.
 \end{description} \chnote{Hvorfor er det beskrevet?}
 
-Based on these structuring techniques, a class diagram showing the structure of the classes in the problem domain of the system has been made. See \cref{fig:pd_structure}. A \textit{User} can have an association with a \textit{Track}, i.e. they have voted on a track. A \textit{Track} can have an association with an \textit{Audio system}, which means it is currently being played. A \textit{Playlist} contains zero or more \textit{Track}s, i.e. the tracks yet to be played. A \textit{Playlist} also has an association with a \textit{Restriction}, i.e. the playlist is filtered.
+Based on these structuring techniques, a class diagram, showing the structure of the classes in the problem domain of the system, has been made (see \cref{fig:pd_structure}). A \textit{User} can have an association with a \textit{Track}, i.e. they have voted on a track. A \textit{Playlist} contains one or more \textit{Track}s, i.e. the tracks yet to be played. A \textit{Venue} has zero to many restrictions on the music to be played there. A \textit{Venue} also has exactly one \textit{Playlist}, containing the tracks that have been voted for. Lastly, a \textit{Venue} is also associated zero to many \textit{User}s, i.e the guests at the venue.
 
 \begin{figure}
   \centering
