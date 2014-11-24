@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using OpenPlaylistApp.Models;
 using OpenPlaylistApp.Views;
 using Xamarin.Forms;
@@ -15,6 +17,8 @@ namespace OpenPlaylistApp
         NavigationPage detailPage;
         ContentPage browsePage;
 
+        private PlaylistView _playlistView;
+
         public static ObservableCollection<Track> Playlist;
         public static ObservableCollection<Venue> Venues;
 
@@ -25,11 +29,12 @@ namespace OpenPlaylistApp
             Playlist = new ObservableCollection<Track>();
             Venues = new ObservableCollection<Venue>();
 
-            var playlistView = new PlaylistView();
+            _playlistView = new PlaylistView();
+
             var browseView = new SearchView();
             var venueView = new VenueView();
 
-            ContentPage playlistPage = new ContentPage {Title="PlaylistPage", Content = playlistView };
+            ContentPage playlistPage = new ContentPage {Title="PlaylistPage", Content = _playlistView };
             browsePage = new ContentPage { Title = "BrowsePage", Content = browseView };
             ContentPage venuePage = new ContentPage {Title="VenuePage", Content = venueView };
 
@@ -53,6 +58,8 @@ namespace OpenPlaylistApp
             base.OnAppearing();
             GetVenues();
         }
+
+        
 
         async void GetVenues()
         {
