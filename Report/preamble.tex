@@ -15,7 +15,8 @@
 %itemize spacing
 \usepackage{enumitem}
 \setlist[1]{itemsep=-5pt}
-%flotte listings
+
+%%%%%%%flotte listings
 \lstset{language=[Sharp]C}
 \usepackage[nottdefault]{sourcecodepro}
 \lstset{basicstyle=\fontfamily{SourceCodePro-TLF}\footnotesize,breaklines=true}
@@ -23,11 +24,12 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{float}
-\usepackage{subfig} % support for sidebyside figures
 \usepackage[font=it,labelfont=bf]{caption}
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+\usepackage{subfig} % support for sidebyside figures
 
 \usepackage[mode=multiuser,draft]{fixme} % fixme config
 \FXRegisterAuthor{si}{asi}{Simon}
