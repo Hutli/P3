@@ -44,7 +44,6 @@ namespace OpenPlaylistApp
 			tbi = new ToolbarItem ("+", null, () => BrowseClicked(), 0, 0);
 			ToolbarItems.Add (tbi);
             
-
             Master = venuePage;
             Detail = detailPage;
         }
@@ -63,8 +62,6 @@ namespace OpenPlaylistApp
             base.OnAppearing();
             GetVenues();
         }
-
-        
 
         async void GetVenues()
         {

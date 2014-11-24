@@ -8,17 +8,13 @@ namespace OpenPlaylistApp.Views
         private NowPlayingView _npv;
         public PlaylistView()
         {
-            Button button = new Button { Text = String.Format("+") };
-
-            button.Clicked += (sender, args) => App.Home.BrowseClicked();
-
             _npv = new NowPlayingView();
 
             var list = new ListView {ItemTemplate = new TrackTemplate(), ItemsSource = HomePage.Playlist};
 
             VolumeView vv = new VolumeView();
 
-            StackLayout layout = new StackLayout { Children = { button, _npv, list, vv } };
+            StackLayout layout = new StackLayout { Children = { _npv, list, vv } };
 
             Content = layout;
         }
