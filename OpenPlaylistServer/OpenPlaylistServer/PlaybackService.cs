@@ -1,4 +1,7 @@
-﻿using SpotifyDotNet;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SpotifyDotNet;
 
 namespace OpenPlaylistServer
 {
@@ -9,9 +12,11 @@ namespace OpenPlaylistServer
         private NAudio.Wave.BufferedWaveProvider _sampleStream;
         private NAudio.Wave.WaveOut _waveOut;
         private PlaylistTrack _currentPlaying;
+        private Dictionary<String, double> _volumeVotes;  
 
         public PlaybackService()
         {
+            _volumeVotes = new Dictionary<string, double>();
             _session = Spotify.Instance;
             if (_session != null)
             {
@@ -73,6 +78,39 @@ namespace OpenPlaylistServer
         public PlaylistTrack GetCurrentPlaying()
         {
             return _currentPlaying;
+        }
+
+        public void InfluenceVolume(int volPercent, string userId)
+        {
+            double minimumVol = 0.25;
+            double maximumVol = 0.75;
+            double vol = volPercent/100;
+            if(!_volumeVotes.ContainsKey(userId)) {
+                // user has not already voted for volume
+                _volumeVotes.Add(userId,vol);
+            }
+            else
+            {
+                // update existing volume for user
+                _volumeVotes[userId] = vol;
+            }
+
+            // calculate average of all votes
+            double calcVol = 0;
+            double averageVol = _volumeVotes.Values.Average();
+            if (averageVol < minimumVol)
+            {
+                calcVol = minimumVol;
+            }
+            else if (averageVol > maximumVol)
+            {
+                calcVol = maximumVol;
+            }
+            else
+            {
+                calcVol = averageVol;
+            }
+            _waveOut.Volume = (float) calcVol;
         }
     }
 }

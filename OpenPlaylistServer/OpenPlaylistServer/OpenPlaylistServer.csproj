@@ -119,6 +119,7 @@
     <Compile Include="SearchModule.cs" />
     <Compile Include="SearchService.cs" />
     <Compile Include="UserService.cs" />
+    <Compile Include="VolumeModule.cs" />
     <Compile Include="VoteModule.cs" />
     <Compile Include="User.cs" />
     <Compile Include="VoteService.cs" />
