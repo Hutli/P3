@@ -37,6 +37,8 @@ namespace OpenPlaylistApp
 
             detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
 			NavigationPage.SetHasNavigationBar (playlistPage, true);
+
+            //Toolbar
 			ToolbarItem tbi = null;
 			tbi = new ToolbarItem ("+", null, () => BrowseClicked(), 0, 0);
 			ToolbarItems.Add (tbi);

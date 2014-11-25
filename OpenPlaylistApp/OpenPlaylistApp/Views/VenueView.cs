@@ -17,7 +17,7 @@ namespace OpenPlaylistApp.Views
             Content = listView;
         }
 
-        async void GetVenues()
+        void GetVenues()
         {
             venueViewModel = new VenueViewModel();
             listView.ItemsSource = venueViewModel.Results;

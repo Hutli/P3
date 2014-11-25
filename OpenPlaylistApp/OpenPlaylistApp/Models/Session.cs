@@ -24,29 +24,36 @@ namespace OpenPlaylistApp.Models
             using (HttpResponseMessage response = await client.GetAsync("http://op.zz.vc/"))
             using (HttpContent content = response.Content)
             {
-                return await content.ReadAsStringAsync();
+                var str = await content.ReadAsStringAsync();
+                return str;
             }
         }
 
         public async Task<string> GetPlaylist(Venue venue)
         {
+            App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "playlist");
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
-                return await content.ReadAsStringAsync();
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
             }
         }
 
         public async Task<string> SetVolume(Venue venue, int volume, User user)
         {
+            App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume" + "/" + volume + "/" + user.Id);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
-                return await content.ReadAsStringAsync();
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
             }
         }
 
@@ -67,6 +74,7 @@ namespace OpenPlaylistApp.Models
         }
 
         public async Task<string> SendVote(Venue venue, Track track, User user){
+            App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
             {
@@ -75,19 +83,24 @@ namespace OpenPlaylistApp.Models
                 using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
                 using (HttpContent content = response.Content)
                 {
-                    return await content.ReadAsStringAsync();
+                    var str = await content.ReadAsStringAsync();
+                    App.Home.IsBusy = false;
+                    return str;
                 }
             }
         }
 
         public async Task<string> Search(Venue venue, string searchStr)
         {
+            App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
-                return await content.ReadAsStringAsync();
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
             }
         }
     }
