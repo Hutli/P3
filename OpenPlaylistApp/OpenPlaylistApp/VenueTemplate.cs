@@ -8,7 +8,7 @@ namespace OpenPlaylistApp
         public VenueTemplate():base(typeof(ImageCell)){
             this.SetBinding(TextCell.TextProperty, "Name");
             this.SetBinding(TextCell.DetailProperty, "IP");
-            this.SetBinding(ImageCell.ImageSourceProperty, "IconUrl");
+            //this.SetBinding(ImageCell.ImageSourceProperty, "IconUrl");
         }
     }
 }
