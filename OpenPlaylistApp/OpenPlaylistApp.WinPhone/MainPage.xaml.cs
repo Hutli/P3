@@ -30,6 +30,8 @@ namespace OpenPlaylistApp.WinPhone
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
                 hexString = BitConverter.ToString((byte[])uniqueId);
 
+            
+
             OpenPlaylistApp.App.User.Id = hexString;
         }
     }

@@ -24,16 +24,21 @@ namespace WebAPI
             foreach (var jsonTrack in jsonCode)
             {
                 string id = (string)(jsonTrack["id"]);
-                string name = (string)(jsonTrack["name"]);
-                int duration = (int)(jsonTrack["duration_ms"]);
-                bool isExplicit = (bool)jsonTrack["explicit"];
-                int trackNumber = (int)(jsonTrack["track_number"]);
+                string isrc = (string)(jsonTrack["external_ids"]["isrc"]);
+                if (!tracks.Exists(a => a.ID == id || a.ISRC == isrc))
+                {
+                    string name = (string)(jsonTrack["name"]);
+                    int duration = (int)(jsonTrack["duration_ms"]);
+                    bool isExplicit = (bool)jsonTrack["explicit"];
+                    int trackNumber = (int)(jsonTrack["track_number"]);
+                    string previewURL = (string)(jsonTrack["preview_url"]);
 
-                List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
+                    List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
 
-                Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
+                    Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
 
-                tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, tmpAlbum));
+                    tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
+                }
             }
             return tracks;
         }
@@ -73,7 +78,8 @@ namespace WebAPI
                 {
                     string name = (string)(sJsonArtist["name"]);
                     List<string> genres = new List<string>();
-                    foreach (var s in sJsonArtist["genres"]) {
+                    foreach (var s in sJsonArtist["genres"])
+                    {
                         genres.Add((string)s);
                     }
                     Artist artist = new Artist(id, name, genres);
