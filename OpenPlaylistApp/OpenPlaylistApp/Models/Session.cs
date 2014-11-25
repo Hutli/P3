@@ -39,6 +39,17 @@ namespace OpenPlaylistApp.Models
             }
         }
 
+        public async Task<string> SetVolume(Venue venue, int volume, User user)
+        {
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume" + "/" + volume + "/" + user.Id);
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+            using (HttpContent content = response.Content)
+            {
+                return await content.ReadAsStringAsync();
+            }
+        }
+
         public async void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (!(e.SelectedItem is Track)) return;
