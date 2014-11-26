@@ -95,12 +95,8 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public float GetCurrentVolume()
         {
-            float totalVolume = 0;
             if (_userService.Users == null) return 0.5F;
-            foreach (User u in _userService.Users)
-            {
-                totalVolume += u.Volume;
-            }
+            var totalVolume = _userService.Users.Sum(u => u.Volume);
             return totalVolume/_userService.Users.Count();
         }
     }
