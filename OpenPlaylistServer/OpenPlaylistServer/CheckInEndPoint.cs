@@ -10,12 +10,12 @@ namespace OpenPlaylistServer
 {
     public class CheckInEndPoint : NancyModule
     {
-        public CheckInEndPoint(IPlaylistService playlistService, IUserService userService)
+        public CheckInEndPoint(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
         {
             Get["/check/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                userService.Add(new User(userId));
+                userService.Add(new User(userId,playbackService));
                 if (playlistService.Tracks.Count == 0)
                 {
                     return "Playlist empty";
