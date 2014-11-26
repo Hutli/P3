@@ -15,9 +15,9 @@ namespace WebAPI
 
         public List<string> Genres { get { return new List<string>(_genres); } }
 
-        public string Href { get { return "https://api.spotify.com/v1/artists/" + ID; } }
+        public string Href { get { return "https://api.spotify.com/v1/artists/" + Id; } }
 
-        public override string URI { get { return "spotify:artist:" + ID; } }
+        public override string URI { get { return "spotify:artist:" + Id; } }
 
         public override string ToString() { return Name; }
     }

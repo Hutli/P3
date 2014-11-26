@@ -25,26 +25,33 @@ namespace WebAPI
             {
                 string id = (string)(jsonTrack["id"]);
                 string isrc = (string)(jsonTrack["external_ids"]["isrc"]);
-                if (tracks.Exists(a => a.ID == id || a.ISRC == isrc)) continue;
-                string name = (string)(jsonTrack["name"]);
-                int duration = (int)(jsonTrack["duration_ms"]);
-                bool isExplicit = (bool)jsonTrack["explicit"];
-                int trackNumber = (int)(jsonTrack["track_number"]);
-                string previewURL = (string)(jsonTrack["preview_url"]);
 
-                List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
+                if (!tracks.Exists(a => a.Id == id || a.ISRC == isrc))
+                {
+                    string name = (string) (jsonTrack["name"]);
+                    int duration = (int) (jsonTrack["duration_ms"]);
+                    bool isExplicit = (bool) jsonTrack["explicit"];
+                    int trackNumber = (int) (jsonTrack["track_number"]);
+                    string previewURL = (string) (jsonTrack["preview_url"]);
 
-                Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
 
-                tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
+
+                    List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
+
+                    Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
+
+                    tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
+                }
             }
             return tracks;
         }
+
         public static Track GetTrack(string uri)
         {
             List<Artist> artists = new List<Artist>();
+            var uriId = uri.Substring(14);
 
-            JObject jsonTrack = GetJobject("https://api.spotify.com/v1/tracks/" + uri.Remove(0, 14)); // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
+            JObject jsonTrack = GetJobject("https://api.spotify.com/v1/tracks/" + uriId); // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
 
             string id = (string)(jsonTrack["id"]);
             string isrc = (string)(jsonTrack["external_ids"]["isrc"]);
@@ -65,9 +72,9 @@ namespace WebAPI
         {
             Album album;
             string id = (string)(jsonCode["id"]);
-            if (inputAlbums.Exists(a => a.ID.Equals(id)))
+            if (inputAlbums.Exists(a => a.Id.Equals(id)))
             {
-                album = inputAlbums.Find(a => a.ID.Equals(id));
+                album = inputAlbums.Find(a => a.Id.Equals(id));
             }
             else
             {
@@ -88,9 +95,9 @@ namespace WebAPI
                 var sJsonArtist = GetJobject((string)jsonArtist["href"]);
 
                 string id = (string)(sJsonArtist["id"]);
-                if (inputArtists.Exists(a => a.ID.Equals(id)))
+                if (inputArtists.Exists(a => a.Id.Equals(id)))
                 {
-                    artists.Add(inputArtists.Find(a => a.ID.Equals(id)));
+                    artists.Add(inputArtists.Find(a => a.Id.Equals(id)));
                 }
                 else
                 {

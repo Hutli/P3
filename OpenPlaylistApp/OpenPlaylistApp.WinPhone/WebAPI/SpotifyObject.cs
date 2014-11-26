@@ -12,7 +12,19 @@ namespace WebAPI {
 			_name = name;
 		}
 
-        public string ID { get { return _id; } }
+        protected SpotifyObject()
+        {
+            
+        }
+
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            protected set { _id = value; }
+        }
 
         [JsonProperty]
         public string Name { get { return _name; } }
@@ -22,7 +34,8 @@ namespace WebAPI {
         public override bool Equals(object obj)
         {
             SpotifyObject spotifyObject = obj as SpotifyObject;
-            return spotifyObject != null && spotifyObject.ID.Equals(ID);
+
+            return spotifyObject != null && spotifyObject.Id.Equals(Id);
         }
     }
 }
