@@ -19,6 +19,20 @@ namespace OpenPlaylistApp.Models
             return session ?? (session = new Session());
         }
 
+        public async Task<string> CheckIn(Venue venue, User user)
+        {
+            App.Home.IsBusy = true;
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+            using (HttpContent content = response.Content)
+            {
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
+            }
+        }
+
         public async Task<string> GetVenues()
         {
             using (HttpClient client = new HttpClient())

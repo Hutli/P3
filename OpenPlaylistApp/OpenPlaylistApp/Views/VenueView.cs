@@ -28,7 +28,9 @@ namespace OpenPlaylistApp.Views
         {
             if (e.SelectedItem is Venue)
             {
+                Session session = Session.Instance();
                 App.User.Venue = (Venue)e.SelectedItem;
+                session.CheckIn(App.User.Venue, App.User);
             }
         }
     }
