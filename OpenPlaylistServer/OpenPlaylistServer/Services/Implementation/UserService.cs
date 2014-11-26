@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Concurrent;
+using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 
@@ -6,19 +7,18 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class UserService : IUserService
     {
-        readonly ObservableCollectionEx<User> _users;
-        readonly ReadOnlyObservableCollection<User> _roUsers;
+        readonly ConcurrentBagify<User> _users;
 
         public UserService()
         {
-            _users = new ObservableCollectionEx<User>();
-            _roUsers = new ReadOnlyObservableCollection<User>(_users);
+            _users = new ConcurrentBagify<User>();
+            //_roUsers = new ReadOnlyObservableCollection<User>(_users);
         }
 
-        public ReadOnlyObservableCollection<User> Users
+        public ConcurrentBagify<User> Users
         {
             get {
-                return _roUsers;
+                return _users;
             }
         }
 

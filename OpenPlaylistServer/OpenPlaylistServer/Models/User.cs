@@ -17,11 +17,9 @@ namespace OpenPlaylistServer.Models {
             get { return _volume; }
             set
             {
-                if (value >= 0 && value <= 1)
-                {
-                    _volume = value;
-                    OnPropertyChanged("Volume");
-                }
+                if (!(value >= 0) || !(value <= 1)) return;
+                _volume = value;
+                OnPropertyChanged("Volume");
             }
         }
 

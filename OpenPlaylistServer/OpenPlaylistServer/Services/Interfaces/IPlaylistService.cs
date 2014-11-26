@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 
 namespace OpenPlaylistServer.Services.Interfaces
@@ -10,10 +10,7 @@ namespace OpenPlaylistServer.Services.Interfaces
         void AddByURI(string trackId);
         void Add(PlaylistTrack track);
 
-        void Remove(PlaylistTrack track);
-        void RemoveByTitle(string name);
-
-        ReadOnlyObservableCollection<PlaylistTrack> Tracks { get; }
+        ConcurrentBagify<PlaylistTrack> Tracks { get; }
 
         PlaylistTrack NextTrack();
     }

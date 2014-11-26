@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Concurrent;
 using System.Windows.Threading;
+using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 
@@ -18,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _playbackService = playbackService;
         }
 
-        public ReadOnlyObservableCollection<PlaylistTrack> Tracks
+        public ConcurrentBagify<PlaylistTrack> Tracks
         {
             get
             {
@@ -26,7 +27,7 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
-        public ReadOnlyObservableCollection<User> Users
+        public ConcurrentBag<User> Users
         {
             get
             {

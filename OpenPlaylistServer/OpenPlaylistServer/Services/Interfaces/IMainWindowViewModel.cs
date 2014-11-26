@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IMainWindowViewModel
     {
-        ReadOnlyObservableCollection<PlaylistTrack> Tracks { get; }
+        ConcurrentBagify<PlaylistTrack> Tracks { get; }
 
         void TrackEnded();
 

@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
+using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 
@@ -7,14 +7,13 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ObservableCollectionEx<PlaylistTrack> _tracks;
-        readonly ReadOnlyObservableCollection<PlaylistTrack> _roTracks;
+        readonly ConcurrentBagify<PlaylistTrack> _tracks;
 
         private IUserService _userService;
 
         public PlaylistService(IUserService userService){
-            _tracks = new ObservableCollectionEx<PlaylistTrack>();
-            _roTracks = new ReadOnlyObservableCollection<PlaylistTrack>(_tracks);
+            _tracks = new ConcurrentBagify<PlaylistTrack>();
+            //_roTracks = new ConcurrentBag<PlaylistTrack>(_tracks);
             _userService = userService;
         }
 
@@ -35,22 +34,11 @@ namespace OpenPlaylistServer.Services.Implementation
         //    _tracks.Add(playlistTrack);
         //}
 
-        public void RemoveByTitle(string name)
-        {
-            if (_tracks.Any(e => e.Name.Equals(name)))
-                _tracks.Remove(_tracks.First(e => e.Name.Equals(name)));
-        }
 
-        public void Remove(PlaylistTrack track)
-        {
-            _tracks.Remove(track);
-        }
-
-
-        public ReadOnlyObservableCollection<PlaylistTrack> Tracks
+        public  ConcurrentBagify<PlaylistTrack> Tracks
         {
             get {
-                return _roTracks;
+                return _tracks;
             }
         }
 
@@ -62,7 +50,6 @@ namespace OpenPlaylistServer.Services.Implementation
 
             if (next == null) return null;
             next.ResetPScore();
-            _tracks.Remove(next);
 
             return next;
         }

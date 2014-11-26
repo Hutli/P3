@@ -94,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Collections\ConcurrentBagify.cs" />
     <Compile Include="Endpoints\CheckInEndPoint.cs" />
     <Compile Include="ObservableCollectionTS.cs" />
     <Compile Include="Services\Implementation\FilterService.cs" />
