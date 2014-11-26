@@ -23,7 +23,7 @@ namespace WebAPI
 
         public int Duration { get; private set; }
 
-        public int currentDurationStep { get; set; }
+        public int CurrentDurationStep { get; set; }
 
         public bool IsExplicit { get; private set; }
 
@@ -40,11 +40,9 @@ namespace WebAPI
         {
             if (obj.GetType() == typeof(Track))
             {
-                return ((Track)obj).ID == this.ID || ((Track)obj).ISRC == this.ISRC;
+                return ((Track)obj).ID == ID || ((Track)obj).ISRC == ISRC;
             }
-            else
-                return false;
-            
+            return false;
         }
     }
 }

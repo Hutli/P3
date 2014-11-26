@@ -10,12 +10,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/nowplaying"] = parameters =>
             {
                 var track = playbackService.GetCurrentPlaying();
-                if (track == null)
-                    return "Nothing currently playing";
-                else
-                {
-                    return JsonConvert.SerializeObject(track, Formatting.Indented);
-                }
+                return track == null ? "Nothing currently playing" : JsonConvert.SerializeObject(track, Formatting.Indented);
             };
         }
     }

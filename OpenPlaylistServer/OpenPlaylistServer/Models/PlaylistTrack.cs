@@ -34,7 +34,7 @@ namespace OpenPlaylistServer.Models {
             PScore = 0;
         }
 
-        public int currentDurationStep { get; set; }
+        public int CurrentDurationStep { get; set; }
 
         public int PScore { get; private set; }
 

@@ -12,7 +12,7 @@ namespace OpenPlaylistApp.Views
         private Label _nowPlayingLabel = new Label();
         private Label _trackTitleLabel = new Label();
         private Image _trackImage = new Image();
-        NowPlayingViewModel npvm;
+        NowPlayingViewModel _npvm;
         private RelativeLayout layout = new RelativeLayout();
         private ProgressBar progressBar = new ProgressBar();
         public NowPlayingView()
@@ -32,25 +32,25 @@ namespace OpenPlaylistApp.Views
             layout.IsClippedToBounds = true;
             layout.HeightRequest = 100f;
 
-            layout.Children.Add(_trackImage, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((parent) => { return parent.Width; }),Constraint.RelativeToParent((parent) => { return parent.Height; }));
+            layout.Children.Add(_trackImage, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((parent) => parent.Width),Constraint.RelativeToParent((parent) => parent.Height));
             layout.Children.Add(_nowPlayingLabel, Constraint.Constant(0));
-            layout.Children.Add(_trackTitleLabel, Constraint.Constant(0), Constraint.RelativeToParent((parent) => { return (parent.Height / 2)-(_trackTitleLabel.Height/2); }));
-            layout.Children.Add(progressBar, Constraint.Constant(0), Constraint.RelativeToParent((parent) => { return parent.Height - progressBar.Height; }), Constraint.RelativeToParent((parent) => { return parent.Width; }));
+            layout.Children.Add(_trackTitleLabel, Constraint.Constant(0), Constraint.RelativeToParent((parent) => (parent.Height / 2)-(_trackTitleLabel.Height/2)));
+            layout.Children.Add(progressBar, Constraint.Constant(0), Constraint.RelativeToParent((parent) => parent.Height - progressBar.Height), Constraint.RelativeToParent((parent) => parent.Width));
             Content = layout;
         }
 
         void GetNowPlaying(Venue venue)
         {
-            npvm = new NowPlayingViewModel(venue);
-            npvm.LoadComplete += OnLoadComplete;
+            _npvm = new NowPlayingViewModel(venue);
+            _npvm.LoadComplete += OnLoadComplete;
         }
 
         void OnLoadComplete()
         {
-            _trackTitleLabel.Text = npvm.Result.Name + " - " + npvm.Result.Album.Artists[0].Name;
-            _trackImage.Source = npvm.Result.Album.Images[0].URL;
-            progressBar.Progress = Convert.ToDouble(npvm.Result.currentDurationStep) / Convert.ToDouble(npvm.Result.Duration);
-            progressBar.ProgressTo(1, Convert.ToUInt32(npvm.Result.Duration - npvm.Result.currentDurationStep), Easing.Linear);
+            _trackTitleLabel.Text = _npvm.Result.Name + " - " + _npvm.Result.Album.Artists[0].Name;
+            _trackImage.Source = _npvm.Result.Album.Images[0].URL;
+            progressBar.Progress = Convert.ToDouble(_npvm.Result.CurrentDurationStep) / Convert.ToDouble(_npvm.Result.Duration);
+            progressBar.ProgressTo(1, Convert.ToUInt32(_npvm.Result.Duration - _npvm.Result.CurrentDurationStep), Easing.Linear);
         }
     }
 }

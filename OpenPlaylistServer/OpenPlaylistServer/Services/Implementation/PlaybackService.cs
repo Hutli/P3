@@ -83,7 +83,7 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             if (_currentPlaying == null) return null;
             WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.Uri);
-            track.currentDurationStep = Convert.ToInt32(_session.currentDurationStep.TotalMilliseconds);
+            track.CurrentDurationStep = Convert.ToInt32(_session.CurrentDurationStep.TotalMilliseconds);
             return track;
         }
 

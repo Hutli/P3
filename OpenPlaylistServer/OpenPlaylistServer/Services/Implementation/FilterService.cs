@@ -10,13 +10,7 @@ namespace OpenPlaylistServer.Services.Implementation
     {
         public IEnumerable<Track> FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions)
         {
-            var tempTracks = tracks;
-            foreach (var restriction in restrictions)
-            {
-                tempTracks = tempTracks.Where(restriction.Predicate);
-            }
-
-            return tempTracks;
+            return restrictions.Aggregate(tracks, (current, restriction) => current.Where(restriction.Predicate));
         }
     }
 }

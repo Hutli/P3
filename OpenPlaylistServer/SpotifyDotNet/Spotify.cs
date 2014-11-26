@@ -74,9 +74,9 @@ namespace SpotifyDotNet
         /// </summary>
         public TimeSpan BufferedDuration { private get; set; }
 
-        public TimeSpan currentDurationStep { get; private set; }
+        public TimeSpan CurrentDurationStep { get; private set; }
 
-        public int bufferedFrames { get; private set; }
+        public int BufferedFrames { get; private set; }
 
         /// <summary>
         /// The number of bytes currently buffered elsewhere.
@@ -135,10 +135,7 @@ namespace SpotifyDotNet
                 _loggedInResetEvent.Set();
             };
 
-            _loggedOutCallbackDelegate = (session) =>
-            {
-                _loggedOutWaitHandler.Set();
-            };
+            _loggedOutCallbackDelegate = (session) => _loggedOutWaitHandler.Set();
 
             _searchCompleteDelegate = (search, userData) =>
             {
@@ -164,10 +161,10 @@ namespace SpotifyDotNet
                     return 0;
                 }
 
-                if (bufferedFrames / format.sample_rate > 0)
+                if (BufferedFrames / format.sample_rate > 0)
                 {
-                    currentDurationStep = currentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000)); // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
-                    bufferedFrames = bufferedFrames - format.sample_rate;
+                    CurrentDurationStep = CurrentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000)); // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
+                    BufferedFrames = BufferedFrames - format.sample_rate;
                 }
 
                 // only buffer 5 seconds
@@ -188,13 +185,13 @@ namespace SpotifyDotNet
                     MusicDelivery(format.sample_rate, format.channels, frames);
                 }
 
-                bufferedFrames += numFrames;
+                BufferedFrames += numFrames;
 
                 return numFrames;
             };
 
             _trackEndedDelegate = session => {
-                currentDurationStep = TimeSpan.Zero;
+                CurrentDurationStep = TimeSpan.Zero;
                 TrackEnded(); };
 
             _getAudioBufferStatsDelegate = (session, bufferStatsPtr) =>

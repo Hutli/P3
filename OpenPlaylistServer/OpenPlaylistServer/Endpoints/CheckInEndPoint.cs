@@ -13,11 +13,7 @@ namespace OpenPlaylistServer.Endpoints
             {
                 string userId = parameters.userId;
                 userService.Add(new User(userId,playbackService));
-                if (playlistService.Tracks.Count == 0)
-                {
-                    return "Playlist empty";
-                }
-                return JsonConvert.SerializeObject(playlistService.Tracks, Formatting.Indented);
+                return playlistService.Tracks.Count == 0 ? "Playlist empty" : JsonConvert.SerializeObject(playlistService.Tracks, Formatting.Indented);
             };
         }
     }
