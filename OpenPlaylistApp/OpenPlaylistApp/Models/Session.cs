@@ -10,7 +10,8 @@ namespace OpenPlaylistApp.Models
     {
         public static Session session;
 
-        private Session() {
+        private Session()
+        {
         }
 
         public static Session Instance()
@@ -60,14 +61,17 @@ namespace OpenPlaylistApp.Models
         public async Task<string> SetVolume(Venue venue, int volume, User user)
         {
             App.Home.IsBusy = true;
-            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume" + "/" + volume + "/" + user.Id);
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume/" + volume + "/" + user.Id);
             using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            using (HttpContent content = response.Content)
             {
-                var str = await content.ReadAsStringAsync();
-                App.Home.IsBusy = false;
-                return str;
+                client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
+                using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+                using (HttpContent content = response.Content)
+                {
+                    var str = await content.ReadAsStringAsync();
+                    App.Home.IsBusy = false;
+                    return str;
+                }
             }
         }
 
@@ -87,16 +91,25 @@ namespace OpenPlaylistApp.Models
             }
         }
 
-        public async Task<string> SendVote(Venue venue, Track track, User user){
+        public async Task<string> SendVote(Venue venue, Track track, User user)
+        {
             App.Home.IsBusy = true;
+            Random r = new Random();
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
-                var str = await content.ReadAsStringAsync();
-                App.Home.IsBusy = false;
-                return str;
+            {
+                client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
+
+                using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+                using (HttpContent content = response.Content)
+                {
+                    var str = await content.ReadAsStringAsync();
+                    App.Home.IsBusy = false;
+                    return str;
+                }
             }
         }
 
