@@ -35,6 +35,7 @@ namespace OpenPlaylistApp.ViewModels
             try
             {
                 var json = await session.GetNowPlaying(venue);
+                if (json == "Nothing currently playing") { return; }
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
                 LoadComplete();
             }
