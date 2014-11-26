@@ -28,7 +28,8 @@
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="80" Header="Artist" />
                                 <GridViewColumn Width="80" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
-                                <GridViewColumn Width="100" Header="Votes" DisplayMemberBinding="{Binding TScore}" />
+                                <GridViewColumn Width="100" Header="Temp votes" DisplayMemberBinding="{Binding TScore}" />
+                                <GridViewColumn Width="100" Header="Perm votes" DisplayMemberBinding="{Binding PScore}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

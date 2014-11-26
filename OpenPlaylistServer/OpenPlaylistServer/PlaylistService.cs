@@ -67,17 +67,14 @@ namespace OpenPlaylistServer
 
         private void CountAndUpdatePVotes()
         {
-            var users = _userService.Users;
-            // group users by which track they have voted on
-            var grouping = users.GroupBy(u => u.Vote);
-
-            foreach (var track in grouping)
+            foreach (var track in _tracks)
             {
-                int numVotesOnTrack = track.Count();
+                int tScore = track.TScore;
 
-                // count how many users voted for each track and update the pScore (permanent score)
-
-                track.Key.UpdatePScore(numVotesOnTrack);
+                // add tscore to permanent
+                track.UpdatePScore(tScore);
+                // reset temp score to permanent score
+                track.TScore = 0;
             }
         }
 

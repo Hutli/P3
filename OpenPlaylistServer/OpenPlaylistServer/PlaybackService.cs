@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NAudio.Wave;
 using SpotifyDotNet;
 
 namespace OpenPlaylistServer
@@ -12,7 +13,7 @@ namespace OpenPlaylistServer
         private NAudio.Wave.BufferedWaveProvider _sampleStream;
         private NAudio.Wave.WaveOut _waveOut;
         private PlaylistTrack _currentPlaying;
-        private Dictionary<String, double> _volumeVotes;  
+        private Dictionary<String, double> _volumeVotes;
 
         public PlaybackService()
         {
@@ -34,7 +35,7 @@ namespace OpenPlaylistServer
                 _sampleStream = new NAudio.Wave.BufferedWaveProvider(_activeFormat)
                 {
                     DiscardOnBufferOverflow = true,
-                    BufferLength = 3000000
+                    BufferLength = 3000000,
                 };
             }
 
@@ -47,6 +48,7 @@ namespace OpenPlaylistServer
             _session.BufferedBytes = _sampleStream.BufferedBytes;
             _session.BufferedDuration = _sampleStream.BufferedDuration;
             _sampleStream.AddSamples(frames, 0, frames.Length);
+            
         }
 
         public void Play(PlaylistTrack track)

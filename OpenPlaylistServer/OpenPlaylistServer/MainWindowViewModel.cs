@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace OpenPlaylistServer
 {
@@ -33,11 +34,23 @@ namespace OpenPlaylistServer
 
         public void TrackEnded()
         {
-            _playbackService.Stop();
-            PlaylistTrack next = _playlistService.NextTrack();
-            if(next != null) {
-                _playbackService.Play(next);
-            }
+            // TrackEnded is called from libspotify running in a different thread than the UI thread.
+            Dispatcher.CurrentDispatcher.Invoke(() =>
+            {
+                // if there are no tracks to be played next, don't do anything
+                // TODO: brug måske en algoritme til at beregne hvad vi skal spille næste gang
+                if (Tracks.Count == 0)
+                {
+                    return;
+                }
+
+                _playbackService.Stop();
+                PlaylistTrack next = _playlistService.NextTrack();
+                if (next != null)
+                {
+                    _playbackService.Play(next);
+                }
+            });
         }
 
         public void PlayButtonClicked()

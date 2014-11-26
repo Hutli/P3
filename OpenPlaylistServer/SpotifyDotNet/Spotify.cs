@@ -47,6 +47,12 @@ namespace SpotifyDotNet
         private ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
         private SpotifyLoggedIn _spotifyLoggedIn;
         private LoginState _loginState;
+        private bool _loggedIn;
+        private ManualResetEvent _loggedOutWaitHandler = new ManualResetEvent(false);
+        private Thread _spotifyThread;
+
+        private LogMessageDelegate _logMessageCallback;
+        private delegate void LogMessageDelegate(IntPtr session, String message);
 
         /// <summary>
         /// Delivers audio data after SpotifyLoggedIn.Play(track) is excecuted.
@@ -106,6 +112,7 @@ namespace SpotifyDotNet
                     case libspotify.sp_error.OK:
                         // login was successful, so no need to check for anything else. Just signal Success.
                         loginState = LoginState.OK;
+                        _loggedIn = true;
                         _spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
                         break;
                     case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
@@ -130,7 +137,7 @@ namespace SpotifyDotNet
 
             _loggedOutCallbackDelegate = (session) =>
             {
-
+                _loggedOutWaitHandler.Set();
             };
 
             _searchCompleteDelegate = (search, userData) =>
@@ -199,6 +206,8 @@ namespace SpotifyDotNet
 
             };
 
+            _logMessageCallback = (session, message) => Console.WriteLine(message);
+
             libspotify.sp_session_callbacks sessionCallbacks = new libspotify.sp_session_callbacks
             {
                 logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate),
@@ -206,7 +215,8 @@ namespace SpotifyDotNet
                 music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate),
                 get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate),
                 end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate),
-                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate)
+                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate),
+                log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback)
             };
 
 
@@ -235,7 +245,8 @@ namespace SpotifyDotNet
 
         private void NotifyMain(IntPtr session)
         {
-            _notifyMainTask = Task.Run(() => ProcessEvents());
+            //_notifyMainTask = Task.Run(() => ProcessEvents());
+            ProcessEvents();
         }
 
         internal void ProcessEvents()
@@ -256,11 +267,20 @@ namespace SpotifyDotNet
             {
                 _notifyMainTask.Dispose();
             }
+            
 
             lock (_sync)
             {
                 if (_sessionPtr != IntPtr.Zero)
+                {
+                    if (_loggedIn == true)
+                    {
+                        libspotify.sp_session_logout(_sessionPtr);
+                        _loggedOutWaitHandler.WaitOne();
+                    }
+
                     libspotify.sp_session_release(_sessionPtr); // this suggest we need to log out before releasing http://stackoverflow.com/questions/14350355/libspotify-destruction-procedure
+                }
             }
 
             GC.SuppressFinalize(this);

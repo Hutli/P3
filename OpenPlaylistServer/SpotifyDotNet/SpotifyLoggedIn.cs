@@ -1,4 +1,5 @@
-﻿using libspotifydotnet;
+﻿using System.Threading;
+using libspotifydotnet;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -147,6 +148,7 @@ namespace SpotifyDotNet
                 return libspotify.sp_link_as_track(spLinkPtr);
             }
             throw new ArgumentException("URI was not a track URI");
+            
         }
     }
 }
