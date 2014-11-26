@@ -20,6 +20,7 @@ namespace OpenPlaylistServer {
         public ObservableCollectionEx(List<t> collection) : base(collection)
         {
         }
+        public ObservableCollectionEx() { } 
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {

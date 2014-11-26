@@ -7,13 +7,13 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ObservableCollection<PlaylistTrack> _tracks;
+        readonly ObservableCollectionEx<PlaylistTrack> _tracks;
         readonly ReadOnlyObservableCollection<PlaylistTrack> _roTracks;
 
         private IUserService _userService;
 
         public PlaylistService(IUserService userService){
-            _tracks = new ObservableCollection<PlaylistTrack>();
+            _tracks = new ObservableCollectionEx<PlaylistTrack>();
             _roTracks = new ReadOnlyObservableCollection<PlaylistTrack>(_tracks);
             _userService = userService;
         }
