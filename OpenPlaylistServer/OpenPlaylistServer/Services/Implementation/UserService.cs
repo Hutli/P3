@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Threading;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 
@@ -25,7 +24,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Add(User user)
         {
-            Dispatcher.CurrentDispatcher.Invoke(() => _users.Add(user));
+            _users.Add(user);
         }
     }
 }
