@@ -95,6 +95,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Endpoints\CheckInEndPoint.cs" />
+    <Compile Include="ObservableCollectionTS.cs" />
     <Compile Include="Services\Implementation\FilterService.cs" />
     <Compile Include="Services\Interfaces\IFilterService.cs" />
     <Compile Include="Services\Interfaces\IMainWindow.cs" />
