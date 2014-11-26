@@ -3,10 +3,10 @@ using System.ComponentModel;
 namespace OpenPlaylistServer {
     public class User : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
         private IPlaybackService _playbackService;
-
         private float _volume;
-
         private PlaylistTrack _vote;
 
         public string Id { get; private set; }
@@ -41,7 +41,6 @@ namespace OpenPlaylistServer {
             Id = id;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         void OnPropertyChanged(string pName)
         {
