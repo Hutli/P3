@@ -4,7 +4,7 @@
     {
         void Play(PlaylistTrack track);
         void Stop();
-        PlaylistTrack GetCurrentPlaying();
+        WebAPI.Track GetCurrentPlaying();
         void InfluenceVolume(int volPercent, string userId);
     }
 }

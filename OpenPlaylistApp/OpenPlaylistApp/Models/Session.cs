@@ -43,6 +43,20 @@ namespace OpenPlaylistApp.Models
             }
         }
 
+        public async Task<string> GetNowPlaying(Venue venue)
+        {
+            App.Home.IsBusy = true;
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "nowplaying");
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+            using (HttpContent content = response.Content)
+            {
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
+            }
+        }
+
         public async Task<string> SetVolume(Venue venue, int volume, User user)
         {
             App.Home.IsBusy = true;
@@ -77,16 +91,12 @@ namespace OpenPlaylistApp.Models
             App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+            using (HttpContent content = response.Content)
             {
-                client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
-                client.DefaultRequestHeaders.CacheControl.NoCache = true;
-                using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-                using (HttpContent content = response.Content)
-                {
-                    var str = await content.ReadAsStringAsync();
-                    App.Home.IsBusy = false;
-                    return str;
-                }
+                var str = await content.ReadAsStringAsync();
+                App.Home.IsBusy = false;
+                return str;
             }
         }
 

@@ -75,9 +75,11 @@ namespace OpenPlaylistServer
         }
 
 
-        public PlaylistTrack GetCurrentPlaying()
+        public WebAPI.Track GetCurrentPlaying()
         {
-            return _currentPlaying;
+            WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.Uri);
+            track.currentDurationStep = Convert.ToInt32(_session.currentDurationStep.TotalMilliseconds);
+            return track;
         }
 
         public void InfluenceVolume(int volPercent, string userId)

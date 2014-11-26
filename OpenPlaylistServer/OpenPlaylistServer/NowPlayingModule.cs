@@ -18,7 +18,7 @@ namespace OpenPlaylistServer
                     return "Nothing currently playing";
                 else
                 {
-                    return String.Format("{0}", track.Name);
+                    return JsonConvert.SerializeObject(track, Formatting.Indented);
                 }
             };
         }

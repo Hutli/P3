@@ -33,6 +33,7 @@ namespace OpenPlaylistServer
 
         public void TrackEnded()
         {
+            _playbackService.Stop();
             PlaylistTrack next = _playlistService.NextTrack();
             if(next != null) {
                 _playbackService.Play(next);

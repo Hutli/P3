@@ -34,6 +34,8 @@ namespace OpenPlaylistServer {
             PScore = 0;
         }
 
+        public int currentDurationStep { get; set; }
+
         public int PScore { get; private set; }
 
         public PlaylistTrack(string trackUri)

@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Venue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TrackTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VenueTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NowPlayingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlaylistViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VenueViewModel.cs" />

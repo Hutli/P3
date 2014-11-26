@@ -23,6 +23,8 @@ namespace WebAPI
 
         public int Duration { get; private set; }
 
+        public int currentDurationStep { get; set; }
+
         public bool IsExplicit { get; private set; }
 
         public int TrackNumber { get; private set; }

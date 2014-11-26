@@ -7,7 +7,8 @@ namespace OpenPlaylistApp
 {
 	public class App
 	{
-        public static User User = new User(); //Make platform specific, with IMEI, and construct it there
+        //Platform specific IMEI, and construct it here to allocate it before delegates, assigned as listeners in HomePage's constructer
+        public static User User = new User();
 
         public static HomePage Home = new HomePage();
 
