@@ -16,6 +16,7 @@ namespace WebAPI
             ISRC = isrc;
             PreviewURL = previewURL;
             Album = album;
+            IsFiltered = false;
         }
 
         public Track()
@@ -24,6 +25,8 @@ namespace WebAPI
         }
 
         public string ISRC { get; protected set; }
+
+        public bool IsFiltered;
 
         public string PreviewURL { get; private set; }
 

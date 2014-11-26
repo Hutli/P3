@@ -22,11 +22,7 @@ namespace WebAPI {
         public override bool Equals(object obj)
         {
             SpotifyObject spotifyObject = obj as SpotifyObject;
-            if (spotifyObject == null)
-            {
-                return false;
-            }
-            return spotifyObject.ID.Equals(ID);
+            return spotifyObject != null && spotifyObject.ID.Equals(ID);
         }
     }
 }

@@ -6,6 +6,6 @@ namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IFilterService
     {
-        IEnumerable<Track> FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions);
+        void FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions);
     }
 }

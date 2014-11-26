@@ -8,9 +8,20 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     class FilterService : IFilterService
     {
-        public IEnumerable<Track> FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions)
+        public void FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions)
         {
-            return restrictions.Aggregate(tracks, (current, restriction) => current.Where(restriction.Predicate));
+            //return restrictions.Aggregate(tracks, (current, restriction) => current.Where(restriction.Predicate));
+            foreach (Track t in tracks)
+            {
+                foreach (Restriction r in restrictions)
+                {
+                    if (!r.Predicate(t))
+                    {
+                        t.IsFiltered = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

@@ -11,7 +11,8 @@ namespace OpenPlaylistServer.Endpoints
     {
         private IEnumerable<Restriction> restrictions = new List<Restriction>()
         {
-            new Restriction(track => track.Album.Artists.All(artist => !artist.Name.Contains("Bieber")))
+            new Restriction(track => track.Album.Artists.All(artist => !artist.Name.Contains("Bieber"))),
+            new Restriction(track => track.Name != "Still Alive")
         };
 
         public SearchEndpoint(ISearchService searchService, IFilterService filterService)
@@ -19,7 +20,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/search/{query}"] = parameters =>
             {
                 var tracks = searchService.Search(parameters.query);
-                tracks = filterService.FilterTracks(tracks, restrictions);
+                filterService.FilterTracks(tracks, restrictions);
                 return JsonConvert.SerializeObject(tracks, Formatting.Indented);
             };
         }
