@@ -11,12 +11,10 @@ namespace OpenPlaylistServer.Collections {
             base.Add(item);
             OnCollectionChanged(NotifyCollectionChangedAction.Reset);
         }
-        void OnCollectionChanged(NotifyCollectionChangedAction action)
+        private void OnCollectionChanged(NotifyCollectionChangedAction action)
         {
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
-            }
+            if (CollectionChanged == null) return;
+            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
         }
     }
 }
