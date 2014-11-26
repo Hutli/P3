@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nancy;
 using Newtonsoft.Json;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Endpoints
 {
-    public class SearchModule : NancyModule
+    public class SearchEndpoint : NancyModule
     {
         private IEnumerable<Restriction> restrictions = new List<Restriction>()
         {
             new Restriction(track => track.Album.Artists.All(artist => !artist.Name.Contains("Bieber")))
         };
 
-        public SearchModule(ISearchService searchService, IFilterService filterService)
+        public SearchEndpoint(ISearchService searchService, IFilterService filterService)
         {
             Get["/search/{query}"] = parameters =>
             {

@@ -1,4 +1,6 @@
-﻿using StructureMap;
+﻿using OpenPlaylistServer.Services.Implementation;
+using OpenPlaylistServer.Services.Interfaces;
+using StructureMap;
 using System.Windows;
 
 namespace OpenPlaylistServer

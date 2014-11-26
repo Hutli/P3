@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     class MainWindowViewModel : IMainWindowViewModel
     {

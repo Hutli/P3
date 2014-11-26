@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SpotifyDotNet;
+﻿using System.Collections.Generic;
+using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 using Track = WebAPI.Track;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     class SearchService : ISearchService
     {

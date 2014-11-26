@@ -1,15 +1,17 @@
 ﻿using System.Collections.ObjectModel;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     public class UserService : IUserService
     {
-        readonly ObservableCollection<User> _users;
+        readonly ObservableCollectionEx<User> _users;
         readonly ReadOnlyObservableCollection<User> _roUsers;
 
         public UserService()
         {
-            _users = new ObservableCollection<User>();
+            _users = new ObservableCollectionEx<User>();
             _roUsers = new ReadOnlyObservableCollection<User>(_users);
         }
 

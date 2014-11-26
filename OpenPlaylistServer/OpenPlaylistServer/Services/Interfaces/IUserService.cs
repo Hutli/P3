@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using OpenPlaylistServer.Models;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IUserService
     {

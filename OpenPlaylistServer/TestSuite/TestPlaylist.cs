@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Implementation;
 using Xunit;
 using OpenPlaylistServer;
 using SpotifyDotNet;
