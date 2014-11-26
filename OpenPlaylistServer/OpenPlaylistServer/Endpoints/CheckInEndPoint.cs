@@ -9,11 +9,11 @@ namespace OpenPlaylistServer.Endpoints
     {
         public CheckInEndPoint(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
         {
-            Get["/check/{userId}"] = parameters =>
+            Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
                 userService.Add(new User(userId,playbackService));
-                return playlistService.Tracks.Count == 0 ? "Playlist empty" : JsonConvert.SerializeObject(playlistService.Tracks, Formatting.Indented);
+                return "OK";
             };
         }
     }

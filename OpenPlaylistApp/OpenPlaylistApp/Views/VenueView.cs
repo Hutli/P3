@@ -24,13 +24,14 @@ namespace OpenPlaylistApp.Views
             listView.ItemTemplate = new VenueTemplate();
         }
 
-        public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem is Venue)
             {
                 Session session = Session.Instance();
-                App.User.Venue = (Venue)e.SelectedItem;
-                //session.CheckIn(App.User.Venue, App.User);
+                var response = await session.CheckIn((Venue)e.SelectedItem, App.User);
+                if (response == "OK")
+                    App.User.Venue = (Venue)e.SelectedItem;
             }
         }
     }

@@ -21,14 +21,14 @@ namespace OpenPlaylistApp.Models
 
         public async Task<string> CheckIn(Venue venue, User user)
         {
-            App.Home.IsBusy = true;
+            App.Home.venuePage.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
                 var str = await content.ReadAsStringAsync();
-                App.Home.IsBusy = false;
+                App.Home.venuePage.IsBusy = false;
                 return str;
             }
         }
@@ -132,14 +132,14 @@ namespace OpenPlaylistApp.Models
 
         public async Task<string> Search(Venue venue, string searchStr)
         {
-            App.Home.IsBusy = true;
+            App.Home.browsePage.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr);
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
             using (HttpContent content = response.Content)
             {
                 var str = await content.ReadAsStringAsync();
-                App.Home.IsBusy = false;
+                App.Home.browsePage.IsBusy = false;
                 return str;
             }
         }

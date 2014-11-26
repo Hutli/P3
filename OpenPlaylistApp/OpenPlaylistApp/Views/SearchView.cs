@@ -30,9 +30,14 @@ namespace OpenPlaylistApp.Views
 
         void SearchButtonPressed(object sender, EventArgs e)
         {
-            searchViewModel = new SearchViewModel(((SearchBar)sender).Text);
-            listView.ItemsSource = searchViewModel.Results;
-            listView.ItemTemplate = new TrackTemplate();
+            if (searchViewModel == null)
+            {
+                searchViewModel = new SearchViewModel(((SearchBar)sender).Text);
+                listView.ItemsSource = searchViewModel.Results;
+                listView.ItemTemplate = new TrackTemplate();
+            }
+            else
+                searchViewModel.GetResults(((SearchBar)sender).Text);
         }
     }
 }

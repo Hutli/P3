@@ -13,13 +13,6 @@ namespace OpenPlaylistApp.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool isBusy { get { return _isBusy; } set { 
-            _isBusy = value;
-            if(PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("isBusy")); 
-        } }
-        private bool _isBusy;
-
         public ObservableCollection<Track> Results
         {
             get;
@@ -33,7 +26,7 @@ namespace OpenPlaylistApp.ViewModels
         }
 
 
-        async void GetResults(string searchStr){
+        async public void GetResults(string searchStr){
             Session session = Session.Instance();
             ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
             try

@@ -39,10 +39,15 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
-        void GetNowPlaying(Venue venue)
+        public void GetNowPlaying(Venue venue)
         {
-            _npvm = new NowPlayingViewModel(venue);
-            _npvm.LoadComplete += OnLoadComplete;
+            if (_npvm == null)
+            {
+                _npvm = new NowPlayingViewModel(venue);
+                _npvm.LoadComplete += OnLoadComplete;
+            }
+            else
+                _npvm.GetResult(venue);
         }
 
         void OnLoadComplete()

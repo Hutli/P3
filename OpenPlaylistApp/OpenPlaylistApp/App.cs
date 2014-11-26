@@ -14,7 +14,7 @@ namespace OpenPlaylistApp
 
         public static Page GetMainPage()
         {
-            return Home;
+            return Home ?? new HomePage();
         }
 	}
 }

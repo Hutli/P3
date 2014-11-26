@@ -9,22 +9,24 @@ using WebAPI;
 using Newtonsoft.Json.Linq;
 using OpenPlaylistApp.ViewModels;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace OpenPlaylistApp
 {
     public class HomePage : MasterDetailPage
     {
         private NavigationPage detailPage;
-        private ContentPage browsePage;
+        public ContentPage browsePage;
         private ContentPage playlistPage;
-        private ContentPage venuePage;
+        public ContentPage venuePage;
         private ContentPage checkInPage;
 
         private PlaylistView playlistView;
         private SearchView searchView;
         private VenueView venueView;
-        private CheckInView ckeckInView;
+        private CheckInView checkInView;
 
+        private ToolbarItem tbi;
 
         public HomePage()
         {
@@ -33,28 +35,28 @@ namespace OpenPlaylistApp
             playlistView = new PlaylistView();
             searchView = new SearchView();
             venueView = new VenueView();
-            ckeckInView = new CheckInView();
+            checkInView = new CheckInView();
 
             playlistPage = new ContentPage {Title="PlaylistPage", Content = playlistView };
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage {Title="VenuePage", Content = venueView };
-            checkInPage = new ContentPage { Title = "CheckInPage", Content = ckeckInView };
+            checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView, Padding = 20 };
 
             detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
-			NavigationPage.SetHasNavigationBar (playlistPage, true);
 
-            detailPage.PushAsync(checkInPage);
             App.User.VenueChanged += CheckedIn;
 
-            //Toolbar
-			ToolbarItem tbi = null;
 			tbi = new ToolbarItem ("+", null, () => BrowseClicked(), 0, 0);
-			ToolbarItems.Add (tbi);
-            
-            Master = venuePage;
-            Detail = detailPage;
 
-            
+            Detail = checkInPage;
+            Master = venuePage;
+        }
+
+        async void NewData()
+        {
+            Thread.Sleep(4000);
+            playlistView.GetPlaylist(App.User.Venue);
+            NewData();
         }
 
         public void BrowseClicked(){
@@ -63,13 +65,17 @@ namespace OpenPlaylistApp
 
         public void BackPressed()
         {
-            detailPage.PopAsync();
+            if (App.User.Venue != null)
+                detailPage.PopAsync();
         }
 
         public void CheckedIn(Venue v)
         {
-            if(v != null)
-              detailPage.PopToRootAsync();
+            if (v != null)
+            {
+                Detail = detailPage;
+                ToolbarItems.Add(tbi);
+            }
         }
     }
 }

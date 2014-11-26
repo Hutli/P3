@@ -29,7 +29,7 @@ namespace OpenPlaylistApp.ViewModels
             GetResult(venue);
         }
 
-        async void GetResult(Venue venue)
+        async public void GetResult(Venue venue)
         {
             Session session = Session.Instance();
             try

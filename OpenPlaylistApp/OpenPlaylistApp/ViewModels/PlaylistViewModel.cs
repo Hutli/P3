@@ -26,7 +26,7 @@ namespace OpenPlaylistApp.ViewModels
         }
 
 
-        async void GetResults(Venue venue)
+        async public void GetResults(Venue venue)
         {
             Session session = Session.Instance();
             ObservableCollection<Track> returnValue = new ObservableCollection<Track>();

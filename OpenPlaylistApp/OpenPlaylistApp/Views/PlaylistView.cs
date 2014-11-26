@@ -27,11 +27,19 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
-        async void GetPlaylist(Venue venue)
+        async public void GetPlaylist(Venue venue)
         {
-            playlistViewModel = new PlaylistViewModel(venue);
-            listView.ItemsSource = playlistViewModel.Results;
-            listView.ItemTemplate = new TrackTemplate();
+            if (playlistViewModel == null)
+            {
+                playlistViewModel = new PlaylistViewModel(venue);
+                listView.ItemsSource = playlistViewModel.Results;
+                listView.ItemTemplate = new TrackTemplate();
+            }
+            else
+            {
+                playlistViewModel.GetResults(venue);
+                nowPlayingView.GetNowPlaying(venue);
+            }
         }
     }
 }
