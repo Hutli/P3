@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Nancy;
 
 namespace OpenPlaylistServer
@@ -22,10 +23,10 @@ namespace OpenPlaylistServer
                 var user = userService.Users.FirstOrDefault(x => x.Id == userId);
                 if (user == null)
                 {
-                    user = new User(userId, playbackService);
-                    userService.Add(user);
+                    Dispatcher.CurrentDispatcher.Invoke(
+                        () => userService.Add(new User(userId, playbackService)));
                 }
-                user.Volume = volPercent / 100F;
+                if (user != null) user.Volume = volPercent / 100F;
                 return "Successfully influenced volume";
             };
         }
