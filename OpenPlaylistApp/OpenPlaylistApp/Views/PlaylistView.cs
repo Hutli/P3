@@ -2,7 +2,6 @@
 using OpenPlaylistApp.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using WebAPI;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp.Views

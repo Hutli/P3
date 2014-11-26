@@ -18,10 +18,12 @@ namespace OpenPlaylistApp
         private ContentPage browsePage;
         private ContentPage playlistPage;
         private ContentPage venuePage;
+        private ContentPage checkInPage;
 
         private PlaylistView playlistView;
         private SearchView searchView;
         private VenueView venueView;
+        private CheckInView ckeckInView;
 
         public HomePage()
         {
@@ -30,13 +32,18 @@ namespace OpenPlaylistApp
             playlistView = new PlaylistView();
             searchView = new SearchView();
             venueView = new VenueView();
+            ckeckInView = new CheckInView();
 
             playlistPage = new ContentPage {Title="PlaylistPage", Content = playlistView };
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage {Title="VenuePage", Content = venueView };
+            checkInPage = new ContentPage { Title = "CheckInPage", Content = ckeckInView };
 
             detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
 			NavigationPage.SetHasNavigationBar (playlistPage, true);
+
+            detailPage.PushAsync(checkInPage);
+            App.User.VenueChanged += CheckedIn;
 
             //Toolbar
 			ToolbarItem tbi = null;
@@ -54,6 +61,11 @@ namespace OpenPlaylistApp
         public void BackPressed()
         {
             detailPage.PopAsync();
+        }
+
+        public void CheckedIn(Venue v)
+        {
+            detailPage.PopToRootAsync();
         }
     }
 }

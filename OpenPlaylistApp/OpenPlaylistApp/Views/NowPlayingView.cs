@@ -17,7 +17,7 @@ namespace OpenPlaylistApp.Views
         private ProgressBar progressBar = new ProgressBar();
         public NowPlayingView()
         {
-            _nowPlayingLabel = new Label { Text = "Now Playing:" };
+            _nowPlayingLabel.Text = "Now Playing:";
 
             App.User.VenueChanged += GetNowPlaying;
 
