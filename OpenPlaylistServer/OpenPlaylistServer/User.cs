@@ -3,8 +3,26 @@ using System.ComponentModel;
 namespace OpenPlaylistServer {
     public class User : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private IPlaybackService _playbackService;
+        private float _volume;
         private PlaylistTrack _vote;
+
         public string Id { get; private set; }
+
+        public float Volume
+        {
+            get { return _volume; }
+            set
+            {
+                if (value >= 0 && value <= 1)
+                {
+                    _volume = value;
+                    OnPropertyChanged("Volume");
+                }
+            }
+        }
 
         public PlaylistTrack Vote
         {
@@ -16,11 +34,13 @@ namespace OpenPlaylistServer {
             }
         }
 
-        public User(string id) {
+        public User(string id, IPlaybackService playbackService) {
+            _playbackService = playbackService;
+            Volume = _playbackService.GetCurrentVolume();
+            PropertyChanged += _playbackService.SetCurrentVolume;
             Id = id;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         void OnPropertyChanged(string pName)
         {

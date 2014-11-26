@@ -69,11 +69,9 @@ namespace OpenPlaylistServer
         {
             foreach (var track in _tracks)
             {
-                int tScore = track.TScore;
-
-                // add tscore to permanent
-                track.UpdatePScore(tScore);
-                // reset temp score to permanent score
+                // add temp score to permanent score
+                track.UpdatePScore(track.TScore);
+                // reset temp score
                 track.TScore = 0;
             }
         }
