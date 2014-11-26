@@ -4,10 +4,12 @@ namespace OpenPlaylistServer
 {
     public class VoteService : IVoteService
     {
+        private IPlaybackService _playbackService;
         private IPlaylistService _playlistService;
         private IUserService _userService;
 
-        public VoteService(IPlaylistService playlistService, IUserService userService) {
+        public VoteService(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService) {
+            _playbackService = playbackService;
             _playlistService = playlistService;
             _userService = userService;
         }
@@ -43,7 +45,7 @@ namespace OpenPlaylistServer
             else
             {
                 // user is not known. Adding user to list of known users
-                user = new User(userId);
+                user = new User(userId, _playbackService);
                 _userService.Add(user);
             }
 

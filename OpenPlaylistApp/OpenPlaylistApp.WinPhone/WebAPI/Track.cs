@@ -23,6 +23,8 @@ namespace WebAPI
 
         public int Duration { get; private set; }
 
+        public int currentDurationStep { get; set; }
+
         public bool IsExplicit { get; private set; }
 
         public int TrackNumber { get; private set; }
@@ -36,7 +38,13 @@ namespace WebAPI
 
         public override bool Equals(object obj)
         {
-            return ((Track)obj).ID == this.ID || ((Track)obj).ISRC == this.ISRC;
+            if (obj.GetType() == typeof(Track))
+            {
+                return ((Track)obj).ID == this.ID || ((Track)obj).ISRC == this.ISRC;
+            }
+            else
+                return false;
+            
         }
     }
 }

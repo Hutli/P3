@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NAudio.Wave;
 using SpotifyDotNet;
+using System.Collections.ObjectModel;
+using WebAPI;
 
 namespace OpenPlaylistServer
 {
@@ -13,17 +15,19 @@ namespace OpenPlaylistServer
         private NAudio.Wave.BufferedWaveProvider _sampleStream;
         private NAudio.Wave.WaveOut _waveOut;
         private PlaylistTrack _currentPlaying;
-        private Dictionary<String, double> _volumeVotes;
+        private IUserService _userService;
 
-        public PlaybackService()
+        public PlaybackService(IUserService userService)
         {
-            _volumeVotes = new Dictionary<string, double>();
+            _userService = userService;
             _session = Spotify.Instance;
             if (_session != null)
             {
                 _session.MusicDelivery += OnRecieveData;
             }
         }
+
+        //public ObservableCollection<User> Users { get { return _userService.Users; } }
 
         private void OnRecieveData(int sampleRate, int channels, byte[] frames)
         {
@@ -35,7 +39,7 @@ namespace OpenPlaylistServer
                 _sampleStream = new NAudio.Wave.BufferedWaveProvider(_activeFormat)
                 {
                     DiscardOnBufferOverflow = true,
-                    BufferLength = 3000000,
+                    BufferLength = 3000000
                 };
             }
 
@@ -79,42 +83,27 @@ namespace OpenPlaylistServer
 
         public WebAPI.Track GetCurrentPlaying()
         {
+            if (_currentPlaying == null) return null;
             WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.Uri);
             track.currentDurationStep = Convert.ToInt32(_session.currentDurationStep.TotalMilliseconds);
             return track;
         }
 
-        public void InfluenceVolume(int volPercent, string userId)
+        public void SetCurrentVolume(object sender, EventArgs e)
         {
-            double minimumVol = 0.25;
-            double maximumVol = 0.75;
-            double vol = volPercent/100;
-            if(!_volumeVotes.ContainsKey(userId)) {
-                // user has not already voted for volume
-                _volumeVotes.Add(userId,vol);
-            }
-            else
-            {
-                // update existing volume for user
-                _volumeVotes[userId] = vol;
-            }
+            if (_waveOut == null) return;
+            _waveOut.Volume = GetCurrentVolume();
+        }
 
-            // calculate average of all votes
-            double calcVol = 0;
-            double averageVol = _volumeVotes.Values.Average();
-            if (averageVol < minimumVol)
+        public float GetCurrentVolume()
+        {
+            float totalVolume = 0;
+            if (_userService.Users == null) return 0.5F;
+            foreach (User u in _userService.Users)
             {
-                calcVol = minimumVol;
+                totalVolume += u.Volume;
             }
-            else if (averageVol > maximumVol)
-            {
-                calcVol = maximumVol;
-            }
-            else
-            {
-                calcVol = averageVol;
-            }
-            _waveOut.Volume = (float) calcVol;
+            return totalVolume/_userService.Users.Count();
         }
     }
 }

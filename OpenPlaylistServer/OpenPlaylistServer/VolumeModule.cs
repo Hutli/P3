@@ -9,7 +9,7 @@ namespace OpenPlaylistServer
 {
     public class VolumeModule : NancyModule
     {
-        public VolumeModule(IPlaybackService playbackService)
+        public VolumeModule(IUserService userService)
         {
             Get["/volume/{volPercent}/{userId}"] = parameters =>
             {
@@ -19,7 +19,7 @@ namespace OpenPlaylistServer
                 {
                     return "Volume percent must be between 0 and 100";
                 }
-                playbackService.InfluenceVolume(volPercent, userId);
+                userService.Users.FirstOrDefault(x => x.Id == userId).Volume = (float)volPercent / 100;
                 return "Successfully influenced volume";
             };
         }
