@@ -58,7 +58,8 @@ namespace OpenPlaylistServer.Services.Implementation
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
             {
-                spotify.Play(track);
+                var spTrack = SpotifyLoggedIn.Instance.TrackFromLink(track.URI).Result;
+                spotify.Play(spTrack);
                 _currentPlaying = track;
             }
         }
@@ -82,8 +83,11 @@ namespace OpenPlaylistServer.Services.Implementation
         public WebAPI.Track GetCurrentPlaying()
         {
             if (_currentPlaying == null) return null;
-            WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.Uri);
+
+            
+            WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.URI);
             track.CurrentDurationStep = Convert.ToInt32(_session.CurrentDurationStep.TotalMilliseconds);
+
             return track;
         }
 

@@ -11,6 +11,7 @@ namespace OpenPlaylistServer.Services.Interfaces
         void Add(PlaylistTrack track);
 
         ConcurrentBagify<PlaylistTrack> Tracks { get; }
+        int CalcTScore(PlaylistTrack track);
 
         PlaylistTrack NextTrack();
     }

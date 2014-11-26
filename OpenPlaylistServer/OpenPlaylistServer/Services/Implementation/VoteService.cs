@@ -19,6 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
         public void Vote(string userId, string trackUri)
         {
             User user;
+            PlaylistTrack oldVote = null;
             
             // is playlistTrack already voted on?
             PlaylistTrack playlistTrack = _playlistService.FindTrack(trackUri);
@@ -40,8 +41,9 @@ namespace OpenPlaylistServer.Services.Implementation
                 if (user != null && user.Vote != null)
                 {
                     // remove 1 vote on old track
-                    var oldVote = user.Vote;
-                    oldVote.TScore -= 1;
+                    oldVote = user.Vote;
+                    
+                    //oldVote.TScore -= 1;
                 }
             }
             else
@@ -54,7 +56,13 @@ namespace OpenPlaylistServer.Services.Implementation
             //  set user's vote to new track
             if (user == null) return;
             user.Vote = playlistTrack;
-            user.Vote.TScore += 1;
+            playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
+            if (oldVote != null)
+            {
+                oldVote.TScore = _playlistService.CalcTScore(oldVote);
+            }
+           
+            //user.Vote.TScore += 1;
         }
     }
 }

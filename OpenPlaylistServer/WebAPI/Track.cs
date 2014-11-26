@@ -6,6 +6,7 @@ namespace WebAPI
     [JsonObject(MemberSerialization.OptOut)]
     public class Track : SpotifyObject
     {
+        [JsonConstructor]
         public Track(string id, string name, int duration, bool isExplicit, int trackNumber, string isrc, string previewURL, Album album)
             : base(id, name)
         {
@@ -17,11 +18,16 @@ namespace WebAPI
             Album = album;
         }
 
-        public string ISRC { get; private set; }
+        public Track()
+        {
+            
+        }
+
+        public string ISRC { get; protected set; }
 
         public string PreviewURL { get; private set; }
 
-        public int Duration { get; private set; }
+        public int Duration { get; protected set; }
 
         public int CurrentDurationStep { get; set; }
 
@@ -32,7 +38,7 @@ namespace WebAPI
         [JsonProperty]
         public Album Album { get; private set; }
 
-        public override string URI { get { return "spotify:track:" + ID; } }
+        public override string URI { get { return "spotify:track:" + Id; } }
 
         public override string ToString() { return string.Format("{0} on {1}", Name, Album); }
 
@@ -40,7 +46,7 @@ namespace WebAPI
         {
             if (obj.GetType() == typeof(Track))
             {
-                return ((Track)obj).ID == ID || ((Track)obj).ISRC == ISRC;
+                return ((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC;
             }
             return false;
         }

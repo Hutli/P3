@@ -26,7 +26,7 @@ namespace OpenPlaylistApp.Views
 
             _nowPlayingLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Micro); // Maybe implement side scrolling text if clipped by parent
             _trackTitleLabel.Font = Font.SystemFontOfSize(NamedSize.Large);
-            _trackTitleLabel.TextColor = Color.White;
+            //_trackTitleLabel.TextColor = Color.White;
            
             layout.MinimumHeightRequest = 80f;
             layout.IsClippedToBounds = true;

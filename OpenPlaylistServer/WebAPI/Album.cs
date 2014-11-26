@@ -21,9 +21,9 @@ namespace WebAPI
         [JsonProperty]
         public List<Artist> Artists { get { return new List<Artist>(_artists); } }
 
-        public string Href { get { return "https://api.spotify.com/v1/albums/" + ID; } }
+        public string Href { get { return "https://api.spotify.com/v1/albums/" + Id; } }
 
-        public override string URI { get { return "spotify:album:" + ID; } }
+        public override string URI { get { return "spotify:album:" + Id; } }
 
         public Album(string id, string name, string albumtype, IEnumerable<Image> images, List<Artist> artists)
             : base(id, name)

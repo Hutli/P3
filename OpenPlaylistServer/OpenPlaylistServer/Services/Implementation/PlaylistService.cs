@@ -19,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public PlaylistTrack FindTrack(string trackUri)
         {
-            return _tracks.FirstOrDefault(x => x.Uri == trackUri);
+            return _tracks.FirstOrDefault(x => x.URI == trackUri);
         }
 
         public void AddByURI(string trackUri)
@@ -42,6 +42,22 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
+        public int CalcTScore(PlaylistTrack track)
+        {
+            return _userService.Users.Count(u => u.Vote == track);
+        }
+
+        public void ResetVotes(PlaylistTrack track)
+        {
+            var users = _userService.Users.Where(u => u.Vote == track);
+            foreach (var user in users)
+            {
+                user.Vote = null;
+            }
+
+            var tScore = CalcTScore(track);
+            track.TScore = tScore;
+        }
 
         public PlaylistTrack NextTrack()
         {
@@ -50,6 +66,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
             if (next == null) return null;
             next.ResetPScore();
+            ResetVotes(next);
 
             return next;
         }
@@ -58,10 +75,11 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             foreach (var track in _tracks)
             {
+                var tScore = CalcTScore(track);
+                track.TScore = tScore;
                 // add temp score to permanent score
                 track.UpdatePScore(track.TScore);
-                // reset temp score
-                track.TScore = 0;
+                
             }
         }
 

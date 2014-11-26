@@ -25,6 +25,7 @@ namespace OpenPlaylistApp
         private VenueView venueView;
         private CheckInView ckeckInView;
 
+
         public HomePage()
         {
             Title = "Home";
@@ -52,6 +53,8 @@ namespace OpenPlaylistApp
             
             Master = venuePage;
             Detail = detailPage;
+
+            
         }
 
         public void BrowseClicked(){

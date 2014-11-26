@@ -1,9 +1,11 @@
 using System.ComponentModel;
-using SpotifyDotNet;
+//using SpotifyDotNet;
+using WebAPI;
 
 namespace OpenPlaylistServer.Models {
     public class PlaylistTrack : Track, INotifyPropertyChanged {
         private int _tScore;
+        private int _pScore;
 
         public int TScore
         {
@@ -34,14 +36,23 @@ namespace OpenPlaylistServer.Models {
             PScore = 0;
         }
 
-        public int CurrentDurationStep { get; set; }
-
-        public int PScore { get; private set; }
+        public int PScore
+        {
+            get { return _pScore; }
+            private set
+            {
+                _pScore = value;
+                OnPropertyChanged("PScore");
+            }
+        }
 
         public PlaylistTrack(string trackUri)
-            : base(trackUri)
         {
-            PScore = 0;
+            Track track = WebAPIMethods.GetTrack(trackUri);
+            _name = track.Name;
+            ISRC = track.ISRC;
+            Duration = track.Duration;
+            Id = track.Id;
         }
 
         public override string ToString()
