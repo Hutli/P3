@@ -63,12 +63,15 @@ namespace OpenPlaylistApp.Models
             App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "nowplaying");
             using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            using (HttpContent content = response.Content)
             {
-                var str = await content.ReadAsStringAsync();
-                App.Home.IsBusy = false;
-                return str;
+                client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
+                using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+                using (HttpContent content = response.Content)
+                {
+                    var str = await content.ReadAsStringAsync();
+                    App.Home.IsBusy = false;
+                    return str;
+                }
             }
         }
 
@@ -114,7 +117,7 @@ namespace OpenPlaylistApp.Models
             {
                 {
                     client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
-                        //Else Windows Phone will cache and not make new request to the server
+                    //Else Windows Phone will cache and not make new request to the server
 
                     using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
                     using (HttpContent content = response.Content)
