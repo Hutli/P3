@@ -9,8 +9,9 @@ namespace OpenPlaylistApp.Views
     class CheckInView : ContentView
     {
         private Label label = new Label { Text = "Please check in at a venue" , HorizontalOptions = LayoutOptions.CenterAndExpand };
-        private Image image = new Image { Source = ImageSource.FromResource("checkin"), HorizontalOptions = LayoutOptions.CenterAndExpand };
+        private Image image = new Image { Source = ImageSource.FromFile("checkin.png"), HorizontalOptions = LayoutOptions.CenterAndExpand };
         private StackLayout layout = new StackLayout();
+
 
         public CheckInView()
         {

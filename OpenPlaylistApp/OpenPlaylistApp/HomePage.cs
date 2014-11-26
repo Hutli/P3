@@ -65,7 +65,8 @@ namespace OpenPlaylistApp
 
         public void CheckedIn(Venue v)
         {
-            detailPage.PopToRootAsync();
+            if(v != null)
+              detailPage.PopToRootAsync();
         }
     }
 }
