@@ -97,18 +97,18 @@ namespace OpenPlaylistApp.Models
             Random r = new Random();
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            using (HttpContent content = response.Content)
             {
-            {
-                client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
-
-                using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-                using (HttpContent content = response.Content)
                 {
-                    var str = await content.ReadAsStringAsync();
-                    App.Home.IsBusy = false;
-                    return str;
+                    client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
+                        //Else Windows Phone will cache and not make new request to the server
+
+                    using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
+                    using (HttpContent content = response.Content)
+                    {
+                        var str = await content.ReadAsStringAsync();
+                        App.Home.IsBusy = false;
+                        return str;
+                    }
                 }
             }
         }
