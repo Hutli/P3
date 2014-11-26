@@ -4,12 +4,13 @@ using System.Linq;
 using Nancy;
 using System.Windows;
 using Newtonsoft.Json;
+using OpenPlaylistServer.Services.Interfaces;
 
 namespace OpenPlaylistServer
 {
-    public class VoteModule : NancyModule
+    public class VoteEndpoint : NancyModule
     {
-        public VoteModule(IVoteService vs)
+        public VoteEndpoint(IVoteService vs)
         {
             Get["/vote/{trackUri}/{userId}"] = parameters => {
                 Application.Current.Dispatcher.BeginInvoke(  (Action)(() => vs.Vote(parameters.userId, parameters.trackUri)));

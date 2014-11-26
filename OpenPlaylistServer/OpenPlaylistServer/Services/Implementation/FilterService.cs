@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     class FilterService : IFilterService
     {

@@ -1,6 +1,7 @@
 using System.ComponentModel;
+using OpenPlaylistServer.Services.Interfaces;
 
-namespace OpenPlaylistServer {
+namespace OpenPlaylistServer.Models {
     public class User : INotifyPropertyChanged
     {
 

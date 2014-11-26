@@ -1,16 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using Nancy;
 
-namespace OpenPlaylistServer
+using Nancy;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
+
+namespace OpenPlaylistServer.Endpoints
 {
-    public class VolumeModule : NancyModule
+    public class VolumeEndpoint : NancyModule
     {
-        public VolumeModule(IUserService userService, IPlaybackService playbackService)
+        public VolumeEndpoint(IUserService userService, IPlaybackService playbackService)
         {
             Get["/volume/{volPercent}/{userId}"] = parameters =>
             {

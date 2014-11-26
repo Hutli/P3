@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using NAudio.Wave;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
-using System.Collections.ObjectModel;
-using WebAPI;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaybackService : IPlaybackService
     {

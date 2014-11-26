@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using SpotifyDotNet;
 using Nancy.Hosting.Self;
+using OpenPlaylistServer.Models;
+using OpenPlaylistServer.Services.Interfaces;
+using SpotifyDotNet;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Services.Implementation
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -1,7 +1,7 @@
-using SpotifyDotNet;
 using System.ComponentModel;
+using SpotifyDotNet;
 
-namespace OpenPlaylistServer {
+namespace OpenPlaylistServer.Models {
     public class PlaylistTrack : Track, INotifyPropertyChanged {
         private int _tScore;
 

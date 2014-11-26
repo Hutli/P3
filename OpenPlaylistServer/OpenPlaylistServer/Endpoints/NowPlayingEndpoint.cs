@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nancy;
+﻿using Nancy;
 using Newtonsoft.Json;
+using OpenPlaylistServer.Services.Interfaces;
 
-namespace OpenPlaylistServer
+namespace OpenPlaylistServer.Endpoints
 {
-    public class NowPlayingModule : NancyModule
+    public class NowPlayingEndpoint : NancyModule
     {
-        public NowPlayingModule(IPlaybackService playbackService) {
+        public NowPlayingEndpoint(IPlaybackService playbackService) {
             Get["/nowplaying"] = parameters =>
             {
                 var track = playbackService.GetCurrentPlaying();
