@@ -1,4 +1,5 @@
-﻿using Nancy;
+﻿using System.Linq;
+using Nancy;
 using Newtonsoft.Json;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
@@ -9,7 +10,9 @@ namespace OpenPlaylistServer.Endpoints
     {
         public PlaylistEndpoint(IPlaylistService playlistService)
         {
-            Get["playlist"] = e => JsonConvert.SerializeObject(playlistService.Tracks, Formatting.Indented);
+            var tracks = playlistService.Tracks;
+            
+            Get["playlist"] = e => JsonConvert.SerializeObject(tracks.OrderByDescending(t => t.TScore), Formatting.Indented);
         }
     }
 }
