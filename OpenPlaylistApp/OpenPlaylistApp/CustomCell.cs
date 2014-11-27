@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
-using WebAPI;
 
 namespace OpenPlaylistApp
 {
@@ -38,36 +37,52 @@ namespace OpenPlaylistApp
             set { SetValue(VoteProperty, value); }
         }
 
-        public CustomCell()
-            : base()
+        Image _image = new Image();
+        Label _voteLabel = new Label();
+        Label _textLabel = new Label();
+        Label _detailLabel = new Label();
+
+        RelativeLayout _layout = new RelativeLayout();
+
+        protected override void OnBindingContextChanged()
         {
-            Xamarin.Forms.Image _image = new Xamarin.Forms.Image { Source = ImageString };
-            Label _voteLabel = new Label { Text = VoteString };
-            Label _textLabel = new Label { Text = TextString };
-            Label _detailLabel = new Label { Text = DetailString };
-            
-            StackLayout _layout = new StackLayout{ Orientation = StackOrientation.Horizontal };
-            _layout.HeightRequest = 100;
-
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            //_layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            //_layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            
-            //_layout.Children.Add(_image, 0, 0, 0, 1);
-            //_layout.Children.Add(_textLabel, 1, 1, 0, 0);
-            //_layout.Children.Add(_detailLabel, 1, 1, 1, 1);
-            //_layout.Children.Add(_voteLabel, 2, 2, 0, 1);
-
-            _layout.Children.Add(_image);
-            _layout.Children.Add(_textLabel);
-            _layout.Children.Add(_detailLabel);
-            _layout.Children.Add(_voteLabel);
+            if (default(string) != ImageString)
+            {
+                _image.Source = ImageString;
+                _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((parent) => parent.Width/5));
+            }
+            if (default(string) != VoteString)
+            {
+                _voteLabel.Text = VoteString;
+                _layout.Children.Add(_voteLabel, Constraint.Constant(_image.Width), Constraint.RelativeToParent((parent) => parent.Height / 2));
+            }
+            if (default(string) != TextString)
+            {
+                _textLabel.Text = TextString;
+                _layout.Children.Add(_textLabel,  Constraint.RelativeToParent((parent) => parent.Width/3 ));
+            }
+            if (default(string) != DetailString)
+            {
+                _detailLabel.Text = DetailString;
+                _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Width / 3), Constraint.RelativeToParent((parent) => parent.Height/3));
+            }
 
             //if ()
             //    _layout.Opacity = 50;
-            
+        }
+
+        public CustomCell()
+            : base()
+        {
+            _voteLabel.Text = "2";
+            _layout.HeightRequest = 60f;
+            _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
+
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            //_layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            //_layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             View = _layout;
         }
 

@@ -7,7 +7,7 @@ namespace OpenPlaylistApp
     class TrackTemplate : DataTemplate
     {
         public TrackTemplate():base(typeof(CustomCell)){
-            this.SetBinding(CustomCell.ImageSourceProperty, "Album.Images[0].URL");
+            this.SetBinding(CustomCell.ImageSourceProperty, "Album.Images[1].URL");
             this.SetBinding(CustomCell.TextProperty, "Name");
             this.SetBinding(CustomCell.DetailProperty, "Album.Artist[0].Name");
             this.SetBinding(CustomCell.VoteProperty, "TotalScore");
