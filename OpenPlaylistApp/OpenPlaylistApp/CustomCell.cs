@@ -65,7 +65,7 @@ namespace OpenPlaylistApp
             if (default(string) != TextString)
             {
                 _textLabel.Text = TextString;
-                _layout.Children.Add(_textLabel,  Constraint.RelativeToParent((parent) => parent.Width/3 ));
+                _layout.Children.Add(_textLabel,  Constraint.RelativeToParent((parent) => parent.Width / 3 ));
             }
             if (default(string) != DetailString)
             {
