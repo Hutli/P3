@@ -20,7 +20,6 @@ namespace OpenPlaylistServer.Services.Implementation
         private NAudio.Wave.WaveOut _waveOut;
         private PlaylistTrack _currentPlaying;
         private IUserService _userService;
-        private BinaryWriter Writer = null;
 
         public PlaybackService(IUserService userService)
         {
@@ -30,14 +29,8 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 _session.MusicDelivery += OnRecieveData;
             }
-            var mp = new MediaPlayer();
-            mp.Open(new Uri("http://www.wavsource.com/snds_2014-11-23_3967152387108926/people/comedians/allen_arrogh.wav"));
-            mp.Play();
-            //Thread.Sleep(1000);
-            //Writer = new BinaryWriter(File.OpenWrite("musikPCM"));
+            
         }
-
-        //public ObservableCollection<User> Users { get { return _userService.Users; } }
 
         private void OnRecieveData(int sampleRate, int channels, byte[] frames)
         {
@@ -60,15 +53,16 @@ namespace OpenPlaylistServer.Services.Implementation
                 _waveOut.Init(_sampleStream);
                 
                 _waveOut.Play();
+                
+                // this need to be set, else no sound is playing
+                _waveOut.Volume = 0.5f;
             }
             _session.BufferedBytes = _sampleStream.BufferedBytes;
             _session.BufferedDuration = _sampleStream.BufferedDuration;
             _sampleStream.AddSamples(frames, 0, frames.Length);
-            //Writer.Write(frames);
-            //SystemSounds.Beep.Play();
         }
 
-        public async void Play(PlaylistTrack track)
+        public void Play(PlaylistTrack track)
         {
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
@@ -87,7 +81,7 @@ namespace OpenPlaylistServer.Services.Implementation
                 }, task1 =>
                 {
                     // failed
-                    Console.WriteLine("Faiiiiiiiiiiiiiiiiiiiled");
+                    Console.WriteLine("Error playing back track in playbackservice");
                 });
                
             }
@@ -107,9 +101,6 @@ namespace OpenPlaylistServer.Services.Implementation
             _waveOut = null;
             _sampleStream.ClearBuffer();
             _sampleStream = null;
-            //Writer.Flush();
-            //Writer.Close();
-            
         }
 
 
