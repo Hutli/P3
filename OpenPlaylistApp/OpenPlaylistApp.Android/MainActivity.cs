@@ -18,7 +18,7 @@ namespace OpenPlaylistApp.Droid
 
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
-            App.User.Id = tm.DeviceId;
+            App.User.Id = tm.DeviceId; // changing not imei
 
 			SetPage(App.GetMainPage());
         }

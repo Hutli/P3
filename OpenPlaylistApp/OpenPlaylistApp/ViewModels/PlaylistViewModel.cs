@@ -12,6 +12,7 @@ namespace OpenPlaylistApp.ViewModels
     public class PlaylistViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action LoadComplete;
 
         public ObservableCollection<Track> Results
         {
@@ -38,6 +39,7 @@ namespace OpenPlaylistApp.ViewModels
                 {
                     Results.Add(t);
                 }
+                LoadComplete();
             }
             catch (Exception ex)
             {

@@ -9,9 +9,9 @@ namespace OpenPlaylistApp.Views
     class PlaylistView : ContentView
     {
         private NowPlayingView nowPlayingView = new NowPlayingView();
-        private PlaylistViewModel playlistViewModel;
+        public PlaylistViewModel playlistViewModel;
         private VolumeView volumeView = new VolumeView();
-        private ListView listView = new ListView();
+        public ListView listView = new ListView();
         private StackLayout layout = new StackLayout();
 
         public PlaylistView()
@@ -19,7 +19,7 @@ namespace OpenPlaylistApp.Views
             Session session = Session.Instance();
             listView.ItemSelected += session.ItemSelected; //Vote
             
-            App.User.VenueChanged += GetPlaylist;
+            //App.User.VenueChanged += GetPlaylist;
 
             layout.Children.Add(nowPlayingView);
             layout.Children.Add(listView);
@@ -34,12 +34,20 @@ namespace OpenPlaylistApp.Views
                 playlistViewModel = new PlaylistViewModel(venue);
                 listView.ItemsSource = playlistViewModel.Results;
                 listView.ItemTemplate = new TrackTemplate();
+                playlistViewModel.LoadComplete += OnLoadComplete;
             }
             else
             {
                 playlistViewModel.GetResults(venue);
             }
             nowPlayingView.GetNowPlaying(venue);
+        }
+
+        void OnLoadComplete(){
+            foreach(var e in playlistViewModel.Results){
+                if (e.ISRC == App.User.Vote.ISRC)
+                    listView.SelectedItem = e;
+            }
         }
     }
 }

@@ -101,6 +101,7 @@ namespace OpenPlaylistApp.Models
             try
             {
                 var json = await session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
+                App.User.Vote = track;
             }
             catch (Exception ex)
             {
@@ -111,7 +112,6 @@ namespace OpenPlaylistApp.Models
         public async Task<string> SendVote(Venue venue, Track track, User user)
         {
             App.Home.IsBusy = true;
-            Random r = new Random();
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             using (HttpClient client = new HttpClient())
             {
