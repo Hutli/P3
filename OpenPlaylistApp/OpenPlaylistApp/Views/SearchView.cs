@@ -46,7 +46,6 @@ namespace OpenPlaylistApp.Views
                 var searchString = ((SearchBar)sender).Text;
                 searchViewModel = new SearchViewModel(searchString);
                 listView.ItemsSource = searchViewModel.Results;
-
                 listView.ItemTemplate = new TrackTemplate();
             }
             else
