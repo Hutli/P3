@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+﻿using WebAPI;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp
@@ -10,7 +10,7 @@ namespace OpenPlaylistApp
             //this.SetBinding(CustomCell.GrayoutProperty, "IsFiltered");
             this.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
             this.SetBinding(ImageCell.TextProperty, "Name");
-            this.SetBinding(ImageCell.DetailProperty, "Album.Artist[0].Name");
+            this.SetBinding(ImageCell.DetailProperty, "Album.Artist.FirstOrDefault().Name");
             //this.SetBinding(CustomCell.VoteProperty, "TotalScore");
         }
     }
