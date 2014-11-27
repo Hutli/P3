@@ -26,7 +26,6 @@ namespace OpenPlaylistApp.Views
 
             _nowPlayingLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Micro); // Maybe implement side scrolling text if clipped by parent
             _trackTitleLabel.Font = Font.SystemFontOfSize(NamedSize.Large);
-            //_trackTitleLabel.TextColor = Color.White;
            
             layout.MinimumHeightRequest = 80f;
             layout.IsClippedToBounds = true;
@@ -52,7 +51,7 @@ namespace OpenPlaylistApp.Views
 
         void OnLoadComplete()
         {
-            _trackTitleLabel.Text = _npvm.Result.Name + " - " + _npvm.Result.Album.Artists[0].Name;
+            _trackTitleLabel.Text = _npvm.Result.Name + " - ";// +_npvm.Result.Album.Artists[0].Name; Not availible right now
             _trackImage.Source = _npvm.Result.Album.Images[0].URL;
             progressBar.Progress = Convert.ToDouble(_npvm.Result.CurrentDurationStep) / Convert.ToDouble(_npvm.Result.Duration);
             progressBar.ProgressTo(1, Convert.ToUInt32(_npvm.Result.Duration - _npvm.Result.CurrentDurationStep), Easing.Linear);

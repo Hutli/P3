@@ -27,7 +27,7 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
-        async public void GetPlaylist(Venue venue)
+        public void GetPlaylist(Venue venue)
         {
             if (playlistViewModel == null)
             {
@@ -38,8 +38,8 @@ namespace OpenPlaylistApp.Views
             else
             {
                 playlistViewModel.GetResults(venue);
-                nowPlayingView.GetNowPlaying(venue);
             }
+            nowPlayingView.GetNowPlaying(venue);
         }
     }
 }

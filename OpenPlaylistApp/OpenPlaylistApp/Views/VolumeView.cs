@@ -25,7 +25,7 @@ namespace OpenPlaylistApp.Views
         {
             Session session = Session.Instance();
             average = await session.SetVolume(App.User.Venue, Convert.ToInt32(e.NewValue), App.User);
-            label.Text = "Average volume: " + average.Substring(2,2) + "%";
+            label.Text = "Average volume: " + Convert.ToInt32(Convert.ToSingle(average) * 100) + "%";
         }
     }
 }

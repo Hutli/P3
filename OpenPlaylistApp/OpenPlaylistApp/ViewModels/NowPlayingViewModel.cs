@@ -23,9 +23,6 @@ namespace OpenPlaylistApp.ViewModels
 
         public NowPlayingViewModel(Venue venue)
         {
-            Result = new Track("", "", 0, false, 0, "", "", new Album("", "", "", new List<WebAPI.Image>(), new List<Artist>()));
-            Result.Album.Artists.Add(new Artist("","",new List<string>()));
-
             GetResult(venue);
         }
 
@@ -35,7 +32,7 @@ namespace OpenPlaylistApp.ViewModels
             try
             {
                 var json = await session.GetNowPlaying(venue);
-                if (json == "Nothing currently playing") { return; }
+                if (json == "NaN") { return; }
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
                 LoadComplete();
             }

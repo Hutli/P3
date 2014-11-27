@@ -53,7 +53,11 @@ namespace OpenPlaylistServer.Models {
             ISRC = track.ISRC;
             Duration = track.Duration;
             Id = track.Id;
-
+            IsExplicit = track.IsExplicit;
+            TrackNumber = track.TrackNumber;
+            PreviewURL = track.PreviewURL;
+            Album = track.Album;
+            IsFiltered = false;
         }
 
         public override string ToString()
