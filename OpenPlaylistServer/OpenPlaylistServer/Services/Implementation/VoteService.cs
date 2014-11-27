@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 
@@ -21,13 +23,16 @@ namespace OpenPlaylistServer.Services.Implementation
             User user;
             PlaylistTrack oldVote = null;
             
+            
             // is playlistTrack already voted on?
             PlaylistTrack playlistTrack = _playlistService.FindTrack(trackUri);
             if (playlistTrack == null)
             {
                 // playlistTrack is not already voted on, so creating new instance and adding to list
                 playlistTrack = new PlaylistTrack(trackUri);
-                _playlistService.Add(playlistTrack);
+
+                Application.Current.Dispatcher.BeginInvoke((Action)(() => _playlistService.Add(playlistTrack)));
+                //_playlistService.Add(playlistTrack);
             }
 
 
@@ -50,7 +55,8 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 // user is not known. Adding user to list of known users
                 user = new User(userId, _playbackService);
-                _userService.Add(user);
+                
+                Application.Current.Dispatcher.BeginInvoke((Action)(() => _userService.Add(user)));
             }
 
             //  set user's vote to new track
@@ -61,7 +67,7 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 oldVote.TScore = _playlistService.CalcTScore(oldVote);
             }
-           
+            Console.WriteLine("Jeg kan nå hertil:::");
             //user.Vote.TScore += 1;
         }
     }
