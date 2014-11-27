@@ -33,9 +33,10 @@ namespace OpenPlaylistApp.ViewModels
             {
                 var json = await session.GetNowPlaying(venue);
 
-                if (json == "NaN")
+                if (json == "Nothing currently playing")
                 {
-                    throw new Exception("GetNowPlaying failed");
+                    return;
+                    //throw new Exception("GetNowPlaying failed");
                 }
                 App.Home.IsBusy = false;
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
