@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel;
+using System.Windows;
 using OpenPlaylistServer.Services.Interfaces;
 
 namespace OpenPlaylistServer.Models {
@@ -29,7 +31,11 @@ namespace OpenPlaylistServer.Models {
             set
             {
                 _vote = value;
-                OnPropertyChanged("Vote");
+                
+                
+                // TODO: Den her linje crasher programmet hvis en anden sang er ved at blive spillet... mystisk
+                //OnPropertyChanged("Vote");
+                
             }
         }
 

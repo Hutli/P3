@@ -242,8 +242,8 @@ namespace SpotifyDotNet
 
         private void NotifyMain(IntPtr session)
         {
-            //_notifyMainTask = Task.Run(() => ProcessEvents());
-            ProcessEvents();
+            _notifyMainTask = Task.Run(() => ProcessEvents());
+            //ProcessEvents();
         }
 
         internal void ProcessEvents()

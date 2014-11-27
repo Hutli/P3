@@ -1,5 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Windows.Media;
+using Nancy.Helpers;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
@@ -14,6 +20,7 @@ namespace OpenPlaylistServer.Services.Implementation
         private NAudio.Wave.WaveOut _waveOut;
         private PlaylistTrack _currentPlaying;
         private IUserService _userService;
+        private BinaryWriter Writer = null;
 
         public PlaybackService(IUserService userService)
         {
@@ -23,6 +30,11 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 _session.MusicDelivery += OnRecieveData;
             }
+            var mp = new MediaPlayer();
+            mp.Open(new Uri("http://www.wavsource.com/snds_2014-11-23_3967152387108926/people/comedians/allen_arrogh.wav"));
+            mp.Play();
+            //Thread.Sleep(1000);
+            //Writer = new BinaryWriter(File.OpenWrite("musikPCM"));
         }
 
         //public ObservableCollection<User> Users { get { return _userService.Users; } }
@@ -44,23 +56,40 @@ namespace OpenPlaylistServer.Services.Implementation
             if (_waveOut == null)
             {
                 _waveOut = new NAudio.Wave.WaveOut();
+                _waveOut.DeviceNumber = -1;
                 _waveOut.Init(_sampleStream);
+                
                 _waveOut.Play();
             }
             _session.BufferedBytes = _sampleStream.BufferedBytes;
             _session.BufferedDuration = _sampleStream.BufferedDuration;
             _sampleStream.AddSamples(frames, 0, frames.Length);
-            
+            //Writer.Write(frames);
+            //SystemSounds.Beep.Play();
         }
 
-        public void Play(PlaylistTrack track)
+        public async void Play(PlaylistTrack track)
         {
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
             {
-                var spTrack = SpotifyLoggedIn.Instance.TrackFromLink(track.URI).Result;
-                spotify.Play(spTrack);
-                _currentPlaying = track;
+                var task = spotify.TrackFromLink(track.URI);
+                if (task.Exception != null)
+                {
+                    Console.WriteLine(task.Exception);
+                    throw task.Exception;
+                }
+                task.WhenCompleted(task1 =>
+                {
+                    //completed
+                    spotify.Play(task1.Result);
+                    _currentPlaying = track;
+                }, task1 =>
+                {
+                    // failed
+                    Console.WriteLine("Faiiiiiiiiiiiiiiiiiiiled");
+                });
+               
             }
         }
 
@@ -74,9 +103,13 @@ namespace OpenPlaylistServer.Services.Implementation
             }
             if (_waveOut == null || _sampleStream == null) return;
             _waveOut.Stop();
+            _waveOut.Dispose();
             _waveOut = null;
             _sampleStream.ClearBuffer();
             _sampleStream = null;
+            //Writer.Flush();
+            //Writer.Close();
+            
         }
 
 

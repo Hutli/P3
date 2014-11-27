@@ -13,8 +13,9 @@ namespace OpenPlaylistServer
         public VoteEndpoint(IVoteService vs)
         {
             Get["/vote/{trackUri}/{userId}"] = parameters => {
-                Application.Current.Dispatcher.BeginInvoke(  (Action)(() => vs.Vote(parameters.userId, parameters.trackUri)));
-                
+
+                //Application.Current.Dispatcher.BeginInvoke(  (Action)(() => vs.Vote(parameters.userId, parameters.trackUri)));
+                vs.Vote(parameters.userId, parameters.trackUri);
                 return "Success";
             };
         }

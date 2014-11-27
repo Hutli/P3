@@ -82,7 +82,7 @@ namespace SpotifyDotNet
 
         public void Dispose()
         {
-            libspotify.sp_track_release(_trackPtr);
+            //libspotify.sp_track_release(_trackPtr);
 
             GC.SuppressFinalize(this);
         }

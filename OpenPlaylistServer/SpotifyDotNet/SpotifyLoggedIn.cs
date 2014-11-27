@@ -106,29 +106,46 @@ namespace SpotifyDotNet
         /// <returns></returns>
         public Task<Track> TrackFromLink(String uri)
         {
-            var t = Task.Run(() =>
+            try
             {
-                IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
-                IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-                if (spLinkPtr == IntPtr.Zero)
+                lock (_sync)
                 {
-                    throw new ArgumentException("URI was not a track URI");
+                    var t = Task.Run(() =>
+                    {
+
+
+                        IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
+                        IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
+                        if (spLinkPtr == IntPtr.Zero)
+                        {
+                            throw new ArgumentException("URI was not a track URI");
+                        }
+                        libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
+
+                        if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
+                        {
+                            IntPtr trackLinkPtr = libspotify.sp_link_as_track(spLinkPtr);
+                            //libspotify.sp_link_release(spLinkPtr);
+
+                            return new Track(trackLinkPtr);
+                        }
+                        //libspotify.sp_link_release(spLinkPtr);
+                        throw new ArgumentException("URI was not a track URI");
+
+
+
+
+                    });
+
+                    return t;
                 }
-                libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-
-                if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
-                {
-                    IntPtr trackLinkPtr = libspotify.sp_link_as_track(spLinkPtr);
-                    //libspotify.sp_link_release(spLinkPtr);
-
-                    return new Track(trackLinkPtr);
-                }
-                //libspotify.sp_link_release(spLinkPtr);
-                throw new ArgumentException("URI was not a track URI");
-            });
-
-            return t;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         /// <summary>
