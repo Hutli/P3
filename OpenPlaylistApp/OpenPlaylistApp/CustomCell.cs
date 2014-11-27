@@ -55,7 +55,7 @@ namespace OpenPlaylistApp
             if (default(string) != ImageString)
             {
                 _image.Source = ImageString;
-                _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((parent) => parent.Width/5));
+                _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0));
             }
             if (default(string) != VoteString)
             {
@@ -65,12 +65,14 @@ namespace OpenPlaylistApp
             if (default(string) != TextString)
             {
                 _textLabel.Text = TextString;
-                _layout.Children.Add(_textLabel,  Constraint.RelativeToParent((parent) => parent.Width / 3 ));
+                _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Small);
+                _layout.Children.Add(_textLabel, Constraint.RelativeToParent((parent) => parent.Height));
             }
             if (default(string) != DetailString)
             {
                 _detailLabel.Text = DetailString;
-                _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Width / 3), Constraint.RelativeToParent((parent) => parent.Height/3));
+                _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Micro);
+                _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Height), Constraint.RelativeToParent((parent) => parent.Height/3));
             }
 
             if (GrayoutBool)
@@ -84,7 +86,7 @@ namespace OpenPlaylistApp
             : base()
         {
             _voteLabel.Text = "2";
-            _layout.HeightRequest = 60f;
+            _layout.HeightRequest = 100f;
             _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
 
             //_layout.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
