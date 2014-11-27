@@ -47,6 +47,18 @@ namespace OpenPlaylistApp
             App.User.VenueChanged += CheckedIn;
             App.User.VoteChanged += NewData;
 
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1)); // update from server every second
+                    if (App.User != null && App.User.Venue != null)
+                    {
+                        playlistView.GetPlaylist(App.User.Venue);
+                    }
+                }
+            });
+
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
             ToolbarItems.Add(tbi);
             
