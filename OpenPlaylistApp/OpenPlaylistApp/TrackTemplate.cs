@@ -1,4 +1,4 @@
-﻿using WebAPI;
+using WebAPI;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp
@@ -7,11 +7,10 @@ namespace OpenPlaylistApp
     class TrackTemplate : DataTemplate
     {
         public TrackTemplate():base(typeof(ImageCell)){
-            //this.SetBinding(CustomCell.GrayoutProperty, "IsFiltered");
-            this.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
-            this.SetBinding(ImageCell.TextProperty, "Name");
-            this.SetBinding(ImageCell.DetailProperty, "Album.Artist.FirstOrDefault().Name");
-            //this.SetBinding(CustomCell.VoteProperty, "TotalScore");
+            this.SetBinding(TextCell.TextProperty, "Name");
+            this.SetBinding(TextCell.DetailProperty, "Album.Artists[0].Name");
+            this.SetBinding(TextCell.IsEnabledProperty, "IsFiltered");
+            //this.SetBinding(ImageCell.ImageSourceProperty, "Album.Images[0].URL");
         }
     }
 }

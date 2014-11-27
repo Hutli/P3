@@ -27,16 +27,21 @@ namespace OpenPlaylistApp.ViewModels
 
 
         async public void GetResults(string searchStr){
-            Session session = Session.Instance();
-            ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
             try
             {
-                var json = await session.Search(App.User.Venue, searchStr);
-                returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+            Session session = Session.Instance();
+            ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
+            
+            var json = await session.Search(App.User.Venue, searchStr);
+            returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+            if (returnValue != null)
+            {
                 foreach (Track t in returnValue)
                 {
                     Results.Add(t);
                 }
+            }
+                
             }
             catch (Exception ex)
             {

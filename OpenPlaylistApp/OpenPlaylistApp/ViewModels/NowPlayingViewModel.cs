@@ -32,7 +32,12 @@ namespace OpenPlaylistApp.ViewModels
             try
             {
                 var json = await session.GetNowPlaying(venue);
-                if (json == "NaN") { return; }
+
+                if (json == "NaN")
+                {
+                    throw new Exception("GetNowPlaying failed");
+                }
+                App.Home.IsBusy = false;
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
                 LoadComplete();
             }

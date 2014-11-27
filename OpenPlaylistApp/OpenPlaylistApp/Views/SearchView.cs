@@ -18,21 +18,33 @@ namespace OpenPlaylistApp.Views
         public SearchView()
         {
             Session session = Session.Instance();
-            listView.ItemSelected += session.ItemSelected; //Vote
+            listView.ItemSelected += (sender, args) =>
+            {
+                var listview = sender as ListView;
+                Track track = listView.SelectedItem as Track;
+                session.ItemSelected(sender, args);
+                if (track != null)
+                {
+                    //searchViewModel.Results.Add(track);
+                }
+                
+            }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
             layout.Children.Add(searchBar);
             layout.Children.Add(listView);
             Content = layout;
 
-            //search.TextChanged += search_SearchButtonPressed; search as you type, maybe introduce delay
         }
+
+
 
         void SearchButtonPressed(object sender, EventArgs e)
         {
             if (searchViewModel == null)
             {
-                searchViewModel = new SearchViewModel(((SearchBar)sender).Text);
+                var searchString = ((SearchBar)sender).Text;
+                searchViewModel = new SearchViewModel(searchString);
                 listView.ItemsSource = searchViewModel.Results;
                 listView.ItemTemplate = new TrackTemplate();
             }

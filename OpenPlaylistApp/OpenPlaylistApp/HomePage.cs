@@ -48,7 +48,8 @@ namespace OpenPlaylistApp
             App.User.VoteChanged += NewData;
 
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-
+            ToolbarItems.Add(tbi);
+            
             Detail = checkInPage;
             Master = venuePage;
         }
@@ -73,7 +74,7 @@ namespace OpenPlaylistApp
             if (v != null)
             {
                 Detail = detailPage;
-                ToolbarItems.Add(tbi);
+
             }
         }
     }

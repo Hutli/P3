@@ -19,7 +19,7 @@ namespace OpenPlaylistApp.Views
             Session session = Session.Instance();
             listView.ItemSelected += session.ItemSelected; //Vote
             
-            //App.User.VenueChanged += GetPlaylist;
+            App.User.VenueChanged += GetPlaylist;
 
             layout.Children.Add(nowPlayingView);
             layout.Children.Add(listView);
@@ -44,10 +44,21 @@ namespace OpenPlaylistApp.Views
         }
 
         void OnLoadComplete(){
-            foreach(var e in playlistViewModel.Results){
-                if (e.ISRC == App.User.Vote.ISRC)
+            foreach(var e in playlistViewModel.Results)
+            {
+                var currentVote = App.User.Vote;
+                if (currentVote != null && e.ISRC == currentVote.ISRC)
+                {
                     listView.SelectedItem = e;
+                    break;
+                }
+                    
             }
+            if (App.User.Vote != null)
+            {
+                playlistViewModel.Results.Add(App.User.Vote);
+            }
+            
         }
     }
 }

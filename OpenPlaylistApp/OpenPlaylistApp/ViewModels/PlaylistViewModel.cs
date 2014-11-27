@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Android.App;
+using Newtonsoft.Json;
 using OpenPlaylistApp.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -35,6 +36,7 @@ namespace OpenPlaylistApp.ViewModels
             {
                 var json = await session.GetPlaylist(venue);
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                Results.Clear();
                 foreach (Track t in returnValue)
                 {
                     Results.Add(t);
