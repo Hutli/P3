@@ -24,22 +24,22 @@ namespace WebAPI
             
         }
 
-        public string ISRC { get; protected set; }
+        public string ISRC { get; set; }
 
         public bool IsFiltered;
 
-        public string PreviewURL { get; private set; }
+        public string PreviewURL { get; set; }
 
-        public int Duration { get; protected set; }
+        public int Duration { get; set; }
 
         public int CurrentDurationStep { get; set; }
 
-        public bool IsExplicit { get; private set; }
+        public bool IsExplicit { get; set; }
 
-        public int TrackNumber { get; private set; }
+        public int TrackNumber { get; set; }
 
         [JsonProperty]
-        public Album Album { get; private set; }
+        public Album Album { get; set; }
 
         public override string URI { get { return "spotify:track:" + Id; } }
 
