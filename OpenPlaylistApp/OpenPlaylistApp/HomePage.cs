@@ -46,15 +46,17 @@ namespace OpenPlaylistApp
 
             App.User.VenueChanged += CheckedIn;
 
-			tbi = new ToolbarItem ("+", null, () => BrowseClicked(), 0, 0);
+            tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
+
+            //Task.Run(() => NewData());
 
             Detail = checkInPage;
             Master = venuePage;
         }
 
-        async void NewData()
+        void NewData()
         {
-            Thread.Sleep(4000);
+            Thread.Sleep(5000);
             playlistView.GetPlaylist(App.User.Venue);
             NewData();
         }

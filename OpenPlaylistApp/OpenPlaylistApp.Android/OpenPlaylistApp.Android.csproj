@@ -98,6 +98,9 @@
     <AndroidResource Include="Resources\Drawable\checkin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidResource>
+    <AndroidResource Include="Resources\Drawable\plussign.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OpenPlaylistServer\WebAPI\WebAPI.csproj">
