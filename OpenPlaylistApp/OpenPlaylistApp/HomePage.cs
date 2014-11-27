@@ -46,6 +46,7 @@ namespace OpenPlaylistApp
 
             App.User.VenueChanged += CheckedIn;
             App.User.VoteChanged += NewData;
+            
 
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
             ToolbarItems.Add(tbi);
@@ -74,7 +75,37 @@ namespace OpenPlaylistApp
             if (v != null)
             {
                 Detail = detailPage;
+                Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            await Task.Delay(TimeSpan.FromSeconds(3));
+                            if (playlistView != null)
+                            {
+                                if (App.User != null && App.User.Venue != null)
+                                {
+                                    Device.BeginInvokeOnMainThread(() =>
+                                    {
+                                        playlistView.GetPlaylist(App.User.Venue);
+                                    });
+                                    
+                                }
 
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            //throw;
+                        }
+                        
+
+                        
+                    }
+
+                });
             }
         }
     }

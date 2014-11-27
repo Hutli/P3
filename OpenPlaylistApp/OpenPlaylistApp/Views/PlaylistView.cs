@@ -50,11 +50,11 @@ namespace OpenPlaylistApp.Views
                 if (currentVote != null && e.ISRC == currentVote.ISRC)
                 {
                     listView.SelectedItem = e;
-                    break;
+                    break; 
                 }
                     
             }
-            if (App.User.Vote != null)
+            if (App.User.Vote != null && !playlistViewModel.Results.Contains(App.User.Vote))
             {
                 playlistViewModel.Results.Add(App.User.Vote);
             }
