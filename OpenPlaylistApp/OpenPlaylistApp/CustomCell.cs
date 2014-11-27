@@ -7,11 +7,17 @@ namespace OpenPlaylistApp
 {
     class CustomCell : ViewCell
     {
+        public static readonly BindableProperty GrayoutProperty = BindableProperty.Create<CustomCell, bool>(p => p.GrayoutBool, default(bool));
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create<CustomCell, string>(p => p.ImageString, default(string));
         public static readonly BindableProperty TextProperty = BindableProperty.Create<CustomCell, string>(p => p.TextString, default(string));
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, string>(p => p.VoteString, default(string));
 
+        public bool GrayoutBool
+        {
+            get { return (bool)GetValue(GrayoutProperty); }
+            set { SetValue(GrayoutProperty, value); }
+        }
 
         public string ImageString
         {
@@ -67,8 +73,11 @@ namespace OpenPlaylistApp
                 _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Width / 3), Constraint.RelativeToParent((parent) => parent.Height/3));
             }
 
-            //if ()
-            //    _layout.Opacity = 50;
+            if (GrayoutBool)
+            {
+                _layout.BackgroundColor = new Color(128, 128, 128);
+                _layout.Opacity = 50;
+            }
         }
 
         public CustomCell()
