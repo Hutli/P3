@@ -24,6 +24,42 @@ namespace WebAPI
             
         }
 
+        private int _tScore;
+        private int _pScore;
+
+        public int TScore
+        {
+            get
+            {
+                return _tScore;
+            }
+            set
+            {
+                _tScore = value;
+                OnPropertyChanged("TScore");
+            }
+        }
+
+        public int PScore
+        {
+            get { return _pScore; }
+            protected set
+            {
+                _pScore = value;
+                OnPropertyChanged("PScore");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        void OnPropertyChanged(string pName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(pName));
+            }
+        } 
+
         public string ISRC { get; set; }
 
         public bool IsFiltered;
@@ -40,7 +76,10 @@ namespace WebAPI
 
         public int TrackNumber { get; set; }
 
-        public virtual int TotalScore { get; private set; }
+        public int TotalScore
+        {
+            get { return _pScore + _tScore; }
+        }
 
         [JsonProperty]
         public Album Album { get; set; }
