@@ -10,7 +10,6 @@ namespace OpenPlaylistApp.Views
 
         public CurrentVoteView()
         {
-            _lbl.Text = "";
             App.User.VoteChanged += ChangeVote;
             Content = _lbl;
         }

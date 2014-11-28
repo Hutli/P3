@@ -37,9 +37,9 @@ namespace OpenPlaylistApp.Views
             }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
+            layout.Children.Add(currentVoteView);
             layout.Children.Add(searchBar);
             layout.Children.Add(listView);
-            layout.Children.Add(currentVoteView);
             Content = layout;
 
         }

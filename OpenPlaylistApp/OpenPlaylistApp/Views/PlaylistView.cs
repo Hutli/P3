@@ -23,9 +23,9 @@ namespace OpenPlaylistApp.Views
             App.User.VenueChanged += GetPlaylist;
 
             layout.Children.Add(nowPlayingView);
+            layout.Children.Add(currentVoteView);
             layout.Children.Add(listView);
             layout.Children.Add(volumeView);
-            layout.Children.Add(currentVoteView);
             Content = layout;
         }
 
