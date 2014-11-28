@@ -7,11 +7,18 @@ namespace OpenPlaylistApp
 {
     class CustomCell : ViewCell
     {
+        public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.SelectedBool, default(bool));
         public static readonly BindableProperty GrayoutProperty = BindableProperty.Create<CustomCell, bool>(p => p.GrayoutBool, default(bool));
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create<CustomCell, string>(p => p.ImageString, default(string));
         public static readonly BindableProperty TextProperty = BindableProperty.Create<CustomCell, string>(p => p.TextString, default(string));
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, string>(p => p.VoteString, default(string));
+
+        public bool SelectedBool
+        {
+            get { return (bool)GetValue(SelectedProperty); }
+            set { SetValue(SelectedProperty, value); }
+        }
 
         public bool GrayoutBool
         {
@@ -47,15 +54,45 @@ namespace OpenPlaylistApp
         Label _voteLabel = new Label();
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
-
         RelativeLayout _layout = new RelativeLayout();
 
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            if (SelectedBool)
+                Mark();
+            else
+                UnMark();
+        }
+
+        public void Mark()
+        {
+            _layout.BackgroundColor = Color.Green;
+        }
+
+        public void UnMark()
+        {
+            _layout.BackgroundColor = Color.Transparent;
+        }
+        //protected override void OnPropertyChanged(string propertyName = null)
+        //{
+        //    //if (propertyName == "SelectedBool")
+        //    //{
+        //        if (SelectedBool)
+        //        {
+        //            Mark();
+        //        }
+        //        else
+        //        {
+        //            UnMark();
+        //        }
+        //    //}
+        //}
         protected override void OnBindingContextChanged()
         {
             if (default(string) != ImageString)
             {
                 _image.Source = ImageString;
-                _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0));
+                _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((Parent) => Parent.Height), Constraint.RelativeToParent((Parent) => Parent.Height));
             }
             if (default(string) != VoteString)
             {
@@ -65,14 +102,14 @@ namespace OpenPlaylistApp
             if (default(string) != TextString)
             {
                 _textLabel.Text = TextString;
-                _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Small);
-                _layout.Children.Add(_textLabel, Constraint.RelativeToParent((parent) => parent.Height));
+                _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Large);
+                _layout.Children.Add(_textLabel, Constraint.RelativeToParent((parent) => parent.Height + 10));
             }
             if (default(string) != DetailString)
             {
                 _detailLabel.Text = DetailString;
-                _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Micro);
-                _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Height), Constraint.RelativeToParent((parent) => parent.Height/3));
+                _detailLabel.Font = Font.SystemFontOfSize(NamedSize.Medium);
+                _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Height + 10), Constraint.RelativeToParent((parent) => parent.Height / 3));
             }
 
             if (GrayoutBool)

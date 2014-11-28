@@ -18,10 +18,15 @@ namespace OpenPlaylistApp.Views
         public SearchView()
         {
             Session session = Session.Instance();
+            
             listView.ItemSelected += (sender, args) =>
             {
+                ((Track)((ListView)sender).SelectedItem).IsSelected = true;
+
                 var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
+                track.IsFiltered = true;
+                track.IsSelected = true;
                 session.ItemSelected(sender, args);
                 if (track != null)
                 {

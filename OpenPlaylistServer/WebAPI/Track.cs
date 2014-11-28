@@ -34,9 +34,13 @@ namespace WebAPI
 
         public int CurrentDurationStep { get; set; }
 
+        public bool IsSelected { get; set; }
+
         public bool IsExplicit { get; set; }
 
         public int TrackNumber { get; set; }
+
+        public int TotalScore { get; set; }
 
         [JsonProperty]
         public Album Album { get; set; }

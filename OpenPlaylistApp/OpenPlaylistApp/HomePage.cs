@@ -37,12 +37,12 @@ namespace OpenPlaylistApp
             venueView = new VenueView();
             checkInView = new CheckInView();
 
-            playlistPage = new ContentPage {Title="PlaylistPage", Content = playlistView };
+            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView };
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
-            venuePage = new ContentPage {Title="VenuePage", Content = venueView };
+            venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView, Padding = 20 };
 
-            detailPage = new NavigationPage(playlistPage) { Title="DetailPage" };
+            detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
 
             App.User.VenueChanged += CheckedIn;
             App.User.VoteChanged += NewData;
@@ -64,9 +64,21 @@ namespace OpenPlaylistApp
 
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
             ToolbarItems.Add(tbi);
-            
+
             Detail = checkInPage;
             Master = venuePage;
+
+            //Task.Run(async () =>
+            //{
+            //    while (true)
+            //    {
+            //        await Task.Delay(TimeSpan.FromSeconds(10)); // update from server every second
+            //        if (App.User != null && App.User.Venue != null)
+            //        {
+            //            playlistView.GetPlaylist(App.User.Venue);
+            //        }
+            //    }
+            //});
         }
 
         void NewData(Track track)
@@ -74,7 +86,8 @@ namespace OpenPlaylistApp
             playlistView.GetPlaylist(App.User.Venue);
         }
 
-        public void BrowseClicked(){
+        public void BrowseClicked()
+        {
             detailPage.PushAsync(browsePage);
         }
 
