@@ -16,31 +16,51 @@ namespace OpenPlaylistApp
         public bool GrayoutBool
         {
             get { return (bool)GetValue(GrayoutProperty); }
-            set { SetValue(GrayoutProperty, value); }
+            set
+            {
+                if (GrayoutBool != value)
+                    SetValue(GrayoutProperty, value);
+            }
         }
 
         public string ImageString
         {
             get { return (string)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
+            set
+            {
+                if (ImageString != value)
+                    SetValue(ImageSourceProperty, value);
+            }
         }
 
         public string TextString
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            set
+            {
+                if (TextString != value)
+                    SetValue(TextProperty, value);
+            }
         }
 
         public string DetailString
         {
             get { return (string)GetValue(DetailProperty); }
-            set { SetValue(DetailProperty, value); }
+            set
+            {
+                if (DetailString != value)
+                    SetValue(DetailProperty, value);
+            }
         }
 
         public int VoteString
         {
             get { return (int)GetValue(VoteProperty); }
-            set { SetValue(VoteProperty, value); }
+            set
+            {
+                if (VoteString != value)
+                    SetValue(VoteProperty, value);
+            }
         }
 
         Image _image = new Image();
