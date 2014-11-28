@@ -9,11 +9,10 @@ namespace OpenPlaylistApp.Views
         private Label label = new Label();
         private StackLayout layout = new StackLayout();
         private Slider slider = new Slider(0, 100, 50);
-        private string average;
 
         public VolumeView()
         {
-            label.Text = "Average volume: " + average + "%";
+            label.Text = "You can influence the volume below";
             slider.ValueChanged += SetVolume;
 
             layout.Children.Add(label);
@@ -23,9 +22,10 @@ namespace OpenPlaylistApp.Views
 
         async void SetVolume(object sender, ValueChangedEventArgs e)
         {
-            Session session = Session.Instance();
-            average = await session.SetVolume(App.User.Venue, Convert.ToInt32(e.NewValue), App.User);
-            label.Text = "Average volume: " + Convert.ToInt32(Convert.ToSingle(average) * 100) + "%";
+            var session = Session.Instance();
+            var progress = Convert.ToInt32(e.NewValue);
+            var average = await session.SetVolume(App.User.Venue, progress, App.User);
+            label.Text = String.Format("Average volume: {0}%", average);
         }
     }
 }

@@ -19,13 +19,17 @@ namespace OpenPlaylistServer.Endpoints
             {
                 int volPercent = parameters.volPercent;
                 string userId = parameters.userId;
-                if (volPercent < 0 || volPercent > 100)
+
+                if (volPercent >= 0 && volPercent <= 100)
                 {
-                    return Convert.ToString(playbackService.GetCurrentVolume());
+                    var user = userService.Users.FirstOrDefault(x => x.Id == userId);
+                    if (user != null)
+                    {
+                        user.Volume = volPercent / 100F;
+                    }
                 }
-                var user = userService.Users.FirstOrDefault(x => x.Id == userId);
-                if (user != null) user.Volume = volPercent / 100F;
-                return Convert.ToString(playbackService.GetCurrentVolume());
+
+                return Convert.ToInt32(playbackService.GetCurrentVolume()*100);
             };
         }
     }

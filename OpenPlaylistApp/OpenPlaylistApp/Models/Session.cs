@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebAPI;
@@ -125,14 +126,15 @@ namespace OpenPlaylistApp.Models
             //}
         }
 
-        public async Task<string> SetVolume(Venue venue, int volume, User user)
+        public async Task<double> SetVolume(Venue venue, int volume, User user)
         {
             App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume/" + volume + "/" + user.Id);
 
             var str = await MakeRequest(uriBuilder.Uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3));
             App.Home.IsBusy = false;
-            return str;
+            return int.Parse(str);
+
 
             //using (HttpClient client = new HttpClient())
             //{
