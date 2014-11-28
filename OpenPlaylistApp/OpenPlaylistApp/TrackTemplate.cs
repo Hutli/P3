@@ -12,7 +12,7 @@ namespace OpenPlaylistApp
             this.SetBinding(CustomCell.ImageSourceProperty, "Album.Images[0].URL");
             this.SetBinding(CustomCell.TextProperty, "Name");
             this.SetBinding(CustomCell.DetailProperty, "Album.ToStringProp");
-            //this.SetBinding(CustomCell.VoteProperty, "TotalScore");
+            this.SetBinding(CustomCell.VoteProperty, "TotalScore");
         }
     }
 }

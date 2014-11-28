@@ -62,7 +62,7 @@ namespace OpenPlaylistApp
         protected override void OnBindingContextChanged()
         {
             _image.Source = ImageString;
-            _voteLabel.Text = String.Format("{0}", VoteString);
+            _voteLabel.Text = VoteString.ToString();
             _textLabel.Text = TextString;
             _detailLabel.Text = DetailString;
         }
