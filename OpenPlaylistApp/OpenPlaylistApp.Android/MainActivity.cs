@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Java.IO;
+using Java.Lang;
 using OpenPlaylistApp.Models;
 using Xamarin.Forms.Platform.Android;
 using Android.Telephony;
@@ -14,6 +16,11 @@ namespace OpenPlaylistApp.Droid
         {
             base.OnCreate(bundle);
 
+            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
+            {
+                throw args.Exception;
+            };
+
             Xamarin.Forms.Forms.Init(this, bundle);
 
             //Assign IMEI
@@ -21,6 +28,8 @@ namespace OpenPlaylistApp.Droid
             App.User.Id = tm.DeviceId; // changing not imei
 
 			SetPage(App.GetMainPage());
+
+            
         }
     }
 }
