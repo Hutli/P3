@@ -40,7 +40,7 @@ namespace WebAPI
 
         public int TrackNumber { get; set; }
 
-        public int TotalScore { get; set; }
+        public virtual int TotalScore { get; private set; }
 
         [JsonProperty]
         public Album Album { get; set; }

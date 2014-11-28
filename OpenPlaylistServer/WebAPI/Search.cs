@@ -92,18 +92,18 @@ namespace WebAPI
             List<Artist> artists = new List<Artist>();
             foreach (var jsonArtist in jsonCode)
             {
-                var sJsonArtist = GetJobject((string)jsonArtist["href"]);
+                //var sJsonArtist = GetJobject((string)jsonArtist["href"]);
 
-                string id = (string)(sJsonArtist["id"]);
+                string id = (string)(jsonArtist["id"]);
                 if (inputArtists.Exists(a => a.Id.Equals(id)))
                 {
                     artists.Add(inputArtists.Find(a => a.Id.Equals(id)));
                 }
                 else
                 {
-                    string name = (string)(sJsonArtist["name"]);
-                    List<string> genres = sJsonArtist["genres"].Select(s => (string) s).ToList();
-                    Artist artist = new Artist(id, name, genres);
+                    string name = (string)(jsonArtist["name"]);
+                    //List<string> genres = sJsonArtist["genres"].Select(s => (string) s).ToList();
+                    Artist artist = new Artist(id, name);
                     inputArtists.Add(artist);
                     artists.Add(artist);
                 }
