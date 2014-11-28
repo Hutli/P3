@@ -57,6 +57,7 @@ namespace OpenPlaylistApp
                         Device.BeginInvokeOnMainThread((() =>
                         {
                             playlistView.GetPlaylist(App.User.Venue);
+
                         }));
                     }
                 }
@@ -67,18 +68,6 @@ namespace OpenPlaylistApp
 
             Detail = checkInPage;
             Master = venuePage;
-
-            //Task.Run(async () =>
-            //{
-            //    while (true)
-            //    {
-            //        await Task.Delay(TimeSpan.FromSeconds(10)); // update from server every second
-            //        if (App.User != null && App.User.Venue != null)
-            //        {
-            //            playlistView.GetPlaylist(App.User.Venue);
-            //        }
-            //    }
-            //});
         }
 
         void NewData(Track track)

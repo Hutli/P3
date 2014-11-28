@@ -1,4 +1,8 @@
 ﻿//using Android.App;
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using OpenPlaylistApp.Models;
 using System;
@@ -27,6 +31,24 @@ namespace OpenPlaylistApp.ViewModels
             GetResults(venue);
         }
 
+        private void UpdateResults(IEnumerable<Track> newData)
+        {
+            var results = Results.ToList();
+            var toRemove = results.Except(newData);
+            var toAdd = newData.Except(results);
+
+            
+
+            foreach (var track in toRemove)
+            {
+                Results.Remove(track);
+            }
+
+            foreach (var track in toAdd)
+            {
+                Results.Add(track);
+            }
+        }
 
         async public void GetResults(Venue venue)
         {
@@ -36,11 +58,9 @@ namespace OpenPlaylistApp.ViewModels
             {
                 var json = await session.GetPlaylist(venue);
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
-                Results.Clear();
-                foreach (Track t in returnValue)
-                {
-                    Results.Add(t);
-                }
+                
+                UpdateResults(returnValue.ToList());
+
                 LoadComplete();
             }
             catch (Exception ex)
