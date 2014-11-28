@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using OpenPlaylistServer.Services.Interfaces;
+using WebAPI;
 
 namespace OpenPlaylistServer.Models {
     public class User : INotifyPropertyChanged
@@ -10,7 +11,7 @@ namespace OpenPlaylistServer.Models {
         public event PropertyChangedEventHandler PropertyChanged;
         private IPlaybackService _playbackService;
         private float _volume;
-        private PlaylistTrack _vote;
+        private Track _vote;
 
         public string Id { get; private set; }
 
@@ -25,7 +26,7 @@ namespace OpenPlaylistServer.Models {
             }
         }
 
-        public PlaylistTrack Vote
+        public Track Vote
         {
             get { return _vote; }
             set

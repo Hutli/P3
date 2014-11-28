@@ -1,18 +1,18 @@
 ﻿using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IPlaylistService
     {
-        PlaylistTrack FindTrack(string trackUri);
+        Track FindTrack(string trackUri);
 
-        void AddByURI(string trackId);
-        void Add(PlaylistTrack track);
+        void Add(Track track);
 
-        ConcurrentBagify<PlaylistTrack> Tracks { get; }
-        int CalcTScore(PlaylistTrack track);
+        ConcurrentBagify<Track> Tracks { get; }
+        int CalcTScore(Track track);
 
-        PlaylistTrack NextTrack();
+        Track NextTrack();
     }
 }

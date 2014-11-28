@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -18,18 +19,24 @@ namespace OpenPlaylistServer.Services.Implementation
             _userService = userService;
         }
 
-        public void Vote(string userId, string trackUri)
+        public bool Vote(string userId, string trackUri)
         {
             User user;
-            PlaylistTrack oldVote = null;
+            Track oldVote = null;
             
             
             // is playlistTrack already voted on?
-            PlaylistTrack playlistTrack = _playlistService.FindTrack(trackUri);
+            Track playlistTrack = _playlistService.FindTrack(trackUri);
             if (playlistTrack == null)
             {
                 // playlistTrack is not already voted on, so creating new instance and adding to list
-                playlistTrack = new PlaylistTrack(trackUri);
+                var track = WebAPIMethods.GetTrack(trackUri).Result;
+                if (track == null)
+                {
+                    return false;
+                }
+
+                playlistTrack = track;
 
                 Application.Current.Dispatcher.BeginInvoke((Action)(() => _playlistService.Add(playlistTrack)));
                 //_playlistService.Add(playlistTrack);
@@ -48,27 +55,24 @@ namespace OpenPlaylistServer.Services.Implementation
                     // remove 1 vote on old track
                     oldVote = user.Vote;
                     
-                    //oldVote.TScore -= 1;
                 }
             }
             else
             {
                 // user is not known. Adding user to list of known users
                 user = new User(userId, _playbackService);
-                
+                //  set user's vote to new track
+                user.Vote = playlistTrack;
                 Application.Current.Dispatcher.BeginInvoke((Action)(() => _userService.Add(user)));
             }
 
-            //  set user's vote to new track
-            if (user == null) return;
-            user.Vote = playlistTrack;
             playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
             if (oldVote != null)
             {
                 oldVote.TScore = _playlistService.CalcTScore(oldVote);
             }
-            Console.WriteLine("Jeg kan nå hertil:::");
-            //user.Vote.TScore += 1;
+
+            return true;
         }
     }
 }

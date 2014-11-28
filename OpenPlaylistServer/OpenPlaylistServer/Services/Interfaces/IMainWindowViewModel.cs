@@ -1,11 +1,12 @@
 ﻿using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IMainWindowViewModel
     {
-        ConcurrentBagify<PlaylistTrack> Tracks { get; }
+        ConcurrentBagify<Track> Tracks { get; }
 
         void TrackEnded();
 

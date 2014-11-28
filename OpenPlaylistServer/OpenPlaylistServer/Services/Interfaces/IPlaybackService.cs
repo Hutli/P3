@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenPlaylistServer.Models;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {
@@ -7,7 +8,7 @@ namespace OpenPlaylistServer.Services.Interfaces
     {
         void SetCurrentVolume(object sender, EventArgs e);
         float GetCurrentVolume();
-        void Play(PlaylistTrack track);
+        void Play(Track track);
         void Stop();
         WebAPI.Track GetCurrentPlaying();
     }

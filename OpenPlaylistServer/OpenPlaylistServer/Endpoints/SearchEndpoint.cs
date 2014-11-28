@@ -20,7 +20,7 @@ namespace OpenPlaylistServer.Endpoints
         {
             Get["/search/{query}"] = parameters =>
             {
-                var tracks = searchService.Search(parameters.query);
+                var tracks = searchService.Search(parameters.query).Result;
                 filterService.FilterTracks(tracks, restrictions);
                 //foreach (Track t in tracks)
                 //{

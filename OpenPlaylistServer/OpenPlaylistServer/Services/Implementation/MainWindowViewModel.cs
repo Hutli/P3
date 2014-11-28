@@ -3,6 +3,7 @@ using System.Windows.Threading;
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -19,7 +20,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _playbackService = playbackService;
         }
 
-        public ConcurrentBagify<PlaylistTrack> Tracks
+        public ConcurrentBagify<Track> Tracks
         {
             get
             {
@@ -48,7 +49,7 @@ namespace OpenPlaylistServer.Services.Implementation
                 }
 
                 _playbackService.Stop();
-                PlaylistTrack next = _playlistService.NextTrack();
+                Track next = _playlistService.NextTrack();
                 if (next != null)
                 {
                     _playbackService.Play(next);

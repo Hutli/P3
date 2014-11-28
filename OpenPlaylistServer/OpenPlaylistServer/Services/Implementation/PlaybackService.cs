@@ -9,6 +9,7 @@ using Nancy.Helpers;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
+using Track = WebAPI.Track;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -18,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
         private NAudio.Wave.WaveFormat _activeFormat;
         private NAudio.Wave.BufferedWaveProvider _sampleStream;
         private NAudio.Wave.WaveOut _waveOut;
-        private PlaylistTrack _currentPlaying;
+        private Track _currentPlaying;
         private IUserService _userService;
 
         public PlaybackService(IUserService userService)
@@ -62,7 +63,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _sampleStream.AddSamples(frames, 0, frames.Length);
         }
 
-        public void Play(PlaylistTrack track)
+        public void Play(Track track)
         {
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
@@ -83,7 +84,6 @@ namespace OpenPlaylistServer.Services.Implementation
                     // failed
                     Console.WriteLine("Error playing back track in playbackservice");
                 });
-               
             }
         }
 
@@ -110,11 +110,9 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             if (_currentPlaying == null) return null;
 
-            
-            WebAPI.Track track = WebAPI.WebAPIMethods.GetTrack(_currentPlaying.URI);
-            track.CurrentDurationStep = Convert.ToInt32(_session.CurrentDurationStep.TotalMilliseconds);
+            _currentPlaying.CurrentDurationStep = Convert.ToInt32(_session.CurrentDurationStep.TotalMilliseconds);
 
-            return track;
+            return _currentPlaying;
         }
 
         public void SetCurrentVolume(object sender, EventArgs e)

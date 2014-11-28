@@ -2,6 +2,6 @@
 {
     public interface IVoteService
     {
-        void Vote(string userId, string trackUri);
+        bool Vote(string userId, string trackUri);
     }
 }

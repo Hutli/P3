@@ -29,7 +29,7 @@ namespace OpenPlaylistServer.Endpoints
                     }
                 }
 
-                return Convert.ToInt32(playbackService.GetCurrentVolume()*100);
+                return "" + Convert.ToInt32(playbackService.GetCurrentVolume()*100);
             };
         }
     }

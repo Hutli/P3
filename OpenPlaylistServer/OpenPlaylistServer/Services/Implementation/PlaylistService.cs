@@ -2,52 +2,39 @@
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ConcurrentBagify<PlaylistTrack> _tracks;
+        readonly ConcurrentBagify<Track> _tracks;
 
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public PlaylistService(IUserService userService){
-            _tracks = new ConcurrentBagify<PlaylistTrack>();
-            //_roTracks = new ConcurrentBag<PlaylistTrack>(_tracks);
+            _tracks = new ConcurrentBagify<Track>();
             _userService = userService;
         }
 
-        public PlaylistTrack FindTrack(string trackUri)
+        public Track FindTrack(string trackUri)
         {
             return _tracks.FirstOrDefault(x => x.URI == trackUri);
         }
 
-        public void AddByURI(string trackUri)
-        {
-            //var track = SpotifyLoggedIn.Instance.TrackFromLink(trackUri).Result;
-            PlaylistTrack playlistTrack = new PlaylistTrack(trackUri);
-            _tracks.Add(playlistTrack);
-        }
-
-        //public void AddByRef(playlistTrack playlistTrack)
-        //{
-        //    _tracks.Add(playlistTrack);
-        //}
-
-
-        public  ConcurrentBagify<PlaylistTrack> Tracks
+        public  ConcurrentBagify<Track> Tracks
         {
             get {
                 return _tracks;
             }
         }
 
-        public int CalcTScore(PlaylistTrack track)
+        public int CalcTScore(Track track)
         {
             return _userService.Users.Count(u => u.Vote == track);
         }
 
-        public void ResetVotes(PlaylistTrack track)
+        private void ResetVotes(Track track)
         {
             var users = _userService.Users.Where(u => u.Vote == track);
             foreach (var user in users)
@@ -59,13 +46,13 @@ namespace OpenPlaylistServer.Services.Implementation
             track.TScore = tScore;
         }
 
-        public PlaylistTrack NextTrack()
+        public Track NextTrack()
         {
             CountAndUpdatePVotes();
-            PlaylistTrack next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
+            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
 
             if (next == null) return null;
-            next.ResetPScore();
+            next.PScore = 0;
             ResetVotes(next);
 
             return next;
@@ -78,13 +65,11 @@ namespace OpenPlaylistServer.Services.Implementation
                 var tScore = CalcTScore(track);
                 track.TScore = tScore;
                 // add temp score to permanent score
-                track.UpdatePScore(track.TScore);
-                
+                track.PScore += track.TScore;
             }
         }
 
-
-        public void Add(PlaylistTrack track)
+        public void Add(Track track)
         {
             _tracks.Add(track);
         }

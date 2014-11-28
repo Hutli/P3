@@ -10,7 +10,6 @@ namespace OpenPlaylistServer.Services.Implementation
     {
         public void FilterTracks(IEnumerable<Track> tracks, IEnumerable<Restriction> restrictions)
         {
-            //return restrictions.Aggregate(tracks, (current, restriction) => current.Where(restriction.Predicate));
             foreach (Track t in tracks)
             {
                 foreach (Restriction r in restrictions)

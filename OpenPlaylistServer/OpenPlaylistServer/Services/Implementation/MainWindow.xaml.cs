@@ -7,6 +7,7 @@ using Nancy.Hosting.Self;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
+using Track = WebAPI.Track;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -18,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
         Spotify _session = Spotify.Instance;
         private static readonly byte[] _appkey = Properties.Resources.spotify_appkey;
 
-        List<PlaylistTrack> _history = new List<PlaylistTrack>(); 
+        List<Track> _history = new List<Track>(); 
        
         public static Action UpdateUIDelegate;
         private IMainWindowViewModel _viewModel;
