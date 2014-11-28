@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace WebAPI
@@ -18,6 +19,7 @@ namespace WebAPI
             Album = album;
             IsFiltered = false;
         }
+
 
         public Track()
         {
