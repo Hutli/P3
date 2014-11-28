@@ -29,6 +29,7 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
+
         public void GetPlaylist(Venue venue)
         {
             if (playlistViewModel == null)

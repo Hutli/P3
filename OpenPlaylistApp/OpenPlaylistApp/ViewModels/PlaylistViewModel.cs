@@ -37,8 +37,6 @@ namespace OpenPlaylistApp.ViewModels
             var toRemove = results.Except(newData);
             var toAdd = newData.Except(results);
 
-            
-
             foreach (var track in toRemove)
             {
                 Results.Remove(track);

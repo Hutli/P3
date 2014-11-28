@@ -7,28 +7,17 @@ namespace OpenPlaylistApp
 {
     class CustomCell : ViewCell
     {
-        public static readonly BindableProperty GrayoutProperty = BindableProperty.Create<CustomCell, bool>(p => p.GrayoutBool, default(bool));
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create<CustomCell, string>(p => p.ImageString, default(string));
         public static readonly BindableProperty TextProperty = BindableProperty.Create<CustomCell, string>(p => p.TextString, default(string));
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, int>(p => p.VoteString, default(int));
-
-        public bool GrayoutBool
-        {
-            get { return (bool)GetValue(GrayoutProperty); }
-            set
-            {
-                if (GrayoutBool != value)
-                    SetValue(GrayoutProperty, value);
-            }
-        }
 
         public string ImageString
         {
             get { return (string)GetValue(ImageSourceProperty); }
             set
             {
-                if (ImageString != value)
+                if (ImageString.Equals(value))
                     SetValue(ImageSourceProperty, value);
             }
         }
@@ -38,7 +27,7 @@ namespace OpenPlaylistApp
             get { return (string)GetValue(TextProperty); }
             set
             {
-                if (TextString != value)
+                if (TextString.Equals(value))
                     SetValue(TextProperty, value);
             }
         }
@@ -48,7 +37,7 @@ namespace OpenPlaylistApp
             get { return (string)GetValue(DetailProperty); }
             set
             {
-                if (DetailString != value)
+                if (DetailString.Equals(value))
                     SetValue(DetailProperty, value);
             }
         }
@@ -58,7 +47,7 @@ namespace OpenPlaylistApp
             get { return (int)GetValue(VoteProperty); }
             set
             {
-                if (VoteString != value)
+                if (VoteString.Equals(value))
                     SetValue(VoteProperty, value);
             }
         }
@@ -67,6 +56,7 @@ namespace OpenPlaylistApp
         Label _voteLabel = new Label();
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
+
         RelativeLayout _layout = new RelativeLayout();
 
         protected override void OnBindingContextChanged()
