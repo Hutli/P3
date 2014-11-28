@@ -28,7 +28,9 @@ namespace OpenPlaylistApp.Models
                 using (HttpClient client = new HttpClient())
                 {
                     client.Timeout = timeout;
-
+                    //Else Windows Phone will cache and not make new request to the server
+                    client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; 
+                    
                     using (HttpResponseMessage response = await client.GetAsync(request))
                     {
                         App.Home.IsBusy = false;
