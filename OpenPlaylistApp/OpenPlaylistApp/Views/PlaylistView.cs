@@ -46,6 +46,11 @@ namespace OpenPlaylistApp.Views
         }
 
         void OnLoadComplete(){
+            if (App.User.Vote != null && !playlistViewModel.Results.Contains(App.User.Vote))
+            {
+                playlistViewModel.Results.Add(App.User.Vote);
+            }
+            
             foreach(var e in playlistViewModel.Results)
             {
                 var currentVote = App.User.Vote;
@@ -54,12 +59,8 @@ namespace OpenPlaylistApp.Views
                     listView.SelectedItem = e;
                     break;
                 }
-                    
             }
-            if (App.User.Vote != null)
-            {
-                playlistViewModel.Results.Add(App.User.Vote);
-            }
+            
             
         }
     }

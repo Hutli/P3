@@ -20,7 +20,7 @@ namespace OpenPlaylistServer.Models {
             }
         }
 
-        public int TotalScore
+        public override int TotalScore
         {
             get
             {
