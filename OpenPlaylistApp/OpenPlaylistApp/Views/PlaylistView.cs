@@ -38,6 +38,7 @@ namespace OpenPlaylistApp.Views
                 listView.ItemsSource = playlistViewModel.Results;
                 listView.ItemTemplate = new TrackTemplate();
                 playlistViewModel.LoadComplete += OnLoadComplete;
+                //playlistViewModel.GetResults(venue);
             }
             else
             {

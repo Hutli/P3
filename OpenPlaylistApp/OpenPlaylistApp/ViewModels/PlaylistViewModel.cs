@@ -33,18 +33,19 @@ namespace OpenPlaylistApp.ViewModels
 
         private void UpdateResults(IEnumerable<Track> newData)
         {
-            var results = Results.ToList();
-            var toRemove = results.Except(newData);
-            var toAdd = newData.Except(results);
+            var tmpNewData = newData.ToList();
+            var tmpResults = Results.ToList();
 
-            foreach (var track in toRemove)
+            foreach (Track t in tmpNewData)
             {
-                Results.Remove(track);
+                if (!Results.Contains(t))
+                    Results.Add(t);
             }
 
-            foreach (var track in toAdd)
+            foreach (Track t in tmpResults)
             {
-                Results.Add(track);
+                if (!newData.Contains(t))
+                    Results.Remove(t);
             }
         }
 
@@ -56,7 +57,7 @@ namespace OpenPlaylistApp.ViewModels
             {
                 var json = await session.GetPlaylist(venue);
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
-                
+
                 UpdateResults(returnValue.ToList());
 
                 LoadComplete();
