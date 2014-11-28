@@ -97,7 +97,7 @@ namespace OpenPlaylistApp
             if (default(string) != VoteString)
             {
                 _voteLabel.Text = VoteString;
-                _layout.Children.Add(_voteLabel, Constraint.Constant(_image.Width), Constraint.RelativeToParent((parent) => parent.Height / 2));
+                _layout.Children.Add(_voteLabel, Constraint.RelativeToParent((parent) => parent.Width - 20f), Constraint.RelativeToParent((parent) => parent.Height / 2));
             }
             if (default(string) != TextString)
             {
@@ -122,7 +122,6 @@ namespace OpenPlaylistApp
         public CustomCell()
             : base()
         {
-            _voteLabel.Text = "2";
             _layout.HeightRequest = 100f;
             _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
 

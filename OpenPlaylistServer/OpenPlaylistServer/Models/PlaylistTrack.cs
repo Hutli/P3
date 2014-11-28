@@ -4,29 +4,11 @@ using WebAPI;
 
 namespace OpenPlaylistServer.Models {
     public class PlaylistTrack : Track, INotifyPropertyChanged {
-        private int _tScore;
-        private int _pScore;
+        
 
-        public int TScore
-        {
-            get
-            {
-                return _tScore;
-            }
-            set
-            {
-                _tScore = value;
-                OnPropertyChanged("TScore");
-            }
-        }
+        
 
-        public override int TotalScore
-        {
-            get
-            {
-                return _tScore + PScore;
-            }
-        }
+        
 
         public void UpdatePScore(int scoreDiff) {
             PScore += scoreDiff;
@@ -36,15 +18,7 @@ namespace OpenPlaylistServer.Models {
             PScore = 0;
         }
 
-        public int PScore
-        {
-            get { return _pScore; }
-            private set
-            {
-                _pScore = value;
-                OnPropertyChanged("PScore");
-            }
-        }
+        
 
         public PlaylistTrack(string trackUri)
         {
