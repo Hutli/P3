@@ -31,10 +31,10 @@ namespace OpenPlaylistApp.ViewModels
             {
             Session session = Session.Instance();
             ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
-            
+            Results.Clear();
             var json = await session.Search(App.User.Venue, searchStr);
             returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
-            Results.Clear();
+            
             if (returnValue != null)
             {
                 foreach (Track t in returnValue)
