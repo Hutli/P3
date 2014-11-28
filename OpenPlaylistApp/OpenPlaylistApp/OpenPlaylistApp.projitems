@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VenueViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CheckInView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CurrentVoteView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NowPlayingView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\PlaylistView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SearchView.cs" />

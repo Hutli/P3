@@ -13,6 +13,7 @@ namespace OpenPlaylistApp.Views
         private VolumeView volumeView = new VolumeView();
         public ListView listView = new ListView();
         private StackLayout layout = new StackLayout();
+        private CurrentVoteView currentVoteView = new CurrentVoteView();
 
         public PlaylistView()
         {
@@ -24,6 +25,7 @@ namespace OpenPlaylistApp.Views
             layout.Children.Add(nowPlayingView);
             layout.Children.Add(listView);
             layout.Children.Add(volumeView);
+            layout.Children.Add(currentVoteView);
             Content = layout;
         }
 

@@ -12,6 +12,7 @@ namespace OpenPlaylistApp.Views
     {
         SearchBar searchBar = new SearchBar();
         ListView listView = new ListView();
+        private CurrentVoteView currentVoteView = new CurrentVoteView();
         StackLayout layout = new StackLayout();
         SearchViewModel searchViewModel;
 
@@ -38,6 +39,7 @@ namespace OpenPlaylistApp.Views
 
             layout.Children.Add(searchBar);
             layout.Children.Add(listView);
+            layout.Children.Add(currentVoteView);
             Content = layout;
 
         }
