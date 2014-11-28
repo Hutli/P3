@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace OpenPlaylistServer.Endpoints
@@ -14,7 +15,10 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                Application.Current.Dispatcher.BeginInvoke((Action)(() => userService.Add(new User(userId,playbackService))));
+                if (!userService.Users.Any(x => x.Id == userId))
+                {
+                    Application.Current.Dispatcher.BeginInvoke((Action)(() => userService.Add(new User(userId,playbackService))));
+                }
                 return "OK";
             };
         }
