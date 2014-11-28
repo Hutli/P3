@@ -7,18 +7,18 @@ namespace OpenPlaylistApp
 {
     class CustomCell : ViewCell
     {
-        public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.SelectedBool, default(bool));
+        //public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.SelectedBool, default(bool));
         public static readonly BindableProperty GrayoutProperty = BindableProperty.Create<CustomCell, bool>(p => p.GrayoutBool, default(bool));
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create<CustomCell, string>(p => p.ImageString, default(string));
         public static readonly BindableProperty TextProperty = BindableProperty.Create<CustomCell, string>(p => p.TextString, default(string));
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
-        public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, string>(p => p.VoteString, default(string));
+        public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, int>(p => p.VoteString, default(int));
 
-        public bool SelectedBool
-        {
-            get { return (bool)GetValue(SelectedProperty); }
-            set { SetValue(SelectedProperty, value); }
-        }
+        //public bool SelectedBool
+        //{
+        //    get { return (bool)GetValue(SelectedProperty); }
+        //    set { SetValue(SelectedProperty, value); }
+        //}
 
         public bool GrayoutBool
         {
@@ -44,9 +44,11 @@ namespace OpenPlaylistApp
             set { SetValue(DetailProperty, value); }
         }
 
-        public string VoteString
+        public int VoteString
         {
-            get { return (string)GetValue(VoteProperty); }
+            get
+            {
+                return (int) GetValue(VoteProperty); }
             set { SetValue(VoteProperty, value); }
         }
 
@@ -56,23 +58,23 @@ namespace OpenPlaylistApp
         Label _detailLabel = new Label();
         RelativeLayout _layout = new RelativeLayout();
 
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            if (SelectedBool)
-                Mark();
-            else
-                UnMark();
-        }
+        //protected override void OnPropertyChanged(string propertyName = null)
+        //{
+        //    if (SelectedBool)
+        //        Mark();
+        //    else
+        //        UnMark();
+        //}
 
-        public void Mark()
-        {
-            _layout.BackgroundColor = Color.Green;
-        }
+        //public void Mark()
+        //{
+        //    _layout.BackgroundColor = Color.Green;
+        //}
 
-        public void UnMark()
-        {
-            _layout.BackgroundColor = Color.Transparent;
-        }
+        //public void UnMark()
+        //{
+        //    _layout.BackgroundColor = Color.Transparent;
+        //}
         //protected override void OnPropertyChanged(string propertyName = null)
         //{
         //    //if (propertyName == "SelectedBool")
@@ -94,10 +96,17 @@ namespace OpenPlaylistApp
                 _image.Source = ImageString;
                 _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((Parent) => Parent.Height), Constraint.RelativeToParent((Parent) => Parent.Height));
             }
-            if (default(string) != VoteString)
+            if (default(int) != VoteString)
             {
-                _voteLabel.Text = VoteString;
-                _layout.Children.Add(_voteLabel, Constraint.RelativeToParent((parent) => parent.Width - 20f), Constraint.RelativeToParent((parent) => parent.Height / 2));
+                _voteLabel.Text = String.Format("{0}", VoteString);
+                _voteLabel.Font = Font.BoldSystemFontOfSize(40);
+                var voteTextLabel = new Label()
+                {
+                    Text = "votes"
+                };
+                _layout.Children.Add(voteTextLabel, Constraint.RelativeToParent(parent => parent.Width - 100f), Constraint.RelativeToParent((parent) => parent.Height - 50f));
+                
+                _layout.Children.Add(_voteLabel, Constraint.RelativeToParent((parent) => parent.Width - 50f), Constraint.RelativeToParent((parent) => (parent.Height / 2) - (50f / 2)));
             }
             if (default(string) != TextString)
             {
