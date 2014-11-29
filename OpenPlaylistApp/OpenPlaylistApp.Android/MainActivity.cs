@@ -15,13 +15,14 @@ namespace OpenPlaylistApp.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            Xamarin.Forms.Forms.Init(this, bundle);
 
             Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
             {
                 throw args.Exception;
             };
 
-            Xamarin.Forms.Forms.Init(this, bundle);
+            
 
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);

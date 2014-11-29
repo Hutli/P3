@@ -20,10 +20,18 @@ namespace OpenPlaylistApp.Models
             return session ?? (session = new Session());
         }
 
-        
+		public static Uri MakeUri(string endpoint){
+		    if (App.User == null || App.User.Venue == null)
+		    {
+		        return null;
+		    }
+			UriBuilder uriBuilder = new UriBuilder("http", App.User.Venue.IP, 5555, endpoint);
+			return uriBuilder.Uri;
+		}
 
-        private async Task<String> MakeRequest(Uri request, string errorMessageTitle, string errorMessage, TimeSpan timeout)
+		public static async Task<String> MakeRequest(Uri request, string errorMessageTitle, string errorMessage, TimeSpan timeout, bool loadIndicator)
         {
+			if(loadIndicator) App.Home.IsBusy = true;
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -39,37 +47,31 @@ namespace OpenPlaylistApp.Models
                         {
                             using (HttpContent content = response.Content)
                             {
-                                var str = content.ReadAsStringAsync();
-                                
-                                return await str;
-
-
-                                //return str;
+                                var str = await content.ReadAsStringAsync();
+								if(loadIndicator) App.Home.IsBusy = false;
+                                return str;
                             }
                         }
                         else
                         {
+							if(loadIndicator) App.Home.IsBusy = false;
                             return null;
                         }
-
                     }
-
                 }
             }
             catch (Exception e)
             {
+				if(loadIndicator) App.Home.IsBusy = false;
                 App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
                 return null;
-                //throw;
             }
         }
 
         public async Task<string> CheckIn(Venue venue, User user)
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
-            App.Home.IsBusy = true;
-            var str = await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3));
-            App.Home.IsBusy = false;
+            var str = await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3), true);
             return str;
         }
 
@@ -94,7 +96,7 @@ namespace OpenPlaylistApp.Models
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "playlist");
 
-            return await MakeRequest(uriBuilder.Uri, "Playlist error", "Could not get playlist", new TimeSpan(0,0,10));
+            return await MakeRequest(uriBuilder.Uri, "Playlist error", "Could not get playlist", new TimeSpan(0,0,10), false);
 
             //using (HttpClient client = new HttpClient())
             //using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
@@ -111,7 +113,7 @@ namespace OpenPlaylistApp.Models
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "nowplaying");
 
             var str =
-                await MakeRequest(uriBuilder.Uri, "Nowplaying error", "Could not get nowplaying", new TimeSpan(0, 0, 10));
+                await MakeRequest(uriBuilder.Uri, "Nowplaying error", "Could not get nowplaying", new TimeSpan(0, 0, 10), false);
 
             return str;
 
@@ -122,29 +124,6 @@ namespace OpenPlaylistApp.Models
             //    using (HttpContent content = response.Content)
             //    {
             //        return await content.ReadAsStringAsync();
-            //    }
-            //}
-        }
-
-        public async Task<double> SetVolume(Venue venue, int volume, User user)
-        {
-            App.Home.IsBusy = true;
-            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "volume/" + volume + "/" + user.Id);
-
-            var str = await MakeRequest(uriBuilder.Uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3));
-            App.Home.IsBusy = false;
-            return int.Parse(str);
-
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
-            //    using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            //    using (HttpContent content = response.Content)
-            //    {
-            //        var str = await content.ReadAsStringAsync();
-            //        App.Home.IsBusy = false;
-            //        return str;
             //    }
             //}
         }
@@ -168,10 +147,9 @@ namespace OpenPlaylistApp.Models
 
         public async void SendVote(Venue venue, Track track, User user)
         {
-            App.Home.IsBusy = true;
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
-            await MakeRequest(uriBuilder.Uri, "Vote failed", "Could not vote on selected track", new TimeSpan(0,0,3));
-            App.Home.IsBusy = false;
+            await MakeRequest(uriBuilder.Uri, "Vote failed", "Could not vote on selected track", new TimeSpan(0,0,3),true);
+
             //using (HttpClient client = new HttpClient())
             //{
             //    {
@@ -198,7 +176,7 @@ namespace OpenPlaylistApp.Models
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr);
             App.Home.IsBusy = true;
-            var str = await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40));
+            var str = await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40),true);
             App.Home.IsBusy = false;
             return str;
 
