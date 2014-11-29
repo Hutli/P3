@@ -8,6 +8,10 @@ namespace OpenPlaylistApp.Models
         public event Action<Venue> VenueChanged;
         public event Action<Track> VoteChanged;
 
+        public double ScreenWidth { get; set; }
+
+        public double ScreenHeight { get; set; }
+
         public string Id { get; set; }
 
         public string Name { get; set; }

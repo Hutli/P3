@@ -61,16 +61,21 @@ namespace OpenPlaylistApp
 
         protected override void OnBindingContextChanged()
         {
-            _image.Source = ImageString;
-            _voteLabel.Text = VoteString.ToString();
-            _textLabel.Text = TextString;
-            _detailLabel.Text = DetailString;
+            if (_image.Source == null || !_image.Source.Equals(ImageString))
+                _image.Source = ImageString;
+            if (_voteLabel == null || !_voteLabel.Equals(VoteString))
+                _voteLabel.Text = VoteString.ToString();
+            if (_textLabel == null || !_textLabel.Equals(TextString))
+                _textLabel.Text = TextString;
+            if (_detailLabel == null || !_detailLabel.Equals(DetailString))
+                _detailLabel.Text = DetailString;
         }
 
         public CustomCell()
             : base()
         {
-            _layout.HeightRequest = 100f;
+            _layout.HeightRequest = App.User.ScreenHeight/8;
+            _layout.WidthRequest = App.User.ScreenWidth;
             _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
 
             _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((Parent) => Parent.Height), Constraint.RelativeToParent((Parent) => Parent.Height));

@@ -14,10 +14,10 @@ namespace OpenPlaylistServer
         {
             Get["/vote/{trackUri}/{userId}"] = parameters =>
             {
-                                                                 if (vs.Vote(parameters.userId, parameters.trackUri))
-                                                                 {
-                                                                     return "Success";
-                                                                 }
+                if (vs.Vote(parameters.userId, parameters.trackUri))
+                {
+                    return "Success";
+                }
                 return "Failure";
             };
         }

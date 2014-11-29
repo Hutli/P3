@@ -22,18 +22,10 @@ namespace OpenPlaylistApp.Views
             
             listView.ItemSelected += (sender, args) =>
             {
-                ((Track)((ListView)sender).SelectedItem).IsSelected = true;
-
                 var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
                 track.IsFiltered = true;
-                track.IsSelected = true;
-                session.ItemSelected(sender, args);
-                if (track != null)
-                {
-                    //searchViewModel.Results.Add(track);
-                }
-                
+                session.ItemSelected(sender, args);                
             }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
