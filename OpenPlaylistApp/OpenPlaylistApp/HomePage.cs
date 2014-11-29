@@ -37,7 +37,10 @@ namespace OpenPlaylistApp
             venueView = new VenueView();
             checkInView = new CheckInView();
 
-            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView };
+            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView};
+            tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
+            playlistPage.ToolbarItems.Add(tbi);
+
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView, Padding = 20 };
@@ -63,8 +66,6 @@ namespace OpenPlaylistApp
                 }
             });
 
-            tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-            ToolbarItems.Add(tbi);
 
             Detail = checkInPage;
             Master = venuePage;
