@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -29,15 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\PlaylistView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SearchView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\VenueView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\VolumeView.xaml.cs">
-      <DependentUpon>VolumeView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\VolumeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\VolumeView.cs" />
   </ItemGroup>
 </Project>
