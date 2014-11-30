@@ -71,8 +71,7 @@ namespace OpenPlaylistApp.Models
         public async Task<string> CheckIn(Venue venue, User user)
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
-            var str = await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3), true);
-            return str;
+            return await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3), true);
         }
 
         public async Task<string> GetVenues()
@@ -112,10 +111,7 @@ namespace OpenPlaylistApp.Models
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "nowplaying");
 
-            var str =
-                await MakeRequest(uriBuilder.Uri, "Nowplaying error", "Could not get nowplaying", new TimeSpan(0, 0, 10), false);
-
-            return str;
+            return await MakeRequest(uriBuilder.Uri, "Nowplaying error", "Could not get nowplaying", new TimeSpan(0, 0, 10), false);
 
             //using (HttpClient client = new HttpClient())
             //{
@@ -175,10 +171,7 @@ namespace OpenPlaylistApp.Models
         public async Task<string> Search(Venue venue, string searchStr)
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr);
-            App.Home.IsBusy = true;
-            var str = await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40),true);
-            App.Home.IsBusy = false;
-            return str;
+            return await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40),false);
 
             //using (HttpClient client = new HttpClient())
             //using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))

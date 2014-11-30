@@ -14,11 +14,23 @@ namespace OpenPlaylistApp.Views
         ListView listView = new ListView();
         private CurrentVoteView currentVoteView = new CurrentVoteView();
         StackLayout layout = new StackLayout();
-        SearchViewModel searchViewModel;
+        ActivityIndicator activity = new ActivityIndicator { IsEnabled = true };
+
+        private SearchViewModel searchViewModel
+        {
+            get { return BindingContext as SearchViewModel; }
+        }
 
         public SearchView()
         {
             Session session = Session.Instance();
+
+            BindingContext = new SearchViewModel();
+            listView.ItemsSource = searchViewModel.Results;
+            listView.ItemTemplate = new TrackTemplate();
+
+            activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
             
             listView.ItemSelected += (sender, args) =>
             {
@@ -29,27 +41,29 @@ namespace OpenPlaylistApp.Views
             }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
-            layout.Children.Add(currentVoteView);
             layout.Children.Add(searchBar);
+            layout.Children.Add(activity);
             layout.Children.Add(listView);
             Content = layout;
-
         }
-
-
 
         void SearchButtonPressed(object sender, EventArgs e)
         {
-            if (searchViewModel == null)
-            {
-                var searchString = ((SearchBar)sender).Text;
-                searchViewModel = new SearchViewModel(searchString);
-                listView.ItemsSource = searchViewModel.Results;
-
-                listView.ItemTemplate = new TrackTemplate();
-            }
-            else
-                searchViewModel.GetResults(((SearchBar)sender).Text);
+            searchViewModel.GetResults(((SearchBar)sender).Text);
         }
+
+
+        //void SearchButtonPressed(object sender, EventArgs e)
+        //{
+        //    if (searchViewModel == null)
+        //    {
+        //        var searchString = ((SearchBar)sender).Text;
+        //        searchViewModel = new SearchViewModel(searchString);
+        //        listView.ItemsSource = searchViewModel.Results;
+        //        listView.ItemTemplate = new TrackTemplate();
+        //    }
+        //    else
+        //        searchViewModel.GetResults(((SearchBar)sender).Text);
+        //}
     }
 }
