@@ -1,20 +1,40 @@
 \chapter{Design Patterns}
 
-\section{MVVM}
+\section{Model View Viewmodel}
 
 This project is both on the client and on the server structured using
-the Model View ViewModel (MVVM) pattern. The core idea in MVVM is to separate
-the presentation layer, the view in MVVM, from the model layer, the
-model in MVVM. This separation is done by introducing a ViewModel
-layer. The ViewModel exposes data from the model to the view in such a
-way that the view layer never has any knowledge about the model layer.
+the Model View ViewModel (MVVM) pattern. The core idea in MVVM is to
+separate the presentation layer, the view in MVVM, from the model
+layer, the model in MVVM. This separation is done by introducing a
+ViewModel layer. The ViewModel exposes data from the model to the view
+in such a way that the view layer never has any knowledge about the
+model layer.
 
 This pattern is used mainly because the frameworks used on the client
 and server are designed to be structured using this pattern. Other
 similar patterns such as Model View Controller (MVC) could
-theoretically also have been used, but doing so would go against
-some of the principles the frameworks used are based upon.
+theoretically also have been used, but doing so would go against some
+of the principles the frameworks used are based upon.
 
 \section{Singleton Pattern}
 
-The singleton pattern has been descri
+The singleton pattern is used whenever there should only ever be one
+instance of a class. The pattern is often implemented as a static
+method on the class, that instantiates the class on the first call,
+and on later calls returns the created instance of the class.
+
+This pattern is used in SpotifyDotNet, the libspotify wrapper, used in
+this project. Because it is only possible to be logged in one user at
+a time, the SpotifyLoggedIn class implements the singleton pattern.
+
+\section{Dependency Injection}
+
+Dependency Injection is a design pattern that helps to reduce coupling
+between different components in a software program. The main idea is
+to have components not depend on concrete dependencies but instead
+depend on abstractions of dependencies. Doing this, dependencies can
+be dynamically changed during runtime as long as their abstractions
+match up.
+
+In this project the StructureMap framework is used to reduce
+boilerplate and ease the implementation of Dependency Injection.
