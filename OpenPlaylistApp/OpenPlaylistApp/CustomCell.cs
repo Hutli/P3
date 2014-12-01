@@ -70,9 +70,20 @@ namespace OpenPlaylistApp
         public CustomCell()
             : base()
         {
-            _layout.HeightRequest = App.User.ScreenHeight / 8;
+            _layout.HeightRequest = 80;
             _layout.WidthRequest = App.User.ScreenWidth;
             _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
+
+            //_layout.RowDefinitions.Add(new RowDefinition());
+            //_layout.RowDefinitions.Add(new RowDefinition());
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
+            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
+
+            //_layout.Children.Add(_image, 0, 0);
+            //_layout.Children.Add(_textLabel, 1, 1, 0, 0);
+            //_layout.Children.Add(_detailLabel, 1, 1, 1, 1);
+            //_layout.Children.Add(_voteLabel, 2, 2, 0, 1);
 
             _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((Parent) => Parent.Height), Constraint.RelativeToParent((Parent) => Parent.Height));
 
