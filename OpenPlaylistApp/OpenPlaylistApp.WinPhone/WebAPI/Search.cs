@@ -9,9 +9,9 @@ namespace WebAPI
 {
     public static class WebAPIMethods
     {
-        public static IEnumerable<Track> Search(string searchString, int limit)
+        public async static Task<IEnumerable<Track>> Search(string searchString, int limit)
         {
-            JObject jsonTracks = GetJobject("https://api.spotify.com/v1/search?limit=" + limit + "&q=" + searchString + "&type=track&market=DK");
+            JObject jsonTracks = await GetJobject("https://api.spotify.com/v1/search?limit=" + limit + "&q=" + searchString + "&type=track&market=DK");
             return GetTracks(jsonTracks["tracks"]["items"]);
         }
 
@@ -46,12 +46,16 @@ namespace WebAPI
             return tracks;
         }
 
-        public static Track GetTrack(string uri)
+        public async static Task<Track> GetTrack(string uri)
         {
             List<Artist> artists = new List<Artist>();
             var uriId = uri.Substring(14);
 
-            JObject jsonTrack = GetJobject("https://api.spotify.com/v1/tracks/" + uriId); // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
+            JObject jsonTrack = await GetJobject("https://api.spotify.com/v1/tracks/" + uriId); // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
+            if (jsonTrack == null)
+            {
+                return null;
+            }
 
             string id = (string)(jsonTrack["id"]);
             string isrc = (string)(jsonTrack["external_ids"]["isrc"]);
@@ -125,9 +129,13 @@ namespace WebAPI
             return images;
         }
 
-        private static JObject GetJobject(string url)
+        private async static Task<JObject> GetJobject(string url)
         {
-            string str = Request.Get(url);
+            string str = await Request.Get(url);
+            if (str == null)
+            {
+                return null;
+            }
             JObject o = JObject.Parse(str);
             return o;
         }

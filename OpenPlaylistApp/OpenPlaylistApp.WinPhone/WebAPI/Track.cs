@@ -45,7 +45,7 @@ namespace WebAPI
         public int PScore
         {
             get { return _pScore; }
-            protected set
+            set
             {
                 _pScore = value;
                 OnPropertyChanged("PScore");

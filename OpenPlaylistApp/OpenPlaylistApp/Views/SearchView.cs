@@ -29,7 +29,7 @@ namespace OpenPlaylistApp.Views
             BindingContext = new SearchViewModel();
             listView.ItemsSource = searchViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
-
+            
             activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
             
@@ -37,7 +37,7 @@ namespace OpenPlaylistApp.Views
             {
                 //var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
-                track.IsFiltered = true;
+                //track.IsFiltered = true;
                 session.ItemSelected(sender, args);                
             }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;

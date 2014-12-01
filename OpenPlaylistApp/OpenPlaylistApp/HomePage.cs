@@ -46,7 +46,7 @@ namespace OpenPlaylistApp
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView, Padding = 20 };
 
             detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
-
+            ToolbarItems.Add(tbi);
             App.User.VenueChanged += CheckedIn;
             App.User.VenueChanged += (Venue v) => detailPage.PopToRootAsync();
             App.User.VoteChanged += NewData;

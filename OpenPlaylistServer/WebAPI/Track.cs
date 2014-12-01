@@ -17,13 +17,13 @@ namespace WebAPI
             ISRC = isrc;
             PreviewURL = previewURL;
             Album = album;
-            IsFiltered = false;
+            //IsFiltered = false;
         }
 
 
         public Track()
         {
-            
+
         }
 
         private int _tScore;
@@ -60,11 +60,11 @@ namespace WebAPI
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(pName));
             }
-        } 
+        }
 
         public string ISRC { get; set; }
 
-        public bool IsFiltered;
+        public bool IsFiltered { get; set; }
 
         public string PreviewURL { get; set; }
 

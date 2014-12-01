@@ -11,52 +11,43 @@ namespace OpenPlaylistApp
         public static readonly BindableProperty TextProperty = BindableProperty.Create<CustomCell, string>(p => p.TextString, default(string));
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, int>(p => p.VoteString, default(int));
+        public static readonly BindableProperty FilteredProperty = BindableProperty.Create<CustomCell, bool>(p => p.FilteredBool, default(bool));
+
+        public bool FilteredBool
+        {
+            get { return (bool)GetValue(FilteredProperty); }
+            set { SetValue(FilteredProperty, value); }
+        }
 
         public string ImageString
         {
             get { return (string)GetValue(ImageSourceProperty); }
-            set
-            {
-                if (ImageString.Equals(value))
-                    SetValue(ImageSourceProperty, value);
-            }
+            set { SetValue(ImageSourceProperty, value); }
         }
 
         public string TextString
         {
             get { return (string)GetValue(TextProperty); }
-            set
-            {
-                if (TextString.Equals(value))
-                    SetValue(TextProperty, value);
-            }
+            set { SetValue(TextProperty, value); }
         }
 
         public string DetailString
         {
             get { return (string)GetValue(DetailProperty); }
-            set
-            {
-                if (DetailString.Equals(value))
-                    SetValue(DetailProperty, value);
-            }
+            set { SetValue(DetailProperty, value); }
         }
 
         public int VoteString
         {
             get { return (int)GetValue(VoteProperty); }
-            set
-            {
-                if (VoteString.Equals(value))
-                    SetValue(VoteProperty, value);
-            }
+            set { SetValue(VoteProperty, value); }
         }
 
         Image _image = new Image();
         Label _voteLabel = new Label();
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
-
+        
         RelativeLayout _layout = new RelativeLayout();
 
         protected override void OnBindingContextChanged()
@@ -69,12 +60,18 @@ namespace OpenPlaylistApp
                 _textLabel.Text = TextString;
             if (_detailLabel == null || !_detailLabel.Equals(DetailString))
                 _detailLabel.Text = DetailString;
+            if (FilteredBool)
+            {
+                _layout.Opacity = 50;
+                _layout.IsEnabled = false;
+                _layout.BackgroundColor = Color.Gray;
+            }
         }
 
         public CustomCell()
             : base()
         {
-            _layout.HeightRequest = App.User.ScreenHeight/8;
+            _layout.HeightRequest = App.User.ScreenHeight / 8;
             _layout.WidthRequest = App.User.ScreenWidth;
             _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
 
