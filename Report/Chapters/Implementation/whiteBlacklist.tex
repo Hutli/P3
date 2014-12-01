@@ -2,4 +2,5 @@
 
 An obvoius implementation of these concepts is to white- and black-list specific tracks, this is a solution but to ease the process of making such extensive restriction, for the administrator, a possiblity of making more coarse restrictions would be beneficial. These restrictions is based on metadata related to the tracks, the artist of the track, the genre of the track or some signature tags. Spotify provides the artist and occasionaly the genre, the tags should be provided by another third party database of tags, like MusicBrainz. To ensure that the same track is found across both databases, an ISRC \footnote{International Standard Recording Code\cite{isrc}} is provided from Spotify database.
 
-Describe how restriction can both be a specific track and a genre....
+This is implemented as a list of predicates, that each individual track must meet in order to be added to the playlist. These predicates ad to evaluate the artists of the track, if a black listed artist occurs on the track, lets say "Justin Bieber", the track is discarded, before being added, although when the user searching for a track, in convience of the user, the track can be marked as "filteredout" to explicitly state that the track where found but is not allowed to played at the specific venue, hopefully minimizing any confusions made during the search phase.
+
