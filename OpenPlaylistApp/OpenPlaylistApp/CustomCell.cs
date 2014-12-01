@@ -47,7 +47,7 @@ namespace OpenPlaylistApp
         Label _voteLabel = new Label();
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
-        
+
         RelativeLayout _layout = new RelativeLayout();
 
         protected override void OnBindingContextChanged()
@@ -62,9 +62,8 @@ namespace OpenPlaylistApp
                 _detailLabel.Text = DetailString;
             if (FilteredBool)
             {
-                _layout.Opacity = 50;
-                _layout.IsEnabled = false;
-                _layout.BackgroundColor = Color.Gray;
+                _layout.Opacity = 0.30f;
+                //_layout.BackgroundColor = Color.Gray;
             }
         }
 

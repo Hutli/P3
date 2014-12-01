@@ -13,7 +13,7 @@ namespace OpenPlaylistApp.Views
         SearchBar searchBar = new SearchBar();
         ListView listView = new ListView();
         private CurrentVoteView currentVoteView = new CurrentVoteView();
-        private Button nextResultsButton = new Button{Text = "More results"};
+        private Button nextResultsButton = new Button { Text = "More results" };
         StackLayout layout = new StackLayout();
         ActivityIndicator activity = new ActivityIndicator { IsEnabled = true };
 
@@ -29,16 +29,19 @@ namespace OpenPlaylistApp.Views
             BindingContext = new SearchViewModel();
             listView.ItemsSource = searchViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
-            
+
             activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
-            
+
             listView.ItemSelected += (sender, args) =>
             {
                 //var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
                 //track.IsFiltered = true;
-                session.ItemSelected(sender, args);                
+                if (track.IsFiltered)
+                    App.GetMainPage().DisplayAlert("Track Unavalable", "Track is unfortunately filtered and not available at this venue", "OK", "Cancel");
+                else
+                    session.ItemSelected(sender, args);
             }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
@@ -56,7 +59,8 @@ namespace OpenPlaylistApp.Views
             nextResultsButton.Clicked += nextResultsButton_Clicked;
         }
 
-        void nextResultsButton_Clicked(object sender, EventArgs e) {
+        void nextResultsButton_Clicked(object sender, EventArgs e)
+        {
             searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);
             searchViewModel.resultCount += 20;
         }

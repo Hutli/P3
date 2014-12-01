@@ -9,9 +9,9 @@ namespace WebAPI
 {
     public static class WebAPIMethods
     {
-        public async static Task<IEnumerable<Track>> Search(string searchString, int limit)
+        public async static Task<IEnumerable<Track>> Search(string searchString, int limit, int offset = 0)
         {
-            JObject jsonTracks = await GetJobject("https://api.spotify.com/v1/search?limit=" + limit + "&q=" + searchString + "&type=track&market=DK");
+            JObject jsonTracks = await GetJobject("https://api.spotify.com/v1/search?limit=" + limit + "&offset=" + offset + "&q=" + searchString + "&type=track&market=DK");
             return GetTracks(jsonTracks["tracks"]["items"]);
         }
 
@@ -26,22 +26,18 @@ namespace WebAPI
                 string id = (string)(jsonTrack["id"]);
                 string isrc = (string)(jsonTrack["external_ids"]["isrc"]);
 
-                if (!tracks.Exists(a => a.Id == id || a.ISRC == isrc))
-                {
-                    string name = (string) (jsonTrack["name"]);
-                    int duration = (int) (jsonTrack["duration_ms"]);
-                    bool isExplicit = (bool) jsonTrack["explicit"];
-                    int trackNumber = (int) (jsonTrack["track_number"]);
-                    string previewURL = (string) (jsonTrack["preview_url"]);
+                if (tracks.Exists(a => a.Equals(id, isrc))) continue;
+                string name = (string) (jsonTrack["name"]);
+                if (name.EndsWith("- Live") || name.EndsWith("(Live)") || name.EndsWith("- Live Version")) continue;
+                int duration = (int) (jsonTrack["duration_ms"]);
+                bool isExplicit = (bool) jsonTrack["explicit"];
+                int trackNumber = (int) (jsonTrack["track_number"]);
+                string previewURL = (string) (jsonTrack["preview_url"]);
 
+                List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
 
-
-                    List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
-
-                    Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
-
-                    tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
-                }
+                Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
+                tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
             }
             return tracks;
         }
