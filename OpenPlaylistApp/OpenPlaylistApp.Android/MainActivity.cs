@@ -26,11 +26,11 @@ namespace OpenPlaylistApp.Droid
 
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
-            App.User.Id = tm.DeviceId; // changing not imei
+            App.User.Id = tm.DeviceId;
 
             Android.Util.DisplayMetrics metrics = new Android.Util.DisplayMetrics();
 
-            App.User.ScreenWidth = metrics.WidthPixels;
+            App.User.ScreenWidth = metrics.WidthPixels; // does not work
             App.User.ScreenHeight = metrics.HeightPixels;
 
 			SetPage(App.GetMainPage());

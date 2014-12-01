@@ -27,6 +27,7 @@ namespace OpenPlaylistApp.Views
             playlistViewModel.LoadComplete += OnLoadComplete;
             listView.ItemsSource = playlistViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
+            listView.HasUnevenRows = true;
 
 
             listView.ItemSelected += session.ItemSelected; //Vote

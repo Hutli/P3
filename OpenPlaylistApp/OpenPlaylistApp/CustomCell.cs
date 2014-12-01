@@ -48,13 +48,13 @@ namespace OpenPlaylistApp
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
 
-        RelativeLayout _layout = new RelativeLayout();
+        Grid _layout = new Grid();
 
         protected override void OnBindingContextChanged()
         {
             if (_image.Source == null || !_image.Source.Equals(ImageString))
                 _image.Source = ImageString;
-            if (_voteLabel == null || !_voteLabel.Equals(VoteString))
+            if (_voteLabel == null || !_voteLabel.Equals(VoteString) && VoteString > 0)
                 _voteLabel.Text = VoteString.ToString();
             if (_textLabel == null || !_textLabel.Equals(TextString))
                 _textLabel.Text = TextString;
@@ -70,31 +70,30 @@ namespace OpenPlaylistApp
         public CustomCell()
             : base()
         {
-            _layout.HeightRequest = 80;
-            _layout.WidthRequest = App.User.ScreenWidth;
-            _layout.HorizontalOptions = LayoutOptions.FillAndExpand;
+            _layout.RowDefinitions.Add(new RowDefinition());
+            _layout.RowDefinitions.Add(new RowDefinition());
+            _layout.ColumnDefinitions.Add(new ColumnDefinition());
+            _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            _layout.ColumnDefinitions.Add(new ColumnDefinition());
 
-            //_layout.RowDefinitions.Add(new RowDefinition());
-            //_layout.RowDefinitions.Add(new RowDefinition());
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
-            //_layout.ColumnDefinitions.Add(new ColumnDefinition());
+            _image.WidthRequest = 50f;
+            _layout.Children.Add(_image, 0, 0);
+            Grid.SetRowSpan(_image, 2);
 
-            //_layout.Children.Add(_image, 0, 0);
-            //_layout.Children.Add(_textLabel, 1, 1, 0, 0);
-            //_layout.Children.Add(_detailLabel, 1, 1, 1, 1);
-            //_layout.Children.Add(_voteLabel, 2, 2, 0, 1);
+            _textLabel.VerticalOptions = LayoutOptions.End;
+            _textLabel.Font = Font.SystemFontOfSize(NamedSize.Medium);
+            _layout.Children.Add(_textLabel, 1, 0);
 
-            _layout.Children.Add(_image, Constraint.Constant(0), Constraint.Constant(0), Constraint.RelativeToParent((Parent) => Parent.Height), Constraint.RelativeToParent((Parent) => Parent.Height));
+            _detailLabel.VerticalOptions = LayoutOptions.Start;
+            _detailLabel.Font = Font.SystemFontOfSize(NamedSize.Small);
+            _layout.Children.Add(_detailLabel, 1, 1);
 
-            _voteLabel.Font = Font.BoldSystemFontOfSize(40);
-            _layout.Children.Add(_voteLabel, Constraint.RelativeToParent((parent) => parent.Width - 50f), Constraint.RelativeToParent((parent) => (parent.Height / 2) - (50f / 2)));
-
-            _textLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Large);
-            _layout.Children.Add(_textLabel, Constraint.RelativeToParent((parent) => parent.Height + 10));
-
-            _detailLabel.Font = Font.SystemFontOfSize(NamedSize.Medium);
-            _layout.Children.Add(_detailLabel, Constraint.RelativeToParent((parent) => parent.Height + 10), Constraint.RelativeToParent((parent) => parent.Height / 3));
+            _voteLabel.VerticalOptions = LayoutOptions.Center;
+            _voteLabel.HorizontalOptions = LayoutOptions.Center;
+            _voteLabel.WidthRequest = 24f;
+            _layout.Children.Add(_voteLabel, 2, 0);
+            _voteLabel.Font = Font.SystemFontOfSize(20f,FontAttributes.Bold);
+            Grid.SetRowSpan(_voteLabel, 2);
 
             View = _layout;
         }

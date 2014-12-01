@@ -29,6 +29,7 @@ namespace OpenPlaylistApp.Views
             BindingContext = new SearchViewModel();
             listView.ItemsSource = searchViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
+            listView.HasUnevenRows = true;
 
             activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
