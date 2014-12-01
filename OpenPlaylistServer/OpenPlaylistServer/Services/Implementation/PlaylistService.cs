@@ -57,8 +57,8 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             CountAndUpdatePVotes();
             Track next;
-            if (_historyService.GetLastTrack() != null && _tracks.All(t => _historyService.GetLastTrack().Equals(t)))
-            {
+            if(_historyService.GetLastTrack().Equals(_tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault()))
+            { // if last track is equal to next track, find another relevant track instead
                 next = SmartFindTrack().Result;
             }
             else
