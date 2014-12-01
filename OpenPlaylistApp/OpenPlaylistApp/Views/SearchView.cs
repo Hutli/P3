@@ -13,6 +13,7 @@ namespace OpenPlaylistApp.Views
         SearchBar searchBar = new SearchBar();
         ListView listView = new ListView();
         private CurrentVoteView currentVoteView = new CurrentVoteView();
+        private Button nextResultsButton;
         StackLayout layout = new StackLayout();
         ActivityIndicator activity = new ActivityIndicator { IsEnabled = true };
 
@@ -34,7 +35,7 @@ namespace OpenPlaylistApp.Views
             
             listView.ItemSelected += (sender, args) =>
             {
-                var listview = sender as ListView;
+                //var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
                 track.IsFiltered = true;
                 session.ItemSelected(sender, args);                
@@ -50,6 +51,14 @@ namespace OpenPlaylistApp.Views
         void SearchButtonPressed(object sender, EventArgs e)
         {
             searchViewModel.GetResults(((SearchBar)sender).Text);
+            if (nextResultsButton != null) return;
+            nextResultsButton = new Button();
+            nextResultsButton.Clicked += nextResultsButton_Clicked;
+        }
+
+        void nextResultsButton_Clicked(object sender, EventArgs e) {
+            searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);
+            searchViewModel.resultCount += 20;
         }
 
 

@@ -8,9 +8,9 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     class SearchService : ISearchService
     {
-        public async Task<IEnumerable<Track>> Search(string query)
+        public async Task<IEnumerable<Track>> Search(string query, int offset = 0)
         {
-            return await WebAPIMethods.Search(query, 20);
+            return await WebAPIMethods.Search(query, 20, offset);
         }
     }
 }

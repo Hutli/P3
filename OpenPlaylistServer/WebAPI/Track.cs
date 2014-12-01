@@ -98,6 +98,11 @@ namespace WebAPI
             }
             return false;
         }
+
+        public bool Equals(string id, string isrc)
+        {
+            return (Id == id || ISRC == isrc);
+        }
     }
 }
 

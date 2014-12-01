@@ -13,6 +13,7 @@ namespace OpenPlaylistApp.ViewModels
     {
 
         private ObservableCollection<Track> _results = new ObservableCollection<Track>();
+        public int resultCount;
 
         public ObservableCollection<Track> Results
         {
@@ -48,10 +49,9 @@ namespace OpenPlaylistApp.ViewModels
 
             try{
                 Session session = Session.Instance();
-                ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
                 Results.Clear();
                 var json = await session.Search(App.User.Venue, searchStr);
-                returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                var returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
             
                 if (returnValue != null)
                 {
@@ -67,6 +67,31 @@ namespace OpenPlaylistApp.ViewModels
                 App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
             IsBusy = false;
+        }
+
+        async public void GetResultsAndAppend(string searchStr, int offset)
+        {
+            if(IsBusy)
+                return;
+
+            App.Home.IsBusy = true;
+
+            try {
+                Session session = Session.Instance();
+                var json = await session.Search(App.User.Venue, searchStr, offset);
+                var returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+
+                if(returnValue != null) {
+                    foreach(Track t in returnValue) {
+                        Results.Add(t);
+                    }
+                }
+
+            }
+            catch(Exception ex) {
+                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
+            }
+            App.Home.IsBusy = false;
         }
     }
 }

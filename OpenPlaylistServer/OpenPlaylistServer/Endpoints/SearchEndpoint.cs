@@ -18,9 +18,23 @@ namespace OpenPlaylistServer.Endpoints
 
         public SearchEndpoint(ISearchService searchService, IFilterService filterService)//, IPlaylistService playlistService)
         {
-            Get["/search/{query}"] = parameters =>
-            {
+            Get["/search/{query}"] = parameters => {
                 var tracks = searchService.Search(parameters.query).Result;
+                filterService.FilterTracks(tracks, restrictions);
+                //foreach (Track t in tracks)
+                //{
+                //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
+                //    if (tmpTrack != null)
+                //    {
+                //        t.TScore = tmpTrack.TotalScore;
+                //    }
+                //}
+                return JsonConvert.SerializeObject(tracks, Formatting.Indented);
+            };
+
+            Get["/search/{query}/{offset}"] = parameters =>
+            {
+                var tracks = searchService.Search(parameters.query, parameters.offset).Result;
                 filterService.FilterTracks(tracks, restrictions);
                 //foreach (Track t in tracks)
                 //{

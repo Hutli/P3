@@ -6,6 +6,6 @@ namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface ISearchService
     {
-        Task<IEnumerable<Track>> Search(string query);
+        Task<IEnumerable<Track>> Search(string query, int offset = 0);
     }
 }

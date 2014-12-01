@@ -177,9 +177,9 @@ namespace OpenPlaylistApp.Models
             //}
         }
 
-        public async Task<string> Search(Venue venue, string searchStr)
+        public async Task<string> Search(Venue venue, string searchStr, int offset = 0)
         {
-            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr);
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr +"/" + offset);
             return await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40),false);
 
             //using (HttpClient client = new HttpClient())
