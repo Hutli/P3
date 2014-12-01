@@ -6,18 +6,12 @@ Usability can be defined as: \enquote{when a product or service is truly usable,
 There are different ways of evaluating the usability of a user interface. The two being looked at in this report are empirically and heuristically testing. The goal of a usability test is to come up with a list of usability problems. A usability problem is a deficiency in a piece of software that makes it less usable. An example of a usability problem is when a simple task like deleting an email takes an inappropriate amount of effort.
 
 \subsection{Usability Testing}
+\label{sub:usabilityTesting}
 Usability testing is an empirical technique used to evaluate a product by testing it with users in focus. The purpose of the test is to determine usability problems with the product~\cite{RubinChisnellSpool08}. In this report the term \emph{usability testing} is used to refer to the process of testing with users, and not as a general term for testing usability. The test is intended to be realistic and simulate potential scenarios that can happen while using the product. A usability test is usually performed with a representative user performing a series of tasks. A test monitor will watch the participant completing the tasks without interrupting the participant in doing the tasks. While the participant is solving the task, a data logger is taking notes about how the participant is solving the task given and the problems faced doing so.
 
 After a usability test is conducted the results must be analysed and documented. In most usability testing analysis methods, this involves spending a lot of time doing video data analysis. In~\cite{kjeldskov2004instant} a new method called \enquote{Instant Data Analysis} (IDA) is presented. This method seeks to reduce the resources required to conduct the analysis. In IDA the procedure is as follows. After the test, a one hour brainstorm session between the data logger and test monitor has to occur. A facilitator  manages the brainstorm and writes usability problems on a whiteboard. After the brainstorm the facilitator spends 1-1.5 hours writing usability problems into a ranked list.~\cite{kjeldskov2004instant} found that this method reduced the time to do analysis to 10\% to that of traditional video analysis. While still finding 85\% of the critical problems.
 
-\subsection{Usability in Context}
-\label{sub:usability_in_context}
 
-Due to the fact that it is often more difficult to use a phone under influence of alcohol, the product has to be user friendly.
-
-Usability testing in this project will be used as a tool to test and ensure quality of the user interface. The tests will be performed on typical users that were determined in \cref{userInterviews}, which are representative end users of the product.
-
-The test will be recorded, and actions performed on the application logged for later analysis. As every action is logged on the application, the observant does not have to be in the same room as the person performing the task. According to \cite{RubinChisnellSpool08}, the task description has to detail just enough of the task, so that no excessive information about the test program is exposed. The result of this can be used as an indication of how intuitively the product is.
 
 \subsection{Heuristic Evaluation}
 Heuristic evaluation is a method to inspect usability of computer software. It involves a number of evaluators that are presented with an interface design and asked to comment on it. This is used to come up with a list of usability problems in a user interface design. This information can be used to as part of an iterative design process make the design more usable. Heuristic evaluation is a cheap and intuitive way of doing usability evaluation and it does not require advanced planning~\cite{Nielsen1990}.
@@ -41,7 +35,87 @@ The method is not good for finding all problems; an individual person can only f
 
 A disadvantage of heuristic evaluation is that it sometimes identifies usability problems without providing direct suggestions for how to solve them~\cite{Nielsen1990}. The method is biased by the current mindset of the evaluators and normally does not generate breakthroughs in the evaluated design.
 
-\subsection{Cool title}
-The first usability evaluations that was done was heuristic evaluation. This was done because it can be used early in the development process and it is a good fit for the iterative development model that was used in the project.
+\section{Usability Test in Laboratory}
+Usability testing in this project will be used as a tool to test and ensure quality of the user interface. The tests will be performed on typical users that were determined in \cref{userInterviews}, which are representative end users of the product. The outcome of a usability test is a list of usability problems. It was chosen to conduct the test in an laboratory since it is easy to create a controller environment and do collection of video data. Because of the limited time it was chosen to do IDA as described in \cref{sub:usabilityTesting}. This might not find all the problems but this was acceptable since we did not need to get all the problems. \frnote{skrives lidt bedre}
 
-\sinote{Todo egen usability test}
+\subsection{Procedure}
+The test was done on a smartphone of the type OnePlus One. This was the phone that was available and it has a quick processor that way performance will not be a problem in the test. and we will find actual problems and not problems with the hardware. The members of the group was assigned different roles: two persons was assigned the role test monitor and was the leader in the subject room. There was two person for this role so we multiply persons could get experience in being test monitor. Another person was datalogger and was the the control room taking notes. One person was smoothtalker/driver, he was responsible for entertain the test subjects when they weren't being tested and also driving the subjects that needed help arriving at Casiopea. One person was the video operator and was responsible for recording at mixing the video feeds from the subject room. The last person was assigned the role of social environment simulator and was responsible for simulation that there were other users at the bar.
+
+On the day the procedure was as follows: At the start of an introduction was read out loud to the test subjects. The introduction can be found in \cref{usabilityTestIntro}. The subject would then answer a questionnaire, the answers to the questionnaire can be found in \cref{tab:participants}. To simulate a bar the subject were offered drinks and crisp. The test proceed with the test subjects read a task and then trying to accomplish that task. According to \cite{RubinChisnellSpool08}, the task description has to be detailed enough, so that no excessive information about the test program is exposed. The result of this can be used as an indication of how intuitively the product is.
+\fixme{billede af testrum}
+\fixme{Mangler noget mere om tasks}
+
+\subsection{Participants}
+It was decided to test with users, because it would give an indication of real users using the system. Since the system is to be used in bar and targeting to student it was chosen to use student for the test. The subject was recruited from the user interviews described in \cref{userInterviews}. \cref{tab:participants} is table of the participants with information gathered from the questioner.
+
+\begin{table}[h]
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{Subject \#} & \textbf{Gender} & \textbf{Age} & \textbf{Field of study} & \textbf{Smartphone experience} & \textbf{Primary phone} \\ \hline
+1                   & F               & 20           & Techno-Anthropology       & Experienced                    & iOS                    \\ \hline
+2                   & F               & 19           & Mathematics             & Intermediate                   & Android, iOS           \\ \hline
+3                   & F               & 20           & SIV Spanish             & Experienced                    & iOS                    \\ \hline
+4                   & F               & 22           & Electronics and IT      & Intermediate                   & Android                \\ \hline
+5                   & M               & 20           & Electronics and IT      & Experienced                    & Android                \\ \hline
+\end{tabular}
+\caption{Participants}\label{tab:participants}
+\end{table}
+
+\subsection{Data Collection}
+The screen of the phone was recorded with software on the phone. The video feed from the two cameras in the test room was recorded to a DVD. The data logger was writing a log file
+
+
+\subsection{Data Analysis}
+the IDA brainstorming and data analysis session was conducted the next day. And resulted in this list of problems:
+
+
+\subsubsection{Serious}
+Problem \#1
+    Vote confusion - Does not know how votes work, what the person has voted for and when the person has voted.
+    \#1, \#2, \#3, \#4, \#5
+Problem \#2
+    Confusion about multiple copies of the same song on the playlist and now playing.
+    \#2, \#4, \#5
+Problem \#3
+    The user is confused on how well tracks are doing on the playlist.
+    \#1, \#2, \#5
+
+\subsubsection{Cosmetic}
+Problem \#4
+    Missing confirmation when adding on searchview.
+    \#1, \#3, \#4, \#5
+Problem \#5
+Check-in confusion - Does not know whether the person is checked in or not.
+\#1, \#2, \#3
+Problem \#6
+Did not know in which direction to swipe on the start page.
+\#2, \#4, \#5
+Problem \#7
+    Search confusion: Does not know whether and when a search is happening.
+    \#1, \#5
+Problem \#8
+    Loading indicator confuses user. They thought it was their actions that influenced the loading indicator.
+    \#2
+Problem \#9
+    Expected “clear search button” to remove results and bring user back to the playlist.
+    \#2
+Problem \#10
+    The IP-address in the venue page is confusing. They thought it was the number of guests at the venue.
+    \#1, \#2
+Problem \#11
+Confusion about which votes were made by users and which were votes made by the bar.
+    \#2
+Problem \#12
+    Did not know what tracks in a search already existed on the playlist.
+    \#2
+Problem \#13
+    Was confused why the search did not clear when the user made a new search.
+    \#2
+Problem \#14
+    Excepted ability to get more info when interacting with all tracks.
+\#5
+
+
+\frnote{udfra det konkludere vi???}
+
+
