@@ -14,21 +14,34 @@ using Xamarin.Forms;
 
 namespace OpenPlaylistApp.ViewModels
 {
-    public class PlaylistViewModel : INotifyPropertyChanged
+    public class PlaylistViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public event Action LoadComplete;
+
+        private ObservableCollection<Track> _results = new ObservableCollection<Track>();
 
         public ObservableCollection<Track> Results
         {
-            get;
-            set;
+            get { return _results; }
+            set { _results = value; OnPropertyChanged("Results"); }
         }
 
-        public PlaylistViewModel(Venue venue)
+        private Track _selectedItem;
+        /// <summary>
+        /// Gets or sets the selected feed item
+        /// </summary>
+        public Track SelectedItem
         {
-            Results = new ObservableCollection<Track>();
-            GetResults(venue);
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+
+        public PlaylistViewModel()
+        {
         }
 
         private void UpdateResults(IEnumerable<Track> newData)

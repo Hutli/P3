@@ -9,15 +9,26 @@ namespace OpenPlaylistApp.Views
     class PlaylistView : ContentView
     {
         private NowPlayingView nowPlayingView = new NowPlayingView();
-        public PlaylistViewModel playlistViewModel;
         private VolumeView volumeView = new VolumeView();
         public ListView listView = new ListView();
         private StackLayout layout = new StackLayout();
         private CurrentVoteView currentVoteView = new CurrentVoteView();
 
+        private PlaylistViewModel playlistViewModel
+        {
+            get { return BindingContext as PlaylistViewModel; }
+        }
+
         public PlaylistView()
         {
             Session session = Session.Instance();
+
+            BindingContext = new PlaylistViewModel();
+            playlistViewModel.LoadComplete += OnLoadComplete;
+            listView.ItemsSource = playlistViewModel.Results;
+            listView.ItemTemplate = new TrackTemplate();
+
+
             listView.ItemSelected += session.ItemSelected; //Vote
             
             App.User.VenueChanged += GetPlaylist;
@@ -32,18 +43,7 @@ namespace OpenPlaylistApp.Views
 
         public void GetPlaylist(Venue venue)
         {
-            if (playlistViewModel == null)
-            {
-                playlistViewModel = new PlaylistViewModel(venue);
-                listView.ItemsSource = playlistViewModel.Results;
-                listView.ItemTemplate = new TrackTemplate();
-                playlistViewModel.LoadComplete += OnLoadComplete;
-                //playlistViewModel.GetResults(venue);
-            }
-            else
-            {
-                playlistViewModel.GetResults(venue);
-            }
+            playlistViewModel.GetResults(venue);
             nowPlayingView.GetNowPlaying(venue);
         }
 
@@ -56,7 +56,7 @@ namespace OpenPlaylistApp.Views
             foreach(var e in playlistViewModel.Results)
             {
                 var currentVote = App.User.Vote;
-                if (currentVote != null && e.ISRC == currentVote.ISRC)
+                if (currentVote != null && e.URI == currentVote.URI)
                 {
                     listView.SelectedItem = e;
                     break;

@@ -25,6 +25,7 @@ namespace OpenPlaylistServer.Services.Implementation
         public void Add(User user)
         {
             _users.Add(user);
+            user.CheckedIn = true;
         }
     }
 }

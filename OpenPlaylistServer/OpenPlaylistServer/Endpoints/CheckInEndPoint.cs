@@ -21,6 +21,13 @@ namespace OpenPlaylistServer.Endpoints
                 }
                 return "OK";
             };
+
+            Get["/checkout/{userId}"] = parameters =>
+            {
+                string userId = parameters.userId;
+                userService.Users.First(x => x.Id == userId).CheckedIn = false;
+                return "OK";
+            };
         }
     }
 }

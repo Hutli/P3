@@ -60,7 +60,6 @@ namespace OpenPlaylistApp
                         Device.BeginInvokeOnMainThread((() =>
                         {
                             playlistView.GetPlaylist(App.User.Venue);
-
                         }));
                     }
                 }
@@ -92,8 +91,13 @@ namespace OpenPlaylistApp
             if (v != null)
             {
                 Detail = detailPage;
-
             }
+        }
+
+        public void CheckOut()
+        {
+            Detail = checkInPage;
+            App.User.Venue = null;
         }
     }
 }

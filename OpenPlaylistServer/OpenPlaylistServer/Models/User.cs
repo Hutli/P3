@@ -26,6 +26,8 @@ namespace OpenPlaylistServer.Models {
             }
         }
 
+        public bool CheckedIn { get; set; }
+
         public Track Vote
         {
             get { return _vote; }

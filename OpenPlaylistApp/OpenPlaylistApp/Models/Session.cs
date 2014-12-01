@@ -10,9 +10,11 @@ namespace OpenPlaylistApp.Models
     public class Session
     {
         public static Session session;
+        private static int _connectionFailures;
 
         private Session()
         {
+            _connectionFailures = 0;
         }
 
         public static Session Instance()
@@ -31,6 +33,10 @@ namespace OpenPlaylistApp.Models
 
 		public static async Task<String> MakeRequest(Uri request, string errorMessageTitle, string errorMessage, TimeSpan timeout, bool loadIndicator)
         {
+            if (_connectionFailures > 1){
+                App.Home.CheckOut();
+                return null;
+            }
 			if(loadIndicator) App.Home.IsBusy = true;
             try
             {
@@ -45,6 +51,7 @@ namespace OpenPlaylistApp.Models
                         App.Home.IsBusy = false;
                         if (response.IsSuccessStatusCode)
                         {
+                            _connectionFailures = 0;
                             using (HttpContent content = response.Content)
                             {
                                 var str = await content.ReadAsStringAsync();
@@ -63,7 +70,8 @@ namespace OpenPlaylistApp.Models
             catch (Exception e)
             {
 				if(loadIndicator) App.Home.IsBusy = false;
-                App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
+                 App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
+                _connectionFailures++;
                 return null;
             }
         }
@@ -71,6 +79,7 @@ namespace OpenPlaylistApp.Models
         public async Task<string> CheckIn(Venue venue, User user)
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
+            _connectionFailures = 0;
             return await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3), true);
         }
 
