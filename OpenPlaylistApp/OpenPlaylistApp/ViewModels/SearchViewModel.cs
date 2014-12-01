@@ -71,7 +71,7 @@ namespace OpenPlaylistApp.ViewModels
 
         async public void GetResultsAndAppend(string searchStr, int offset)
         {
-            if(IsBusy)
+            if(App.Home.IsBusy)
                 return;
 
             App.Home.IsBusy = true;
