@@ -45,6 +45,7 @@ namespace OpenPlaylistApp.Views
             layout.Children.Add(searchBar);
             layout.Children.Add(activity);
             layout.Children.Add(listView);
+            layout.Children.Add(nextResultsButton);
             Content = layout;
         }
 
