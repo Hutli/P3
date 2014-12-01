@@ -16,8 +16,9 @@ namespace OpenPlaylistApp.Views
         public CheckInView()
         {
             //layout.Children.Add(label);
-            layout.Children.Add(image);
-            Content = layout;
+            //layout.Children.Add(image);
+            image.Aspect = Aspect.AspectFit;
+            Content = image;
         }
     }
 }

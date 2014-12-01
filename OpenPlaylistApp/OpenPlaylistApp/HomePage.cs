@@ -43,7 +43,7 @@ namespace OpenPlaylistApp
 
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
-            checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView, Padding = 20 };
+            checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
 
             detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
             ToolbarItems.Add(tbi);
