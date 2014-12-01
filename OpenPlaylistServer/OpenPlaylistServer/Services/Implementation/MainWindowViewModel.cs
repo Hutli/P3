@@ -12,12 +12,14 @@ namespace OpenPlaylistServer.Services.Implementation
         private IPlaylistService _playlistService;
         private IUserService _userService;
         private IPlaybackService _playbackService;
+        private IHistoryService _historyService;
 
-        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
+        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService)
         {
             _playlistService = playlistService;
             _userService = userService;
             _playbackService = playbackService;
+            _historyService = historyService;
         }
 
         public ConcurrentBagify<Track> Tracks
@@ -38,6 +40,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void TrackEnded()
         {
+            _historyService.Add(_playbackService.GetCurrentPlaying());
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {

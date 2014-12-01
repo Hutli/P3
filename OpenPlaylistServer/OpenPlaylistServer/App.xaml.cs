@@ -23,6 +23,7 @@ namespace OpenPlaylistServer
                 x.ForSingletonOf<IPlaybackService>().Use<PlaybackService>();
                 x.For<ISearchService>().Use<SearchService>();
                 x.For<IFilterService>().Use<FilterService>();
+                x.For<IHistoryService>().Use<HistoryService>();
             });
         }
 

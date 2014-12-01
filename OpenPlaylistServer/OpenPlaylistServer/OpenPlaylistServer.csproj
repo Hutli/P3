@@ -96,8 +96,10 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Collections\ConcurrentBagify.cs" />
     <Compile Include="Endpoints\CheckInEndPoint.cs" />
+    <Compile Include="Services\Implementation\HistoryService.cs" />
     <Compile Include="Services\Implementation\FilterService.cs" />
     <Compile Include="Services\Interfaces\IFilterService.cs" />
+    <Compile Include="Services\Interfaces\IHistoryService.cs" />
     <Compile Include="Services\Interfaces\IMainWindow.cs" />
     <Compile Include="Services\Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Services\Interfaces\IPlaybackService.cs" />

@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
@@ -11,10 +16,12 @@ namespace OpenPlaylistServer.Services.Implementation
         readonly ConcurrentBagify<Track> _tracks;
 
         private readonly IUserService _userService;
+        private readonly IHistoryService _historyService;
 
-        public PlaylistService(IUserService userService){
+        public PlaylistService(IUserService userService, IHistoryService historyService){
             _tracks = new ConcurrentBagify<Track>();
             _userService = userService;
+            _historyService = historyService;
         }
 
         public Track FindTrack(string trackUri)
@@ -36,7 +43,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private void ResetVotes(Track track)
         {
-            var users = _userService.Users.Where(u => u.Vote == track);
+            var users = _userService.Users.Where(u => Equals(u.Vote, track));
             foreach (var user in users)
             {
                 user.Vote = null;
@@ -49,8 +56,15 @@ namespace OpenPlaylistServer.Services.Implementation
         public Track NextTrack()
         {
             CountAndUpdatePVotes();
-            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
-
+            Track next;
+            if (_historyService.GetLastTrack() != null && _tracks.All(t => _historyService.GetLastTrack().Equals(t)))
+            {
+                next = SmartFindTrack().Result;
+            }
+            else
+            {
+                next =_tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
+            }
             if (next == null) return null;
             next.PScore = 0;
             ResetVotes(next);
@@ -72,6 +86,41 @@ namespace OpenPlaylistServer.Services.Implementation
         public void Add(Track track)
         {
             _tracks.Add(track);
+        }
+
+        private async Task<Track> SmartFindTrack()
+        {
+            var tracks = _historyService.GetLastNTracks(10);
+            var relArtists = new List<string>();
+            foreach (var track in tracks) //find every related artists id for the last 10 songs
+            {
+                foreach (var artist in track.Album.Artists)
+                {
+                    var str = await Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/related-artists", artist.Id));
+                    var jobject = JObject.Parse(str);
+                    foreach (var jartist in jobject["artists"])
+                    {
+                        relArtists.Add(jartist["id"].ToString());
+                    }
+                }
+            }
+            var groupedArtists = relArtists.GroupBy(x => x);
+            IGrouping<string, string> mostAppearing = null;
+            foreach (var group in groupedArtists) // find id which appears most
+            {
+                if (mostAppearing == null || mostAppearing.Count() < group.Count())
+                {
+                    mostAppearing = group;
+                }
+            }
+            if (mostAppearing == null) return null;
+            string topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
+            var jTopTracks = JObject.Parse(topTracks);
+            var jToken = jTopTracks["tracks"].First;
+            if (jToken == null) return null;
+            var uri = (string) jToken["uri"];
+            var topTrack = WebAPIMethods.GetTrack(uri).Result;
+            return topTrack;
         }
     }
 }
