@@ -16,7 +16,10 @@ namespace OpenPlaylistApp.Views
 
         private void ChangeVote(Track track)
         {
-            _lbl.Text = "Your vote: " + track.Name + " on " + track.Album;
+            if (track == null || track.Name == null || track.Album == null)
+                _lbl.Text = string.Empty;
+            else
+                _lbl.Text = "Your vote: " + track.Name + " on " + track.Album;
         }
     }
 }

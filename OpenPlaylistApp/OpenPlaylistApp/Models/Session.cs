@@ -80,7 +80,7 @@ namespace OpenPlaylistApp.Models
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkin/" + user.Id);
             _connectionFailures = 0;
-            return await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,3), true);
+            return await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,5), true);
         }
 
         public async Task<string> GetVenues()

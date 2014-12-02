@@ -18,20 +18,26 @@ namespace OpenPlaylistApp.Models
 
         private Track _vote;
 
-        public Track Vote { 
-            get {return _vote; }
-            set { _vote = value;
-            VoteChanged(_vote);
+        public Track Vote
+        {
+            get { return _vote; }
+            set
+            {
+                _vote = value;
+                VoteChanged(_vote);
             }
         }
 
         private Venue _venue;
 
-        public Venue Venue {
+        public Venue Venue
+        {
             get { return _venue; }
-            set { _venue = value;
-            if(VenueChanged != null)
-                VenueChanged(_venue);
+            set
+            {
+                _venue = value;
+                if (VenueChanged != null)
+                    VenueChanged(_venue);
             }
         }
 

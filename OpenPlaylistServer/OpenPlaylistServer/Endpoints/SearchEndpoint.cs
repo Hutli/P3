@@ -13,7 +13,7 @@ namespace OpenPlaylistServer.Endpoints
         private IEnumerable<Restriction> restrictions = new List<Restriction>()
         {
             new Restriction(track => track.Album.Artists.All(artist => !artist.Name.Contains("Bieber"))),
-            new Restriction(track => track.Name != "Still Alive")
+            //new Restriction(track => track.Name != "Still Alive")
         };
 
         public SearchEndpoint(ISearchService searchService, IFilterService filterService)//, IPlaylistService playlistService)

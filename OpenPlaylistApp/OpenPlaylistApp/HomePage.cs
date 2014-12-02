@@ -56,7 +56,7 @@ namespace OpenPlaylistApp
             {
                 while (true)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
+                    await Task.Delay(TimeSpan.FromSeconds(1)); // update from server every second
                     if (App.User != null && App.User.Venue != null)
                     {
                         Device.BeginInvokeOnMainThread((() =>

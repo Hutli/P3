@@ -40,6 +40,8 @@ namespace OpenPlaylistApp.ViewModels
                 }
                 App.Home.IsBusy = false;
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
+                if (App.User.Vote != null && Result.Equals(App.User.Vote))
+                    App.User.Vote = null;
                 LoadComplete();
             }
             catch (Exception ex)

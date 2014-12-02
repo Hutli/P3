@@ -51,7 +51,7 @@ namespace OpenPlaylistApp.Views
         void OnLoadComplete(){
             if (App.User.Vote != null && !playlistViewModel.Results.Contains(App.User.Vote))
             {
-                playlistViewModel.Results.Add(App.User.Vote);
+                //playlistViewModel.Results.Add(App.User.Vote);
             }
             
             foreach(var e in playlistViewModel.Results)
