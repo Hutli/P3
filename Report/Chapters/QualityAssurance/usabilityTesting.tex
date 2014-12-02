@@ -39,7 +39,7 @@ A disadvantage of heuristic evaluation is that it sometimes identifies usability
 
 \section{Usability Test in Laboratory}
 Usability testing in this project will be used as a tool to test and
-ensure quality of the user interface. This method was chosen over heuristic evaluation since it would get more data on usability problems. It would also evaluate the program with potential users, this would give assurance that the program live up to the users expectation and requirements. The tests will be performed on
+ensure quality of the user interface. This method was chosen over heuristic evaluation since it would get more data on usability problems. It would also evaluate the program with potential users, this would give assurance that the program lives up to the users expectation and requirements. The tests will be performed on
 typical users that were determined in \cref{userInterviews}, who are
 representative end users of the product. The outcome of a usability
 test is a list of usability problems. It was chosen to conduct the
@@ -56,7 +56,8 @@ only a rough overview of the usability of the product was needed.
   \caption{View from the control room into the subject room.}
   \label{fig:subjectRoom}
 \end{figure}
-The tests was conducted at the usability laboratory in the department of computer science at Aalborg University. On \cref{fig:subjectRoom} is a picture of the usability laboratory. The laboratory is split into three different rooms: control room, subject room and observer room. The test was done on a smartphone of the model OnePlus One. This was
+
+The tests were conducted at the usability laboratory in the department of computer science at Aalborg University. On \cref{fig:subjectRoom} is a picture of the usability laboratory. The laboratory is split into three different rooms: control room, subject room and observer room. The test was done on a smartphone of the model OnePlus One. This was
 the phone that was available at hand and it is equipped with a quick
 processor. That way performance will not be a problem in the
 test. After all the test is testing the software and not the
@@ -114,63 +115,97 @@ the problem, a problem description and which test persons suffered
 from the problem is noted.
 
 \subsubsection{Serious}
-\textbf{Problem \#1}\\
-    Vote confusion - Does not know how votes work, what the person has
+\textbf{Problem \#1 - Vote confusion, does not know how votes work, what the person has
     voted for and when the person has voted. Test persons \#1, \#2,
-    \#3, \#4 and \#5
+    \#3, \#4 and \#5.}\\
+  All test persons were unsure how votes work. They did not receive
+  any indication about how many votes they had. All of them were also
+  not sure which track they had currently voted on. Also, no
+  confirmation upon voting was displayed.
 
-\noindent\textbf{Problem \#2}\\
-    Confusion about multiple copies of the same song on the playlist
-    and now playing. Test persons \#2, \#4 and \#5
+\noindent\textbf{Problem \#2 - Confusion about multiple copies of the same song on the playlist
+    and now playing. Test persons \#2, \#4 and \#5.}\\
+  When in the playlist view, a track would both be contained in the
+  playlist of the venue while at the same time being displayed as now
+  playing. This would confuse the test persons, and they would get
+  unsure about which end of the playlist was ranked highest.
 
-\noindent\textbf{Problem \#3}\\
-    The user is confused on how well tracks are doing on the
-    playlist. Test persons \#1, \#2 and \#5.
+\noindent\textbf{Problem \#3 - The user is confused on how well tracks are doing on the
+    playlist. Test persons \#1, \#2 and \#5.}\\
+  This problem relates to problem \#2. There was no indication about
+  how the tracks in the playlist are ordered. When asked about which
+  track would be played next, some test persons had difficulties
+  determining this.
 
 \subsubsection{Cosmetic}
-\textbf{Problem \#4}\\
-    Missing confirmation when adding tracks on search. Test persons
-    \#1, \#3, \#4 and \#5
+\textbf{Problem \#4 - Missing confirmation when adding tracks on search. Test persons
+    \#1, \#3, \#4 and \#5.}\\
+  When pressing on a track after searching for it, no feedback was
+  given whether the track was successfully voted for.
 
-\noindent\textbf{Problem \#5}\\
-    Check-in confusion - Does not know whether the person is checked
-    in or not. Test persons \#1, \#2 and \#3.
+\noindent\textbf{Problem \#5 - Check-in confusion, does not know whether the person is checked
+    in or not. Test persons \#1, \#2 and \#3.}\\
+  When pressing on a venue to check in, test subjects would wait for
+  something to happen in the app, even though the app was already
+  checked in. There was no confirmation upon a successful check in.
 
-\noindent\textbf{Problem \#6}\\
-    Did not know in which direction to swipe on the start page. Test
-    persons \#2, \#4 and \#5.
+\noindent\textbf{Problem \#6 - Did not know in which direction to swipe on the start page. Test
+    persons \#2, \#4 and \#5.}\\
+  When presented with the start page, a arrow and a corresponding text
+  would indicate in which direction the test subject would have to
+  swipe in order to get to the check in page. This arrow was wrongly
+  directed, which caused some test subjects to swipe in the wrong direction.
 
-\noindent\textbf{Problem \#7}\\
-    Search confusion: Does not know whether and when a search is
-    happening. Test persons \#1 and \#5.
+\noindent\textbf{Problem \#7 - Search confusion, does not know whether and when a search is
+    happening. Test persons \#1 and \#5.}\\
+  When pressing the search button, some feedback was given that the
+  application was performing the search, but this was not standing out
+  to the user. The user would therefor click twice on the search button.
 
-\noindent\textbf{Problem \#8}\\
-    Loading indicator confuses user. They thought it was their actions
-    that influenced the loading indicator. Test person \#2.
+\noindent\textbf{Problem \#8 - Loading indicator confuses user. They thought it was their actions
+    that influenced the loading indicator. Test person \#2.}\\
+  In the application, a automatic refresh of the playlist and
+  now playing would update every 3 seconds. Whenever this automatic
+  refresh happened, a small loading indicator would rotate. This
+  indicator would show even if the user had not actively affected the application.
 
-\noindent\textbf{Problem \#9}\\
-    Expected “clear search button” to remove results and bring user
-    back to the playlist. Test person \#2.
+\noindent\textbf{Problem \#9 - Expected \enquote{clear search button}
+  to remove results and bring user back to the playlist. Test person \#2.}\\
+  When the test subject clicked on the clear button of the search bar,
+  the subject was confused that just the text in the search bar was
+  removed and not the search results. The subject described that it
+  was expected to return back to the playlist.
 
-\noindent\textbf{Problem \#10}\\
-    The IP-address in the venue page is confusing. They thought it was
-    the number of guests at the venue. Test persons \#1 and \#2.
+\noindent\textbf{Problem \#10 - The IP-address in the venue page is
+  confusing. They thought it was the number of guests at the venue. Test persons \#1 and \#2.}\\
+  Some test subjects were confused about the number being displayed at
+  the venue view. They were surprised as the number was rather big,
+  e.g 192.168.1.10.
 
-\noindent\textbf{Problem \#11}\\
-    Confusion about which votes were made by users and which were
-    votes made by the bar. Test person \#2.
+\noindent\textbf{Problem \#11 - Confusion about which votes were made by users and which were
+    votes made by the bar. Test person \#2.}\\
+  During the usability tests, an environment simulator would vote on
+  songs. This affected the playlist being displayed on the test
+  device. It was however unclear to the test subject that these votes
+  were also user votes and not bar votes.
 
-\noindent\textbf{Problem \#12}\\
-    Did not know what tracks in a search already existed on the
-    playlist. Test person \#2.
+\noindent\textbf{Problem \#12 - Did not know what tracks in a search already existed on the
+    playlist. Test person \#2.}\\
+  When searching for tracks, no visual confirmation was given whether
+  the searched track was already on the playlist.
 
-\noindent\textbf{Problem \#13}\\
-    Was confused why the search did not clear when the user made a new
-    search. Test person \#2.
+\noindent\textbf{Problem \#13 - Was confused why the search did not
+  clear when the user made a new search. Test person \#2.}\\
+  When a new search was performed right after a previous search, the
+  search results of the new search would only display when the search
+  was complete. The test subject expected the previous search results
+  to disappear when the new search was conducted.
 
-\noindent\textbf{Problem \#14}\\
-    Excepted ability to get more info when interacting with all
-    tracks. Test person \#5.
+\noindent\textbf{Problem \#14 - Excepted ability to get more info when interacting with all
+    tracks. Test person \#5.}\\
+  One test subject was several times trying to interact with the
+  tracks on the playlist in order to get additional information. This
+  feature was not implemented.
 
 \subsubsection{Usability Test Summary}
 
