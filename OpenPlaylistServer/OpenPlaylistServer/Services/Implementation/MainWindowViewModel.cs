@@ -22,7 +22,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _historyService = historyService;
         }
 
-        public ConcurrentBagify<Track> Tracks
+        public ConcurrentDictify<string, Track> Tracks
         {
             get
             {
@@ -30,7 +30,7 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
-        public ConcurrentBag<User> Users
+        public ConcurrentDictify<string,User> Users
         {
             get
             {

@@ -10,7 +10,7 @@ namespace OpenPlaylistServer.Services.Interfaces
 
         void Add(Track track);
 
-        ConcurrentBagify<Track> Tracks { get; }
+        ConcurrentDictify<string,Track> Tracks { get; }
         int CalcTScore(Track track);
 
         Track NextTrack();

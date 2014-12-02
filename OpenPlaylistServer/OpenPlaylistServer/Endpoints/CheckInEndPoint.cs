@@ -15,7 +15,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                if (!userService.Users.Any(x => x.Id == userId))
+                if (userService.Users.All(x => x.Key != userId))
                 {
                     Application.Current.Dispatcher.BeginInvoke((Action)(() => userService.Add(new User(userId,playbackService))));
                 }
@@ -25,7 +25,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkout/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                userService.Users.First(x => x.Id == userId).CheckedIn = false;
+                userService.Users.Values.First(x => x.Id == userId).CheckedIn = false;
                 return "OK";
             };
         }

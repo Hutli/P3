@@ -13,23 +13,23 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ConcurrentBagify<Track> _tracks;
+        readonly ConcurrentDictify<string,Track> _tracks;
 
         private readonly IUserService _userService;
         private readonly IHistoryService _historyService;
 
         public PlaylistService(IUserService userService, IHistoryService historyService){
-            _tracks = new ConcurrentBagify<Track>();
+            _tracks = new ConcurrentDictify<string,Track>();
             _userService = userService;
             _historyService = historyService;
         }
 
         public Track FindTrack(string trackUri)
         {
-            return _tracks.FirstOrDefault(x => x.URI == trackUri);
+            return _tracks.Values.FirstOrDefault(x => x.URI == trackUri);
         }
 
-        public  ConcurrentBagify<Track> Tracks
+        public ConcurrentDictify<string, Track> Tracks
         {
             get {
                 return _tracks;
@@ -38,12 +38,12 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public int CalcTScore(Track track)
         {
-            return _userService.Users.Count(u => u.Vote == track);
+            return _userService.Users.Values.Count(u => Equals(u.Vote, track));
         }
 
         private void ResetVotes(Track track)
         {
-            var users = _userService.Users.Where(u => Equals(u.Vote, track));
+            var users = _userService.Users.Values.Where(u => Equals(u.Vote, track));
             foreach (var user in users)
             {
                 user.Vote = null;
@@ -56,7 +56,7 @@ namespace OpenPlaylistServer.Services.Implementation
         public Track NextTrack()
         {
             CountAndUpdatePVotes();
-            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
+            Track next = _tracks.Values.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
             if(_historyService.GetLastTrack() != null &&_historyService.GetLastTrack().Equals(next))
             { // if last track is equal to next track, find another relevant track instead
                 next = SmartFindTrack().Result;
@@ -71,7 +71,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private void CountAndUpdatePVotes()
         {
-            foreach (var track in _tracks)
+            foreach (var track in _tracks.Values)
             {
                 var tScore = CalcTScore(track);
                 track.TScore = tScore;
@@ -82,7 +82,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Add(Track track)
         {
-            _tracks.Add(track);
+            _tracks.Add(track.Id,track);
         }
 
         private async Task<Track> SmartFindTrack()
@@ -113,11 +113,27 @@ namespace OpenPlaylistServer.Services.Implementation
             if (mostAppearing == null) return null;
             string topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
             var jTopTracks = JObject.Parse(topTracks);
-            var jToken = jTopTracks["tracks"].First;
-            if (jToken == null) return null;
-            var uri = (string) jToken["uri"];
-            var topTrack = WebAPIMethods.GetTrack(uri).Result;
+            List<string> uris = new List<string>();
+            foreach (var jTopTrack in jTopTracks["tracks"])
+            {
+                uris.Add((string)jTopTrack["uri"]);
+            }
+            var lastTracks = _historyService.GetLastNTracks(9);
+            var topTrack = new Track();
+            foreach (var uri in uris)
+            {
+                var tmp = WebAPIMethods.GetTrack(uri).Result;
+                if (!lastTracks.Contains(tmp))
+                    topTrack = tmp;
+            }
+            
             return topTrack;
+
+            //var jToken = jTopTracks["tracks"].First();
+            //if (jToken == null) return null;
+            //var uri = (string) jToken["uri"];
+            //var topTrack = WebAPIMethods.GetTrack(uri).Result;
+            //return topTrack;
         }
     }
 }

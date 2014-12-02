@@ -6,7 +6,7 @@ namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IMainWindowViewModel
     {
-        ConcurrentBagify<Track> Tracks { get; }
+        ConcurrentDictify<string, Track> Tracks { get; }
 
         void TrackEnded();
 

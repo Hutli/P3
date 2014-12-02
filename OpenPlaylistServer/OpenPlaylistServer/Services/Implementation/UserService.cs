@@ -7,15 +7,15 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class UserService : IUserService
     {
-        readonly ConcurrentBagify<User> _users;
+        readonly ConcurrentDictify<string, User> _users;
 
         public UserService()
         {
-            _users = new ConcurrentBagify<User>();
+            _users = new ConcurrentDictify<string, User>();
             //_roUsers = new ReadOnlyObservableCollection<User>(_users);
         }
 
-        public ConcurrentBagify<User> Users
+        public ConcurrentDictify<string, User> Users
         {
             get {
                 return _users;
@@ -24,7 +24,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Add(User user)
         {
-            _users.Add(user);
+            _users.Add(user.Id,user);
             user.CheckedIn = true;
         }
     }
