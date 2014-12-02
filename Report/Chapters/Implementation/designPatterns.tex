@@ -24,7 +24,7 @@ of the principles the frameworks used are based upon.
 \section{Singleton Pattern}
 
 The singleton pattern is used whenever there should only ever be one
-instance of a class. The pattern is often implemented as a static
+instance of a class \cite{skeet2013c}. The pattern is often implemented as a static
 method on the class, that instantiates the class on the first call,
 and on later calls returns the created instance of the class.
 
@@ -41,7 +41,7 @@ depend on abstractions of dependencies. Doing this, dependencies can
 be dynamically changed during runtime as long as their abstractions
 match up.
 
-In this project the StructureMap framework is used to reduce
+In this project the StructureMap framework\footnote{http://docs.structuremap.net/} is used to reduce
 boilerplate and ease the implementation of Dependency
 Injection. StructureMap needs to be set up when the application
 starts. That is, every dependency abstraction has to be mapped to a
