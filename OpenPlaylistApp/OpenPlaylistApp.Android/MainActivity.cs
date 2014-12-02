@@ -27,15 +27,13 @@ namespace OpenPlaylistApp.Droid
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
             App.User.Id = tm.DeviceId;
+            
+			SetPage(App.GetMainPage());
 
             Android.Util.DisplayMetrics metrics = new Android.Util.DisplayMetrics();
 
             App.User.ScreenWidth = metrics.WidthPixels; // does not work
             App.User.ScreenHeight = metrics.HeightPixels;
-
-			SetPage(App.GetMainPage());
-
-            
         }
     }
 }

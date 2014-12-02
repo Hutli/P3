@@ -62,9 +62,11 @@ namespace OpenPlaylistServer.Services.Implementation
                 // user is not known. Adding user to list of known users
                 user = new User(userId, _playbackService);
                 //  set user's vote to new track
-                user.Vote = playlistTrack;
+                
                 Application.Current.Dispatcher.BeginInvoke((Action)(() => _userService.Add(user)));
             }
+
+            if (user != null) user.Vote = playlistTrack;
 
             playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
             if (oldVote != null)

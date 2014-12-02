@@ -8,7 +8,12 @@ separate the presentation layer, the view in MVVM, from the model
 layer, the model in MVVM. This separation is done by introducing a
 ViewModel layer. The ViewModel exposes data from the model to the view
 in such a way that the view layer never has any knowledge about the
-model layer.
+model layer. This is achieved by databinding elements on the view
+layer to model data exposed through the viewmodel.
+
+The benefits of MVVM is that it provides a clean template for
+separating the view logic from the business logic and from the data
+layer.
 
 This pattern is used mainly because the frameworks used on the client
 and server are designed to be structured using this pattern. Other
@@ -37,4 +42,44 @@ be dynamically changed during runtime as long as their abstractions
 match up.
 
 In this project the StructureMap framework is used to reduce
-boilerplate and ease the implementation of Dependency Injection.
+boilerplate and ease the implementation of Dependency
+Injection. StructureMap needs to be set up when the application
+starts. That is, every dependency abstraction has to be mapped to a
+concrete dependency. The dependency abstractions are modelled using
+C\# interfaces. An example of an abstraction can be seen in \cref{fig:dep_abstraction}.
+
+\begin{lstlisting}[caption = {Abstraction of a dependency abstraction
+    using C\# interfaces. A concrete dependency has to implement the
+    methods described in the abstraction.}, label={fig:dep_abstraction}]
+public interface IPlaylistService
+    {
+        Track FindTrack(string trackUri);
+        void Add(Track track);
+        ConcurrentBagify<Track> Tracks { get; }
+        int CalcTScore(Track track);
+        Track NextTrack();
+    }
+\end{lstlisting}
+
+To make use of a dependency in a component, the abstraction of the
+dependency just has to be a parameter to the constructor of the
+component. The StructureMap framework will then automatically inject
+the concrete dependency that was mapped to the abstraction of the
+dependency into the component. An example of this can be seen in
+\cref{fig:injection}. So by using dependency injection, no component
+has ever any knowledge of which concrete dependency it is using. The
+component only knows that it depends on an abstraction of a
+dependency. This property leads to several benefits, including
+modularity of the code. That is, a whole dependency can be swapped for
+another dependency as long as they both implement the abstract
+dependency model.
+
+\begin{lstlisting}[caption = {Dependency Injection through class
+    constructors. IPlaylistService, IUserService and IPlaybackService
+    are all abstractions of dependencies.}, label={fig:injection}]
+public VoteService(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService) {
+            _playbackService = playbackService;
+            _playlistService = playlistService;
+            _userService = userService;
+        }
+\end{lstlisting}
