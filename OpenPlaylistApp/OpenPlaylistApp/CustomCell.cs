@@ -76,7 +76,7 @@ namespace OpenPlaylistApp
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition());
 
-            _image.WidthRequest = 50f;
+            _image.WidthRequest = 100f;
             _layout.Children.Add(_image, 0, 0);
             Grid.SetRowSpan(_image, 2);
 
@@ -92,7 +92,7 @@ namespace OpenPlaylistApp
             _voteLabel.HorizontalOptions = LayoutOptions.Center;
             _voteLabel.WidthRequest = 24f;
             _layout.Children.Add(_voteLabel, 2, 0);
-            _voteLabel.Font = Font.SystemFontOfSize(20f,FontAttributes.Bold);
+            _voteLabel.Font = Font.BoldSystemFontOfSize(20f);
             Grid.SetRowSpan(_voteLabel, 2);
 
             View = _layout;

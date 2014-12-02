@@ -36,9 +36,7 @@ namespace OpenPlaylistApp.Views
 
             listView.ItemSelected += (sender, args) =>
             {
-                //var listview = sender as ListView;
                 Track track = listView.SelectedItem as Track;
-                //track.IsFiltered = true;
                 if (track.IsFiltered)
                     App.GetMainPage().DisplayAlert("Track Unavalable", "Track is unfortunately filtered and not available at this venue", "OK", "Cancel");
                 else
