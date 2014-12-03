@@ -62,11 +62,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void PlayButtonClicked()
         {
-            var nextTrack = _playlistService.NextTrack();
-            if (nextTrack != null)
-            {
-                _playbackService.Play(nextTrack);
-            }
+            TrackEnded();
         }
 
         public void StopButtonClicked()
