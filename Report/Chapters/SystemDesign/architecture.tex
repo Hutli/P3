@@ -1,8 +1,37 @@
 \label{sec:architecture}
 
+This section describes how the different components of the system are
+composed to build a coherent piece. A complete diagram of the
+architecture can be seen in \cref{fig:architecture}.
+
+The system is separated in two main parts: a client and a server. The
+client is simpler than the server; it's main task is to display
+information given by the server, and can therefore be seen as a dumb
+client. All the business logic is therefore contained on the
+server. This communication occurs through the System Interface
+components of the client and server. This information sent back and
+forth between the client and server is displayed in the User Interface
+component of the client and the server.
+
+The aforementioned business logic on the server is a collection of
+many different components. Each of these components have a distinct
+responsibility. For example, the UserService has the responsibility to
+handle all actions related to users of the application. The
+UserService component defines the functions available on users. It is
+therefore placed in the function layer of the server. To perform it's
+actions, the UserService component has associations to the User
+component defined in the model layer of the server.
+
+Another yet unexplained layer of the server architecture is the
+technical platform. Components contained in this layer are all
+libraries defined outside of the business logic of the server, but are
+still required in order to provide a complete system. For example, the
+SpotifyDotNet component is a library for streaming tracks from
+Spotify. The implementation of this library is described in
+\cref{imp:libspotify}.
+
 \begin{figure}
   \centering
   \includegraphics[width=1.2\linewidth]{Images/Arkitektur.pdf}
-  \caption{Architecture}
-  \label{fig:architecture}
+  \caption{Architecture of the system}\label{fig:architecture}
 \end{figure}
