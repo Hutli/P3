@@ -71,6 +71,14 @@ namespace OpenPlaylistApp
             Detail = checkInPage;
             Master = venuePage;
         }
+        
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+
+            App.User.ScreenHeight = height;
+            App.User.ScreenWidth = width;
+        }
 
         void NewData(Track track)
         {

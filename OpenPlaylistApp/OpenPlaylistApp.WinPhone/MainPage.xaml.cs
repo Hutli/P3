@@ -29,15 +29,7 @@ namespace OpenPlaylistApp.WinPhone
             var hexString = string.Empty;
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
                 hexString = BitConverter.ToString((byte[])uniqueId);
-
-            object metrics;
-            if (DeviceExtendedProperties.TryGetValue("PhysicalScreenResolution", out metrics))
-            {
-                OpenPlaylistApp.App.User.ScreenHeight = ((System.Windows.Size)metrics).Height;
-                OpenPlaylistApp.App.User.ScreenWidth = ((System.Windows.Size)metrics).Width;
-            }
-
-
+            
             OpenPlaylistApp.App.User.Id = hexString;
         }
     }

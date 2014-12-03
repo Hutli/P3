@@ -47,6 +47,7 @@ namespace OpenPlaylistApp
         Label _voteLabel = new Label();
         Label _textLabel = new Label();
         Label _detailLabel = new Label();
+        ScrollView _test = new ScrollView();
 
         Grid _layout = new Grid();
 
@@ -54,16 +55,17 @@ namespace OpenPlaylistApp
         {
             if (_image.Source == null || !_image.Source.Equals(ImageString))
                 _image.Source = ImageString;
-            if (_voteLabel == null || !_voteLabel.Equals(VoteString) && VoteString > 0)
+            if (_voteLabel.Text == null || (!_voteLabel.Equals(VoteString) && VoteString > 0))
                 _voteLabel.Text = VoteString.ToString();
-            if (_textLabel == null || !_textLabel.Equals(TextString))
+            if (_textLabel.Text == null || !_textLabel.Equals(TextString))
                 _textLabel.Text = TextString;
-            if (_detailLabel == null || !_detailLabel.Equals(DetailString))
+            if (_detailLabel.Text == null || !_detailLabel.Equals(DetailString))
                 _detailLabel.Text = DetailString;
+            if (_textLabel.Height + _detailLabel.Height > 0)
+                _layout.HeightRequest = _textLabel.Height + _detailLabel.Height;
             if (FilteredBool)
             {
                 _layout.Opacity = 0.30f;
-                //_layout.BackgroundColor = Color.Gray;
             }
         }
 
@@ -76,14 +78,16 @@ namespace OpenPlaylistApp
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition());
 
-            _image.WidthRequest = 100f;
+            _image.WidthRequest = App.User.ScreenHeight / 7;
             _layout.Children.Add(_image, 0, 0);
             Grid.SetRowSpan(_image, 2);
 
+            _textLabel.LineBreakMode = LineBreakMode.TailTruncation;
             _textLabel.VerticalOptions = LayoutOptions.End;
             _textLabel.Font = Font.SystemFontOfSize(NamedSize.Medium);
             _layout.Children.Add(_textLabel, 1, 0);
 
+            _detailLabel.LineBreakMode = LineBreakMode.TailTruncation;
             _detailLabel.VerticalOptions = LayoutOptions.Start;
             _detailLabel.Font = Font.SystemFontOfSize(NamedSize.Small);
             _layout.Children.Add(_detailLabel, 1, 1);

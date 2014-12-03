@@ -11,8 +11,20 @@ namespace WebAPI
         private List<Image> _images = new List<Image>();
         private List<Artist> _artists = new List<Artist>();
 
-        public string ToStringProp {
-            get { return ToString(); }
+        public string ArtistsToString
+        {
+            get
+            {
+                string returnString = string.Empty;
+                foreach (Artist a in Artists)
+                {
+                    if (Equals(Artists.FindLast(x => true), a))
+                        returnString += string.Format(a.Name);
+                    else
+                        returnString += string.Format("{0}, ", a.Name);
+                }
+                return returnString;
+            }
         }
 
         public bool TracksCached { get; private set; }
@@ -40,15 +52,7 @@ namespace WebAPI
 
         public override string ToString()
         {
-            string returnString = string.Format("{0} by {1}", Name, Artists.FirstOrDefault());
-            //foreach (Artist a in Artists)
-            //{
-            //    if (Equals(Artists.FindLast(x => true), a))
-            //        returnString += string.Format(a.Name);
-            //    else
-            //        returnString += string.Format("{0}, ", a.Name);
-            //}
-            return returnString;
+            return Name;
         }
     }
 }

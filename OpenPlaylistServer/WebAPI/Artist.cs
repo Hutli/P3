@@ -14,6 +14,8 @@ namespace WebAPI
 
         public override string URI { get { return "spotify:artist:" + Id; } }
 
+        public string ToStringProp { get { return ToString(); } }
+
         public override string ToString() { return Name; }
     }
 }
