@@ -46,20 +46,17 @@ namespace OpenPlaylistApp.ViewModels
 
         private void UpdateResults(IEnumerable<Track> newData)
         {
-            var tmpNewData = newData.ToList();
-            var tmpResults = Results.ToList();
+            var tmpNewData = new List<Track>(newData);
+            var tmpResults = new List<Track>(Results);
 
-            foreach (Track t in tmpNewData)
-            {
-                if (!Results.Contains(t))
-                    Results.Add(t);
-            }
+            var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));
+            var toRemove = tmpResults.FindAll(p => !tmpNewData.Contains(p));
 
-            foreach (Track t in tmpResults)
-            {
-                if (!newData.Contains(t))
-                    Results.Remove(t);
-            }
+            foreach (Track t in toAdd)
+                Results.Add(t);
+
+            foreach (Track t in toRemove)
+                Results.Remove(t);
         }
 
         async public void GetResults(Venue venue)
