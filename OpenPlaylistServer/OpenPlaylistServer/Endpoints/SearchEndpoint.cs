@@ -10,11 +10,11 @@ namespace OpenPlaylistServer.Endpoints
 {
     public class SearchEndpoint : NancyModule
     {
-        public SearchEndpoint(ISearchService searchService, IRestrictionService filterService)//, IPlaylistService playlistService)
+        public SearchEndpoint(ISearchService searchService, IRestrictionService restrictionService)//, IPlaylistService playlistService)
         {
             Get["/search/{query}"] = parameters => {
                 var tracks = searchService.Search(parameters.query).Result;
-                filterService.RestrictTracks(tracks);
+                restrictionService.RestrictTracks(tracks);
                 //foreach (Track t in tracks)
                 //{
                 //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
@@ -29,7 +29,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/search/{query}/{offset}"] = parameters =>
             {
                 var tracks = searchService.Search(parameters.query, parameters.offset).Result;
-                filterService.RestrictTracks(tracks);
+                restrictionService.RestrictTracks(tracks);
                 //foreach (Track t in tracks)
                 //{
                 //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));

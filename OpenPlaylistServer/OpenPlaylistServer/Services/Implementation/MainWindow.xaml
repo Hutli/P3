@@ -58,8 +58,8 @@
                     <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Restrictions}">
                         <ListView.View>
                             <GridView>
+                                <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Width="100" Header="Time" DisplayMemberBinding="{Binding Time}" />
-                                <GridViewColumn Width="100" Header="Predicate" DisplayMemberBinding="{Binding Predicate}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

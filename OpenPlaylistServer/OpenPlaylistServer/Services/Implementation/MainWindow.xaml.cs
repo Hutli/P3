@@ -102,8 +102,9 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private void AddFilter_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.AddRestriction(new Restriction(track => !track.Name.Contains("Monica"), new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
-            _viewModel.AddRestriction(new Restriction(track => track.Name != "Still Alive", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
+            var restrictionUnit = new RestrictionUnit(TrackField.Name, "Monica", RestrictionType.BlackList);
+            _viewModel.AddRestriction(new Restriction("Monica",new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0), restrictionUnit));
+            //_viewModel.AddRestriction(new Restriction(track => track.Name != "Still Alive", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
         }
 
         private void RemoveFilter_Click(object sender, RoutedEventArgs e)

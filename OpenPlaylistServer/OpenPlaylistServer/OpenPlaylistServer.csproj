@@ -96,6 +96,9 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Collections\ConcurrentDictify.cs" />
     <Compile Include="Endpoints\CheckInEndPoint.cs" />
+    <Compile Include="Models\RestrictionType.cs" />
+    <Compile Include="Models\RestrictionUnit.cs" />
+    <Compile Include="Models\TrackField.cs" />
     <Compile Include="Services\Implementation\HistoryService.cs" />
     <Compile Include="Services\Implementation\RestrictionService.cs" />
     <Compile Include="Services\Interfaces\IRestrictionService.cs" />
