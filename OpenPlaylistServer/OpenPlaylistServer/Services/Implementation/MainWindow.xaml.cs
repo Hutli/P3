@@ -97,7 +97,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
-            StopButton_Click(sender, e);
+            //StopButton_Click(sender, e);
             _viewModel.TrackEnded();
         }
 

@@ -65,6 +65,7 @@ namespace SpotifyDotNet
         {
             if (_isPlaying)
             {
+                Console.WriteLine("Ind i isplaying");
                 Stop();
             }
 
@@ -95,8 +96,9 @@ namespace SpotifyDotNet
         /// </summary>
         public void Stop()
         {
+            _isPlaying = false; 
             libspotify.sp_session_player_unload(_sessionPtr);
-            _isPlaying = false;
+            
         }
 
         /// <summary>
@@ -106,10 +108,10 @@ namespace SpotifyDotNet
         /// <returns></returns>
         public Task<Track> TrackFromLink(String uri)
         {
-            //try
-            //{
-                lock (_sync)
-                {
+            try
+            {
+                //lock (_sync)
+                //{
                     var t = Task.Run(() =>
                     {
                         IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
@@ -130,15 +132,16 @@ namespace SpotifyDotNet
                         //libspotify.sp_link_release(spLinkPtr);
                         throw new ArgumentException("URI was not a track URI");
                     });
+                    
 
                     return t;
-                }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
+                //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             
         }
 

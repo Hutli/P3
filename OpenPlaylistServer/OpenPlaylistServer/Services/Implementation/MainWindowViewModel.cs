@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Net.Mime;
+using System.Windows;
 using System.Windows.Threading;
 using System;
 using OpenPlaylistServer.Collections;
@@ -66,17 +68,33 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void TrackEnded()
         {
-            _historyService.Add(_playbackService.GetCurrentPlaying());
+            Console.WriteLine("Track ended called");
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                _playbackService.Stop();
-                Track next = _playlistService.NextTrack();
-                if (next != null)
+                try
                 {
-                    _playbackService.Play(next);
+                    var currentPlaying = _playbackService.GetCurrentPlaying();
+                    if (currentPlaying != null)
+                    {
+                        _historyService.Add(currentPlaying);
+                    }
+
+                    Track next = _playlistService.NextTrack();
+                    if (next != null)
+                    {
+                        _playbackService.Play(next);
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+
             });
+            
         }
 
         public void PlayButtonClicked()

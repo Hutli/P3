@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
+using System.Windows;
+using System.Windows.Threading;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 using System.Collections.ObjectModel;
@@ -15,7 +18,7 @@ namespace OpenPlaylistServer.Services.Implementation {
 
         public void Add(Track track)
         {
-            _hist.Add(track);
+           _hist.Add(track);        
         }
 
         public Track GetLastTrack()
