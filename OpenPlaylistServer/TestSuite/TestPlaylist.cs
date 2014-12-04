@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OpenPlaylistServer.Collections;
@@ -32,9 +31,6 @@ namespace TestSuite {
         public void SetFixture(TestsFixture data) {
             _data = data;
         }
-        #region App
-        #endregion
-
         #region Server
         #region Services
         #region PlaylistService

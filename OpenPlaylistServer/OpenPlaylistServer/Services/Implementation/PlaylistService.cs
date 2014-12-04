@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
-using System.Windows;
 using Newtonsoft.Json.Linq;
-using OpenPlaylistServer.Collections;
-using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 
@@ -32,21 +28,11 @@ namespace OpenPlaylistServer.Services.Implementation
             return _tracks.FirstOrDefault(x => x.URI == trackUri);
         }
 
-        public ObservableCollection<Track> Tracks
-        {
-            get {
-                return _tracks;
-            }
-        }
+        public ObservableCollection<Track> Tracks { get { return _tracks; } }
 
         public int CalcTScore(Track track)
         {
-            var count = 0;
-            Application.Current.Dispatcher.Invoke((Action)(() =>
-            {
-                count = _userService.Users.Count(u => Equals(u.Vote, track));
-            }));
-            return count;
+            return _userService.Users.Count(u => Equals(u.Vote, track));
         }
 
         private void ResetVotes(Track track)
@@ -89,10 +75,8 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             foreach (var track in _tracks)
             {
-                var tScore = CalcTScore(track);
-                track.TScore = tScore;
-                // add temp score to permanent score
-                track.PScore += track.TScore;
+                track.TScore = CalcTScore(track);
+                track.PScore += track.TScore;// add temp score to permanent score
             }
         }
 

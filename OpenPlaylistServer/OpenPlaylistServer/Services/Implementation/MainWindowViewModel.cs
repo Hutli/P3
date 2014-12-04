@@ -4,11 +4,9 @@ using System.Net.Mime;
 using System.Windows;
 using System.Windows.Threading;
 using System;
-using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
-using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -29,41 +27,17 @@ namespace OpenPlaylistServer.Services.Implementation
             _restrictionService = restrictionService;
         }
 
-        public ObservableCollection<Track> Tracks
-        {
-            get
-            {
-                return _playlistService.Tracks;
-            }
-        }
+        public ObservableCollection<Track> Tracks { get { return _playlistService.Tracks; } }
 
-        public ObservableCollection<Track> History
-        {
-            get
-            {
-                return _historyService.Tracks;
-            }
-        }
+        public ObservableCollection<Track> History { get { return _historyService.Tracks; } }
 
-        public ObservableCollection<Restriction> Restrictions
-        {
-            get
-            {
-                return _restrictionService.Restrictions;
-            }
-        }
+        public ObservableCollection<Restriction> Restrictions { get { return _restrictionService.Restrictions; } }
+
+        public ObservableCollection<User> Users { get { return _userService.Users; } }
 
         public void AddRestriction(Restriction restriction)
         {
             _restrictionService.AddRestriction(restriction);
-        }
-
-        public ObservableCollection<User> Users
-        {
-            get
-            {
-                return _userService.Users;
-            }
         }
 
         public void TrackEnded()
