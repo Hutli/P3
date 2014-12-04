@@ -10,7 +10,7 @@ namespace OpenPlaylistServer.Endpoints
 {
     public class CheckInEndPoint : NancyModule
     {
-        public CheckInEndPoint(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService)
+        public CheckInEndPoint(IPlaylistService playlistService, IUserService userService)
         {
             Get["/checkin/{userId}"] = parameters =>
             {

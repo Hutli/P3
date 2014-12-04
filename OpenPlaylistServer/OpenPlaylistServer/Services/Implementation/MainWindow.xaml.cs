@@ -18,8 +18,6 @@ namespace OpenPlaylistServer.Services.Implementation
     {
         Spotify _session = Spotify.Instance;
         private static readonly byte[] _appkey = Properties.Resources.spotify_appkey;
-
-        List<Track> _history = new List<Track>(); 
        
         public static Action UpdateUIDelegate;
         private IMainWindowViewModel _viewModel;
@@ -67,7 +65,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            
+            //_viewModel.RemoveTrack_Click((Track)sender);
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
@@ -100,6 +98,17 @@ namespace OpenPlaylistServer.Services.Implementation
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
             StopButton_Click(sender, e);
             _viewModel.TrackEnded();
+        }
+
+        private void AddFilter_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.AddRestriction(new Restriction(track => !track.Name.Contains("Monica"), new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
+            _viewModel.AddRestriction(new Restriction(track => track.Name != "Still Alive", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
+        }
+
+        private void RemoveFilter_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

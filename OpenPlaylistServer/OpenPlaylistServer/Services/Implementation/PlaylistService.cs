@@ -10,6 +10,7 @@ using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
+using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {

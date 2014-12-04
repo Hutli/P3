@@ -2,19 +2,20 @@
 using System.Linq;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
+using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation {
     public class HistoryService : IHistoryService{
-        private static readonly List<Track> _hist = new List<Track>();
+        private static readonly ObservableCollection<Track> _hist = new ObservableCollection<Track>();
+
+        public ObservableCollection<Track> Tracks
+        {
+            get { return _hist; }
+        }
 
         public void Add(Track track)
         {
             _hist.Add(track);
-        }
-
-        public void AddRange(IEnumerable<Track> tracks)
-        {
-            _hist.AddRange(tracks);
         }
 
         public Track GetLastTrack()
