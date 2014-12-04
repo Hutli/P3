@@ -42,6 +42,7 @@ namespace OpenPlaylistServer.Models {
 
         public User(string id) {
             Id = id;
+            Volume = 0.5f;
         }
 
 

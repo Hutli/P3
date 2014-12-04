@@ -55,8 +55,8 @@ namespace OpenPlaylistServer.Services.Implementation
                 
                 _waveOut.Play();
                 
-                // this need to be set, else no sound is playing
-                _waveOut.Volume = 0.5f;
+                
+                _waveOut.Volume = GetCurrentVolume();
             }
             _session.BufferedBytes = _sampleStream.BufferedBytes;
             _session.BufferedDuration = _sampleStream.BufferedDuration;
@@ -115,7 +115,7 @@ namespace OpenPlaylistServer.Services.Implementation
             return _currentPlaying;
         }
 
-        public void SetCurrentVolume(object sender, EventArgs e)
+        public void RefreshCurrentVolume()
         {
             if (_waveOut == null) return;
             _waveOut.Volume = GetCurrentVolume();
@@ -123,7 +123,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public float GetCurrentVolume()
         {
-            if (_userService.Users == null) return 0.5F;
+            if (_userService.Users == null || _userService.Users.Count == 0) return 0.5F;
             var totalVolume = _userService.Users.Sum(u => u.Volume);
             return totalVolume/_userService.Users.Count();
         }

@@ -26,6 +26,7 @@ namespace OpenPlaylistServer.Endpoints
                     if (user != null)
                     {
                         user.Volume = volPercent / 100F;
+                        playbackService.RefreshCurrentVolume();
                     }
                 }
 
