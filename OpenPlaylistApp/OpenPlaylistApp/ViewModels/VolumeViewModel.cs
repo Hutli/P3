@@ -31,6 +31,20 @@ namespace OpenPlaylistApp.ViewModels
         {
             SelectedVolume = 50;
             AverageVolume = "Not voted on volume yet";
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
+                    if (App.User != null && App.User.Venue != null)
+                    {
+                        Device.BeginInvokeOnMainThread((() =>
+                        {
+                            SetVolume(SelectedVolume, false); // get average volume by just sending the selected vote again
+                        }));
+                    }
+                }
+            });
         }
 
         public int SelectedVolume
@@ -43,7 +57,7 @@ namespace OpenPlaylistApp.ViewModels
             {
                 _selectedVolume = value;
                 OnPropertyChanged("SelectedVolume");
-                SetVolume(value);
+                SetVolume(value, true);
             }
         }
 
@@ -58,7 +72,7 @@ namespace OpenPlaylistApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private async void SetVolume(int newValue)
+        private async void SetVolume(int newValue, bool loadingIndicator)
 		{
 			var progress = Convert.ToInt32(newValue);
 
@@ -71,7 +85,7 @@ namespace OpenPlaylistApp.ViewModels
 		    {
 		        return;
 		    }
-			var res = await Session.MakeRequest(uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3), true);
+			var res = await Session.MakeRequest(uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3), loadingIndicator);
 
 			var average = int.Parse(res);
 
