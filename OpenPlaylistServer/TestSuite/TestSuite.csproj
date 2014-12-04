@@ -61,6 +61,10 @@
       <Project>{0d5c88b0-da42-43f0-9e81-b544f44e26d6}</Project>
       <Name>SpotifyDotNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebAPI\WebAPI.csproj">
+      <Project>{1d3ce9dc-ad45-4740-bfcf-831efb00e8df}</Project>
+      <Name>WebAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

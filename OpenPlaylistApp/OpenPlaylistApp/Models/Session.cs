@@ -141,7 +141,7 @@ namespace OpenPlaylistApp.Models
 
             try
             {
-                session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
+                session.SendVote(App.User.Venue, track, App.User);
                 App.User.Vote = track;
             }
             catch (Exception ex)
