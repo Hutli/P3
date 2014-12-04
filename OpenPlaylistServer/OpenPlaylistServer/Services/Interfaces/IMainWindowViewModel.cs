@@ -11,7 +11,7 @@ namespace OpenPlaylistServer.Services.Interfaces
 
         ObservableCollection<Track> History { get; }
 
-        ObservableCollection<Restriction> Ristrictions { get; }
+        ObservableCollection<Restriction> Restrictions { get; }
 
         void AddRestriction(Restriction restriction);
 

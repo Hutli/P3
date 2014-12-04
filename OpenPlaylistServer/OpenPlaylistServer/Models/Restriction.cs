@@ -14,7 +14,7 @@ namespace OpenPlaylistServer.Models
 
         public string Time
         {
-            get { return _timeStart.ToString("G") + " - " + _timeStart.ToString("G"); }
+            get { return _timeStart.ToString("G") + " - " + _timeEnd.ToString("G"); }
         }
 
         public Restriction(Func<Track, bool> predicate, TimeSpan timeStart, TimeSpan timeEnd)

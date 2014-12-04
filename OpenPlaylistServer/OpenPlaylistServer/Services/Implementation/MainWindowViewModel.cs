@@ -43,7 +43,7 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
-        public ObservableCollection<Restriction> Ristrictions
+        public ObservableCollection<Restriction> Restrictions
         {
             get
             {
