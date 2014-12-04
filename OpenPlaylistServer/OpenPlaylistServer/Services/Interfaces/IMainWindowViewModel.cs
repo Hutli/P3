@@ -20,5 +20,7 @@ namespace OpenPlaylistServer.Services.Interfaces
         void PlayButtonClicked();
 
         void StopButtonClicked();
+
+        void RemoveTrack_Click(Track track);
     }
 }

@@ -64,7 +64,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            
+            //_viewModel.RemoveTrack_Click((Track)sender);
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {

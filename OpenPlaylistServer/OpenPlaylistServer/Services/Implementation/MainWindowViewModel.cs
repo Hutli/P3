@@ -87,5 +87,10 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             _playbackService.Stop();
         }
+
+        public void RemoveTrack_Click(Track track){
+            Tracks.Remove(track);
+        }
+
     }
 }
