@@ -76,6 +76,8 @@ namespace SpotifyDotNet
 
         public TimeSpan CurrentDurationStep { get; private set; }
 
+        
+
         public int BufferedFrames { get; private set; }
 
         /// <summary>
@@ -165,6 +167,7 @@ namespace SpotifyDotNet
                 {
                     CurrentDurationStep = CurrentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000)); // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
                     BufferedFrames = BufferedFrames - format.sample_rate;
+                    Console.WriteLine(CurrentDurationStep);
                 }
 
                 // only buffer 5 seconds
@@ -191,7 +194,7 @@ namespace SpotifyDotNet
             };
 
             _trackEndedDelegate = session => {
-                CurrentDurationStep = TimeSpan.Zero;
+                ResetCurrentDurationStep();
                 TrackEnded(); };
 
             _getAudioBufferStatsDelegate = (session, bufferStatsPtr) =>
@@ -307,6 +310,11 @@ namespace SpotifyDotNet
                 return new Tuple<SpotifyLoggedIn,LoginState>(_spotifyLoggedIn,_loginState);
             });
             return t;
+        }
+
+        public void ResetCurrentDurationStep()
+        {
+            CurrentDurationStep = TimeSpan.Zero;
         }
     }
 }

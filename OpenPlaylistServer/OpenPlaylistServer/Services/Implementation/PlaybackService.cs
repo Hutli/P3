@@ -89,12 +89,11 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Stop()
         {
-            var spotify = SpotifyLoggedIn.Instance;
-            if (spotify != null)
+            var spotifyLoggedIn = SpotifyLoggedIn.Instance;
+            if (spotifyLoggedIn != null)
             {
-                if(_currentPlaying != null)
-                    _currentPlaying.CurrentDurationStep = 0;
-                spotify.Stop();
+                Spotify.Instance.ResetCurrentDurationStep();
+                spotifyLoggedIn.Stop();
                 _currentPlaying = null;
             }
             if (_waveOut == null || _sampleStream == null) return;
