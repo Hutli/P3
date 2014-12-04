@@ -25,6 +25,7 @@ namespace OpenPlaylistServer.Services.Implementation
         private IMainWindowViewModel _viewModel;
 
         public MainWindow(IMainWindowViewModel viewModel){
+            DataContext = viewModel;
             InitializeComponent();
 
             _viewModel = viewModel;
@@ -36,7 +37,7 @@ namespace OpenPlaylistServer.Services.Implementation
             
             _session.TrackEnded += viewModel.TrackEnded;
             
-            DataContext = viewModel;
+            
         }
 
         private void OnLoginSuccess()

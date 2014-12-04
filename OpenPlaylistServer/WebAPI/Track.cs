@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace WebAPI
 {
     [JsonObject(MemberSerialization.OptOut)]
-    public class Track : SpotifyObject
+    public class Track : SpotifyObject, INotifyPropertyChanged
     {
         [JsonConstructor]
         public Track(string id, string name, int duration, bool isExplicit, int trackNumber, string isrc, string previewURL, Album album)

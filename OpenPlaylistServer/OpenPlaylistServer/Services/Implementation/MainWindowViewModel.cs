@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
@@ -22,7 +23,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _historyService = historyService;
         }
 
-        public ConcurrentDictify<string, Track> Tracks
+        public ObservableCollection<Track> Tracks
         {
             get
             {
@@ -30,7 +31,7 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
-        public ConcurrentDictify<string,User> Users
+        public ObservableCollection<User> Users
         {
             get
             {

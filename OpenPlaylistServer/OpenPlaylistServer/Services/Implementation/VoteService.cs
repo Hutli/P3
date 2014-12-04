@@ -38,16 +38,16 @@ namespace OpenPlaylistServer.Services.Implementation
 
                 playlistTrack = track;
 
-                Application.Current.Dispatcher.BeginInvoke((Action)(() => _playlistService.Add(playlistTrack)));
+                Application.Current.Dispatcher.Invoke((Action)(() => _playlistService.Add(playlistTrack)));
                 //_playlistService.Add(playlistTrack);
             }
 
 
             // Is user known?
-            if (_userService.Users.Values.Any(x => x.Id == userId))
+            if (_userService.Users.Any(x => x.Id == userId))
             {
                 // User is known
-                user = _userService.Users.Values.FirstOrDefault(x => x.Id == userId);
+                user = _userService.Users.FirstOrDefault(x => x.Id == userId);
 
                 // If user has already voted
                 if (user != null && user.Vote != null)
@@ -63,15 +63,23 @@ namespace OpenPlaylistServer.Services.Implementation
                 user = new User(userId, _playbackService);
                 //  set user's vote to new track
                 
-                Application.Current.Dispatcher.BeginInvoke((Action)(() => _userService.Add(user)));
+                Application.Current.Dispatcher.Invoke((Action)(() => _userService.Add(user)));
             }
 
             if (user != null) user.Vote = playlistTrack;
 
-            playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
+            }));
+            
             if (oldVote != null)
             {
-                oldVote.TScore = _playlistService.CalcTScore(oldVote);
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    oldVote.TScore = _playlistService.CalcTScore(oldVote);
+                }));
+                
             }
 
             return true;

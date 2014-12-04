@@ -1,4 +1,5 @@
-﻿using OpenPlaylistServer.Collections;
+﻿using System.Collections.ObjectModel;
+using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using WebAPI;
 
@@ -10,7 +11,7 @@ namespace OpenPlaylistServer.Services.Interfaces
 
         void Add(Track track);
 
-        ConcurrentDictify<string,Track> Tracks { get; }
+        ObservableCollection<Track> Tracks { get; }
         int CalcTScore(Track track);
 
         Track NextTrack();
