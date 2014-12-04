@@ -8,6 +8,7 @@ using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
 using Track = WebAPI.Track;
+using OpenPlaylistServer.Views;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -100,16 +101,19 @@ namespace OpenPlaylistServer.Services.Implementation
             _viewModel.TrackEnded();
         }
 
-        private void AddFilter_Click(object sender, RoutedEventArgs e)
+        private void AddRestriction_Click(object sender, RoutedEventArgs e)
         {
             var restrictionUnit = new RestrictionUnit(TrackField.Name, "Monica", RestrictionType.BlackList);
-            _viewModel.AddRestriction(new Restriction("Monica",new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0), restrictionUnit));
-            //_viewModel.AddRestriction(new Restriction(track => track.Name != "Still Alive", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0)));
+            var restriction = new Restriction("Monica", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0), restrictionUnit);
+            _viewModel.AddRestriction(restriction);
+            RestrictionDialog rd = new RestrictionDialog(restriction);
+            rd.ShowDialog();
         }
 
-        private void RemoveFilter_Click(object sender, RoutedEventArgs e)
+        private void RemoveRestriction_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
     }
 }
