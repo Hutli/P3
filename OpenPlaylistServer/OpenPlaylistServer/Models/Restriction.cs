@@ -1,21 +1,33 @@
 ﻿using System;
+using System.ComponentModel;
 using WebAPI;
 
 namespace OpenPlaylistServer.Models
 {
-    public class Restriction
+    public class Restriction //: INotifyPropertyChanged
     {
         private readonly Func<Track,bool> _predicate;
 
-        public Restriction(Func<Track, bool> predicate)
+        private TimeSpan _timeStart;
+        private TimeSpan _timeEnd; // Maybe duration instead
+
+        public string Time
         {
-            _predicate = predicate;
+            get { return _timeStart.ToString("G") + " - " + _timeStart.ToString("G"); }
         }
 
+        public Restriction(Func<Track, bool> predicate, TimeSpan timeStart, TimeSpan timeEnd)
+        {
+            _predicate = predicate;
+            _timeStart = timeStart;
+            _timeEnd = timeEnd;
+        }
 
         public Func<Track, bool> Predicate
         {
             get { return _predicate; }
         }
+
+        //ToStringPredicate
     }
 }

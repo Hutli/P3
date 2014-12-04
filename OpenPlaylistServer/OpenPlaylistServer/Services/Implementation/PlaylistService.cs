@@ -8,28 +8,29 @@ using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
+using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ConcurrentDictify<string,Track> _tracks;
+        readonly ObservableCollection<Track> _tracks;
 
         private readonly IUserService _userService;
         private readonly IHistoryService _historyService;
 
         public PlaylistService(IUserService userService, IHistoryService historyService){
-            _tracks = new ConcurrentDictify<string,Track>();
+            _tracks = new ObservableCollection<Track>();
             _userService = userService;
             _historyService = historyService;
         }
 
         public Track FindTrack(string trackUri)
         {
-            return _tracks.Values.FirstOrDefault(x => x.URI == trackUri);
+            return _tracks.FirstOrDefault(x => x.URI == trackUri);
         }
 
-        public ConcurrentDictify<string, Track> Tracks
+        public ObservableCollection<Track> Tracks
         {
             get {
                 return _tracks;
@@ -38,12 +39,12 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public int CalcTScore(Track track)
         {
-            return _userService.Users.Values.Count(u => Equals(u.Vote, track));
+            return _userService.Users.Count(u => Equals(u.Vote, track));
         }
 
         private void ResetVotes(Track track)
         {
-            var users = _userService.Users.Values.Where(u => Equals(u.Vote, track));
+            var users = _userService.Users.Where(u => Equals(u.Vote, track));
             foreach (var user in users)
             {
                 user.Vote = null;
@@ -56,7 +57,7 @@ namespace OpenPlaylistServer.Services.Implementation
         public Track NextTrack()
         {
             CountAndUpdatePVotes();
-            Track next = _tracks.Values.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
+            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
             if(_historyService.GetLastTrack() != null &&_historyService.GetLastTrack().Equals(next))
             { // if last track is equal to next track, find another relevant track instead
                 next = SmartFindTrack().Result;
@@ -71,7 +72,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private void CountAndUpdatePVotes()
         {
-            foreach (var track in _tracks.Values)
+            foreach (var track in _tracks)
             {
                 var tScore = CalcTScore(track);
                 track.TScore = tScore;
@@ -82,7 +83,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Add(Track track)
         {
-            _tracks.Add(track.Id,track);
+            _tracks.Add(track);
         }
 
         private async Task<Track> SmartFindTrack()

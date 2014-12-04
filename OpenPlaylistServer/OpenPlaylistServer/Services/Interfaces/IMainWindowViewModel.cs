@@ -1,12 +1,19 @@
 ﻿using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
+using System.Collections.ObjectModel;
 using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IMainWindowViewModel
     {
-        ConcurrentDictify<string, Track> Tracks { get; }
+        ObservableCollection<Track> Tracks { get; }
+
+        ObservableCollection<Track> History { get; }
+
+        ObservableCollection<Restriction> Ristrictions { get; }
+
+        void AddRestriction(Restriction restriction);
 
         void TrackEnded();
 

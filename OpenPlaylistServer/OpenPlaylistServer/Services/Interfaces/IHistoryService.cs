@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using OpenPlaylistServer.Collections;
 using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces {
     public interface IHistoryService
     {
+        ObservableCollection<Track> Tracks { get; }
         void Add(Track track);
-        void AddRange(IEnumerable<Track> tracks);
         Track GetLastTrack();
         IEnumerable<Track> GetLastNTracks(int n);
     }

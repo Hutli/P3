@@ -2,20 +2,21 @@
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
     public class UserService : IUserService
     {
-        readonly ConcurrentDictify<string, User> _users;
+        readonly ObservableCollection<User> _users;
 
         public UserService()
         {
-            _users = new ConcurrentDictify<string, User>();
+            _users = new ObservableCollection<User>();
             //_roUsers = new ReadOnlyObservableCollection<User>(_users);
         }
 
-        public ConcurrentDictify<string, User> Users
+        public ObservableCollection<User> Users
         {
             get {
                 return _users;
@@ -24,7 +25,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Add(User user)
         {
-            _users.Add(user.Id,user);
+            _users.Add(user);
             user.CheckedIn = true;
         }
     }

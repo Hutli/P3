@@ -1,9 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Windows.Threading;
+using System;
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
+using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -13,16 +15,18 @@ namespace OpenPlaylistServer.Services.Implementation
         private IUserService _userService;
         private IPlaybackService _playbackService;
         private IHistoryService _historyService;
+        private IRestrictionService _restrictionService;
 
-        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService)
+        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService, IRestrictionService restrictionService)
         {
             _playlistService = playlistService;
             _userService = userService;
             _playbackService = playbackService;
             _historyService = historyService;
+            _restrictionService = restrictionService;
         }
 
-        public ConcurrentDictify<string, Track> Tracks
+        public ObservableCollection<Track> Tracks
         {
             get
             {
@@ -30,7 +34,28 @@ namespace OpenPlaylistServer.Services.Implementation
             }
         }
 
-        public ConcurrentDictify<string,User> Users
+        public ObservableCollection<Track> History
+        {
+            get
+            {
+                return _historyService.Tracks;
+            }
+        }
+
+        public ObservableCollection<Restriction> Ristrictions
+        {
+            get
+            {
+                return _restrictionService.Restrictions;
+            }
+        }
+
+        public void AddRestriction(Restriction restriction)
+        {
+            _restrictionService.AddRestriction(restriction);
+        }
+
+        public ObservableCollection<User> Users
         {
             get
             {
@@ -44,13 +69,6 @@ namespace OpenPlaylistServer.Services.Implementation
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-                // if there are no tracks to be played next, don't do anything
-                // TODO: brug måske en algoritme til at beregne hvad vi skal spille næste gang
-                if (Tracks.Count == 0)
-                {
-                    return;
-                }
-
                 _playbackService.Stop();
                 Track next = _playlistService.NextTrack();
                 if (next != null)

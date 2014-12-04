@@ -10,17 +10,11 @@ namespace OpenPlaylistServer.Endpoints
 {
     public class SearchEndpoint : NancyModule
     {
-        private IEnumerable<Restriction> restrictions = new List<Restriction>()
-        {
-            new Restriction(track => track.Album.Artists.All(artist => !artist.Name.Contains("Bieber"))),
-            //new Restriction(track => track.Name != "Still Alive")
-        };
-
-        public SearchEndpoint(ISearchService searchService, IFilterService filterService)//, IPlaylistService playlistService)
+        public SearchEndpoint(ISearchService searchService, IRestrictionService filterService)//, IPlaylistService playlistService)
         {
             Get["/search/{query}"] = parameters => {
                 var tracks = searchService.Search(parameters.query).Result;
-                filterService.FilterTracks(tracks, restrictions);
+                filterService.RestrictTracks(tracks);
                 //foreach (Track t in tracks)
                 //{
                 //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
@@ -35,7 +29,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/search/{query}/{offset}"] = parameters =>
             {
                 var tracks = searchService.Search(parameters.query, parameters.offset).Result;
-                filterService.FilterTracks(tracks, restrictions);
+                filterService.RestrictTracks(tracks);
                 //foreach (Track t in tracks)
                 //{
                 //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
