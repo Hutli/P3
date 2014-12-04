@@ -16,5 +16,6 @@ namespace OpenPlaylistServer.Services.Interfaces
         int CalcTScore(Track track);
 
         Track NextTrack();
+        void Remove(Track track);
     }
 }

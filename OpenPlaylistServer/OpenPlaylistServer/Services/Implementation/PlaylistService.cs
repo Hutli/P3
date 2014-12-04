@@ -65,7 +65,7 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             CountAndUpdatePVotes();
             Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
-            if(_historyService.GetLastTrack() != null &&_historyService.GetLastTrack().Equals(next))
+            if (next == null || (_historyService.GetLastTrack() != null && _historyService.GetLastTrack().Equals(next)))
             { // if last track is equal to next track, find another relevant track instead
                 
                 next = SmartFindTrack().Result;
@@ -75,8 +75,14 @@ namespace OpenPlaylistServer.Services.Implementation
             if (next == null) return null;
             next.PScore = 0;
             ResetVotes(next);
+            Remove(next);
 
             return next;
+        }
+
+        public void Remove(Track track)
+        {
+            _tracks.Remove(track);
         }
 
         private void CountAndUpdatePVotes()
