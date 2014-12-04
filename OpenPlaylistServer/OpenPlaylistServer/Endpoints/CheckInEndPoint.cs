@@ -25,7 +25,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkout/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                userService.Users.First(x => x.Id == userId).CheckedIn = false;
+                Application.Current.Dispatcher.Invoke((Action)(() => userService.Users.First(x => x.Id == userId).CheckedIn = false));
                 return "OK";
             };
         }
