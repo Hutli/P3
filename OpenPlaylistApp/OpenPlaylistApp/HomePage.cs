@@ -39,14 +39,18 @@ namespace OpenPlaylistApp
 
             playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView};
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-            playlistPage.ToolbarItems.Add(tbi);
-
+            
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
 
             detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
-            ToolbarItems.Add(tbi);
+            #if WINDOWS_PHONE
+                ToolbarItems.Add(tbi);
+            #else
+                playlistPage.ToolbarItems.Add(tbi);
+            #endif
+
             App.User.VenueChanged += CheckedIn;
             App.User.VenueChanged += (Venue v) => this.IsPresented = false;
             App.User.VoteChanged += NewData;
