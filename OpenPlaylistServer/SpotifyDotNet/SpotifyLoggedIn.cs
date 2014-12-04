@@ -96,9 +96,19 @@ namespace SpotifyDotNet
         /// </summary>
         public void Stop()
         {
-            _isPlaying = false; 
-            libspotify.sp_session_player_unload(_sessionPtr);
             
+            try
+            {
+                //if( _isPlaying)
+                //libspotify.sp_session_player_unload(_sessionPtr);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            _isPlaying = false;
         }
 
         /// <summary>

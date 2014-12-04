@@ -81,8 +81,10 @@ namespace OpenPlaylistServer.Services.Implementation
                     }
 
                     Track next = _playlistService.NextTrack();
+                    Console.WriteLine("Next track will be " + next);
                     if (next != null)
                     {
+                        _playbackService.Stop();
                         _playbackService.Play(next);
                     }
                 }
