@@ -84,7 +84,7 @@ namespace OpenPlaylistApp.ViewModels
             }
             catch (Exception ex)
             {
-                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
+                //App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
         }
     }
