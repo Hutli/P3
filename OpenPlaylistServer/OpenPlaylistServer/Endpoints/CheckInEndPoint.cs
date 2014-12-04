@@ -17,7 +17,7 @@ namespace OpenPlaylistServer.Endpoints
                 string userId = parameters.userId;
                 if (userService.Users.All(x => x.Id != userId))
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() => userService.Add(new User(userId,playbackService))));
+                    Application.Current.Dispatcher.Invoke((Action)(() => userService.Add(new User(userId))));
                 }
                 return "OK";
             };

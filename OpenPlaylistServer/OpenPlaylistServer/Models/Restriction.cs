@@ -4,8 +4,9 @@ using WebAPI;
 
 namespace OpenPlaylistServer.Models
 {
-    public class Restriction //: INotifyPropertyChanged
+    public class Restriction : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private readonly Func<Track,bool> _predicate;
 
         private TimeSpan _timeStart;
@@ -29,5 +30,13 @@ namespace OpenPlaylistServer.Models
         }
 
         //ToStringPredicate
+
+        void OnPropertyChanged(string pName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(pName));
+            }
+        } 
     }
 }
