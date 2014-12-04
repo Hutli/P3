@@ -17,18 +17,18 @@ As candidates for events, these possible actions on classes are considered:
 The following event table is used to describe what classes are involved in the immediate events of the problem domain.
 
 \begin{table}[h]
-	\begin{tabular}{|l|c|c|c|c|c|}
+	\begin{tabular}{|l|c|c|c|c|c|c|}
 		\hline 
-    \textbf{Events} & User & Track & Playlist & Vote & Restriction \\ \hline
-    (Re)vote & * & * & * & * &   \\ \hline
-    User checks in at venue & * &   &   & * &   \\ \hline
-    User leaves venue & * &   &   &   &   \\ \hline
-    User is searching for a track & * &   &   &  & * \\ \hline
-    Adding a new track to the playlist & * & * & * & * &   \\ \hline
-    Remove track from the playlist & * & * & * & * &   \\ \hline
-    A new track is playing & * & * & * & * &   \\ \hline
-    Restriction added & * & * & * & * & * \\ \hline
-    Restriction removed & * & * & * & * & * \\ \hline
+    \textbf{Events} & User & Track & Playlist & Vote & Restriction & Venue\\ \hline
+    (Re)vote & * & * & * & * &   &   \\ \hline
+    User checks in at venue & * &   &   & * &   & * \\ \hline
+    User leaves venue & * &   &   &   &   & * \\ \hline
+    User is searching for a track & * &   &   &   & * &   \\ \hline
+    Adding a new track to the playlist & * & * & * & * &   &   \\ \hline
+    Remove track from the playlist & * & * & * & * &   &   \\ \hline
+    A new track is playing & * & * & * & * &   & * \\ \hline
+    Restriction added & * & * & * & * & * & * \\ \hline
+    Restriction removed & * & * & * & * & * & * \\ \hline
 	\end{tabular}
 	\caption{Event table for the problem domain}
 	\label{eventtable}
