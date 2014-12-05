@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
-using System.Windows;
-using System.Windows.Threading;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation {
     public class HistoryService : IHistoryService{
-        private static readonly ObservableCollection<Track> _hist = new ObservableCollection<Track>();
+        private readonly ObservableCollection<Track> _hist = new ObservableCollection<Track>();
 
         public ObservableCollection<Track> Tracks
         {

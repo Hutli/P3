@@ -135,6 +135,34 @@ namespace TestSuite {
         }
 
         [Fact]
+        public void PlaylistNextTrackFindsTrackIfEmpty()
+        {
+            UserService users = new UserService();
+            HistoryService hist = new HistoryService();
+            PlaylistService pl = new PlaylistService(users, hist);
+
+            Image img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
+            Image img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
+            Image img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
+            IEnumerable<Image> images = new List<Image> { img1, img2, img3 };
+            Artist art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
+            List<Artist> artists = new List<Artist> { art };
+            Album alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
+            Track track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            
+            users.Add(new User("1234") {Vote = track});
+            pl.Add(track);
+
+            var track1 = pl.NextTrack();
+            hist.Add(track1);
+            var track2 = pl.NextTrack();
+
+            Assert.True(track.Equals(track1));
+            Assert.NotNull(track2);
+            Assert.False(track.Equals(track2));
+        }
+
+        [Fact]
         public void PlaylistAddAddsTrack() {
             UserService u = new UserService();
             HistoryService history = new HistoryService();
