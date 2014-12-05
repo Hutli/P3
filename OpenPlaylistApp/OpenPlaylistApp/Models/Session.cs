@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebAPI;
 using Xamarin.Forms;
+using Xamarin;
 
 namespace OpenPlaylistApp.Models
 {

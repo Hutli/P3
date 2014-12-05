@@ -96,7 +96,7 @@ namespace OpenPlaylistApp
             _voteLabel.HorizontalOptions = LayoutOptions.Center;
             _voteLabel.WidthRequest = 24f;
             _layout.Children.Add(_voteLabel, 2, 0);
-            _voteLabel.Font = Font.BoldSystemFontOfSize(20f);
+            _voteLabel.Font = Font.SystemFontOfSize(20f, FontAttributes.Bold);
             Grid.SetRowSpan(_voteLabel, 2);
 
             View = _layout;

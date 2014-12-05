@@ -53,7 +53,6 @@ namespace OpenPlaylistServer.Services.Implementation
             Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
             if (next == null || (_historyService.GetLastTrack() != null && _historyService.GetLastTrack().Equals(next)))
             { // if last track is equal to next track, find another relevant track instead
-                
                 next = SmartFindTrack().Result;
                 Console.WriteLine("smart find called. Found " + next);
             }

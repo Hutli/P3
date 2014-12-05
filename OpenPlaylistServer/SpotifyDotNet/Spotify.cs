@@ -256,6 +256,7 @@ namespace SpotifyDotNet
                 do
                 {
                     libspotify.sp_session_process_events(_sessionPtr, out _nextTimeout);
+                    Console.WriteLine("Process events");
 
                 } while (_nextTimeout == 0);
             }

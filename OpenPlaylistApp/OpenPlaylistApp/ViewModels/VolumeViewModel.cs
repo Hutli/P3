@@ -7,6 +7,7 @@ using OpenPlaylistApp.Views;
 using Xamarin.Forms;
 using OpenPlaylistApp.Models;
 using System.Threading.Tasks;
+using Xamarin;
 
 namespace OpenPlaylistApp.ViewModels
 {
@@ -74,6 +75,13 @@ namespace OpenPlaylistApp.ViewModels
 
         private async void SetVolume(int newValue, bool loadingIndicator)
 		{
+			/*
+			Insights.Track("Send volume to server called", new Dictionary<string, string>{
+				{"volumeValue", newValue.ToString()}
+			});
+			var timer = Insights.TrackTime ("SetVolume VoluemViewModel");
+			timer.Start ();
+			*/
 			var progress = Convert.ToInt32(newValue);
 
             if (App.User == null)
@@ -86,10 +94,17 @@ namespace OpenPlaylistApp.ViewModels
 		        return;
 		    }
 			var res = await Session.MakeRequest(uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3), loadingIndicator);
+			//timer.Stop ();
+			if (res == null) {
+				return;
+			}
 
-			var average = int.Parse(res);
+			int average = -1;
+			int.TryParse (res, out average);
 
-            AverageVolume = String.Format("Average volume: {0}%", average);
+			if (average != -1) {
+				AverageVolume = String.Format("Average volume: {0}%", average);
+			}
 		}
     }
 }

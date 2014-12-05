@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{717F4393-392E-4495-BC78-4ED931500CC0}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
@@ -110,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OpenPlaylistServer\WebAPI\WebAPI.csproj">
-      <Project>{1d3ce9dc-ad45-4740-bfcf-831efb00e8df}</Project>
+      <Project>{1D3CE9DC-AD45-4740-BFCF-831EFB00E8DF}</Project>
       <Name>WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
