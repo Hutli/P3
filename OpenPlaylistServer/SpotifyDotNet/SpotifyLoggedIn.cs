@@ -75,7 +75,7 @@ namespace SpotifyDotNet
             {
                 err = track.Load(_sessionPtr);
                 Console.WriteLine("player load " + err);
-                Spotify.Instance.ProcessEvents();
+                //Spotify.Instance.ProcessEvents();
             } while (err == libspotify.sp_error.IS_LOADING);
 
 

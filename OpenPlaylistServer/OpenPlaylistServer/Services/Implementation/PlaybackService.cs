@@ -65,10 +65,13 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Play(Track track)
         {
+            Console.WriteLine("Play called");
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
             {
+                Console.WriteLine("Called TrackFromLink");
                 var task = spotify.TrackFromLink(track.URI);
+                Console.WriteLine("TrackFromLink has loaded");
                 if (task.Exception != null)
                 {
                     Console.WriteLine(task.Exception);
@@ -77,7 +80,9 @@ namespace OpenPlaylistServer.Services.Implementation
                 task.WhenCompleted(task1 =>
                 {
                     //completed
+                    Console.WriteLine("When completed called");
                     spotify.Play(task1.Result);
+                    Console.WriteLine("After spotify.play called in when completed");
                     _currentPlaying = track;
                 }, task1 =>
                 {
