@@ -8,17 +8,19 @@ namespace OpenPlaylistApp.Views
 {
     class CheckInView : ContentView
     {
-        private Label label = new Label { Text = "Please check in at a venue" , HorizontalOptions = LayoutOptions.CenterAndExpand };
-        private Image image = new Image { Source = ImageSource.FromFile("checkin.png"), HorizontalOptions = LayoutOptions.CenterAndExpand , VerticalOptions = LayoutOptions.CenterAndExpand};
-        private StackLayout layout = new StackLayout();
-
+        private Image image;
 
         public CheckInView()
         {
-            //layout.Children.Add(label);
-            //layout.Children.Add(image);
+            System.Uri uri = new Uri("https://www.dropbox.com/s/hldn5ddxr0zsdy4/checkin.png");
+            //image.Source = ImageSource.(uri);
+
+
+            image = new Xamarin.Forms.Image { Source = ImageSource.FromResource("checkin") }; ;
             image.Aspect = Aspect.AspectFit;
             Content = image;
+            Content.VerticalOptions = LayoutOptions.CenterAndExpand;
+            Content.HorizontalOptions = LayoutOptions.CenterAndExpand;
         }
     }
 }

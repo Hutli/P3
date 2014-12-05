@@ -23,13 +23,14 @@ namespace OpenPlaylistApp.WinPhone
             InitializeComponent();
 
             Forms.Init();
+            
             Content = OpenPlaylistApp.App.GetMainPage().ConvertPageToUIElement(this);
 
             object uniqueId;
             var hexString = string.Empty;
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
                 hexString = BitConverter.ToString((byte[])uniqueId);
-            
+
             OpenPlaylistApp.App.User.Id = hexString;
         }
     }
