@@ -80,6 +80,7 @@ namespace OpenPlaylistApp
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition());
 
+			_image.Aspect = Aspect.AspectFill;
             _layout.Children.Add(_image, 0, 0);
             Grid.SetRowSpan(_image, 2);
 
