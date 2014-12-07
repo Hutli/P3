@@ -24,6 +24,10 @@ namespace OpenPlaylistServer.Models
             }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 // parse artists, and construct restrictionunits
                 var artistsParsed = value.Split(',')
                     .Select(str => new RestrictionUnit(TrackField.Artists, str));
@@ -54,6 +58,10 @@ namespace OpenPlaylistServer.Models
             }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return;
+                }
                 // parse artists, and construct restrictionunits
                 var titlesParsed = value.Split(',')
                     .Select(str => new RestrictionUnit(TrackField.Titles, str));
