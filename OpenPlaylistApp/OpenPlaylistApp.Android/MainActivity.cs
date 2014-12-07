@@ -19,22 +19,6 @@ namespace OpenPlaylistApp.Droid
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
 
-			Insights.DisableCollection = false;
-			Insights.DisableDataTransmission = false;
-			Insights.DisableExceptionCatching = false;
-			Xamarin.Insights.Identify("anonymous", Xamarin.Insights.Traits.Name, "NONAME");
-			Insights.Report ();
-			Insights.ForceDataTransmission = true;
-			Insights.Track("android app started");
-
-            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-            {
-				Insights.Report(args.Exception,ReportSeverity.Error);
-                //throw args.Exception;	
-            };
-
-            
-
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);
             App.User.Id = tm.DeviceId;
