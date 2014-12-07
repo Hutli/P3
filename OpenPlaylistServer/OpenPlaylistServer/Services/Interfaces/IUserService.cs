@@ -1,8 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
-using System.Collections.ObjectModel;
-using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {

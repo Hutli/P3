@@ -26,7 +26,7 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="80" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString()}" />
+                                <GridViewColumn Width="80" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
                                 <GridViewColumn Width="80" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
                                 <GridViewColumn Width="100" Header="Temp votes" DisplayMemberBinding="{Binding TScore, Mode=OneWay}" />
                                 <GridViewColumn Width="100" Header="Perm votes" DisplayMemberBinding="{Binding PScore}" />
@@ -45,7 +45,7 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="100" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString()}" />
+                                <GridViewColumn Width="100" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
                                 <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
                             </GridView>
                         </ListView.View>

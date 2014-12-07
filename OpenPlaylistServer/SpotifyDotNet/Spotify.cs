@@ -43,13 +43,13 @@ namespace SpotifyDotNet
         private TrackEndedDelegate _trackEndedDelegate;
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
         private static readonly Spotify _instance = new Spotify();
-        private Task _notifyMainTask;
+        //private Task _notifyMainTask;
         private ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
         private SpotifyLoggedIn _spotifyLoggedIn;
         private LoginState _loginState;
         private bool _loggedIn;
         private ManualResetEvent _loggedOutWaitHandler = new ManualResetEvent(false);
-        private Thread _spotifyThread;
+        //private Thread _spotifyThread;
 
         private LogMessageDelegate _logMessageCallback;
         private delegate void LogMessageDelegate(IntPtr session, String message);
@@ -264,10 +264,10 @@ namespace SpotifyDotNet
 
         public void Dispose()
         {
-            if (_notifyMainTask != null)
-            {
-                _notifyMainTask.Dispose();
-            }
+            //if (_notifyMainTask != null)
+            //{
+            //    _notifyMainTask.Dispose();
+            //}
             
 
             lock (_sync)

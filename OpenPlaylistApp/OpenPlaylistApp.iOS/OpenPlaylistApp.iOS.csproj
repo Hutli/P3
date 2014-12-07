@@ -107,18 +107,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenPlaylistServer\WebAPI\WebAPI.csproj">
-      <Project>{1D3CE9DC-AD45-4740-BFCF-831EFB00E8DF}</Project>
-      <Name>WebAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\checkin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\plussign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebAPIPortable\WebAPI.csproj">
+      <Project>{baf7dff4-51c5-49de-9c9f-43889d7e216d}</Project>
+      <Name>WebAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />

@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using OpenPlaylistApp.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using WebAPI;
-using Xamarin.Forms;
 
 namespace OpenPlaylistApp.ViewModels
 {

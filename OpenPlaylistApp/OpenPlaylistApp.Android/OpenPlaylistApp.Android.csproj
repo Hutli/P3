@@ -32,7 +32,18 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkSkip />
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <JavaOptions />
+    <MonoDroidExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -106,8 +117,8 @@
     <AndroidResource Include="Resources\Drawable\checkmark.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenPlaylistServer\WebAPI\WebAPI.csproj">
-      <Project>{1D3CE9DC-AD45-4740-BFCF-831EFB00E8DF}</Project>
+    <ProjectReference Include="..\..\WebAPIPortable\WebAPI.csproj">
+      <Project>{baf7dff4-51c5-49de-9c9f-43889d7e216d}</Project>
       <Name>WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
