@@ -55,11 +55,14 @@
             </TabItem>
             <TabItem Header="Restrictions">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Restrictions}">
+                    <ListView Name="restrictionsList" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Restrictions}" MouseDoubleClick="Control_OnMouseDoubleClick">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="100" Header="Time" DisplayMemberBinding="{Binding Time}" />
+                                <GridViewColumn Width="100" Header="Titles" DisplayMemberBinding="{Binding Titles}" />
+                                <GridViewColumn Width="100" Header="Artists" DisplayMemberBinding="{Binding Artists}" />
+                                <GridViewColumn Width="100" Header="Start time" DisplayMemberBinding="{Binding StartTime, StringFormat=HH:mm}" />
+                                <GridViewColumn Width="100" Header="End time" DisplayMemberBinding="{Binding EndTime, StringFormat=HH:mm}" />
+                                <GridViewColumn Width="100" Header="Active" DisplayMemberBinding="{Binding IsActive}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

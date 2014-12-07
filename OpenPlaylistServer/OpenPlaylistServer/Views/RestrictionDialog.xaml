@@ -1,31 +1,36 @@
 ﻿<Window x:Class="OpenPlaylistServer.Views.RestrictionDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:OpenPlaylistServer.Converter"
+        xmlns:local="clr-namespace:OpenPlaylistServer.Models"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="RestrictionDialog" Height="300" Width="265">
+    <Window.Resources>
+        <converter:EnumToBoolConverter x:Key="EBConverter"/>
+    </Window.Resources>
     <Grid>
-        <Label Content="New Restriction:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Title:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="Artist:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.567,0.913"/>
+        <TextBox Text="{Binding Titles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Titles:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="Artists:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.567,0.913"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,41,0,0" VerticalAlignment="Top"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,72,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" Content="Whitelist" HorizontalAlignment="Left" Margin="59,108,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" Content="Blacklist" HorizontalAlignment="Left" Margin="59,129,0,0" VerticalAlignment="Top"/>
+        <RadioButton GroupName="Type" IsChecked="{Binding Path=RestrictionType, 
+            Converter={StaticResource EBConverter}, 
+            ConverterParameter={x:Static local:RestrictionType.WhiteList}}" 
+            Content="Whitelist" HorizontalAlignment="Left" Margin="59,108,0,0" VerticalAlignment="Top"/>
+        <RadioButton GroupName="Type" IsChecked="{Binding Path=RestrictionType, 
+            Converter={StaticResource EBConverter}, 
+            ConverterParameter={x:Static local:RestrictionType.BlackList}}" 
+                     Content="Blacklist" HorizontalAlignment="Left" Margin="59,129,0,0" VerticalAlignment="Top"/>
         <Label Content="Type:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
         <Label Content="(required)" HorizontalAlignment="Left" Margin="179,111,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="81,154,0,0" VerticalAlignment="Top" Width="40"/>
+        <xctk:DateTimeUpDown Value="{Binding StartTime, Mode=TwoWay}"  Format="ShortTime" Margin="81,150,77,92" />
+        <xctk:DateTimeUpDown Value="{Binding EndTime, Mode=TwoWay}"  Format="ShortTime" Margin="81,182,77,61" />
         <Label Content="Start Time:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="139,154,0,0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="1.825,0.364"/>
-        <ComboBox HorizontalAlignment="Left" Margin="81,181,0,0" VerticalAlignment="Top" Width="40"/>
-        <Label Content="End Time:" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="139,181,0,0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="1.825,0.364"/>
+        <Label Content="End Time:" HorizontalAlignment="Left" Margin="10,182,0,0" VerticalAlignment="Top"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,150,0,0" VerticalAlignment="Top"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,177,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="161,226,0,0" VerticalAlignment="Top" Width="75" IsCancel="true"/>
-        <Button x:Name="OkButton" Content="Ok" HorizontalAlignment="Left" Margin="116,226,0,0" VerticalAlignment="Top" Width="40" Click="OkButton_Click"/>
-        <Label Content=":" HorizontalAlignment="Left" Margin="126,150,0,0" VerticalAlignment="Top" Width="13"/>
-        <Label Content=":" HorizontalAlignment="Left" Margin="126,177,0,0" VerticalAlignment="Top" Width="13"/>
-
+        
     </Grid>
 </Window>

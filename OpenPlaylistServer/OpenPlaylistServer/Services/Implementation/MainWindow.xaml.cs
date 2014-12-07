@@ -103,17 +103,33 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private void AddRestriction_Click(object sender, RoutedEventArgs e)
         {
-            var restrictionUnit = new RestrictionUnit(TrackField.Name, "Monica", RestrictionType.BlackList);
-            var restriction = new Restriction("Monica", new TimeSpan(4, 10, 0), new TimeSpan(7, 50, 0), restrictionUnit);
+            var restrictionName = new RestrictionUnit(TrackField.Titles, "");
+            var restrictionArtist = new RestrictionUnit(TrackField.Artists, "");
+            var restriction = new Restriction(new DateTime(), new DateTime(), RestrictionType.BlackList, restrictionName, restrictionArtist);
             _viewModel.AddRestriction(restriction);
+            
             RestrictionDialog rd = new RestrictionDialog(restriction);
             rd.ShowDialog();
         }
 
         private void RemoveRestriction_Click(object sender, RoutedEventArgs e)
         {
-
+            var selected = restrictionsList.SelectedItem as Restriction;
+            if (selected == null)
+            {
+                return;
+            }
+            _viewModel.RemoveRestriction(selected);
         }
 
+        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selected = restrictionsList.SelectedItem as Restriction;
+            if (selected == null)
+            {
+                return;
+            }
+            new RestrictionDialog(selected).ShowDialog();
+        }
     }
 }

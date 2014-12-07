@@ -26,11 +26,5 @@ namespace OpenPlaylistServer.Views
             InitializeComponent();
             DataContext = restriction;
         }
-
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
     }
 }

@@ -12,5 +12,6 @@ namespace OpenPlaylistServer.Services.Interfaces
         void RestrictTracks(IEnumerable<Track> tracks);
 
         void AddRestriction(Restriction restriction);
+        void RemoveRestriction(Restriction restriction);
     }
 }

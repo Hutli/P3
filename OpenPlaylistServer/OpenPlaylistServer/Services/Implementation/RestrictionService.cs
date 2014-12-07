@@ -19,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 foreach (Restriction r in _restrictions)
                 {
-                    if (!r.Predicate(t))
+                    if (r.IsActive && !r.Predicate(t))
                     {
                         t.IsFiltered = true;
                         break;
@@ -30,6 +30,11 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void AddRestriction(Restriction restriction){
             _restrictions.Add(restriction);
+        }
+
+        public void RemoveRestriction(Restriction restriction)
+        {
+            _restrictions.Remove(restriction);
         }
     }
 }

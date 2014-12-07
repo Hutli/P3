@@ -7,7 +7,7 @@ namespace OpenPlaylistServer.Models
 {
     public enum TrackField
     {
-        Name,
+        Titles,
         Artists
     }
 }

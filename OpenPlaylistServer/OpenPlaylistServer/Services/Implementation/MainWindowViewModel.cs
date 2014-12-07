@@ -40,6 +40,11 @@ namespace OpenPlaylistServer.Services.Implementation
             _restrictionService.AddRestriction(restriction);
         }
 
+        public void RemoveRestriction(Restriction restriction)
+        {
+            _restrictionService.RemoveRestriction(restriction);
+        }
+
         public void TrackEnded()
         {
             Console.WriteLine("Track ended called");

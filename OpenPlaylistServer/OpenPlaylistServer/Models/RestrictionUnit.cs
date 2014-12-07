@@ -9,13 +9,11 @@ namespace OpenPlaylistServer.Models
     {
         public TrackField Field { get; private set; }
         public string FieldValue { get; private set; }
-        public RestrictionType Type { get; private set; }
 
-        public RestrictionUnit(TrackField field, String fieldValue, RestrictionType type)
+        public RestrictionUnit(TrackField field, String fieldValue)
         {
             Field = field;
             FieldValue = fieldValue;
-            Type = type;
         }
     }
 }
