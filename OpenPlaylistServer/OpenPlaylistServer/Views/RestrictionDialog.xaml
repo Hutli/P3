@@ -15,11 +15,11 @@
         <TextBox Text="{Binding Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.567,0.913"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,41,0,0" VerticalAlignment="Top"/>
         <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,72,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" IsChecked="{Binding Path=RestrictionType, 
+        <RadioButton GroupName="Type" IsChecked="{Binding RestrictionType, 
             Converter={StaticResource EBConverter}, 
             ConverterParameter={x:Static local:RestrictionType.WhiteList}}" 
             Content="Whitelist" HorizontalAlignment="Left" Margin="59,108,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" IsChecked="{Binding Path=RestrictionType, 
+        <RadioButton GroupName="Type" IsChecked="{Binding RestrictionType, 
             Converter={StaticResource EBConverter}, 
             ConverterParameter={x:Static local:RestrictionType.BlackList}}" 
                      Content="Blacklist" HorizontalAlignment="Left" Margin="59,129,0,0" VerticalAlignment="Top"/>
