@@ -134,7 +134,7 @@ namespace OpenPlaylistApp.Models
             //}
         }
 
-        public async void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (!(e.SelectedItem is Track)) return;
             Track track = (Track)e.SelectedItem;
