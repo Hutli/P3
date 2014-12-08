@@ -23,9 +23,9 @@ namespace OpenPlaylistServer.Models
             }
             set
             {
-                var titlesParsed = ParseRestrictionUnits(value, TrackField.Artists);
+                var artistsParsed = ParseRestrictionUnits(value, TrackField.Artists);
 
-                _restrictionUnits = AddRestrictionUnits(titlesParsed, TrackField.Artists);
+                _restrictionUnits = AddRestrictionUnits(artistsParsed, TrackField.Artists);
 
                 Predicate = UpdatePredicate(RestrictionType, _restrictionUnits);
 
@@ -63,16 +63,16 @@ namespace OpenPlaylistServer.Models
 
         private IEnumerable<RestrictionUnit> ParseRestrictionUnits(String input, TrackField field)
         {
-            var titlesParsed = Enumerable.Empty<RestrictionUnit>();
+            var parsed = Enumerable.Empty<RestrictionUnit>();
             // only if the new value is not whitespace, try to split it up
             if (!string.IsNullOrWhiteSpace(input))
             {
                 // parse titles, and construct restrictionunits
-                titlesParsed = input.Split(',')
+                parsed = input.Split(',')
                 .Select(str => new RestrictionUnit(field, str));
             }
 
-            return titlesParsed;
+            return parsed;
         }
 
         public RestrictionType RestrictionType
