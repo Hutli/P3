@@ -1,11 +1,11 @@
-\section{algorithm}
+\section{Algorithm}
 \label{sec:algorithm}
 
 The music at a bar should never stop playing as described in \cref{musthave}. To handle that the music does not stop playing, when there is not voted on any song. To handle this an algorithm was designed to chose a song similarly to the songs that was played previously played. In \cref{sub:MusicFlow} it's described that the music may not soundly change genre. This algorithm should prevent the music from doing from making these soundly music changes, by looking at the 9 last played songs.
 
 \begin{algorithm}
 \caption{Algorithm for finding the next track to be played.}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 	\Function{nextTrack}{$H$} \Comment{$H$ is a list of previously played tracks.}
 		\State{$k = 9$}
 		\State{$l = empty$ $list$}
@@ -13,10 +13,8 @@ The music at a bar should never stop playing as described in \cref{musthave}. To
 			\State{$k = H.length$}
 		\EndIf{}
 		\For{$i = 0$ \textbf{to} $k$}
-			\State{$n = H[i].Artists.length$}
-			\For{$j = 0$ \textbf{to} $n$}
-				\State{$p = H[i].Artists[j].relatedArtists.lenght$}
-				\For{$f = 0$ \textbf{to} $p$}
+			\For{$j = 0$ \textbf{to} $H[i].Artists.length$}
+				\For{$f = 0$ \textbf{to} $H[i].Artists[j].relatedArtists.lenght$}
 					\State{$A = H[i].Artists[j].relatedArtists[f]$}
 					\If{$l.contains(A)$}
 						\State{$A.reladted += 1$}
