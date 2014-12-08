@@ -55,7 +55,7 @@ namespace OpenPlaylistApp
         {
             if (_image.Source == null || !_image.Source.Equals(ImageString))
                 _image.Source = ImageString;
-            if (_voteLabel.Text == null || (!_voteLabel.Equals(VoteString) && VoteString > 0))
+            if (VoteString > 0 && (_voteLabel.Text == null || !_voteLabel.Equals(VoteString)))
                 _voteLabel.Text = VoteString.ToString();
             if (_textLabel.Text == null || !_textLabel.Equals(TextString))
                 _textLabel.Text = TextString;
