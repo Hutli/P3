@@ -12,7 +12,7 @@ namespace OpenPlaylistApp.Views
     {
         SearchBar searchBar = new SearchBar();
         ListView listView = new ListView();
-        private CurrentVoteView currentVoteView = new CurrentVoteView();
+        //private CurrentVoteView currentVoteView = new CurrentVoteView();
         private Button nextResultsButton = new Button { Text = "More results" };
         StackLayout layout = new StackLayout();
         ActivityIndicator activity = new ActivityIndicator { IsEnabled = true };

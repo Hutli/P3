@@ -41,37 +41,77 @@ namespace OpenPlaylistApp.ViewModels
         }
 
         public PlaylistViewModel() {
-            App.User.VoteChanged += UpdateVote;
-        }
-
-        private void UpdateVote(Track inputTrack)
-        {
-            SelectedItem = Results.First(p => p.Equals(inputTrack));
         }
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {
-            var tmpNewData = new List<Track>(newData);
-            var tmpResults = new List<Track>(Results);
-
-            var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));
-            var toRemove = tmpResults.FindAll(p => !tmpNewData.Contains(p));
-
-            foreach (Track t in Results)
+            for (int i = 0; i < newData.Count; i++)
             {
-                var tmpTrack = tmpNewData.FirstOrDefault(p => p.Equals(t));
-                if (tmpTrack != null && tmpTrack.TotalScore != t.TotalScore)
+                if (i < Results.Count)
                 {
-                    toRemove.Add(t);
-                    toAdd.Add(tmpTrack);
+                    if (!newData[i].Equals(Results[i]))
+                    {
+                        if (SelectedItem != null && newData[i].Id.Equals(SelectedItem.Id))
+                            newData[i].IsSelected = true;
+                        Results[i] = newData[i];
+                    }
+                }
+                else
+                {
+                    Results.Add(newData[i]);
                 }
             }
 
-            foreach (Track t in toRemove)
-                Results.Remove(t);
+            //var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));
+            //var toRemove = tmpResults.FindAll(p => !tmpNewData.Contains(p));
 
-            foreach (Track t in toAdd)
-                Results.Add(t);
+            //foreach (Track t in Results)
+            //{
+            //    var tmpTrack = tmpNewData.FirstOrDefault(p => p.Equals(t));
+            //    if (tmpTrack != null && tmpTrack.TotalScore != t.TotalScore)
+            //    {
+            //        toRemove.Add(t);
+            //        toAdd.Add(tmpTrack);
+            //    }
+            //}
+
+            //foreach (Track t in toRemove)
+            //    Results.Remove(t);
+
+            //foreach (Track t in toAdd)
+            //    Results.Add(t);
+
+            //if (Results.Contains(SelectedItem))
+            //{
+            //    Track tmpTrack = Results.First(p => p.Equals(SelectedItem));
+            //    if (!tmpTrack.IsSelected)
+            //    {
+            //        SelectedItem = tmpTrack;
+            //        tmpTrack.IsSelected = true;
+            //        Results.Remove(tmpTrack);
+            //        Results.Add(tmpTrack);
+            //    }
+            //}
+
+            //tmpResults = new List<Track>(Results);
+            //tmpResults.Sort((x, y) => x.TotalScore.CompareTo(y.TotalScore));
+            //Results = new ObservableCollection<Track>(tmpResults);
+
+            //ObservableCollection<Track> tmpListResults = (ObservableCollection<Track>)Results;
+            //bool evalBool = false;
+            //if (tmpListResults.Count == Results.Count)
+            //{
+            //    for (int i = 0; i < tmpListResults.Count; i++)
+            //    {
+            //        if (!tmpListResults[i].Equals(Results[i]))
+            //        {
+            //            evalBool = true;
+            //            break;
+            //        }
+            //    }
+            //}
+            //else { evalBool = true; }
+            //if (evalBool) { Results = tmpListResults; }
 
             this.OnPropertyChanged("TotalScore");
         }

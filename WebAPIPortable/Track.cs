@@ -27,6 +27,7 @@ namespace WebAPI
 
         }
 
+
         private int _tScore;
         private int _pScore;
 
@@ -95,7 +96,7 @@ namespace WebAPI
         {
             if (obj.GetType() == typeof(Track))
             {
-                return ((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC;
+                return (((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC) && ((Track)obj).TotalScore == TotalScore;
             }
             return false;
         }

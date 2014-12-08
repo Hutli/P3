@@ -85,7 +85,7 @@ namespace OpenPlaylistServer.Services.Implementation
             //"jensstaermose@hotmail.com", "hejheider"
             Button test = (Button)sender;
             test.IsEnabled = false;
-            var spotifyLoggedIn = await _session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, _appkey);
+            var spotifyLoggedIn = await _session.Login("jensstaermose@hotmail.com", "hejheider", false, _appkey);
             if (spotifyLoggedIn.Item2 == LoginState.OK)
             {
                 OnLoginSuccess();

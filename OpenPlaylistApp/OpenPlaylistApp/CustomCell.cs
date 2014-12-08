@@ -12,7 +12,7 @@ namespace OpenPlaylistApp
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, int>(p => p.VoteString, default(int));
         public static readonly BindableProperty FilteredProperty = BindableProperty.Create<CustomCell, bool>(p => p.FilteredBool, default(bool));
-        public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.FilteredBool, default(bool));
+        public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.SelectedBool, default(bool));
 
         public bool SelectedBool
         {
@@ -58,12 +58,18 @@ namespace OpenPlaylistApp
 
         Grid _layout = new Grid();
 
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            if (SelectedBool)
+                _layout.BackgroundColor = Color.Green;
+            else
+                _layout.BackgroundColor = Color.Transparent;
+        }
+
         protected override void OnBindingContextChanged()
         {
             if (_image.Source == null || !_image.Source.Equals(ImageString))
                 _image.Source = ImageString;
-            if (VoteString > 0 && (_voteLabel.Text == null || !_voteLabel.Equals(VoteString)))
-                _voteLabel.Text = VoteString.ToString();
             if (_textLabel.Text == null || !_textLabel.Equals(TextString))
                 _textLabel.Text = TextString;
             if (_detailLabel.Text == null || !_detailLabel.Equals(DetailString))
@@ -72,11 +78,8 @@ namespace OpenPlaylistApp
                 _layout.HeightRequest = _textLabel.Height + _detailLabel.Height;
             if (FilteredBool)
                 _layout.Opacity = 0.30f;
-            if (SelectedBool)
-                _layout.BackgroundColor = Color.Green;
-            else
-                _layout.BackgroundColor = Color.Transparent;
-            
+            if (VoteString > 0 && (_voteLabel.Text == null || !_voteLabel.Equals(VoteString)))
+                _voteLabel.Text = VoteString.ToString();
         }
 
         public CustomCell()

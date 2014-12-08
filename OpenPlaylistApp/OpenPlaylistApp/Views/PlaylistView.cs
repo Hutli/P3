@@ -3,6 +3,7 @@ using OpenPlaylistApp.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using WebAPI;
 
 namespace OpenPlaylistApp.Views
 {
@@ -12,7 +13,7 @@ namespace OpenPlaylistApp.Views
         private VolumeView volumeView = new VolumeView();
         public ListView listView = new ListView();
         private StackLayout layout = new StackLayout();
-        private CurrentVoteView currentVoteView = new CurrentVoteView();
+        //private CurrentVoteView currentVoteView = new CurrentVoteView();
 
         private PlaylistViewModel playlistViewModel
         {
@@ -29,13 +30,12 @@ namespace OpenPlaylistApp.Views
             listView.ItemTemplate = new TrackTemplate();
             listView.HasUnevenRows = true;
 
-
             listView.ItemSelected += session.ItemSelected; //Vote
             
             App.User.VenueChanged += GetPlaylist;
 
             layout.Children.Add(nowPlayingView);
-            layout.Children.Add(currentVoteView);
+            //layout.Children.Add(currentVoteView);
             layout.Children.Add(listView);
             layout.Children.Add(volumeView);
             Content = layout;
