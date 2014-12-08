@@ -55,8 +55,8 @@ namespace OpenPlaylistServer.Services.Implementation
                 
                 _waveOut.Play();
                 
-                // this need to be set, else no sound is playing
-                _waveOut.Volume = 0.5f;
+                
+                _waveOut.Volume = GetCurrentVolume();
             }
             _session.BufferedBytes = _sampleStream.BufferedBytes;
             _session.BufferedDuration = _sampleStream.BufferedDuration;
@@ -65,10 +65,13 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Play(Track track)
         {
+            Console.WriteLine("Play called");
             var spotify = SpotifyLoggedIn.Instance;
             if (spotify != null && track != null)
             {
+                Console.WriteLine("Called TrackFromLink");
                 var task = spotify.TrackFromLink(track.URI);
+                Console.WriteLine("TrackFromLink has loaded");
                 if (task.Exception != null)
                 {
                     Console.WriteLine(task.Exception);
@@ -77,7 +80,9 @@ namespace OpenPlaylistServer.Services.Implementation
                 task.WhenCompleted(task1 =>
                 {
                     //completed
+                    Console.WriteLine("When completed called");
                     spotify.Play(task1.Result);
+                    Console.WriteLine("After spotify.play called in when completed");
                     _currentPlaying = track;
                 }, task1 =>
                 {
@@ -89,13 +94,14 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void Stop()
         {
-            var spotify = SpotifyLoggedIn.Instance;
-            if (spotify != null)
+            var spotifyLoggedIn = SpotifyLoggedIn.Instance;
+            if (spotifyLoggedIn != null)
             {
-                if(_currentPlaying != null)
-                    _currentPlaying.CurrentDurationStep = 0;
-                spotify.Stop();
+                Console.WriteLine("Stopping song " + _currentPlaying);
+                Spotify.Instance.ResetCurrentDurationStep();
+                spotifyLoggedIn.Stop();
                 _currentPlaying = null;
+                Console.WriteLine("Stopped song");
             }
             if (_waveOut == null || _sampleStream == null) return;
             _waveOut.Stop();
@@ -115,7 +121,7 @@ namespace OpenPlaylistServer.Services.Implementation
             return _currentPlaying;
         }
 
-        public void SetCurrentVolume(object sender, EventArgs e)
+        public void RefreshCurrentVolume()
         {
             if (_waveOut == null) return;
             _waveOut.Volume = GetCurrentVolume();
@@ -123,8 +129,8 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public float GetCurrentVolume()
         {
-            if (_userService.Users == null) return 0.5F;
-            var totalVolume = _userService.Users.Values.Sum(u => u.Volume);
+            if (_userService.Users == null || _userService.Users.Count == 0) return 0.5F;
+            var totalVolume = _userService.Users.Sum(u => u.Volume);
             return totalVolume/_userService.Users.Count();
         }
     }

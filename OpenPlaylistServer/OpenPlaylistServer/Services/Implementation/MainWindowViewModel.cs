@@ -1,6 +1,9 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Net.Mime;
+using System.Windows;
 using System.Windows.Threading;
-using OpenPlaylistServer.Collections;
+using System;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
@@ -13,65 +16,79 @@ namespace OpenPlaylistServer.Services.Implementation
         private IUserService _userService;
         private IPlaybackService _playbackService;
         private IHistoryService _historyService;
+        private IRestrictionService _restrictionService;
 
-        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService)
+        public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService, IRestrictionService restrictionService)
         {
             _playlistService = playlistService;
             _userService = userService;
             _playbackService = playbackService;
             _historyService = historyService;
+            _restrictionService = restrictionService;
         }
 
-        public ConcurrentDictify<string, Track> Tracks
+        public ObservableCollection<Track> Tracks { get { return _playlistService.Tracks; } }
+
+        public ObservableCollection<Track> History { get { return _historyService.Tracks; } }
+
+        public ObservableCollection<Restriction> Restrictions { get { return _restrictionService.Restrictions; } }
+
+        public ObservableCollection<User> Users { get { return _userService.Users; } }
+
+        public void AddRestriction(Restriction restriction)
         {
-            get
-            {
-                return _playlistService.Tracks;
-            }
+            _restrictionService.AddRestriction(restriction);
         }
 
-        public ConcurrentDictify<string,User> Users
+        public void RemoveRestriction(Restriction restriction)
         {
-            get
-            {
-                return _userService.Users;
-            }
+            _restrictionService.RemoveRestriction(restriction);
         }
 
         public void TrackEnded()
         {
-            _historyService.Add(_playbackService.GetCurrentPlaying());
+            Console.WriteLine("Track ended called");
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action( () =>
             {
-                // if there are no tracks to be played next, don't do anything
-                // TODO: brug måske en algoritme til at beregne hvad vi skal spille næste gang
-                if (Tracks.Count == 0)
+                try
                 {
-                    return;
-                }
+                    var currentPlaying = _playbackService.GetCurrentPlaying();
+                    if (currentPlaying != null)
+                    {
+                        _historyService.Add(currentPlaying);
+                    }
 
-                _playbackService.Stop();
-                Track next = _playlistService.NextTrack();
-                if (next != null)
-                {
-                    _playbackService.Play(next);
+                    Track next = _playlistService.NextTrack();
+                    Console.WriteLine("Next track will be " + next);
+                    if (next != null)
+                    {
+                        _playbackService.Stop();
+                        _playbackService.Play(next);
+                    }
                 }
-            });
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }));
+            
         }
 
         public void PlayButtonClicked()
         {
-            var nextTrack = _playlistService.NextTrack();
-            if (nextTrack != null)
-            {
-                _playbackService.Play(nextTrack);
-            }
+            TrackEnded();
         }
 
         public void StopButtonClicked()
         {
             _playbackService.Stop();
         }
+
+        public void RemoveTrack_Click(Track track){
+            Tracks.Remove(track);
+        }
+
     }
 }

@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{717F4393-392E-4495-BC78-4ED931500CC0}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
@@ -109,18 +107,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenPlaylistServer\WebAPI\WebAPI.csproj">
-      <Project>{1d3ce9dc-ad45-4740-bfcf-831efb00e8df}</Project>
-      <Name>WebAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\checkin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\plussign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebAPIPortable\WebAPI.csproj">
+      <Project>{baf7dff4-51c5-49de-9c9f-43889d7e216d}</Project>
+      <Name>WebAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />

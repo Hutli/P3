@@ -22,10 +22,11 @@ namespace OpenPlaylistServer.Endpoints
 
                 if (volPercent >= 0 && volPercent <= 100)
                 {
-                    var user = userService.Users.Values.FirstOrDefault(x => x.Id == userId);
+                    var user = userService.Users.FirstOrDefault(x => x.Id == userId);
                     if (user != null)
                     {
                         user.Volume = volPercent / 100F;
+                        playbackService.RefreshCurrentVolume();
                     }
                 }
 

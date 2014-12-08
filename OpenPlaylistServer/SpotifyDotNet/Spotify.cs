@@ -43,13 +43,13 @@ namespace SpotifyDotNet
         private TrackEndedDelegate _trackEndedDelegate;
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
         private static readonly Spotify _instance = new Spotify();
-        private Task _notifyMainTask;
+        //private Task _notifyMainTask;
         private ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
         private SpotifyLoggedIn _spotifyLoggedIn;
         private LoginState _loginState;
         private bool _loggedIn;
         private ManualResetEvent _loggedOutWaitHandler = new ManualResetEvent(false);
-        private Thread _spotifyThread;
+        //private Thread _spotifyThread;
 
         private LogMessageDelegate _logMessageCallback;
         private delegate void LogMessageDelegate(IntPtr session, String message);
@@ -75,6 +75,8 @@ namespace SpotifyDotNet
         public TimeSpan BufferedDuration { private get; set; }
 
         public TimeSpan CurrentDurationStep { get; private set; }
+
+        
 
         public int BufferedFrames { get; private set; }
 
@@ -165,6 +167,7 @@ namespace SpotifyDotNet
                 {
                     CurrentDurationStep = CurrentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000)); // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
                     BufferedFrames = BufferedFrames - format.sample_rate;
+                    Console.WriteLine(CurrentDurationStep);
                 }
 
                 // only buffer 5 seconds
@@ -191,7 +194,7 @@ namespace SpotifyDotNet
             };
 
             _trackEndedDelegate = session => {
-                CurrentDurationStep = TimeSpan.Zero;
+                ResetCurrentDurationStep();
                 TrackEnded(); };
 
             _getAudioBufferStatsDelegate = (session, bufferStatsPtr) =>
@@ -242,8 +245,8 @@ namespace SpotifyDotNet
 
         private void NotifyMain(IntPtr session)
         {
-            _notifyMainTask = Task.Run(() => ProcessEvents());
-            //ProcessEvents();
+            //_notifyMainTask = Task.Run(() => ProcessEvents());
+            ProcessEvents();
         }
 
         internal void ProcessEvents()
@@ -253,6 +256,7 @@ namespace SpotifyDotNet
                 do
                 {
                     libspotify.sp_session_process_events(_sessionPtr, out _nextTimeout);
+                    Console.WriteLine("Process events");
 
                 } while (_nextTimeout == 0);
             }
@@ -260,10 +264,10 @@ namespace SpotifyDotNet
 
         public void Dispose()
         {
-            if (_notifyMainTask != null)
-            {
-                _notifyMainTask.Dispose();
-            }
+            //if (_notifyMainTask != null)
+            //{
+            //    _notifyMainTask.Dispose();
+            //}
             
 
             lock (_sync)
@@ -307,6 +311,11 @@ namespace SpotifyDotNet
                 return new Tuple<SpotifyLoggedIn,LoginState>(_spotifyLoggedIn,_loginState);
             });
             return t;
+        }
+
+        public void ResetCurrentDurationStep()
+        {
+            CurrentDurationStep = TimeSpan.Zero;
         }
     }
 }

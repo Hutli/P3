@@ -22,13 +22,13 @@
             </TabItem>
             <TabItem Header="Playlist">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="PlaylistView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Tracks}">
+                    <ListView x:Name="PlaylistView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Tracks, Mode=OneWay}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="80" Header="Artist" />
+                                <GridViewColumn Width="80" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
                                 <GridViewColumn Width="80" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
-                                <GridViewColumn Width="100" Header="Temp votes" DisplayMemberBinding="{Binding TScore}" />
+                                <GridViewColumn Width="100" Header="Temp votes" DisplayMemberBinding="{Binding TScore, Mode=OneWay}" />
                                 <GridViewColumn Width="100" Header="Perm votes" DisplayMemberBinding="{Binding PScore}" />
                             </GridView>
                         </ListView.View>
@@ -41,11 +41,11 @@
             </TabItem>
             <TabItem Header="History">
                 <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="HistoryView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                    <ListView x:Name="HistoryView" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding History}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Width="100" Header="Artist" />
+                                <GridViewColumn Width="100" Header="Artist" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
                                 <GridViewColumn Width="100" Header="Duration" DisplayMemberBinding="{Binding Duration}" />
                             </GridView>
                         </ListView.View>
@@ -53,19 +53,23 @@
                     <Button x:Name="ExportHistory" Content="Export" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="FilterView" Header="Filter">
+            <TabItem Header="Restrictions">
                 <Grid Background="#FFE5E5E5">
-                    <ListView HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380">
+                    <ListView Name="restrictionsList" HorizontalAlignment="Left" Height="268" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" ItemsSource="{Binding Restrictions}" MouseDoubleClick="Control_OnMouseDoubleClick">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn/>
+                                <GridViewColumn Width="100" Header="Titles" DisplayMemberBinding="{Binding Titles}" />
+                                <GridViewColumn Width="100" Header="Artists" DisplayMemberBinding="{Binding Artists}" />
+                                <GridViewColumn Width="100" Header="Start time" DisplayMemberBinding="{Binding StartTime, StringFormat=HH:mm}" />
+                                <GridViewColumn Width="100" Header="End time" DisplayMemberBinding="{Binding EndTime, StringFormat=HH:mm}" />
+                                <GridViewColumn Width="100" Header="Active" DisplayMemberBinding="{Binding IsActive}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="RemoveFilter" Content="Remove" HorizontalAlignment="Left" Margin="395,37,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="AddFilter" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="ExportFilter" Content="Export" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
-                    <Button x:Name="ImportFilter" Content="Import" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="RemoveRestriction" Content="Remove" HorizontalAlignment="Left" Margin="395,37,0,0" VerticalAlignment="Top" Width="75" Click="RemoveRestriction_Click"/>
+                    <Button x:Name="AddRestriction" Content="Add" HorizontalAlignment="Left" Margin="395,10,0,0" VerticalAlignment="Top" Width="75" Click="AddRestriction_Click"/>
+                    <Button x:Name="ExportRestriction" Content="Export" HorizontalAlignment="Left" Margin="395,256,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button x:Name="ImportRestriction" Content="Import" HorizontalAlignment="Left" Margin="395,229,0,0" VerticalAlignment="Top" Width="75"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Users">
@@ -80,6 +84,7 @@
                             <GridView>
                                 <GridViewColumn Width="100" Header="ID" DisplayMemberBinding="{Binding Id}" />
                                 <GridViewColumn Width="100"  Header="Vote" DisplayMemberBinding="{Binding Vote}" />
+                                <GridViewColumn Width="100"  Header="Volume" DisplayMemberBinding="{Binding Volume}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

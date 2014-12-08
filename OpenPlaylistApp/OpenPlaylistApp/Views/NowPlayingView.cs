@@ -51,21 +51,28 @@ namespace OpenPlaylistApp.Views
 
         void OnLoadComplete()
         {
-            try
+            if (_trackTitleLabel != null)
             {
-                _trackTitleLabel.Text = _npvm.Result.Name + " - " + _npvm.Result.Album.Artists[0].Name ?? "";
-                if (_npvm.Result.Album.Images != null && _npvm.Result.Album.Images[0] != null && _trackImage != null)
+                if (_trackTitleLabel.Text == null || !_trackTitleLabel.Text.Equals(_npvm.Result.Name + " - " + _npvm.Result.Album.Artists[0].Name))
                 {
-                    _trackImage.Source = _npvm.Result.Album.Images[0].URL ?? "";
+                    try
+                    {
+                        _trackTitleLabel.Text = _npvm.Result.Name + " - " + _npvm.Result.Album.Artists[0].Name ?? "";
+                        if (_npvm.Result.Album.Images != null && _npvm.Result.Album.Images[0] != null && _trackImage != null)
+                        {
+                            _trackImage.Source = _npvm.Result.Album.Images[0].URL ?? "";
+                        }
+
+                        progressBar.Progress = Convert.ToDouble(_npvm.Result.CurrentDurationStep) / Convert.ToDouble(_npvm.Result.Duration);
+
+                        progressBar.ProgressTo(1, Convert.ToUInt32(Math.Abs(_npvm.Result.Duration - _npvm.Result.CurrentDurationStep)), Easing.Linear);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw e.InnerException;
+                    }
                 }
-                    
-                progressBar.Progress = Convert.ToDouble(_npvm.Result.CurrentDurationStep) / Convert.ToDouble(_npvm.Result.Duration);
-                
-                progressBar.ProgressTo(1, Convert.ToUInt32(Math.Abs(_npvm.Result.Duration - _npvm.Result.CurrentDurationStep)), Easing.Linear);
-            }
-            catch (Exception e) { 
-                Console.WriteLine(e);
-                throw e.InnerException;
             }
         }
     }

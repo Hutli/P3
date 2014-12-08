@@ -6,6 +6,7 @@ using Java.Lang;
 using OpenPlaylistApp.Models;
 using Xamarin.Forms.Platform.Android;
 using Android.Telephony;
+using Xamarin;
 
 namespace OpenPlaylistApp.Droid
 {
@@ -14,15 +15,9 @@ namespace OpenPlaylistApp.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+			Insights.Initialize ("b827463746b0194debd3651572cf7f0b64ad0ab2", ApplicationContext);
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
-
-            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-            {
-                throw args.Exception;
-            };
-
-            
 
             //Assign IMEI
             var tm = (TelephonyManager)GetSystemService(TelephonyService);

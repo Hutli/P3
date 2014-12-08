@@ -7,9 +7,7 @@ using WebAPI;
 namespace OpenPlaylistServer.Models {
     public class User : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
-        private IPlaybackService _playbackService;
         private float _volume;
         private Track _vote;
 
@@ -37,16 +35,14 @@ namespace OpenPlaylistServer.Models {
                 
                 
                 // TODO: Den her linje crasher programmet hvis en anden sang er ved at blive spillet... mystisk
-                //OnPropertyChanged("Vote");
+                OnPropertyChanged("Vote");
                 
             }
         }
 
-        public User(string id, IPlaybackService playbackService) {
-            _playbackService = playbackService;
-            Volume = _playbackService.GetCurrentVolume();
-            PropertyChanged += _playbackService.SetCurrentVolume;
+        public User(string id) {
             Id = id;
+            Volume = 0.5f;
         }
 
 

@@ -19,7 +19,9 @@ namespace OpenPlaylistApp.Views
             if (track == null || track.Name == null || track.Album == null)
                 _lbl.Text = string.Empty;
             else
+            {
                 _lbl.Text = "Your vote: " + track.Name + " on " + track.Album;
+            }
         }
     }
 }

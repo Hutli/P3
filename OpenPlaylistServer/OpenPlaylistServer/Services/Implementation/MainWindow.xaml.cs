@@ -8,6 +8,7 @@ using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using SpotifyDotNet;
 using Track = WebAPI.Track;
+using OpenPlaylistServer.Views;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
@@ -18,13 +19,12 @@ namespace OpenPlaylistServer.Services.Implementation
     {
         Spotify _session = Spotify.Instance;
         private static readonly byte[] _appkey = Properties.Resources.spotify_appkey;
-
-        List<Track> _history = new List<Track>(); 
        
         public static Action UpdateUIDelegate;
         private IMainWindowViewModel _viewModel;
 
         public MainWindow(IMainWindowViewModel viewModel){
+            DataContext = viewModel;
             InitializeComponent();
 
             _viewModel = viewModel;
@@ -36,7 +36,7 @@ namespace OpenPlaylistServer.Services.Implementation
             
             _session.TrackEnded += viewModel.TrackEnded;
             
-            DataContext = viewModel;
+            
         }
 
         private void OnLoginSuccess()
@@ -66,7 +66,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            
+            //_viewModel.RemoveTrack_Click((Track)sender);
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
@@ -82,7 +82,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
-            //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
+            //"jensstaermose@hotmail.com", "hejheider"
             Button test = (Button)sender;
             test.IsEnabled = false;
             var spotifyLoggedIn = await _session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, _appkey);
@@ -97,8 +97,39 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
-            StopButton_Click(sender, e);
+            //StopButton_Click(sender, e);
             _viewModel.TrackEnded();
+        }
+
+        private void AddRestriction_Click(object sender, RoutedEventArgs e)
+        {
+            var restrictionName = new RestrictionUnit(TrackField.Titles, "");
+            var restrictionArtist = new RestrictionUnit(TrackField.Artists, "");
+            var restriction = new Restriction(new DateTime(), new DateTime(), RestrictionType.BlackList, restrictionName, restrictionArtist);
+            _viewModel.AddRestriction(restriction);
+            
+            RestrictionDialog rd = new RestrictionDialog(restriction);
+            rd.ShowDialog();
+        }
+
+        private void RemoveRestriction_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = restrictionsList.SelectedItem as Restriction;
+            if (selected == null)
+            {
+                return;
+            }
+            _viewModel.RemoveRestriction(selected);
+        }
+
+        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selected = restrictionsList.SelectedItem as Restriction;
+            if (selected == null)
+            {
+                return;
+            }
+            new RestrictionDialog(selected).ShowDialog();
         }
     }
 }

@@ -47,7 +47,6 @@ namespace OpenPlaylistApp.Views
             layout.Children.Add(searchBar);
             layout.Children.Add(activity);
             layout.Children.Add(listView);
-            layout.Children.Add(nextResultsButton);
             Content = layout;
         }
 
@@ -55,6 +54,7 @@ namespace OpenPlaylistApp.Views
         {
             searchViewModel.GetResults(((SearchBar)sender).Text);
             if (nextResultsButton == null) return;
+            layout.Children.Add(nextResultsButton);
             nextResultsButton.Clicked += nextResultsButton_Clicked;
         }
 

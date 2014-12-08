@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WebAPI;
 using Xamarin.Forms;
+using Xamarin;
 
 namespace OpenPlaylistApp.Models
 {
@@ -133,7 +134,7 @@ namespace OpenPlaylistApp.Models
             //}
         }
 
-        public async void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (!(e.SelectedItem is Track)) return;
             Track track = (Track)e.SelectedItem;
@@ -141,7 +142,7 @@ namespace OpenPlaylistApp.Models
 
             try
             {
-                session.SendVote(App.User.Venue, track, App.User); //TODO vi bruger ikke variablen
+                session.SendVote(App.User.Venue, track, App.User);
                 App.User.Vote = track;
             }
             catch (Exception ex)

@@ -21,8 +21,9 @@
 
 %%%%%%%flotte listings
 \lstset{language=[Sharp]C}
+%Use the typeface Source Code Pro for listings
 \usepackage[nottdefault]{sourcecodepro}
-\lstset{basicstyle=\fontfamily{SourceCodePro-TLF}\footnotesize,breaklines=true}
+\lstset{basicstyle=\fontfamily{SourceCodePro-TLF}\footnotesize,breaklines=true,commentstyle=}
 \usepackage{color}
 \usepackage{booktabs}
 \usepackage{xcolor}
@@ -54,6 +55,8 @@ bibencoding=utf8,
 \usepackage{csquotes} % recommended by biblatex
 
 \usepackage{lastpage}
+
+\sloppy
 
 % http://tex.stackexchange.com/questions/42063/illogical-twoside-margins
 % layout page auto-centering horizontally and allow for press binding
@@ -111,3 +114,10 @@ bibencoding=utf8,
 \end{center}
 \vspace{1cm}
 }
+
+\newcommand*{\blankpage}{
+\vspace*{\fill}
+\begin{center}
+\textit{This page intentionally left (almost) blank.}\thispagestyle{empty}
+\end{center}
+\vspace{\fill}}

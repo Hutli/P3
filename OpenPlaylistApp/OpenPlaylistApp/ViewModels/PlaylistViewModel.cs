@@ -40,26 +40,40 @@ namespace OpenPlaylistApp.ViewModels
             }
         }
 
-        public PlaylistViewModel()
-        {
+        public PlaylistViewModel() {
+            App.User.VoteChanged += UpdateVote;
         }
 
-        private void UpdateResults(IEnumerable<Track> newData)
+        private void UpdateVote(Track inputTrack)
         {
-            var tmpNewData = newData.ToList();
-            var tmpResults = Results.ToList();
+            SelectedItem = Results.First(p => p.Equals(inputTrack));
+        }
 
-            foreach (Track t in tmpNewData)
+        private void UpdateResults(ObservableCollection<Track> newData)
+        {
+            var tmpNewData = new List<Track>(newData);
+            var tmpResults = new List<Track>(Results);
+
+            var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));
+            var toRemove = tmpResults.FindAll(p => !tmpNewData.Contains(p));
+
+            foreach (Track t in Results)
             {
-                if (!Results.Contains(t))
-                    Results.Add(t);
+                var tmpTrack = tmpNewData.FirstOrDefault(p => p.Equals(t));
+                if (tmpTrack != null && tmpTrack.TotalScore != t.TotalScore)
+                {
+                    toRemove.Add(t);
+                    toAdd.Add(tmpTrack);
+                }
             }
 
-            foreach (Track t in tmpResults)
-            {
-                if (!newData.Contains(t))
-                    Results.Remove(t);
-            }
+            foreach (Track t in toRemove)
+                Results.Remove(t);
+
+            foreach (Track t in toAdd)
+                Results.Add(t);
+
+            this.OnPropertyChanged("TotalScore");
         }
 
         async public void GetResults(Venue venue)
@@ -71,13 +85,13 @@ namespace OpenPlaylistApp.ViewModels
                 var json = await session.GetPlaylist(venue);
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
 
-                UpdateResults(returnValue.ToList());
+                UpdateResults(returnValue);
 
                 LoadComplete();
             }
             catch (Exception ex)
             {
-                App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
+                //App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
         }
     }

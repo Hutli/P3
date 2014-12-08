@@ -65,6 +65,7 @@ namespace SpotifyDotNet
         {
             if (_isPlaying)
             {
+                Console.WriteLine("Ind i isplaying");
                 Stop();
             }
 
@@ -74,7 +75,7 @@ namespace SpotifyDotNet
             {
                 err = track.Load(_sessionPtr);
                 Console.WriteLine("player load " + err);
-                Spotify.Instance.ProcessEvents();
+                //Spotify.Instance.ProcessEvents();
             } while (err == libspotify.sp_error.IS_LOADING);
 
 
@@ -95,7 +96,18 @@ namespace SpotifyDotNet
         /// </summary>
         public void Stop()
         {
-            libspotify.sp_session_player_unload(_sessionPtr);
+            
+            try
+            {
+                //if( _isPlaying)
+                //libspotify.sp_session_player_unload(_sessionPtr);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
             _isPlaying = false;
         }
 
@@ -106,10 +118,10 @@ namespace SpotifyDotNet
         /// <returns></returns>
         public Task<Track> TrackFromLink(String uri)
         {
-            //try
-            //{
-                lock (_sync)
-                {
+            try
+            {
+                //lock (_sync)
+                //{
                     var t = Task.Run(() =>
                     {
                         IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
@@ -130,15 +142,16 @@ namespace SpotifyDotNet
                         //libspotify.sp_link_release(spLinkPtr);
                         throw new ArgumentException("URI was not a track URI");
                     });
+                    
 
                     return t;
-                }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
+                //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             
         }
 

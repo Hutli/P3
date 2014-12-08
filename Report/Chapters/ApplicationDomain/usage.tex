@@ -8,7 +8,7 @@ to request and affect the music being played at the venue. Further information a
 \begin{tabular}{lcc}
 \hline
                    & \multicolumn{1}{l}{\textbf{Actor}} & \multicolumn{1}{l}{} \\
-\textbf{Use case}  & Administrator                      & Customer             \\ \hline
+\textbf{Use case}  & Administrator                      & Guest             \\ \hline
 play music         & \checkmark                         &                      \\
 stop music         & \checkmark                         &                      \\
 next track         & \checkmark                         &                      \\
@@ -17,7 +17,8 @@ remove restriction & \checkmark                         &                      \
 check out          &                                    & \checkmark           \\
 check in at venue  &                                    & \checkmark           \\
 vote               &                                    & \checkmark           \\
-cancel vote        &                                    & \checkmark           \\ \hline
+cancel vote        &                                    & \checkmark           \\
+influence volume   & \checkmark                         & \checkmark           \\ \hline
 \end{tabular}
 \caption{Actor table for the project}\label{tab:actorTable}
 \end{table}
@@ -58,3 +59,33 @@ cancel vote        &                                    & \checkmark           \
   \includegraphics[width=1.1\linewidth]{Images/UsageUser.pdf}
   \caption{Usage for a guest}\label{fig:UsageUser}
 \end{figure}
+
+\subsection{Use Case Specifications}
+
+\actortable{Play music}{
+  The play music use case is initiated by an administrator when music should start playing at the venue. This is done by pressing the play button on the administrator interface.
+}
+
+\actortable{Stop music}{
+  When an administrator wants to stop the music playing at the venue, the stop button on the administrator interface is pressed.
+}
+
+\actortable{Next track}{
+  If for some reason an administrator is not satisfied with the currently playing track, the next track button can be clicked to force a new track to be played.
+}
+
+\actortable{Add \& remove restriction}{
+  Restrictions can be added to the system to disallow specific tracks to be played through the system. The administrator would do so whenever a certain theme of music has be complied to at the venue. These enforcements can later be loosened by removing them.
+}
+
+\actortable{Check-in \& check-out of venue}{
+  Check-in of a venue is initiated by a guest to be able to interact with the music being played on a venue. The check-in is performed by pressing on a venue on a list on the guest application. Check-out can either occur manually by the user pressing a \enquote{check-out button} on the guest application, or the system can do it automatically.
+}
+
+\actortable{Vote \& cancel vote}{
+  Guests at a venue can, when checked-in to the venue, vote on tracks to be played at the venue. This is done by finding a track that is already voted on, or searching for a track through the guest application.
+}
+
+\actortable{Influence volume}{
+  The volume of the music being played at a venue can be influenced both by an administrator through the administrator interface and by a guest through the guest application. The guest may wish to lower the volume to be able to talk to fellow guests. An administrator may wish to override the volume wishes of guests, if for example the music is playing too low.
+}
