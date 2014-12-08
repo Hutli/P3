@@ -19,7 +19,7 @@ namespace OpenPlaylistServer.Services.Implementation
             {
                 foreach (Restriction r in _restrictions)
                 {
-                    if (r.IsActive && !r.Predicate(t))
+                    if (r.IsActive && r.Predicate(t))
                     {
                         t.IsFiltered = true;
                         break;

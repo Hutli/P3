@@ -69,7 +69,7 @@ namespace OpenPlaylistServer.Models
             {
                 // parse titles, and construct restrictionunits
                 parsed = input.Split(',')
-                .Select(str => new RestrictionUnit(field, str));
+                .Select(str => new RestrictionUnit(field, str.TrimStart()));
             }
 
             return parsed;
@@ -145,45 +145,60 @@ namespace OpenPlaylistServer.Models
         {
             // find all restrictions of type field, and intersperse the elements with ','
             var ex1 = _restrictionUnits.Where(unit => unit.Field == field);
-            return string.Join(",", ex1.Select(unit => unit.FieldValue));
+            return string.Join(", ", ex1.Select(unit => unit.FieldValue));
         }
 
         private static Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, IEnumerable<RestrictionUnit> restrictionUnits)
         {
-            Func<Track, bool> filter = t => true;
-            // chain all restrictionunits together
-            foreach (var restrictionUnit in restrictionUnits)
+            var groups = restrictionUnits.GroupBy(unit => unit.Field);
+            Func<Track, bool> chainedFilter = t => false; // all group filters OR'ed together
+
+            foreach (var grouping in groups)
             {
-                if(string.IsNullOrWhiteSpace(restrictionUnit.FieldValue))
-                    continue;
-                var prevFilter = filter;
-                RestrictionUnit unit = restrictionUnit;
-                Func<Track, bool> currentFilter = t =>
+
+                Func<Track, bool> groupFilter = t => false; // this is for one group only. E.g only artists.
+                foreach (var restrictionUnit in grouping)
                 {
-                    switch (unit.Field)
+                    RestrictionUnit unit = restrictionUnit;
+                    if(string.IsNullOrWhiteSpace(unit.FieldValue))
+                        continue;
+
+                    Func<Track, bool> currentFilter = t =>
                     {
-                        case TrackField.Titles:
-                            return t.Name.ToLower().Contains(unit.FieldValue);
+                        switch (unit.Field)
+                        {
+                            case TrackField.Titles:
+                                var res = t.Name.ToLower().Contains(unit.FieldValue.Trim());
+                                return res;
 
-                        case TrackField.Artists:
-                            return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue));
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                };
+                            case TrackField.Artists:
+                                return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim()));
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    };
 
-                filter = t => prevFilter(t) && currentFilter(t);
+                    var prevGroupFilter = groupFilter;
+                    groupFilter = t => prevGroupFilter(t) || currentFilter(t); // OR them together
+                }
+
+                var prevChainedFilter = chainedFilter;
+                chainedFilter = t => prevChainedFilter(t) || groupFilter(t);
             }
 
-            if (restrictionType == RestrictionType.BlackList)
+            if (restrictionType == RestrictionType.WhiteList)
             {
-                Func<Track, bool> filter1 = filter;
-                filter = t => !filter1(t);
+                // if whitelist, it means that if the predicate is false, it should not be filtered, so we negate
+                Func<Track, bool> filter1 = chainedFilter;
+                chainedFilter = t => !filter1(t);
             }
 
-            return filter;
+            return chainedFilter;
         }
 
+        /// <summary>
+        /// True means that it should be filtered.
+        /// </summary>
         public Func<Track, bool> Predicate { get; private set; }
 
         //ToStringPredicate

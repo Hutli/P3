@@ -105,7 +105,7 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             var restrictionName = new RestrictionUnit(TrackField.Titles, "");
             var restrictionArtist = new RestrictionUnit(TrackField.Artists, "");
-            var restriction = new Restriction(new DateTime(), new DateTime(), RestrictionType.BlackList, restrictionName, restrictionArtist);
+            var restriction = new Restriction(new DateTime(), new DateTime(1,1,1,23,59,59), RestrictionType.BlackList, restrictionName, restrictionArtist);
             _viewModel.AddRestriction(restriction);
             
             RestrictionDialog rd = new RestrictionDialog(restriction);
