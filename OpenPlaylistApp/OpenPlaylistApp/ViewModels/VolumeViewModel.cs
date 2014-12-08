@@ -93,7 +93,7 @@ namespace OpenPlaylistApp.ViewModels
 		    {
 		        return;
 		    }
-			var res = await Session.MakeRequest(uri, "Volume error", "Could not set volume", new TimeSpan(0,0,3), loadingIndicator);
+			var res = await Session.MakeRequest(uri, "Volume error", "Could not set volume", new TimeSpan(0,0,7), loadingIndicator);
 			//timer.Stop ();
 			if (res == null) {
 				return;
