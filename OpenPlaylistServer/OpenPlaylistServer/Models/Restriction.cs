@@ -81,6 +81,7 @@ namespace OpenPlaylistServer.Models
             private set
             {
                 _restrictionType = value;
+                Predicate = UpdatePredicate(RestrictionType, _restrictionUnits);
                 OnPropertyChanged("RestrictionType");
             }
         }
