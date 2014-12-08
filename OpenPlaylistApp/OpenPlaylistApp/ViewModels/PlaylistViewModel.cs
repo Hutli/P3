@@ -40,7 +40,14 @@ namespace OpenPlaylistApp.ViewModels
             }
         }
 
-        public PlaylistViewModel() { }
+        public PlaylistViewModel() {
+            App.User.VoteChanged += UpdateVote;
+        }
+
+        private void UpdateVote(Track inputTrack)
+        {
+            SelectedItem = Results.First(p => p.Equals(inputTrack));
+        }
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {

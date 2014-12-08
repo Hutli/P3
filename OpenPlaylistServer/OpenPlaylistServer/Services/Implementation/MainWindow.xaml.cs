@@ -82,7 +82,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
-            //"jensstaermose@hotmail.com", "34AKPAKCRE77K"
+            //"jensstaermose@hotmail.com", "hejheider"
             Button test = (Button)sender;
             test.IsEnabled = false;
             var spotifyLoggedIn = await _session.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, _appkey);

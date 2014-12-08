@@ -12,6 +12,13 @@ namespace OpenPlaylistApp
         public static readonly BindableProperty DetailProperty = BindableProperty.Create<CustomCell, string>(p => p.DetailString, default(string));
         public static readonly BindableProperty VoteProperty = BindableProperty.Create<CustomCell, int>(p => p.VoteString, default(int));
         public static readonly BindableProperty FilteredProperty = BindableProperty.Create<CustomCell, bool>(p => p.FilteredBool, default(bool));
+        public static readonly BindableProperty SelectedProperty = BindableProperty.Create<CustomCell, bool>(p => p.FilteredBool, default(bool));
+
+        public bool SelectedBool
+        {
+            get { return (bool)GetValue(SelectedProperty); }
+            set { SetValue(SelectedProperty, value); }
+        }
 
         public bool FilteredBool
         {
@@ -64,9 +71,12 @@ namespace OpenPlaylistApp
             if (_textLabel.Height + _detailLabel.Height > 0)
                 _layout.HeightRequest = _textLabel.Height + _detailLabel.Height;
             if (FilteredBool)
-            {
                 _layout.Opacity = 0.30f;
-            }
+            if (SelectedBool)
+                _layout.BackgroundColor = Color.Green;
+            else
+                _layout.BackgroundColor = Color.Transparent;
+            
         }
 
         public CustomCell()
