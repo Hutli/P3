@@ -17,21 +17,22 @@ As candidates for events, these possible actions on classes are considered:
 The following event table is used to describe what classes are involved in the immediate events of the problem domain.
 
 \begin{table}[htbp]
-	\begin{tabular}{|l|c|c|c|c|c|c|}
-		\hline
-    \textbf{Events} & User & Track & Playlist & Vote & Restriction & Venue\\ \hline
-    (Re)vote & * & * & * & * &   &   \\ \hline
-    User checks in at venue & * &   &   & * &   & * \\ \hline
-    User leaves venue & * &   &   &   &   & * \\ \hline
-    User is searching for a track & * &   &   &   & * &   \\ \hline
-    Adding a new track to the playlist & * & * & * & * &   &   \\ \hline
-    Remove track from the playlist & * & * & * & * &   &   \\ \hline
-    A new track is playing & * & * & * & * &   & * \\ \hline
-    Restriction added & * & * & * & * & * & * \\ \hline
-    Restriction removed & * & * & * & * & * & * \\ \hline
-	\end{tabular}
-	\caption{Event table for the problem domain}
-	\label{eventtable}
+    \begin{tabular}{lcccccc}
+        \toprule
+        \textbf{Events} & User & Track & Playlist & Vote & Restriction & Venue\\
+        \midrule
+        (Re)vote & * & * & * & * &   &   \\
+        User checks in at venue & * &   &   & * &   & * \\
+        User leaves venue & * &   &   &   &   & * \\
+        User is searching for a track & * &   &   &   & * &   \\
+        User adds new track to playlist & * & * & * & * &   &   \\
+        Remove track from the playlist & * & * & * & * &   &   \\
+        A new track is playing & * & * & * & * &   & * \\
+        Restriction added & * & * & * & * & * & * \\
+        Restriction removed & * & * & * & * & * & * \\
+        \bottomrule
+    \end{tabular}
+    \caption{Event table for the problem domain}\label{eventtable}
 \end{table}
 
 In \cref{eventtable}, the different events in the problem domain and what objects are effected by these are mapped. From this, specific state diagrams can be created to illustrate how the objects are created, affected and terminated.
