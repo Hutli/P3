@@ -78,7 +78,7 @@ namespace OpenPlaylistServer.Services.Implementation
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
                     oldVote.TScore = _playlistService.CalcTScore(oldVote);
-                    if (oldVote.TScore == 0)
+                    if (oldVote.TotalScore == 0)
                     {
                         _playlistService.Remove(oldVote);
                     }
