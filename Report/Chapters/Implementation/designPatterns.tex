@@ -3,7 +3,7 @@
 \alnote{mangler intro tekst}
 
 \section{Model View Viewmodel}
-=======
+
 Over the course of a software developer's career, many solutions to a broad range of
 problems are fabricated. Design patterns are attempts to generalise some of these solutions
 for reusability.
@@ -87,7 +87,7 @@ the abstract dependency of IService1.
   \caption{An overview of dependency injection.}\label{fig:dependencyInjection}
 \end{figure}
 
-\begin{lstlisting}[caption = {Abstraction of a dependency abstraction
+\begin{lstlisting}[float, floatplacement=htpb,caption = {Abstraction of a dependency abstraction
     using C\# interfaces. A concrete dependency has to implement the
     methods described in the abstraction.}, label={fig:dep_abstraction}]
 public interface IPlaylistService
@@ -113,7 +113,7 @@ modularity of the code, that is, a whole dependency can easily be swapped for
 another dependency as long as they both implement the abstract
 dependency model.
 
-\begin{lstlisting}[caption = {Dependency Injection through class
+\begin{lstlisting}[float, floatplacement=htpb,caption = {Dependency Injection through class
     constructors. IPlaylistService, IUserService and IPlaybackService
     are all abstractions of dependencies.}, label={fig:injection}]
 public VoteService(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService) {

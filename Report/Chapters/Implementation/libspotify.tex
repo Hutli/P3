@@ -11,7 +11,7 @@ The goal of the SpofityDotNet library is to minimize runtime exceptions caused b
 
 SpotifyDotNet uses existing bindings, hosted on \url{http://libspotifydotnet.codeplex.com/}, to interface with libspotify from C\#. As an example let's look at the login function from libspotify. See \cref{fig:loginC}. The corresponding binding can be seen in \cref{fig:loginCsharp}. As can be seen, a C pointer maps directly to an IntPtr struct in C\#. \lstinline|const char*| becomes a common string object in C\#. A C bool is simply a C\# bool.
 
-\begin{lstlisting}[caption = {Libspotify login function prototype - C}, label = {fig:loginC}]
+\begin{lstlisting}[float, floatplacement=htpb,caption = {Libspotify login function prototype - C}, label = {fig:loginC}]
 sp_error sp_session_login ( sp_session *session,
                             const char *username,
                             const char *password,
@@ -20,7 +20,7 @@ sp_error sp_session_login ( sp_session *session,
                           )
 \end{lstlisting}
 
-\begin{lstlisting}[caption = {Login method using a external implementation from libspotify.dll - C\#}, label={fig:loginCsharp}]
+\begin{lstlisting}[float, floatplacement=htpb,caption = {Login method using a external implementation from libspotify.dll - C\#}, label={fig:loginCsharp}]
 public static extern sp_error sp_session_login ( IntPtr sessionPtr,
                                                  string username,
                                                  string password,
@@ -43,7 +43,7 @@ However this is not abstracted enough. To the user of the library, no pointers s
 
 As stated in~\cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}. Locks are a way to avoid race conditions i.e. threads modifying the same chunk of memory at the same time. Race conditions lead to non-deterministic results, which is always to be avoided. Locks solve this issue by synchronizing the threads. Whatever code blocks are wrapped around locks can only be accessed by one thread at a time.
 
-\begin{lstlisting}[caption = {Example of using the lock keyword in C\#. \enquote{\_sync} is an object used to store the lock state}, label = {lst:lock_keyword}]
+\begin{lstlisting}[float, floatplacement=htpb, caption = {Example of using the lock keyword in C\#. \enquote{\_sync} is an object used to store the lock state}, label = {lst:lock_keyword}]
 lock(_sync) {
   thisWillRunThreadSafe();
 }
