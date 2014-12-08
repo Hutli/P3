@@ -19,28 +19,17 @@ namespace OpenPlaylistServer.Models
             {
                 
                 // find all artists restrictions, and intersperse the elements with ','
-                var ex1 =_restrictionUnits.Where(unit => unit.Field == TrackField.Artists);
-                return string.Join(",", ex1.Select(unit => unit.FieldValue));
+                return IntersperseRestrictions(TrackField.Artists);
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    return;
-                }
-                // parse artists, and construct restrictionunits
-                var artistsParsed = value.Split(',')
-                    .Select(str => new RestrictionUnit(TrackField.Artists, str));
+                var titlesParsed = ParseRestrictionUnits(value, TrackField.Artists);
 
-                _restrictionUnits = _restrictionUnits
-                    .Where(unit => unit.Field != TrackField.Artists) // get anything other than artist restrictionunits
-                    .Concat(artistsParsed) // append the artists parsed to the existing restrictionunits
-                    .ToArray();
+                _restrictionUnits = AddRestrictionUnits(titlesParsed, TrackField.Artists);
 
                 Predicate = UpdatePredicate(RestrictionType, _restrictionUnits);
 
                 OnPropertyChanged("Artists");
-
             }
         }
 
@@ -51,30 +40,39 @@ namespace OpenPlaylistServer.Models
         {
             get
             {
-
-                // find all title restrictions, and intersperse the elements with ','
-                var ex1 = _restrictionUnits.Where(unit => unit.Field == TrackField.Titles);
-                return string.Join(",", ex1.Select(unit => unit.FieldValue));
+                return IntersperseRestrictions(TrackField.Titles);
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    return;
-                }
-                // parse artists, and construct restrictionunits
-                var titlesParsed = value.Split(',')
-                    .Select(str => new RestrictionUnit(TrackField.Titles, str));
+                var titlesParsed = ParseRestrictionUnits(value, TrackField.Titles);
 
-                _restrictionUnits = _restrictionUnits
-                    .Where(unit => unit.Field != TrackField.Titles) // get anything other than artist restrictionunits
-                    .Concat(titlesParsed) // append the artists parsed to the existing restrictionunits
-                    .ToArray();
+                _restrictionUnits = AddRestrictionUnits(titlesParsed, TrackField.Titles);
 
                 Predicate = UpdatePredicate(RestrictionType, _restrictionUnits);
 
                 OnPropertyChanged("Titles");
             }
+        }
+
+        private IEnumerable<RestrictionUnit> AddRestrictionUnits(IEnumerable<RestrictionUnit> toAdd, TrackField field)
+        {
+            return _restrictionUnits
+                .Where(unit => unit.Field != field) // get anything other than title restrictionunits
+                .Concat(toAdd); // append the titles parsed to the existing restrictionunits
+        } 
+
+        private IEnumerable<RestrictionUnit> ParseRestrictionUnits(String input, TrackField field)
+        {
+            var titlesParsed = Enumerable.Empty<RestrictionUnit>();
+            // only if the new value is not whitespace, try to split it up
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                // parse titles, and construct restrictionunits
+                titlesParsed = input.Split(',')
+                .Select(str => new RestrictionUnit(field, str));
+            }
+
+            return titlesParsed;
         }
 
         public RestrictionType RestrictionType
@@ -90,7 +88,7 @@ namespace OpenPlaylistServer.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private RestrictionType _restrictionType;
-        private RestrictionUnit[] _restrictionUnits;
+        private IEnumerable<RestrictionUnit> _restrictionUnits;
         private DateTime _startTime;
         private DateTime _endTime;
 
@@ -142,7 +140,14 @@ namespace OpenPlaylistServer.Models
             _restrictionUnits = restrictionUnits;
         }
 
-        private static Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, RestrictionUnit[] restrictionUnits)
+        private string IntersperseRestrictions(TrackField field)
+        {
+            // find all restrictions of type field, and intersperse the elements with ','
+            var ex1 = _restrictionUnits.Where(unit => unit.Field == field);
+            return string.Join(",", ex1.Select(unit => unit.FieldValue));
+        }
+
+        private static Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, IEnumerable<RestrictionUnit> restrictionUnits)
         {
             Func<Track, bool> filter = t => true;
             // chain all restrictionunits together
@@ -157,10 +162,10 @@ namespace OpenPlaylistServer.Models
                     switch (unit.Field)
                     {
                         case TrackField.Titles:
-                            return t.Name.Contains(unit.FieldValue);
+                            return t.Name.ToLower().Contains(unit.FieldValue);
 
                         case TrackField.Artists:
-                            return t.Album.Artists.Any(a => a.Name.Contains(unit.FieldValue));
+                            return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue));
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
