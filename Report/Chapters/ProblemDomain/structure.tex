@@ -23,7 +23,7 @@ main structuring techniques.
 
 Based on these structuring techniques, a class diagram, showing the structure of the classes in the problem domain of the system, has been made (see \cref{fig:pd_structure}). A \textit{User} can have an association with a \textit{Track}, i.e. they have voted on a track. A \textit{Playlist} contains one or more \textit{Track}s, i.e. the tracks yet to be played. A \textit{Venue} has zero to many restrictions on the music to be played there. A \textit{Venue} also has exactly one \textit{Playlist}, containing the tracks that have been voted for. Lastly, a \textit{Venue} is also associated zero to many \textit{User}s, i.e the guests at the venue.
 
-\begin{figure}
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{pd_structure.pdf}
   \caption{Class diagram of problem domain}\label{fig:pd_structure}

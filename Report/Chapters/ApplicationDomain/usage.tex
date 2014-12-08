@@ -3,12 +3,14 @@ There are two actors of this system; an administrator which could be a
 bartender or a bar owner in charge of the music, and a guest wanting
 to request and affect the music being played at the venue. Further information about these actors are presented in the below tables for respectively administrators and guests. Based on these actors, actor tables and usage diagrams has been made, see \cref{tab:actorTable,fig:UsageAdmin,fig:UsageUser}. These describe the possible actions each actor can take in the system.
 
-\begin{table}
+\begin{table}[hbtp]
 \centering
 \begin{tabular}{lcc}
-\hline
+\toprule
                    & \multicolumn{1}{l}{\textbf{Actor}} & \multicolumn{1}{l}{} \\
-\textbf{Use case}  & Administrator                      & Guest             \\ \hline
+\textbf{Use case}  & Administrator                      & Guest
+\\
+\midrule
 play music         & \checkmark                         &                      \\
 stop music         & \checkmark                         &                      \\
 next track         & \checkmark                         &                      \\
@@ -18,7 +20,9 @@ check out          &                                    & \checkmark           \
 check in at venue  &                                    & \checkmark           \\
 vote               &                                    & \checkmark           \\
 cancel vote        &                                    & \checkmark           \\
-influence volume   & \checkmark                         & \checkmark           \\ \hline
+influence volume   & \checkmark                         & \checkmark
+\\
+\bottomrule
 \end{tabular}
 \caption{Actor table for the project}\label{tab:actorTable}
 \end{table}
@@ -36,7 +40,7 @@ influence volume   & \checkmark                         & \checkmark           \
 		Diagram of possible usage, see \cref{fig:UsageAdmin}.
 }
 
-\begin{figure}
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=1.1\textwidth]{Images/UsageAdmin.pdf}
   \caption{Usage for a administrator}\label{fig:UsageAdmin}
@@ -54,7 +58,8 @@ influence volume   & \checkmark                         & \checkmark           \
 		A user has the ability to check in and out of a venue, vote and revote for track and cancel their vote.\\\\
 		Diagram of possible usage, see \cref{fig:UsageUser}.
 }
-\begin{figure}
+
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=1.1\linewidth]{Images/UsageUser.pdf}
   \caption{Usage for a guest}\label{fig:UsageUser}

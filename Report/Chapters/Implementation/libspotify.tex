@@ -31,7 +31,7 @@ public static extern sp_error sp_session_login ( IntPtr sessionPtr,
 
 However this is not abstracted enough. To the user of the library, no pointers should be visible. This is solved by encapsulating state and data inside the Spotify class. This class is the entry point to using libspotify in C\#. See \cref{fig:spotifydotnet_class} for complete class diagrams. The main operation on the class is the Login method. This method is asynchronous so it will utilise the C\# feature of Tasks. A Task is simply a promise that something will happen in the future. In this context, the login method returns an \lstinline|Task<Tuple<SpotifyLoggedIn,LoginState>>|. So the login method promises that it will return \lstinline|Tuple<SpotifyLoggedIn,LoginState>| at some time in the future. When login has occurred, LoginState will describe the state of the login process. If LoginState is \enquote{OK}, the login was successful and SpotifyLoggedIn will be non-null. If LoginState was anything other than \enquote{OK}, SpotifyLoggedin would be null. The SpotifyLoggedIn object sent with the login method, exposes all methods that are available when logged into Spotify. See \cref{fig:spotifydotnet_class}. By only exposing the SpotifyLoggedIn object when correctly logged in, certain errors like searching without being logged in, can be detected at compile time.
 
-\begin{figure}
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=1.2\linewidth]{spotifydotnetClass.png}
   \caption{Class diagram of SpotifyDotNet library}

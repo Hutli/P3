@@ -22,7 +22,7 @@ in such a way that the \textit{view} layer never has any knowledge about the
 \textit{model} layer. This is achieved by databinding elements on the \textit{view}
 layer to model data exposed through the \textit{viewmodel}. See \cref{fig:mvvm}.
 
-\begin{figure}
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=1\linewidth]{mvvm.png}
   \caption{Illustration of the connection between view, model and
@@ -48,7 +48,7 @@ and on later calls returns the already created instance of the class. In
 \cref{fig:singleton}, the \textit{getInstance} method would return the private field
 \textit{singleton}, making sure that the \textit{singleton} field is initialized.
 
-\begin{figure}[H]
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=0.7\linewidth]{singleton.png}
   \caption{Class diagram showing the important properties of a
@@ -81,7 +81,7 @@ concrete dependency, in this example the Service1, into Client Class' constructo
 Class does not know it uses a concrete dependency. It is only aware of
 the abstract dependency of IService1.
 
-\begin{figure}
+\begin{figure}[hbtp]
   \centering
   \includegraphics[width=1\linewidth]{DependencyInjection.png}
   \caption{An overview of dependency injection.}\label{fig:dependencyInjection}

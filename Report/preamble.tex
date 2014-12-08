@@ -99,12 +99,14 @@ bibencoding=utf8,
 
 %%%%%%%%%% macros
 \newcommand{\actortable}[2] {
-\vspace{1cm}
+%\vspace{1cm}
 \begin{center}
-\begin{minipage}{0.8\textwidth}
+\begin{minipage}{0.9\textwidth}
     \rule{\textwidth}{1pt}
     \begin{center}
-        \textbf{#1}\hfill
+      \vspace{-2ex}
+        \textbf{#1}
+      \vspace{-2ex}
     \end{center}
     \rule{\textwidth}{1pt}
     #2
@@ -112,7 +114,7 @@ bibencoding=utf8,
     \rule{\textwidth}{1pt}
 \end{minipage}
 \end{center}
-\vspace{1cm}
+%\vspace{1cm}
 }
 
 \newcommand*{\blankpage}{

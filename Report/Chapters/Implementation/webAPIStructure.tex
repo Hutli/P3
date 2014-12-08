@@ -4,7 +4,7 @@ This section provides information on the structure of the classes are build arou
 
 When using the Web API to search on Spotify, three different items can be found: Track, Album and Artist. These three items are all identified by a unique ID from Spotify, which is what is also used as the id for the item in this project. A small problem occurs in the implementation of this search since it is required to specify what kind of item is being searched for. The user, although always eventually looking for a track, does not always find the track directly via the title, but often via the artist by whom it was created or album on which the track is placed. It was therefore chosen that each search requires a specification on what type item that is being searched for. To minimize the requirements for the user, it was decided that the user, should not specify what item they are searching, but rather they should write the search string, and get a complete list of the results for all items represented. Therefore it has been implemented, that it is possible, when creating a Search object, to specify from an enum which of the three items or all three are being searched for. When choosing all three, which is what is done for the users searches, three individual searches are created and the results are represented in a complete structure shown in \cref{fig:WebAPIUML}.
 
-\begin{figure}[H]
+\begin{figure}[hbtp]
 \centering
 \includegraphics[width=\textwidth]{Images/WebAPIUML.png}
 \caption{A class diagram showing the class structure of the results generated from a search}
