@@ -39,15 +39,13 @@ A disadvantage of heuristic evaluation is that it sometimes identifies usability
 
 \section{Usability Test in Laboratory}
 Usability testing in this project will be used as a tool to test and
-ensure quality of the user interface. The outcome of a usability
-test is a list of usability problems. This method was chosen over heuristic evaluation since it would get more data on usability problems. It would also evaluate the program with potential users, this would give assurance that the program lives up to the users expectation and requirements. The tests will be performed on
+ensure quality of the user interface of the client application. The outcome of a usability
+test is a list of usability problems. After the tests the list of usability problems will be reduced to a smaller list of problems to be fixed. This method was chosen over heuristic evaluation since it would get more data on usability problems. It would also evaluate the program with potential users, this would give assurance that the program lives up to the users expectation and requirements. The tests will be performed on
 typical users that were determined in \cref{userInterviews}, who are
 representative end users of the product. It was chosen to conduct the
 test in a laboratory since it is easy to create a controllable
 environment and record video. Because of the limited time, it was
-chosen to do IDA as described in \cref{sub:usabilityTesting}. This
-might not find all usability problems, but this was acceptable since
-only a rough overview of the usability of the product was needed.
+chosen to do IDA as described in \cref{sub:usabilityTesting}. According to \cite{kjeldskov2004instant} this will not find as many usability problems as video analysis. But it will only take 10\% of the time.
 
 \subsection{Procedure}
 \begin{figure}
@@ -69,17 +67,14 @@ smoothtalker/driver, so he was responsible for entertaining the test
 subjects when they were not being tested and also driving the subjects
 that needed help arriving at the testing location. The fifth person
 was the video operator and was responsible for recording and mixing
-the video feeds from the subject room. The last person was assigned
-the role of social environment simulator and was therefore responsible
-for simulating user users actively using the test application.
+the video feeds from the subject room. The last person was assigned the role of social environment simulator. He was responsible for simulating other users actively using the test application, by adding multiple tracks to the playlist. This was done in order to make the usage of the application more realistic. The application tries to make a social experience and ideally there would be more than one person interacting with the server at a time.
 
-At the start of a test, an introduction was read out loud to the test
+The tests was done as think-aloud sessions. At the start of a test, an introduction was read out loud to the test
 subject. The introduction can be found in
 \cref{usabilityTestIntro}. The subject would then answer a
-questionnaire which can be found in \cref{tab:participants}. To
-simulate a bar the subject was offered drinks and crisps. The test
+questionnaire which can be found in \cref{tab:participants}. The test
 proceeded with the test subjects reading a premade task and then
-trying to accomplish that task. All tasks can be seen in \cref{usability_tasks}. According to~\cite{RubinChisnellSpool08}, the task description has to be detailed enough, so that no excessive information about the test program is exposed. The TASK took about 15 min. Other than that there was a freeform diskussion about the app. SO IN all it took 15 to 30 min. The result of this can be used as an indication of how intuitively the product is.
+trying to accomplish that task. All tasks can be seen in \cref{usability_tasks}. According to~\cite{RubinChisnellSpool08}, the task description has to be detailed enough, so that no excessive information about the test program is exposed. The tasks was designed to take about 15 min. After the tasks was completed there was extra time for a freeform discussion about the app. In the end each test ended up taking 15 to 30 min. This difference in time came from the freeform discussion.
 
 \subsection{Participants}
 It was decided to test with users, because it would give an indication
@@ -109,10 +104,9 @@ DVD. The data logger was taking notes while the test subjects were
 performing their tasks.
 
 \subsection{Data Analysis}
-The IDA brainstorming and data analysis session was conducted on the next
-day, and resulted in the following list of problems. The ranking of
-the problem, a problem description and which test persons suffered
-from the problem is noted.
+The IDA brainstorming and data analysis session was conducted on the next day. Normally the brainstorming session is done on the same day as the test, but due to late testing it was decided to move it the next day. One person was assigned the role of IDA facilitator and was responsible for asking questions and writing problems down that everyone could agree on. Most of the data was compiled by the data logger during the test. During the session the data was organized into a list of problem. The problems was identified into 3 different categories from \cite{molich2007usable}: minor, serious, or critical. Minor problems is when the user hesitates or is delayed for a few minutes. Serious is if the user is delayed for more time or expresses irritation. Critical is when the user total stop and cannot process without human intervention.
+
+Screenshots and the DVD was used during the analysis when there was confusion about what happened at the test. In all the analysis lasted about 1½ hours. After which a written list of ranked problems. The ranking of the problem, a problem description and which test persons suffered from the problem is noted.
 
 \subsubsection{Serious}
 \textbf{Problem \#1 - Vote confusion, does not know how votes work, what the person has
@@ -137,7 +131,7 @@ from the problem is noted.
   track would be played next, some test persons had difficulties
   determining this.
 
-\subsubsection{Cosmetic}
+\subsubsection{minor}
 \textbf{Problem \#4 - Missing confirmation when adding tracks on search. Test persons
     \#1, \#3, \#4 and \#5.}\\
   When pressing on a track after searching for it, no feedback was
@@ -208,9 +202,6 @@ from the problem is noted.
   feature was not implemented.
 
 \subsubsection{Usability Test Summary}
+As no critical problems were found in the use of the system and all participants was able to complete all the tasks. The usability of the system is concluded to be good, but certainly not perfect. The problems found can be discussed and  eventually solved, leading to a more usable system.
 
-As no critical problems were found in the use of the system, the
-usability of the system is concluded to be good, but certainly not
-perfect. The problems found can be discussed and eventually
-solved, leading to a more usable system.
-It was desided to FIX PROBLEM \#
+It was decided to fix problem \#1, \#2, \#3, \#4, \#5, \#6 and \#10. These problems was chosen to cover all serious problems and some of the most common minor problems. The final version of the client application had these problems fixed. After the fix a new test could be conducted in order to confirm that the problems was indeed fixed, but was dropped due to time constraints.
