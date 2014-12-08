@@ -72,17 +72,17 @@ namespace OpenPlaylistApp
         public CustomCell()
             : base()
         {
-            var imageAspect = App.User.ScreenHeight / 6;
+            var imageAspect = App.User.ScreenHeight / 8;
 
             _layout.RowDefinitions.Add(new RowDefinition());// { Height = new GridLength(imageAspect, GridUnitType.Star) });
             _layout.RowDefinitions.Add(new RowDefinition());
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(imageAspect)});//, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition());
-
+            _image.HeightRequest = imageAspect;
             _layout.HeightRequest = imageAspect;
 
-			_image.Aspect = Aspect.AspectFit;
+			_image.Aspect = Aspect.AspectFill;
             _layout.Children.Add(_image, 0, 0);
             Grid.SetRowSpan(_image, 2);
 
