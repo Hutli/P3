@@ -72,15 +72,17 @@ namespace OpenPlaylistApp
         public CustomCell()
             : base()
         {
-            _layout.HeightRequest = App.User.ScreenHeight / 7;
+            var imageAspect = App.User.ScreenHeight / 6;
 
+            _layout.RowDefinitions.Add(new RowDefinition());// { Height = new GridLength(imageAspect, GridUnitType.Star) });
             _layout.RowDefinitions.Add(new RowDefinition());
-            _layout.RowDefinitions.Add(new RowDefinition());
-            _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(App.User.ScreenHeight / 7) });
+            _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(imageAspect)});//, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _layout.ColumnDefinitions.Add(new ColumnDefinition());
 
-			_image.Aspect = Aspect.AspectFill;
+            _layout.HeightRequest = imageAspect;
+
+			_image.Aspect = Aspect.AspectFit;
             _layout.Children.Add(_image, 0, 0);
             Grid.SetRowSpan(_image, 2);
 
@@ -98,7 +100,7 @@ namespace OpenPlaylistApp
             _voteLabel.HorizontalOptions = LayoutOptions.Center;
             _voteLabel.WidthRequest = 24f;
             _layout.Children.Add(_voteLabel, 2, 0);
-            _voteLabel.Font = Font.SystemFontOfSize(20f, FontAttributes.Bold);
+            _voteLabel.Font = Font.BoldSystemFontOfSize(20f);
             Grid.SetRowSpan(_voteLabel, 2);
 
             View = _layout;

@@ -15,8 +15,7 @@ namespace OpenPlaylistApp.Views
             System.Uri uri = new Uri("https://www.dropbox.com/s/hldn5ddxr0zsdy4/checkin.png");
             //image.Source = ImageSource.(uri);
 
-
-            image = new Xamarin.Forms.Image { Source = ImageSource.FromResource("checkin") }; ;
+            image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("checkin") }; ;
             image.Aspect = Aspect.AspectFit;
             Content = image;
             Content.VerticalOptions = LayoutOptions.CenterAndExpand;

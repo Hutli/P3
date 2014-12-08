@@ -24,7 +24,7 @@ namespace OpenPlaylistApp.Views
             _trackImage.Opacity = 0.55f;
             _trackImage.Aspect = Aspect.AspectFill;
 
-            _nowPlayingLabel.Font = Font.SystemFontOfSize(NamedSize.Micro, FontAttributes.Bold); // Maybe implement side scrolling text if clipped by parent
+            _nowPlayingLabel.Font = Font.BoldSystemFontOfSize(NamedSize.Micro); // Maybe implement side scrolling text if clipped by parent
             _trackTitleLabel.Font = Font.SystemFontOfSize(NamedSize.Large);
            
             layout.MinimumHeightRequest = 80f;

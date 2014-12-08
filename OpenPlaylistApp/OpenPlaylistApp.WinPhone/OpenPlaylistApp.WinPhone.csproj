@@ -106,13 +106,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="WebAPI\Album.cs" />
-    <Compile Include="WebAPI\Artist.cs" />
-    <Compile Include="WebAPI\Image.cs" />
-    <Compile Include="WebAPI\Request.cs" />
-    <Compile Include="WebAPI\Search.cs" />
-    <Compile Include="WebAPI\SpotifyObject.cs" />
-    <Compile Include="WebAPI\Track.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -194,6 +187,12 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\..\packages\Xamarin.Forms.1.0.6186\lib\WP80\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WebAPIPortable\WebAPI.csproj">
+      <Project>{baf7dff4-51c5-49de-9c9f-43889d7e216d}</Project>
+      <Name>WebAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenPlaylistApp\OpenPlaylistApp.projitems" Label="Shared" Condition="Exists('..\OpenPlaylistApp\OpenPlaylistApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
