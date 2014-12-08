@@ -36,41 +36,41 @@ The following event table is used to describe what classes are involved in the i
 
 In \cref{eventtable}, the different events in the problem domain and what objects are effected by these are mapped. From this, specific state diagrams can be created to illustrate how the objects are created, affected and terminated.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=.5\textheight]{StateDiagramUser.png}
+  \includegraphics[width=.5\textwidth]{StateDiagramUser.png}
   \caption{State diagram for the user}\label{fig:StateDiagramUser}
 \end{figure}
 
 In \cref{fig:StateDiagramUser} the state diagram for a user can be seen. The problem domain is the context of the venue, and a user can therefore only affect the problem domain, when he or she is present at the venue. This results in the creation of the user, when he or she enters, and the termination when he or she leaves. When present at the venue, the user can search for tracks and vote or revote for these.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=.5\textheight]{StateDiagramPlaylist.png}
+  \includegraphics[width=.5\textwidth]{StateDiagramPlaylist.png}
   \caption{State diagram for the playlist}\label{fig:StateDiagramPlaylist}
 \end{figure}
 
 In figure \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created when the venue opens, and terminated when it closes. The playlist automatically plays the next track, and users can change their votes as desired.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=.5\textheight]{StateDiagramTrack.pdf}
+  \includegraphics[width=.5\textwidth]{StateDiagramTrack.pdf}
   \caption{State diagram for the track}\label{fig:StateDiagramTrack}
 \end{figure}
 
 As seen in figure \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=.5\textheight]{StateDiagramRestriction.pdf}
+  \includegraphics[width=.5\textwidth]{StateDiagramRestriction.pdf}
   \caption{State diagram for the restriction}\label{fig:StateDiagramRestriction}
 \end{figure}
 
 As shown in figure \cref{fig:StateDiagramRestriction}, a restriction can be created and deleted at any time. This can only be done by the administrator. A restriction only affect the users' searches when it is active. It can be toggled between active and inactive by the administrator or the system at any time.
 
-\begin{figure}[hbtp]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth, height=.5\textheight]{pd_venueState.png}
+  \includegraphics[width=.5\textwidth]{pd_venueState.png}
   \caption{State diagram for the restriction}\label{fig:StateDiagramVenue}
 \end{figure}
 
