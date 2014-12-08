@@ -6,15 +6,18 @@
 
   \pdfbookmark[0]{Title page}{label:Titlepage}
   \include{Chapters/titlepageEng}
-  \cleardoublepage
+	\blankpage
 
-  \pagestyle{BasicStyle}
   \pdfbookmark[0]{\contentsname}{label:Contents}
   \setcounter{tocdepth}{1}
-  \tableofcontents\thispagestyle{empty}
+	\pagestyle{empty}
+  \tableofcontents
+	\clearpage
+	\pagestyle{BasicStyle}
   \include{Chapters/preface}\thispagestyle{empty}
-  \cleardoublepage
-
+  \blankpage
+	
+	
   \pagenumbering{arabic}
   \include{Chapters/introduction}
   \part{Analysis}
