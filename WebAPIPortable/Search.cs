@@ -33,7 +33,7 @@ namespace WebAPI
 
                 List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
 
-                Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, albums);
+                Album tmpAlbum = GetAlbum(jsonTrack["album"], tmpArtists, albums);
                 tracks.Add(new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum));
             }
             return tracks;
@@ -60,7 +60,7 @@ namespace WebAPI
 
             List<Artist> tmpArtists = GetArtists(jsonTrack["artists"], artists);
 
-            Album tmpAlbum = GetAlbum(jsonTrack["album"], artists, new List<Album>());
+            Album tmpAlbum = GetAlbum(jsonTrack["album"], tmpArtists, new List<Album>());
 
             return new Track(id, name, duration, isExplicit, trackNumber, isrc, previewURL, tmpAlbum);
         }
