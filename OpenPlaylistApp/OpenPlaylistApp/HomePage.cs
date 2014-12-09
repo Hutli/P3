@@ -53,7 +53,7 @@ namespace OpenPlaylistApp
 
             App.User.VenueChanged += CheckedIn;
             App.User.VenueChanged += (Venue v) => this.IsPresented = false;
-            App.User.VoteChanged += NewData;
+            //App.User.VoteChanged += NewData;
             App.User.VoteChanged += (Track t) => detailPage.PopToRootAsync();
 
             Task.Run(async () =>

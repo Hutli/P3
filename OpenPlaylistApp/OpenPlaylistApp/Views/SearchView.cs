@@ -34,7 +34,7 @@ namespace OpenPlaylistApp.Views
             activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
-            listView.ItemSelected += (sender, args) =>
+            listView.ItemTapped += (sender, args) =>
             {
                 Track track = listView.SelectedItem as Track;
                 if (track.IsFiltered)

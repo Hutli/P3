@@ -40,19 +40,53 @@ namespace OpenPlaylistApp.ViewModels
             }
         }
 
-        public PlaylistViewModel() {
+        public PlaylistViewModel()
+        {
+            App.User.VoteChanged += VoteChanged;
+        }
+
+        private void VoteChanged(Track inputTrack)
+        {
+            Track oldSelected = Results.FirstOrDefault(p => p.IsSelected);
+            Track newSelected = Results.FirstOrDefault(p => p.Id.Equals(inputTrack.Id));
+            if (oldSelected != null)
+            {
+                oldSelected.TScore--;
+                oldSelected.IsSelected = false;
+                Results[Results.IndexOf(oldSelected)] = oldSelected;
+            }
+            if (newSelected != null)
+            {
+                newSelected.TScore++;
+                newSelected.IsSelected = true;
+                Results[Results.IndexOf(newSelected)] = newSelected;
+            }
+            else
+            {
+                inputTrack.TScore++;
+                inputTrack.IsSelected = true;
+                Results.Add(inputTrack);
+            }
         }
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {
-            for (int i = 0; i < newData.Count; i++)
+            Track selectedTrack = Results.FirstOrDefault(p => p.IsSelected);
+
+            if (selectedTrack != null)
+            {
+                Track newSelectedTrack = newData.FirstOrDefault(p => p.Id.Equals(selectedTrack.Id));
+                if (newSelectedTrack != null)
+                    newSelectedTrack.IsSelected = true;
+            }
+
+            int i;
+            for (i = 0; i < newData.Count; i++)
             {
                 if (i < Results.Count)
                 {
                     if (!newData[i].Equals(Results[i]))
                     {
-                        if (SelectedItem != null && newData[i].Id.Equals(SelectedItem.Id))
-                            newData[i].IsSelected = true;
                         Results[i] = newData[i];
                     }
                 }
@@ -60,6 +94,10 @@ namespace OpenPlaylistApp.ViewModels
                 {
                     Results.Add(newData[i]);
                 }
+            }
+            while (i < Results.Count)
+            {
+                Results.RemoveAt(i);
             }
 
             //var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));

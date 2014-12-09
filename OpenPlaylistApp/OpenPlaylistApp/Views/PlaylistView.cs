@@ -30,7 +30,7 @@ namespace OpenPlaylistApp.Views
             listView.ItemTemplate = new TrackTemplate();
             listView.HasUnevenRows = true;
 
-            listView.ItemSelected += session.ItemSelected; //Vote
+            listView.ItemTapped += session.ItemSelected; //Vote
             
             App.User.VenueChanged += GetPlaylist;
 

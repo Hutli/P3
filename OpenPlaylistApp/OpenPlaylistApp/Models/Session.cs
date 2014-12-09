@@ -134,12 +134,11 @@ namespace OpenPlaylistApp.Models
             //}
         }
 
-        public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public void ItemSelected(object sender, ItemTappedEventArgs e)
         {
-            if (!(e.SelectedItem is Track)) return;
-            Track track = (Track)e.SelectedItem;
+            if (!(e.Item is Track)) return;
+            Track track = (Track)e.Item;
             Session session = Session.Instance();
-
             try
             {
                 session.SendVote(App.User.Venue, track, App.User);
