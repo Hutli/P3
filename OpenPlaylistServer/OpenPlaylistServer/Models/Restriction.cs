@@ -150,50 +150,41 @@ namespace OpenPlaylistServer.Models
 
         private static Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, IEnumerable<RestrictionUnit> restrictionUnits)
         {
-            var groups = restrictionUnits.GroupBy(unit => unit.Field);
-            Func<Track, bool> chainedFilter = t => false; // all group filters OR'ed together
-
-            foreach (var grouping in groups)
+            Func<Track, bool> filter = t => false;
+            foreach (var restrictionUnit in restrictionUnits)
             {
+                RestrictionUnit unit = restrictionUnit;
+                if(string.IsNullOrWhiteSpace(unit.FieldValue))
+                    continue;
 
-                Func<Track, bool> groupFilter = t => false; // this is for one group only. E.g only artists.
-                foreach (var restrictionUnit in grouping)
+                Func<Track, bool> currentFilter = t =>
                 {
-                    RestrictionUnit unit = restrictionUnit;
-                    if(string.IsNullOrWhiteSpace(unit.FieldValue))
-                        continue;
-
-                    Func<Track, bool> currentFilter = t =>
+                    switch (unit.Field)
                     {
-                        switch (unit.Field)
-                        {
-                            case TrackField.Titles:
-                                var res = t.Name.ToLower().Contains(unit.FieldValue.Trim());
-                                return res;
+                        case TrackField.Titles:
+                            var res = t.Name.ToLower().Contains(unit.FieldValue.Trim());
+                            return res;
 
-                            case TrackField.Artists:
-                                return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim()));
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    };
+                        case TrackField.Artists:
+                            return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim()));
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                };
 
-                    var prevGroupFilter = groupFilter;
-                    groupFilter = t => prevGroupFilter(t) || currentFilter(t); // OR them together
-                }
-
-                var prevChainedFilter = chainedFilter;
-                chainedFilter = t => prevChainedFilter(t) || groupFilter(t);
+                var prevFilter = filter;
+                filter = t => prevFilter(t) || currentFilter(t); // OR them together
             }
+            
 
             if (restrictionType == RestrictionType.WhiteList)
             {
                 // if whitelist, it means that if the predicate is false, it should not be filtered, so we negate
-                Func<Track, bool> filter1 = chainedFilter;
-                chainedFilter = t => !filter1(t);
+                Func<Track, bool> filter1 = filter;
+                filter = t => !filter1(t);
             }
 
-            return chainedFilter;
+            return filter;
         }
 
         /// <summary>
