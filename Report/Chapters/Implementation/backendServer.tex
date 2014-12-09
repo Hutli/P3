@@ -18,6 +18,9 @@ the endpoint shown in \cref{lst:endpoint_checkin}
 http://server:port/checkin/{userID}
 \end{lstlisting}
 
+\subsubsection{Returns}
+"OK" when action is completed.
+
 \subsection{Searching}
 To search, just a search query is needed.
 
@@ -25,9 +28,30 @@ To search, just a search query is needed.
 http://server:port/search/{query}
 \end{lstlisting}
 
+\begin{lstlisting}[label={lst:endpoint_search_offset}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/search/{query}/{offset}
+\end{lstlisting}
+
 \subsubsection{Returns}
-Tracks on Spotify that matches the query requested and are allowed to
-be played at the venue. This is formatted in JSON.
+Tracks on Spotify that matches the query requested, with a possible offset for more results. This is formatted in JSON.
+
+\subsection{Playlist}
+
+\begin{lstlisting}[label={lst:endpoint_playlist}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/playlist
+\end{lstlisting}
+
+\subsubsection{Returns}
+The current and sorted playlist is returned to the client in JSON.
+
+\subsection{Now playing}
+
+\begin{lstlisting}[label={lst:endpoint_nowplaying}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/nowplaying
+\end{lstlisting}
+
+\subsubsection{Returns}
+The current playing track or "Nothing currently playing" is returned to the client in JSON.
 
 \subsection{Voting}
 
@@ -35,11 +59,26 @@ be played at the venue. This is formatted in JSON.
 http://server:port/vote/{userID}/{trackId}
 \end{lstlisting}
 
+\subsection{Volume}
+
+\begin{lstlisting}[label={lst:endpoint_volume}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/volume/{volPercent}/{userId}
+\end{lstlisting}
+
+\subsubsection{Returns}
+The average percentage of volume of all users is returned to the client.
+
 \subsection{Check-out}
 
 \begin{lstlisting}[label={lst:endpoint_checkout}, caption={Text surrounded by curly brackets are parameters.}]
 http://server:port/checkout/{userID}
 \end{lstlisting}
+
+\subsubsection{Returns}
+"Success" or "Failure" depending on is the action was successful.
+
+\subsubsection{Returns}
+"OK" when action is completed.
 
 %%% Local Variables:
 %%% mode: latex
