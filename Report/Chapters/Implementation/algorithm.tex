@@ -70,7 +70,4 @@ The music at a bar should never stop playing as described in \cref{musthave}. To
 \end{algorithmic}
 \end{algorithm}
 
-
-
-
-
+The users vote on tracks which forces the algorithm to chose a new song based on the previously played tracks, in order to match the music genre. Spotify does not contains meta data about which songs are related. Instead Spotify has related artist so the algorithm looks at the artists of the nine last played tracks at line 2 to 7. Theses artists has some related artists, which are iterated through at line 8. The most related artist among the nine tracks will be chosen. At line 15 to 17, the most related artist are chosen, and the first top tracks which haven't been played are chosen to be played next at line 18 to 20. In order to make the algorithm chose the highest rated track, the for each loop at line 18 has to run sequentially.
