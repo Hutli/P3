@@ -61,7 +61,7 @@ namespace OpenPlaylistApp
         protected override void OnPropertyChanged(string propertyName = null)
         {
             if (SelectedBool)
-                _layout.BackgroundColor = Color.Green;
+                _layout.BackgroundColor = Color.Accent;
             else
                 _layout.BackgroundColor = Color.Transparent;
         }

@@ -39,7 +39,9 @@ namespace OpenPlaylistApp
 
             playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView};
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-            
+
+            venueView.BackgroundColor = Color.Accent;
+
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
