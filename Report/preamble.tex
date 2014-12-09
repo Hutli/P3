@@ -71,11 +71,15 @@ bibencoding=utf8,
   {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
 \titlespacing*{\chapter}{0pt}{-2ex}{0ex}
 
+\let\Oldpart\part
+\newcommand{\parttitle}{}
+\renewcommand{\part}[1]{\Oldpart{#1}\renewcommand{\parttitle}{#1}}
 
 \usepackage{fancyhdr}
+\usepackage{nopageno}
 \setlength{\headheight}{52pt}
 
-\fancypagestyle{plain}{} % no ordinary headers and footers in pages with chapters
+\fancypagestyle{fancyplain}{} % no ordinary headers and footers in pages with chapters
 \fancyhead{} % clear default header
 \fancyfoot{} % clear default footer
 
@@ -83,13 +87,11 @@ bibencoding=utf8,
 
 \fancypagestyle{BasicStyle}{
 	\fancyhead[OL, ER]{
-		{\Large Aalborg University}\\
-		Group ds318e14}
-	\fancyhead[OR]{\nouppercase{\rightmark} \includegraphics[scale=0.25]{aau_logo_cropped.png}}
-	\fancyhead[EL]{\includegraphics[scale=0.25]{aau_logo_cropped.png} \nouppercase{\leftmark}}
+		\parbox{17mm}{{\includegraphics[scale=0.25]{aau_logo_cropped.png}}}\parbox{45mm}{\textsc{Aalborg University}\\\textit{ds318e14}}}
+	\fancyhead[OR, EL]{\parbox{56mm}{\nouppercase{{\textsc{\parttitle}} \\ \leftmark}}}
 
-	\fancyfoot[OR, EL]{\thepage}
-	\fancyfoot[OL, ER]{\today}
+	\fancyfoot[OR, EL]{Page {\thepage} of \pageref{LastPage}}
+	\fancyfoot[OL, ER]{December 19\textsuperscript{th}, 2014}
 }
 
 \pagenumbering{roman}
