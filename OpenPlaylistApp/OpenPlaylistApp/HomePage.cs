@@ -40,7 +40,9 @@ namespace OpenPlaylistApp
             playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView};
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
 
+            #if WINDOWSPHONE
             venueView.BackgroundColor = Color.Accent;
+            #endif
 
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
@@ -84,11 +86,6 @@ namespace OpenPlaylistApp
 
             App.User.ScreenHeight = height;
             App.User.ScreenWidth = width;
-        }
-
-        void NewData(Track track)
-        {
-            playlistView.GetPlaylist(App.User.Venue);
         }
 
         public void BrowseClicked()

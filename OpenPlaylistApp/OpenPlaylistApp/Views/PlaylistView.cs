@@ -32,7 +32,7 @@ namespace OpenPlaylistApp.Views
 
             listView.ItemTapped += session.ItemSelected; //Vote
             
-            App.User.VenueChanged += GetPlaylist;
+            //App.User.VenueChanged += GetPlaylist;
 
             layout.Children.Add(nowPlayingView);
             //layout.Children.Add(currentVoteView);

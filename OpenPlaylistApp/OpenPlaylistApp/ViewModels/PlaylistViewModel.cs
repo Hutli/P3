@@ -51,19 +51,19 @@ namespace OpenPlaylistApp.ViewModels
             Track newSelected = Results.FirstOrDefault(p => p.Id.Equals(inputTrack.Id));
             if (oldSelected != null)
             {
-                oldSelected.TScore--;
+                //oldSelected.TScore--;
                 oldSelected.IsSelected = false;
                 Results[Results.IndexOf(oldSelected)] = oldSelected;
             }
             if (newSelected != null)
             {
-                newSelected.TScore++;
+                //newSelected.TScore++;
                 newSelected.IsSelected = true;
                 Results[Results.IndexOf(newSelected)] = newSelected;
             }
             else
             {
-                inputTrack.TScore++;
+                //inputTrack.TScore++;
                 inputTrack.IsSelected = true;
                 Results.Add(inputTrack);
             }
@@ -78,6 +78,8 @@ namespace OpenPlaylistApp.ViewModels
                 Track newSelectedTrack = newData.FirstOrDefault(p => p.Id.Equals(selectedTrack.Id));
                 if (newSelectedTrack != null)
                     newSelectedTrack.IsSelected = true;
+                else
+                    newData.Add(selectedTrack);
             }
 
             int i;
