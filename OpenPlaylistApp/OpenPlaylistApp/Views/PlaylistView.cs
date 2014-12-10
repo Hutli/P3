@@ -29,8 +29,9 @@ namespace OpenPlaylistApp.Views
             listView.ItemsSource = playlistViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
             listView.HasUnevenRows = true;
-
+            
             listView.ItemTapped += session.ItemSelected; //Vote
+            
             
             //App.User.VenueChanged += GetPlaylist;
 
@@ -40,7 +41,6 @@ namespace OpenPlaylistApp.Views
             layout.Children.Add(volumeView);
             Content = layout;
         }
-
 
         public void GetPlaylist(Venue venue)
         {
