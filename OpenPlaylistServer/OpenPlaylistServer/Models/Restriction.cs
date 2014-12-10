@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using StructureMap.Building;
 using WebAPI;
 
 namespace OpenPlaylistServer.Models
@@ -148,43 +149,37 @@ namespace OpenPlaylistServer.Models
             return string.Join(", ", ex1.Select(unit => unit.FieldValue));
         }
 
-        private static Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, IEnumerable<RestrictionUnit> restrictionUnits)
+        private  Func<Track, bool> UpdatePredicate(RestrictionType restrictionType, IEnumerable<RestrictionUnit> restrictionUnits)
         {
-            var groups = restrictionUnits.GroupBy(unit => unit.Field);
-            Func<Track, bool> chainedFilter = t => false; // all group filters OR'ed together
+            var titles = restrictionUnits.Where(unit => unit.Field == TrackField.Titles && !string.IsNullOrWhiteSpace(unit.FieldValue));
+            var artists = restrictionUnits.Where(unit => unit.Field == TrackField.Artists && !string.IsNullOrWhiteSpace(unit.FieldValue));
 
-            foreach (var grouping in groups)
+            Func<Track, bool> chainedFilter = t => false;
+
+            if (titles.Count() == 0 && artists.Count() == 0)
             {
+                return chainedFilter;
 
-                Func<Track, bool> groupFilter = t => false; // this is for one group only. E.g only artists.
-                foreach (var restrictionUnit in grouping)
-                {
-                    RestrictionUnit unit = restrictionUnit;
-                    if(string.IsNullOrWhiteSpace(unit.FieldValue))
-                        continue;
-
-                    Func<Track, bool> currentFilter = t =>
-                    {
-                        switch (unit.Field)
-                        {
-                            case TrackField.Titles:
-                                var res = t.Name.ToLower().Contains(unit.FieldValue.Trim());
-                                return res;
-
-                            case TrackField.Artists:
-                                return t.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim()));
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    };
-
-                    var prevGroupFilter = groupFilter;
-                    groupFilter = t => prevGroupFilter(t) || currentFilter(t); // OR them together
-                }
-
-                var prevChainedFilter = chainedFilter;
-                chainedFilter = t => prevChainedFilter(t) || groupFilter(t);
             }
+            else
+            {
+                Func<RestrictionUnit, Func<Track, bool>> titleFilter = unit =>
+                {
+                    return new Func<Track, bool>(track => track.Name.ToLower().Contains(unit.FieldValue.Trim()));
+                };
+
+                var titlePred = CombineOrTrackField(titles, titleFilter);
+
+                Func<RestrictionUnit, Func<Track, bool>> artistFilter = unit =>
+                {
+                    return new Func<Track, bool>(track => track.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim())));
+                };
+
+                var artistPred = CombineOrTrackField(artists, artistFilter);
+
+                chainedFilter = t => titlePred(t) && artistPred(t);
+            }
+
 
             if (restrictionType == RestrictionType.WhiteList)
             {
@@ -194,6 +189,25 @@ namespace OpenPlaylistServer.Models
             }
 
             return chainedFilter;
+        }
+
+        private Func<Track, bool> CombineOrTrackField(IEnumerable<RestrictionUnit> restrictionUnits, Func<RestrictionUnit,Func<Track, bool>> filterFunc)
+        {
+            // if there are no restrictionUnits, the filter should just apply for everything
+            if (restrictionUnits.Count() == 0)
+            {
+                return t => true;
+            }
+
+            var predicates = restrictionUnits
+                .Select(unit => filterFunc(unit)); // map each unit to a filterFunction
+
+            Func<Track, bool> predicate = t =>
+            {
+                return predicates.Aggregate(false, (prevRes, pred) => prevRes || pred(t)); // go through all predicates and OR them together
+            };
+
+            return predicate;
         }
 
         /// <summary>
