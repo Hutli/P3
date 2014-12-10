@@ -37,4 +37,56 @@ Search tracks                  & Complex & Read    \\
 \label{table:functionlist}
 \end{table}
 
-\frnote{Specification of complex functions}
+\paragraph{Get next track}
+
+\begin{algorithm}[hbtp]
+\caption{Algorithm for finding the next track to be played.}\label{alg:GetNextTrack}
+\begin{algorithmic}[1]
+	\Function{GetNextTrack}{$playlist$,$history$}
+		\State{$nextTrack = null$}
+		\If{$playlist is empty$}
+			\State{$nextTrack = FindRelated$($history$)}
+			\Return{$nextTrack$}
+		\EndIf{}
+		\State{$nextTrack = playlist[0]$}
+		\ForAll{$track$ \textbf{in} $playlist$}
+			\If{$track.Votes > nextTrack.Votes$}
+				\State{$nextTrack = track$}
+			\Else{} 
+				\If{$track.Votes == nextTrack.Votes$}
+					\If{$track.Votes[0].Time > nextTrack.Votes[0].Time$}
+						\State{$nextTrack = track$}
+					\EndIf{}
+				\EndIf{}
+			\EndIf{}
+		\EndFor{}
+		\Return{$nextTrack$}
+	\EndFunction{}
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Search tracks}
+
+\begin{algorithm}[hbtp]
+\caption{Algorithm for finding tracks}\label{alg:Search}
+\begin{algorithmic}[1]
+	\Function{Search}{$query$,$restrictions$}
+		\State{$results = GetResults$($query$)}
+		\ForAll{$track$ \textbf{in} $results$}
+			\State{$Restrict$($track$,$restrictions$)}
+		\EndFor{}
+		\Return{$results$}
+	\EndFunction{}
+
+	\Function{Restrict}{$track$,$restrictions$}
+		\ForAll{$restriction$ \textbf{in} $restrictions$}
+			\If{$restriction$($track$)}
+				\State{$track.IsAllowed = true$}
+			\Else{}
+				\State{$track.IsAllowed = false$}
+			\EndIf{}
+		\EndFor{}
+		\Return{$return track$}
+	\EndFunction{}
+\end{algorithmic}
+\end{algorithm}

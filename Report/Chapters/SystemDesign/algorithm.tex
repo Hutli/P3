@@ -42,7 +42,7 @@ similar tracks to these.
 \renewcommand{\algorithmicforall}{\textbf{for each}}
 
 \begin{algorithm}[hbtp]
-\caption{Algorithm for finding the next track to be played.}\label{alg:smartfind}
+\caption{Algorithm for finding the next track to be played, if the playlist is empty.}\label{alg:smartfind}
 \begin{algorithmic}[1]
 	\Function{nextTrack}{$trackHistory$} \Comment{$trackHistory$ is a list of previously played tracks.}
 		\State{$k = 9$}
