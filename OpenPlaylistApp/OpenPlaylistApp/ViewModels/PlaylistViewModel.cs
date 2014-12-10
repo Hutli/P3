@@ -71,15 +71,12 @@ namespace OpenPlaylistApp.ViewModels
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {
-            Track selectedTrack = Results.FirstOrDefault(p => p.IsSelected);
-
-            if (selectedTrack != null)
+            if (App.User.Vote != null)
             {
-                Track newSelectedTrack = newData.FirstOrDefault(p => p.Id.Equals(selectedTrack.Id));
-                if (newSelectedTrack != null)
-                    newSelectedTrack.IsSelected = true;
-                else
-                    newData.Add(selectedTrack);
+                Track selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(App.User.Vote.Id));
+
+                if (selectedTrack != null)
+                    selectedTrack.IsSelected = true;
             }
 
             int i;

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using OpenPlaylistApp.ViewModels;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows;
 
 namespace OpenPlaylistApp
 {
@@ -37,18 +38,15 @@ namespace OpenPlaylistApp
             venueView = new VenueView();
             checkInView = new CheckInView();
 
-            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView};
+            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView };
             tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-
-            #if WINDOWSPHONE
-            venueView.BackgroundColor = Color.Accent;
-            #endif
 
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
 
             detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
+
             #if WINDOWS_PHONE
                 ToolbarItems.Add(tbi);
             #else
@@ -75,6 +73,18 @@ namespace OpenPlaylistApp
                 }
             });
 
+            #if WINDOWS_PHONE
+            venuePage.BackgroundColor = Color.Accent;
+            //Visibility darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
+            //if (darkBackgroundVisibility == Visibility.Visible)
+            //{
+            //    venueView.BackgroundColor = Color.White;
+            //}
+            //else
+            //{
+            //    venuePage.BackgroundColor = Color.Black;
+            //}
+            #endif
 
             Detail = checkInPage;
             Master = venuePage;
