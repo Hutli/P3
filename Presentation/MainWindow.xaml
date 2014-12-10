@@ -6,21 +6,60 @@
         <ImageBrush ImageSource="{Binding BackgroundImage}"/>
     </Window.Background>
     <Grid Background="#FF252525">
-        <ListView Margin="10"  ItemsSource="{Binding List, Mode=TwoWay}" Background="{x:Null}" FontSize="24" Foreground="#FFEAEAEA">
-            <GridView>
-                <GridViewColumn Width="auto">
-                    <Image>
-                        <Image.Source>
-                            <BitmapImage UriSource="{Binding Album.Images[1].URL"/>
-                        </Image.Source>
-                    </Image>
-                </GridViewColumn>
-                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
-                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
-                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Duration}" />
-                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TScore}" />
-                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding PScore}" />
-            </GridView>
+        <ListView Margin="10,200,10,10" ItemsSource="{Binding List}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding Album.Images[1].URL}" CacheOption="OnLoad"/>
+                                    </Image.Source>
+                                </Image>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
+                </GridView>
+            </ListView.View>
         </ListView>
+        <ListView Margin="10,10,10,200" ItemsSource="{Binding List}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding Album.Images[1].URL}" CacheOption="OnLoad"/>
+                                    </Image.Source>
+                                </Image>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TotalScore}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Image x:Name="NowPlayingImage" HorizontalAlignment="Left" Height="110" Margin="10,105,0,0" VerticalAlignment="Top" Width="110">
+        </Image>
+        <ProgressBar HorizontalAlignment="Left" Height="6" Margin="125,189,0,0" VerticalAlignment="Top" Width="382"/>
+        <Canvas ClipToBounds="True" Name="canMain" >
+            <TextBlock Name="tbmarquee" Text="{Binding NowPlaying.ToString}"/>
+        </Canvas>
     </Grid>
 </Window>

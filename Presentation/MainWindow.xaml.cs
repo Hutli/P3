@@ -2,20 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WebAPI;
 
 namespace Presentation
@@ -26,16 +18,18 @@ namespace Presentation
     public partial class MainWindow : Window
     {
 
-        ObservableCollection<Track> _list = new ObservableCollection<Track>();
+        private ObservableCollection<Track> _list = new ObservableCollection<Track>();
 
         public ObservableCollection<Track> List { get { return _list; } set { _list = value; } }
+
+        public Track NowPlaying;
 
         public MainWindow()
         {
             InitializeComponent();
 
             DataContext = this;
-
+            
             Task.Run(async () =>
             {
                 while (true)
@@ -43,7 +37,7 @@ namespace Presentation
                     await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
-                        GetResults("77.68.200.85");
+                        GetResults("localhost");
                         Console.WriteLine("trying \n");
                     }));
                 }
@@ -60,12 +54,14 @@ namespace Presentation
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
 
                 var json1 = await GetNowPlaying(ip);
-                returnValue1 = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
+                NowPlaying = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
+                NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[0].URL));
 
                 List.Clear();
                 if(returnValue != null)
                     foreach (Track track in returnValue)
                     {
+                        
                         List.Add(track);
                         Console.WriteLine("{0}", track.Name);
                     }
@@ -122,5 +118,17 @@ namespace Presentation
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
-    }
+
+        private void LeftToRightMarquee()
+        {
+            double height = canMain.ActualHeight - tbmarquee.ActualHeight;
+            tbmarquee.Margin = new Thickness(0, height / 2, 0, 0);
+            DoubleAnimation doubleAnimation = new DoubleAnimation();
+            doubleAnimation.From = -tbmarquee.ActualWidth;
+            doubleAnimation.To = canMain.ActualWidth;
+            doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+            tbmarquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
+        }
+    } 
 }
