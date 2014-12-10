@@ -23,22 +23,24 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged, INotifyPropertyChanging
+    public partial class MainWindow : Window
     {
 
         ObservableCollection<Track> _list = new ObservableCollection<Track>();
 
-        ObservableCollection<Track> List { get { return _list; } set { _list = value; } }
+        public ObservableCollection<Track> List { get { return _list; } set { _list = value; } }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            DataContext = this;
+
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1)); // update from server every second
+                    await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
                         GetResults("77.68.200.85");
@@ -57,16 +59,16 @@ namespace Presentation
                 var json = await GetPlaylist(ip);
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
 
-                //var json1 = await GetNowPlaying(ip);
-                //returnValue1 = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
+                var json1 = await GetNowPlaying(ip);
+                returnValue1 = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
 
                 List.Clear();
                 if(returnValue != null)
                     foreach (Track track in returnValue)
                     {
                         List.Add(track);
+                        Console.WriteLine("{0}", track.Name);
                     }
-                OnPropertyChanged("List");
             }
             catch (Exception ex)
             {
@@ -74,6 +76,8 @@ namespace Presentation
         }
 
         public static async Task<String> MakeRequest(Uri request, TimeSpan timeout) {
+            try
+            {
                 using (HttpClient client = new HttpClient())
                 {
                     client.Timeout = timeout;
@@ -96,6 +100,12 @@ namespace Presentation
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Http error");
+                return null;
+            }
         }
 
         public async Task<string> GetPlaylist(string ip)
@@ -111,31 +121,6 @@ namespace Presentation
             UriBuilder uriBuilder = new UriBuilder("http", ip, 5555, "nowplaying");
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
-        }
-
-        #region INotifyPropertyChanging implementation
-        public event PropertyChangingEventHandler PropertyChanging;
-        #endregion
-
-        public void OnPropertyChanging(string propertyName)
-        {
-            if (PropertyChanging == null)
-                return;
-
-            PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
-        }
-
-
-        #region INotifyPropertyChanged implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged == null)
-                return;
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

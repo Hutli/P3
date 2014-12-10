@@ -6,16 +6,21 @@
         <ImageBrush ImageSource="{Binding BackgroundImage}"/>
     </Window.Background>
     <Grid Background="#FF252525">
-        <ListView HorizontalAlignment="Left" Height="101" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"  ItemsSource="{Binding List}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
-                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding Duration}" />
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding TScore}" />
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding PScore}" />
-                </GridView>
-            </ListView.View>
+        <ListView Margin="10"  ItemsSource="{Binding List, Mode=TwoWay}" Background="{x:Null}" FontSize="24" Foreground="#FFEAEAEA">
+            <GridView>
+                <GridViewColumn Width="auto">
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding Album.Images[1].URL"/>
+                        </Image.Source>
+                    </Image>
+                </GridViewColumn>
+                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
+                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
+                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Duration}" />
+                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TScore}" />
+                <GridViewColumn Width="auto" DisplayMemberBinding="{Binding PScore}" />
+            </GridView>
         </ListView>
     </Grid>
 </Window>
