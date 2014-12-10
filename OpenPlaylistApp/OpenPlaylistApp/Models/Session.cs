@@ -34,8 +34,9 @@ namespace OpenPlaylistApp.Models
 
 		public static async Task<String> MakeRequest(Uri request, string errorMessageTitle, string errorMessage, TimeSpan timeout, bool loadIndicator)
         {
-            if (_connectionFailures > 1){
+            if (_connectionFailures > 2){
                 App.Home.CheckOut();
+                App.GetMainPage().DisplayAlert("Error", "Connection lost", "Ok", "Cancel");
                 return null;
             }
 			if(loadIndicator) App.Home.IsBusy = true;

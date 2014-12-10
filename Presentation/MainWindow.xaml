@@ -1,0 +1,21 @@
+﻿<Window x:Class="Presentation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Background>
+        <ImageBrush ImageSource="{Binding BackgroundImage}"/>
+    </Window.Background>
+    <Grid Background="#FF252525">
+        <ListView HorizontalAlignment="Left" Height="101" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"  ItemsSource="{Binding List}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding Duration}" />
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding TScore}" />
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding PScore}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

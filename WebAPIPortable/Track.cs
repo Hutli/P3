@@ -96,7 +96,7 @@ namespace WebAPI
         {
             if (obj.GetType() == typeof(Track))
             {
-                return (((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC) && ((Track)obj).TotalScore == TotalScore;
+                return (((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC);
             }
             return false;
         }

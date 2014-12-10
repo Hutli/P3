@@ -84,7 +84,7 @@ namespace OpenPlaylistApp.ViewModels
             {
                 if (i < Results.Count)
                 {
-                    if (!newData[i].Equals(Results[i]))
+                    if (!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
                     {
                         Results[i] = newData[i];
                     }
