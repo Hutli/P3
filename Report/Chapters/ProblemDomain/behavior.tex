@@ -54,7 +54,7 @@ In \cref{fig:StateDiagramUser} the state diagram for a user can be seen. The pro
   \caption{State diagram for the playlist}\label{fig:StateDiagramPlaylist}
 \end{figure}
 
-In figure \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created when the venue opens, and terminated when it closes. The playlist automatically plays the next track, and users can change their votes as desired.
+In \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created when the venue opens, and terminated when it closes. The playlist automatically plays the next track, and users can change their votes as desired.
 
 \begin{figure}[H]
   \centering
@@ -62,7 +62,7 @@ In figure \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is cre
   \caption{State diagram for the track}\label{fig:StateDiagramTrack}
 \end{figure}
 
-As seen in figure \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played.
+As seen in \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played.
 
 \begin{figure}[H]
   \centering
@@ -70,7 +70,7 @@ As seen in figure \cref{fig:StateDiagramTrack}, a track is only modelled in the 
   \caption{State diagram for the restriction}\label{fig:StateDiagramRestriction}
 \end{figure}
 
-As shown in figure \cref{fig:StateDiagramRestriction}, a restriction can be created and deleted at any time. This can only be done by the administrator. A restriction only affect the users' searches when it is active. It can be toggled between active and inactive by the administrator or the system at any time.
+As shown in \cref{fig:StateDiagramRestriction}, a restriction can be created and deleted at any time. This can only be done by the administrator. A restriction only affect the users' searches when it is active. It can be toggled between active and inactive by the administrator or the system at any time.
 
 \begin{figure}[H]
   \centering
@@ -78,11 +78,12 @@ As shown in figure \cref{fig:StateDiagramRestriction}, a restriction can be crea
   \caption{State diagram for the venue}\label{fig:StateDiagramVenue}
 \end{figure}
 
-As shown in figure \cref{fig:StateDiagramVenue}, a venue is created when it first opens and is terminated when it is shut down. A venue has only two states, active and inactive, meaning whether or not guests are allowed. A venue can edit its playlist, without changing state, and likewise add or remove restrictions.
+As shown in \cref{fig:StateDiagramVenue}, a venue is created when it first opens and is terminated when it is shut down. A venue has only two states, active and inactive, meaning whether or not guests are allowed. A venue can edit its playlist, without changing state, and likewise add or remove restrictions.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{StateDiagramVote.pdf}
   \caption{State diagram for vote class}\label{fig:StateDiagramVote}
 \end{figure}
-\sinote{Mangler beskrivende tekst til vote diagram}
+
+\cref{fig:StateDiagramVote} describes the vote class. This class is very simple. It is created when a user votes on a track, and is terminated when the user, that created the vote, changes his/her vote, thereby cancelling the old vote. It also terminates when the track the vote on is is played, the administrator removes the vote or the user leaves, thereby cancelling all his or her votes.
