@@ -54,8 +54,10 @@ namespace Presentation
                 returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
 
                 var json1 = await GetNowPlaying(ip);
-                NowPlaying = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
-                NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[0].URL));
+                if (NowPlaying != (Track)JsonConvert.DeserializeObject(json1, typeof(Track))) {
+                    NowPlaying = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
+                    NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[0].URL));
+                }
 
                 List.Clear();
                 if(returnValue != null)

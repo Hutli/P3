@@ -12,7 +12,7 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class PlaylistService : IPlaylistService
     {
-        readonly ObservableCollection<Track> _tracks;
+        ObservableCollection<Track> _tracks;
 
         private readonly IUserService _userService;
         private readonly IHistoryService _historyService;
@@ -50,7 +50,7 @@ namespace OpenPlaylistServer.Services.Implementation
         public Track NextTrack()
         {
             CountAndUpdatePVotes();
-            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();;
+            Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
             if (next == null || (_historyService.GetLastTrack() != null && _historyService.GetLastTrack().Equals(next)))
             { // if last track is equal to next track, find another relevant track instead
                 next = SmartFindTrack().Result;

@@ -55,8 +55,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Image x:Name="NowPlayingImage" HorizontalAlignment="Left" Height="110" Margin="10,105,0,0" VerticalAlignment="Top" Width="110">
-        </Image>
+        <Image x:Name="NowPlayingImage" Margin="10,105,397,105"/>
         <ProgressBar HorizontalAlignment="Left" Height="6" Margin="125,189,0,0" VerticalAlignment="Top" Width="382"/>
         <Canvas ClipToBounds="True" Name="canMain" >
             <TextBlock Name="tbmarquee" Text="{Binding NowPlaying.ToString}"/>
