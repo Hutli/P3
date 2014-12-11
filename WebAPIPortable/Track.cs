@@ -88,6 +88,8 @@ namespace WebAPI
         [JsonProperty]
         public Album Album { get; set; }
 
+        public string ToStringProperty { get { return ToString(); } }
+
         public override string URI { get { return "spotify:track:" + Id; } }
 
         public override string ToString() { return string.Format("{0} - {1}", Name, Album.ArtistsToString); }
@@ -100,6 +102,7 @@ namespace WebAPI
             }
             return false;
         }
+        public int Rank { get; set; }
 
         public bool Equals(string id, string isrc)
         {

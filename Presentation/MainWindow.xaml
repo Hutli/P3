@@ -1,10 +1,7 @@
 ﻿<Window x:Class="Presentation.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" WindowState="Maximized" WindowStyle="None">
-    <Window.Background>
-        <ImageBrush ImageSource="{Binding BackgroundImage}"/>
-    </Window.Background>
+        Title="MainWindow" Height="350" Width="525" WindowState="Maximized" WindowStyle="None" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid Background="#FF252525">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="12*"/>
@@ -15,7 +12,7 @@
             <RowDefinition Height="89*"/>
             <RowDefinition Height="156*"/>
         </Grid.RowDefinitions>
-        <ListView Margin="10,9,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0">
+        <ListView Margin="10,9,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="24" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0" Focusable="False">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -23,7 +20,13 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100"/>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rank}" FontSize="48" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -35,12 +38,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ToStringProperty}" />
+                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TotalScore}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="historyListView" Margin="10,0,10,12" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5">
+        <ListView x:Name="historyListView" Margin="10,0,14,10" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -48,7 +51,11 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100"/>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate />
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -72,5 +79,6 @@
             <TextBlock x:Name="rightTextBoxMarquee" Foreground="White" FontSize="48" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
             <TextBlock x:Name="leftTextBoxMarquee" Foreground="White" FontSize="48" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
         </Canvas>
+        <Image Source="pack://siteoforigin:,,,/Resources/PlayStoreHeader2.png" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.05" Grid.ColumnSpan="2" Margin="-2,0,0,0" Grid.RowSpan="3" />
     </Grid>
 </Window>

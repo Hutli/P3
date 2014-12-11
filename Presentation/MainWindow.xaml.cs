@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WebAPI;
@@ -38,9 +41,12 @@ namespace Presentation
                 while (true)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
+                    
+                    ServerData serverData = await GetResults("77.68.200.85");
+
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
-                        GetResults("77.68.200.85");
+                        ApplyChanges(serverData);
                         Console.WriteLine("trying \n");
                     }));
                 }
@@ -59,50 +65,61 @@ namespace Presentation
             });
         }
 
-        async public void GetResults(string ip)
+        public struct ServerData
         {
-            ObservableCollection<Track> playlistReturn = new ObservableCollection<Track>();
-            ObservableCollection<Track> historyReturn = new ObservableCollection<Track>();
+            public ObservableCollection<Track> Playlist;
+            public ObservableCollection<Track> History;
+            public Track NowPlaying;
+        }
 
+        async public Task<ServerData> GetResults(string ip)
+        {
+            ServerData serverData = new ServerData();
             try
             {
                 var playlistJson = await GetPlaylist(ip);
-                playlistReturn = (ObservableCollection<Track>)JsonConvert.DeserializeObject(playlistJson, typeof(ObservableCollection<Track>));
+                serverData.Playlist = (ObservableCollection<Track>)JsonConvert.DeserializeObject(playlistJson, typeof(ObservableCollection<Track>));
 
                 var historyJson = await GetHistory(ip);
-                historyReturn = (ObservableCollection<Track>)JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
+                serverData.History = (ObservableCollection<Track>)JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
 
                 var nowPlayingJson = await GetNowPlaying(ip);
-                if ((Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track)) != null && NowPlaying != (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track))) {
-                    NowPlaying = (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track));
-                    Progress.Value = NowPlaying.CurrentDurationStep;
-                    if (string.IsNullOrEmpty(leftTextBoxMarquee.Text) || !NowPlaying.ToString().Equals(leftTextBoxMarquee.Text))
-                    {
-                        NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[1].URL));
-                        leftTextBoxMarquee.Text = NowPlaying.ToString();
-                        rightTextBoxMarquee.Text = NowPlaying.ToString();
-                        Progress.Maximum = NowPlaying.Duration;
-                        LeftToRightMarquee();
-                    }
+                serverData.NowPlaying = (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track));
+            }
+            catch (Exception ex) { }
+            return serverData;
+        }
+
+        private void ApplyChanges(ServerData serverData)
+        {
+            Playlist.Clear();
+            if (serverData.Playlist != null)
+                foreach (Track track in serverData.Playlist)
+                {
+                    Playlist.Add(track);
                 }
 
-                Playlist.Clear();
-                if(playlistReturn != null)
-                    foreach (Track track in playlistReturn)
-                    {
-                        Playlist.Add(track);
-                    }
+            History.Clear();
+            if (serverData.History != null)
+                foreach (Track track in serverData.History)
+                {
+                    History.Add(track);
+                    historyListView.ScrollIntoView(track);
+                }
 
-                History.Clear();
-                if (historyReturn != null)
-                    foreach (Track track in historyReturn)
-                    {
-                        History.Add(track);
-                        historyListView.ScrollIntoView(track);
-                    }
-            }
-            catch (Exception ex)
+            if (serverData.NowPlaying != null && NowPlaying != serverData.NowPlaying)
             {
+                NowPlaying = serverData.NowPlaying;
+                Progress.Value = NowPlaying.CurrentDurationStep;
+                if (string.IsNullOrEmpty(leftTextBoxMarquee.Text) || !NowPlaying.ToString().Equals(leftTextBoxMarquee.Text))
+                {
+                    NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[1].URL));
+
+                    leftTextBoxMarquee.Text = NowPlaying.ToString();
+                    rightTextBoxMarquee.Text = NowPlaying.ToString();
+                    Progress.Maximum = NowPlaying.Duration;
+                    RightToLeftMarquee();
+                }
             }
         }
 
@@ -161,29 +178,53 @@ namespace Presentation
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
 
-        private void LeftToRightMarquee()
+        private async void RightToLeftMarquee()
         {
             double height = canMain.ActualHeight - leftTextBoxMarquee.ActualHeight;
             leftTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
             rightTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
 
+            var textSize = MeasureString(leftTextBoxMarquee.Text);
+
             DoubleAnimation leftDoubleAnimation = new DoubleAnimation();
             DoubleAnimation rightDoubleAnimation = new DoubleAnimation();
 
-            leftDoubleAnimation.From = canMain.ActualWidth;
-            leftDoubleAnimation.To = -(leftTextBoxMarquee.ActualWidth + canMain.ActualWidth);
+            leftDoubleAnimation.From = 0;
+            leftDoubleAnimation.To = -canMain.ActualWidth;
             leftDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            leftDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+            leftDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(20));
 
-            rightDoubleAnimation.From = canMain.ActualWidth * 2;
-            rightDoubleAnimation.To = -rightTextBoxMarquee.ActualWidth;
+            rightDoubleAnimation.From = canMain.ActualWidth; ;
+            rightDoubleAnimation.To = 0;
             rightDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            rightDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+            rightDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(20));
+
+
+
+            //Thread.Sleep(TimeSpan.FromSeconds(2));
+
+            leftTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, null);
+            rightTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, null);
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
 
             leftTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, leftDoubleAnimation);
             //leftDoubleAnimation.SetCurrentValue(Canvas.LeftProperty, canMain.ActualWidth - rightTextBoxMarquee.ActualWidth);
             rightTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, rightDoubleAnimation);
             //rightDoubleAnimation.SetCurrentValue(Canvas.LeftProperty, canMain.ActualWidth + rightTextBoxMarquee.ActualWidth);
+        }
+
+        private Size MeasureString(string candidate)
+        {
+            var formattedText = new FormattedText(
+                candidate,
+                CultureInfo.CurrentUICulture,
+                FlowDirection.LeftToRight,
+                new Typeface(this.leftTextBoxMarquee.FontFamily, this.leftTextBoxMarquee.FontStyle, this.leftTextBoxMarquee.FontWeight, this.leftTextBoxMarquee.FontStretch),
+                this.leftTextBoxMarquee.FontSize,
+                Brushes.Black);
+
+            return new Size(formattedText.Width, formattedText.Height);
         }
     } 
 }
