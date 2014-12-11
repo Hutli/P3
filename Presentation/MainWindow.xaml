@@ -30,7 +30,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView Margin="10,10,10,200" ItemsSource="{Binding List}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA">
+        <ListView Margin="10,10,10,200" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -57,7 +57,7 @@
         </ListView>
         <Image x:Name="NowPlayingImage" Margin="10,105,397,105"/>
         <ProgressBar HorizontalAlignment="Left" Height="6" Margin="125,189,0,0" VerticalAlignment="Top" Width="382"/>
-        <Canvas ClipToBounds="True" Name="canMain" >
+        <Canvas ClipToBounds="True" Name="canMain" Margin="125,124,10,119" >
             <TextBlock Name="tbmarquee" Text="{Binding NowPlaying.ToString}"/>
         </Canvas>
     </Grid>

@@ -18,9 +18,11 @@ namespace Presentation
     public partial class MainWindow : Window
     {
 
-        private ObservableCollection<Track> _list = new ObservableCollection<Track>();
+        private ObservableCollection<Track> _playlist = new ObservableCollection<Track>();
+        public ObservableCollection<Track> Playlist { get { return _playlist; } set { _playlist = value; } }
 
-        public ObservableCollection<Track> List { get { return _list; } set { _list = value; } }
+        private ObservableCollection<Track> _history = new ObservableCollection<Track>();
+        public ObservableCollection<Track> History { get { return _history; } set { _history = value; } }
 
         public Track NowPlaying;
 
@@ -37,7 +39,7 @@ namespace Presentation
                     await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
-                        GetResults("localhost");
+                        GetResults("77.68.200.85");
                         Console.WriteLine("trying \n");
                     }));
                 }
@@ -46,26 +48,35 @@ namespace Presentation
 
         async public void GetResults(string ip)
         {
-            ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
-            Track returnValue1 = new Track();
+            ObservableCollection<Track> playlistReturn = new ObservableCollection<Track>();
+            ObservableCollection<Track> historyReturn = new ObservableCollection<Track>();
+
             try
             {
-                var json = await GetPlaylist(ip);
-                returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                var playlistJson = await GetPlaylist(ip);
+                playlistReturn = (ObservableCollection<Track>)JsonConvert.DeserializeObject(playlistJson, typeof(ObservableCollection<Track>));
 
-                var json1 = await GetNowPlaying(ip);
+                var historyJson = await GetHistory(ip);
+                historyReturn = (ObservableCollection<Track>)JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
+
+                /*var json1 = await GetNowPlaying(ip);
                 if (NowPlaying != (Track)JsonConvert.DeserializeObject(json1, typeof(Track))) {
                     NowPlaying = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
                     NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[0].URL));
-                }
+                }*/
 
-                List.Clear();
-                if(returnValue != null)
-                    foreach (Track track in returnValue)
+                Playlist.Clear();
+                if(playlistReturn != null)
+                    foreach (Track track in playlistReturn)
                     {
-                        
-                        List.Add(track);
-                        Console.WriteLine("{0}", track.Name);
+                        Playlist.Add(track);
+                    }
+
+                History.Clear();
+                if (historyReturn != null)
+                    foreach (Track track in historyReturn)
+                    {
+                        History.Add(track);
                     }
             }
             catch (Exception ex)
@@ -117,6 +128,13 @@ namespace Presentation
         public async Task<string> GetNowPlaying(string ip) //Vi kunne have genbrugt session fra app
         {
             UriBuilder uriBuilder = new UriBuilder("http", ip, 5555, "nowplaying");
+
+            return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
+        }
+
+        public async Task<string> GetHistory(string ip)
+        {
+            UriBuilder uriBuilder = new UriBuilder("http", ip, 5555, "history");
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
