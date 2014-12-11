@@ -15,6 +15,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void RestrictTracks(IEnumerable<Track> tracks)
         {
+            var whitelistFound = false;
             foreach (Track t in tracks)
             {
                 var isBlacklisted = false;
@@ -28,13 +29,15 @@ namespace OpenPlaylistServer.Services.Implementation
                         break;
                     }
 
-                    if (r.RestrictionType == RestrictionType.WhiteList && r.Predicate(t))
+                    if (r.RestrictionType == RestrictionType.WhiteList)
                     {
-                        isWhitelisted = true;
+                        whitelistFound = true;
+                        if (!r.Predicate(t))
+                            isWhitelisted = true;
                     }
                 }
 
-                t.IsFiltered = isBlacklisted || !isWhitelisted;
+                t.IsFiltered = isBlacklisted || (whitelistFound && !isWhitelisted);
             }
         }
 

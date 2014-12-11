@@ -165,14 +165,14 @@ namespace OpenPlaylistServer.Models
             {
                 Func<RestrictionUnit, Func<Track, bool>> titleFilter = unit =>
                 {
-                    return new Func<Track, bool>(track => track.Name.ToLower().Contains(unit.FieldValue.Trim()));
+                    return new Func<Track, bool>(track => track.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower()));
                 };
 
                 var titlePred = CombineOrTrackField(titles, titleFilter);
 
                 Func<RestrictionUnit, Func<Track, bool>> artistFilter = unit =>
                 {
-                    return new Func<Track, bool>(track => track.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim())));
+                    return new Func<Track, bool>(track => track.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower())));
                 };
 
                 var artistPred = CombineOrTrackField(artists, artistFilter);
