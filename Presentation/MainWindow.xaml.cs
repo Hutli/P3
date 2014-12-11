@@ -63,6 +63,7 @@ namespace Presentation
                     }));
                 }
             });
+
         }
 
         public struct ServerData
@@ -92,6 +93,8 @@ namespace Presentation
 
         private void ApplyChanges(ServerData serverData)
         {
+            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageCoulmn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - 10;
+
             Playlist.Clear();
             if (serverData.Playlist != null)
                 foreach (Track track in serverData.Playlist)
@@ -184,7 +187,7 @@ namespace Presentation
             leftTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
             rightTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
 
-            var textSize = MeasureString(leftTextBoxMarquee.Text);
+            var textSize = MeasureString(leftTextBoxMarquee.Text, leftTextBoxMarquee);
 
             DoubleAnimation leftDoubleAnimation = new DoubleAnimation();
             DoubleAnimation rightDoubleAnimation = new DoubleAnimation();
@@ -214,15 +217,13 @@ namespace Presentation
             //rightDoubleAnimation.SetCurrentValue(Canvas.LeftProperty, canMain.ActualWidth + rightTextBoxMarquee.ActualWidth);
         }
 
-        private Size MeasureString(string candidate)
+        private Size MeasureString(string candidate, TextBlock inputTextBlock)
         {
             var formattedText = new FormattedText(
                 candidate,
                 CultureInfo.CurrentUICulture,
                 FlowDirection.LeftToRight,
-                new Typeface(this.leftTextBoxMarquee.FontFamily, this.leftTextBoxMarquee.FontStyle, this.leftTextBoxMarquee.FontWeight, this.leftTextBoxMarquee.FontStretch),
-                this.leftTextBoxMarquee.FontSize,
-                Brushes.Black);
+                new Typeface(inputTextBlock.FontFamily, inputTextBlock.FontStyle, inputTextBlock.FontWeight, inputTextBlock.FontStretch), inputTextBlock.FontSize, Brushes.Black);
 
             return new Size(formattedText.Width, formattedText.Height);
         }

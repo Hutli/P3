@@ -12,22 +12,27 @@
             <RowDefinition Height="89*"/>
             <RowDefinition Height="156*"/>
         </Grid.RowDefinitions>
-        <ListView Margin="10,9,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="24" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0" Focusable="False">
+        <ListView x:Name="PlaylistListView" Margin="10,9,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="24" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0" Focusable="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </Style>
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100">
+                    <GridViewColumn x:Name="RankColumn" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rank}" FontSize="48" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="100">
+                    <GridViewColumn x:Name="ImageCoulmn" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image>
@@ -38,8 +43,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding ToStringProperty}" />
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TotalScore}"/>
+                    <GridViewColumn x:Name="ToStringColumn" DisplayMemberBinding="{Binding ToStringProperty}"/>
+                    <GridViewColumn x:Name="TotalScoreColumn" Width="100" DisplayMemberBinding="{Binding TotalScore}"/>
                 </GridView>
             </ListView.View>
         </ListView>
