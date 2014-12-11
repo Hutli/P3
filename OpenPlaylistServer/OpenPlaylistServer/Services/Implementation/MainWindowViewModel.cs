@@ -49,7 +49,7 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             Console.WriteLine("Track ended called");
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action( () =>
+            RootDispatcherFetcher.RootDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 try
                 {

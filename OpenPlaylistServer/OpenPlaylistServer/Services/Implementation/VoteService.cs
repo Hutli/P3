@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
@@ -9,12 +8,10 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class VoteService : IVoteService
     {
-        private IPlaybackService _playbackService;
         private IPlaylistService _playlistService;
         private IUserService _userService;
 
-        public VoteService(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService) {
-            _playbackService = playbackService;
+        public VoteService(IPlaylistService playlistService, IUserService userService) {
             _playlistService = playlistService;
             _userService = userService;
         }
@@ -38,7 +35,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
                 playlistTrack = track;
 
-                Application.Current.Dispatcher.Invoke((Action)(() => _playlistService.Add(playlistTrack)));
+                RootDispatcherFetcher.RootDispatcher.Invoke(() => _playlistService.Add(playlistTrack));
                 //_playlistService.Add(playlistTrack);
             }
 
@@ -62,27 +59,27 @@ namespace OpenPlaylistServer.Services.Implementation
                 // user is not known. Adding user to list of known users
                 user = new User(userId);
                 //  set user's vote to new track
-                
-                Application.Current.Dispatcher.Invoke((Action)(() => _userService.Add(user)));
+
+                RootDispatcherFetcher.RootDispatcher.Invoke(() => _userService.Add(user));
             }
 
             if (user != null) user.Vote = playlistTrack;
 
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            RootDispatcherFetcher.RootDispatcher.Invoke(() =>
             {
                 playlistTrack.TScore = _playlistService.CalcTScore(playlistTrack);
-            }));
+            });
             
             if (oldVote != null)
             {
-                Application.Current.Dispatcher.Invoke((Action)(() =>
+                RootDispatcherFetcher.RootDispatcher.Invoke(() =>
                 {
                     oldVote.TScore = _playlistService.CalcTScore(oldVote);
                     if (oldVote.TotalScore == 0)
                     {
                         _playlistService.Remove(oldVote);
                     }
-                }));
+                });
                 
             }
 

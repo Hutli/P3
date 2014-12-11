@@ -10,14 +10,14 @@ namespace OpenPlaylistServer.Endpoints
 {
     public class CheckInEndPoint : NancyModule
     {
-        public CheckInEndPoint(IPlaylistService playlistService, IUserService userService)
+        public CheckInEndPoint(IUserService userService)
         {
             Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
                 if (userService.Users.All(x => x.Id != userId))
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() => userService.Add(new User(userId))));
+                    RootDispatcherFetcher.RootDispatcher.Invoke(() => userService.Add(new User(userId)));
                 }
                 return "OK";
             };
@@ -25,7 +25,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkout/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                Application.Current.Dispatcher.Invoke((Action)(() => userService.Users.First(x => x.Id == userId).CheckedIn = false));
+                RootDispatcherFetcher.RootDispatcher.Invoke((Action)(() => userService.Users.First(x => x.Id == userId).CheckedIn = false));
                 return "OK";
             };
         }

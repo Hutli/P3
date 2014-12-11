@@ -9,6 +9,9 @@ using WebAPI;
 using Xunit;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
+using OpenPlaylistServer;
 using Track = WebAPI.Track;
 
 namespace TestSuite {
@@ -191,6 +194,43 @@ namespace TestSuite {
             Assert.True(playback.GetCurrentVolume().Equals(u.Volume));
         } 
         #endregion
+
+        #region VoteService
+        [Fact]
+        public void VotesServiceVoteWorks()
+        {
+            UserService users = new UserService();
+            HistoryService hist = new HistoryService();
+            PlaylistService pl = new PlaylistService(users, hist);
+            VoteService vs = new VoteService(pl, users);
+
+            User u = new User("1234");
+            users.Add(u);
+
+            Image img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
+            Image img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
+            Image img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
+            IEnumerable<Image> images = new List<Image> { img1, img2, img3 };
+            Artist art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
+            List<Artist> artists = new List<Artist> { art };
+            Album alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
+
+            Track track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            pl.Add(track);
+
+            Assert.NotNull(vs);
+            Assert.NotNull(u);
+            Assert.NotNull(track);
+
+            Assert.True(vs.Vote(u.Id, track.URI));
+            Assert.True(u.Vote.Equals(track));
+
+            //Assert.False(vs.Vote(u.Id, null));
+            Assert.True(u.Vote.Equals(track));
+
+
+        }
+        #endregion
         #endregion
 
         #region WebAPI
@@ -245,9 +285,8 @@ namespace TestSuite {
         #endregion
 
         #region SpotifyLoggedIn
-
         [Fact]
-        public void LoggedInToSpotify()
+        public void SpotifyLoggedInIsLoggedInToSpotify()
         {
             Assert.NotNull(_data.Spl);
         }
@@ -258,6 +297,20 @@ namespace TestSuite {
             
             Assert.Equal("Obliteration of the Weak", t.Name);
             Assert.Equal(232000, t.Duration);
+        }
+
+        [Fact]
+        public void SpotifyLoggedInPlayWorks() {
+            var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
+            Assert.DoesNotThrow(() => _data.Spl.Play(t));
+        }
+
+        [Fact]
+        public void SpotifyLoggedInStopWorks()
+        {
+            var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
+            _data.Spl.Play(t);
+            Assert.DoesNotThrow(()=> _data.Spl.Stop());
         }
         #endregion
 
