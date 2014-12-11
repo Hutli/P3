@@ -39,12 +39,12 @@ namespace WebAPI
             return tracks;
         }
 
-        public async static Task<Track> GetTrack(string uri)
+        public static Track GetTrack(string uri)
         {
             List<Artist> artists = new List<Artist>();
             var uriId = uri.Substring(14);
 
-            JObject jsonTrack = await GetJobject("https://api.spotify.com/v1/tracks/" + uriId); // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
+            JObject jsonTrack = GetJobject("https://api.spotify.com/v1/tracks/" + uriId).Result; // removes first 14 first char of spotify:track:1zHlj4dQ8ZAtrayhuDDmkY
             if (jsonTrack == null)
             {
                 return null;

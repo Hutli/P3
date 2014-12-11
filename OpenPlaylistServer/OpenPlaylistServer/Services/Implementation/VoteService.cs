@@ -27,7 +27,7 @@ namespace OpenPlaylistServer.Services.Implementation
             if (playlistTrack == null)
             {
                 // playlistTrack is not already voted on, so creating new instance and adding to list
-                var track = WebAPIMethods.GetTrack(trackUri).Result;
+                var track = WebAPIMethods.GetTrack(trackUri);
                 if (track == null)
                 {
                     return false;

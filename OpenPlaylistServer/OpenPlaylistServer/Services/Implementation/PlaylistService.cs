@@ -53,15 +53,14 @@ namespace OpenPlaylistServer.Services.Implementation
             Track next = _tracks.OrderByDescending(x => x.TotalScore).FirstOrDefault();
             if (next == null || (_historyService.GetLastTrack() != null && _historyService.GetLastTrack().Equals(next)))
             { // if last track is equal to next track, find another relevant track instead
-                next = SmartFindTrack().Result;
+                next = SmartFindTrack();
                 Console.WriteLine("smart find called. Found " + next);
+                if(next == null) {
+                    // smartfind could not find next track, so we play a default (debug track)
+                    return WebAPIMethods.GetTrack("spotify:track:4vqEoOF7BBERkmvbrhgBN8");
+                }
             }
 
-            if (next == null)
-            {
-                // smartfind could not find next track, so we play a default (debug track)
-                return WebAPIMethods.GetTrack("spotify:track:4vqEoOF7BBERkmvbrhgBN8").Result;
-            }
             next.PScore = 0;
             ResetVotes(next);
             Remove(next);
@@ -88,20 +87,17 @@ namespace OpenPlaylistServer.Services.Implementation
             _tracks.Add(track);
         }
 
-        private async Task<Track> SmartFindTrack()
+        private Track SmartFindTrack()
         {
-            var lastTracks = _historyService.GetLastNTracks(10);
+            var lastTracks = _historyService.GetLastNTracks(9);
             var relArtists = new List<string>();
-            foreach (var track in lastTracks) //find every related artists id for the last 10 songs
+            foreach (var artist in lastTracks.SelectMany(track => track.Album.Artists))
             {
-                foreach (var artist in track.Album.Artists)
+                var str = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/related-artists", artist.Id)).Result;
+                var jobject = JObject.Parse(str);
+                foreach (var jartist in jobject["artists"])
                 {
-                    var str = await Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/related-artists", artist.Id));
-                    var jobject = JObject.Parse(str);
-                    foreach (var jartist in jobject["artists"])
-                    {
-                        relArtists.Add(jartist["id"].ToString());
-                    }
+                    relArtists.Add(jartist["id"].ToString());
                 }
             }
             var groupedArtists = relArtists.GroupBy(x => x);
@@ -113,16 +109,14 @@ namespace OpenPlaylistServer.Services.Implementation
                     mostAppearing = group;
                 }
             }
-            if (mostAppearing == null) return null;
+            if(mostAppearing == null) return WebAPIMethods.GetTrack("spotify:track:4vqEoOF7BBERkmvbrhgBN8");
             string topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
             var jTopTracks = JObject.Parse(topTracks);
 
             var uris = jTopTracks["tracks"].Select(trackToken => (string) trackToken["uri"]);
-            foreach (var uri in uris)
-            {
-                return lastTracks.FirstOrDefault(t => t.URI != uri);
-            }
-            return null;
+            var uri = uris.FirstOrDefault(t => !lastTracks.Select(x => x.URI).Contains(t));
+            return WebAPIMethods.GetTrack(uri);
+
 
             //var jToken = jTopTracks["tracks"].First();
             //if (jToken == null) return null;
