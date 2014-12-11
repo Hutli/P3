@@ -7,15 +7,15 @@
     </Window.Background>
     <Grid Background="#FF252525">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="95*"/>
-            <ColumnDefinition Width="422*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="53*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="117*"/>
-            <RowDefinition Height="85*"/>
-            <RowDefinition Height="117*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="89*"/>
+            <RowDefinition Height="156*"/>
         </Grid.RowDefinitions>
-        <ListView Margin="10" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0">
+        <ListView Margin="10,9,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding Playlist}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,1,0,0">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -23,6 +23,7 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Width="100"/>
                     <GridViewColumn Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -39,7 +40,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView Margin="10" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" VerticalAlignment="Bottom">
+        <ListView x:Name="historyListView" Margin="10,0,10,12" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -47,6 +48,7 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Width="100"/>
                     <GridViewColumn Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -64,10 +66,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Image x:Name="NowPlayingImage" Margin="10,0,0,0" Grid.Row="1"/>
-        <ProgressBar x:Name="Progress" Margin="10,0" Height="6" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1"/>
-        <Canvas ClipToBounds="True" Name="canMain" Margin="10,0,10,11" Grid.Row="1" Grid.Column="1" >
-            <TextBlock x:Name="tbmarquee" Foreground="White" FontSize="36" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image x:Name="NowPlayingImage" Margin="10,3,1,1" Grid.Row="1"/>
+        <ProgressBar x:Name="Progress" Margin="10,0,10,1" Height="6" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1"/>
+        <Canvas ClipToBounds="True" Name="canMain" Margin="10,3,10,11" Grid.Row="1" Grid.Column="1" >
+            <TextBlock x:Name="rightTextBoxMarquee" Foreground="White" FontSize="48" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
+            <TextBlock x:Name="leftTextBoxMarquee" Foreground="White" FontSize="48" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
         </Canvas>
     </Grid>
 </Window>

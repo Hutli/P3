@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using WebAPI;
@@ -44,6 +45,18 @@ namespace Presentation
                     }));
                 }
             });
+
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100)); // update from server every second
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        Progress.Value += TimeSpan.FromMilliseconds(100).TotalMilliseconds;
+                    }));
+                }
+            });
         }
 
         async public void GetResults(string ip)
@@ -62,12 +75,15 @@ namespace Presentation
                 var nowPlayingJson = await GetNowPlaying(ip);
                 if ((Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track)) != null && NowPlaying != (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track))) {
                     NowPlaying = (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track));
-                    NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[1].URL));
-                    tbmarquee.Text = NowPlaying.ToString();
-                    Progress.Maximum = NowPlaying.Duration;
                     Progress.Value = NowPlaying.CurrentDurationStep;
-                    if(NowPlaying.Name != tbmarquee.Text)
+                    if (string.IsNullOrEmpty(leftTextBoxMarquee.Text) || !NowPlaying.ToString().Equals(leftTextBoxMarquee.Text))
+                    {
+                        NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[1].URL));
+                        leftTextBoxMarquee.Text = NowPlaying.ToString();
+                        rightTextBoxMarquee.Text = NowPlaying.ToString();
+                        Progress.Maximum = NowPlaying.Duration;
                         LeftToRightMarquee();
+                    }
                 }
 
                 Playlist.Clear();
@@ -82,6 +98,7 @@ namespace Presentation
                     foreach (Track track in historyReturn)
                     {
                         History.Add(track);
+                        historyListView.ScrollIntoView(track);
                     }
             }
             catch (Exception ex)
@@ -146,14 +163,27 @@ namespace Presentation
 
         private void LeftToRightMarquee()
         {
-            double height = canMain.ActualHeight - tbmarquee.ActualHeight;
-            tbmarquee.Margin = new Thickness(0, height / 2, 0, 0);
-            DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = tbmarquee.ActualWidth;
-            doubleAnimation.To = -canMain.ActualWidth;
-            doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(30));
-            tbmarquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
+            double height = canMain.ActualHeight - leftTextBoxMarquee.ActualHeight;
+            leftTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
+            rightTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
+
+            DoubleAnimation leftDoubleAnimation = new DoubleAnimation();
+            DoubleAnimation rightDoubleAnimation = new DoubleAnimation();
+
+            leftDoubleAnimation.From = canMain.ActualWidth;
+            leftDoubleAnimation.To = -(leftTextBoxMarquee.ActualWidth + canMain.ActualWidth);
+            leftDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            leftDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+
+            rightDoubleAnimation.From = canMain.ActualWidth * 2;
+            rightDoubleAnimation.To = -rightTextBoxMarquee.ActualWidth;
+            rightDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            rightDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+
+            leftTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, leftDoubleAnimation);
+            //leftDoubleAnimation.SetCurrentValue(Canvas.LeftProperty, canMain.ActualWidth - rightTextBoxMarquee.ActualWidth);
+            rightTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, rightDoubleAnimation);
+            //rightDoubleAnimation.SetCurrentValue(Canvas.LeftProperty, canMain.ActualWidth + rightTextBoxMarquee.ActualWidth);
         }
     } 
 }
