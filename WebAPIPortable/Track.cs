@@ -90,7 +90,7 @@ namespace WebAPI
 
         public override string URI { get { return "spotify:track:" + Id; } }
 
-        public override string ToString() { return string.Format("{0} on {1}", Name, Album.ArtistsToString); }
+        public override string ToString() { return string.Format("{0} - {1}", Name, Album.ArtistsToString); }
 
         public override bool Equals(object obj)
         {
