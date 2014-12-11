@@ -8,6 +8,7 @@ using SpotifyDotNet;
 using WebAPI;
 using Xunit;
 using System.Threading;
+using System.Threading.Tasks;
 using Track = WebAPI.Track;
 
 namespace TestSuite {
@@ -16,8 +17,10 @@ namespace TestSuite {
         public SpotifyLoggedIn Spl;
         ManualResetEvent _man = new ManualResetEvent(false);
 
-        public TestsFixture() {
-            Tuple<SpotifyLoggedIn, LoginState> result = Spotify.Instance.Login("jensstaermose@hotmail.com", "34AKPAKCRE77K", false, Properties.Resources.spotify_appkey).Result;
+        //[Fact]
+        public TestsFixture()
+        {
+            var result = Spotify.Instance.Login("jensstaermose@hotmail.com", "hejheider", false, Properties.Resources.spotify_appkey);
             Assert.True(result.Item2 == LoginState.OK, "Could not login to Spotify");
             Spl = result.Item1;
         }
@@ -208,7 +211,6 @@ namespace TestSuite {
             Track emptyTrack1 = new Track();
             Track emptyTrack2 = new Track();
             Assert.False(track1.Equals(track2));
-            Assert.True(track1.Equals(track1));
             Assert.True(track1.Equals(track1Cpy));
             Assert.True(emptyTrack1.Equals(emptyTrack2));
         }
@@ -243,6 +245,13 @@ namespace TestSuite {
         #endregion
 
         #region SpotifyLoggedIn
+
+        [Fact]
+        public void LoggedInToSpotify()
+        {
+            Assert.NotNull(_data.Spl);
+        }
+
         [Fact]
         public void SpotifyLoggedInTrackFromLinkLoadsCorrectly() {
             SpotifyDotNet.Track t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;

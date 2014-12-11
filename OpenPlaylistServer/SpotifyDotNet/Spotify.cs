@@ -298,19 +298,18 @@ namespace SpotifyDotNet
         ///          If login was unsuccessful spotifyLoggedIn object will be null, 
         ///          and the second element of the tuple will contain the error desription.
         /// </returns>
-        public Task<Tuple<SpotifyLoggedIn,LoginState>> Login(string username, string password, bool rememberMe, byte[] appkey)
+        public Tuple<SpotifyLoggedIn, LoginState> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
-            var t = Task.Run(() =>
-            {
-                Init(appkey);
-                lock (_sync)
-                {
-                    libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
-                }
-                _loggedInResetEvent.WaitOne();
-                return new Tuple<SpotifyLoggedIn,LoginState>(_spotifyLoggedIn,_loginState);
-            });
-            return t;
+            //var t = Task.Run(() =>
+            //{
+            Init(appkey);
+            lock(_sync) {
+                libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
+            }
+            _loggedInResetEvent.WaitOne();
+            return new Tuple<SpotifyLoggedIn, LoginState>(_spotifyLoggedIn, _loginState);
+            //});
+            //return t;
         }
 
         public void ResetCurrentDurationStep()
