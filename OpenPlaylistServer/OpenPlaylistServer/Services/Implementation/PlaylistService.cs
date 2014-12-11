@@ -109,7 +109,7 @@ namespace OpenPlaylistServer.Services.Implementation
                     mostAppearing = group;
                 }
             }
-            if(mostAppearing == null) return WebAPIMethods.GetTrack("spotify:track:4vqEoOF7BBERkmvbrhgBN8");
+            if(mostAppearing == null) return null;
             string topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
             var jTopTracks = JObject.Parse(topTracks);
 

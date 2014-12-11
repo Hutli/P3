@@ -99,8 +99,8 @@ namespace SpotifyDotNet
             
             try
             {
-                //if( _isPlaying)
-                //libspotify.sp_session_player_unload(_sessionPtr);
+                if( _isPlaying)
+                    libspotify.sp_session_player_unload(_sessionPtr);
             }
             catch (Exception e)
             {
