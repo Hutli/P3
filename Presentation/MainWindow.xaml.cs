@@ -59,11 +59,16 @@ namespace Presentation
                 var historyJson = await GetHistory(ip);
                 historyReturn = (ObservableCollection<Track>)JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
 
-                /*var json1 = await GetNowPlaying(ip);
-                if (NowPlaying != (Track)JsonConvert.DeserializeObject(json1, typeof(Track))) {
-                    NowPlaying = (Track)JsonConvert.DeserializeObject(json1, typeof(Track));
-                    NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[0].URL));
-                }*/
+                var nowPlayingJson = await GetNowPlaying(ip);
+                if ((Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track)) != null && NowPlaying != (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track))) {
+                    NowPlaying = (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track));
+                    NowPlayingImage.Source = new BitmapImage(new Uri(NowPlaying.Album.Images[1].URL));
+                    tbmarquee.Text = NowPlaying.ToString();
+                    Progress.Maximum = NowPlaying.Duration;
+                    Progress.Value = NowPlaying.CurrentDurationStep;
+                    if(NowPlaying.Name != tbmarquee.Text)
+                        LeftToRightMarquee();
+                }
 
                 Playlist.Clear();
                 if(playlistReturn != null)
@@ -144,10 +149,10 @@ namespace Presentation
             double height = canMain.ActualHeight - tbmarquee.ActualHeight;
             tbmarquee.Margin = new Thickness(0, height / 2, 0, 0);
             DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = -tbmarquee.ActualWidth;
-            doubleAnimation.To = canMain.ActualWidth;
+            doubleAnimation.From = tbmarquee.ActualWidth;
+            doubleAnimation.To = -canMain.ActualWidth;
             doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(10));
+            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(30));
             tbmarquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
         }
     } 
