@@ -129,6 +129,7 @@
     <Compile Include="Collections\ConcurrentDictify.cs" />
     <Compile Include="Converter\EnumToBoolConverter.cs" />
     <Compile Include="Endpoints\CheckInEndPoint.cs" />
+    <Compile Include="Endpoints\HistoryEndpoint.cs" />
     <Compile Include="Models\RestrictionType.cs" />
     <Compile Include="Models\RestrictionUnit.cs" />
     <Compile Include="Models\TrackField.cs" />
