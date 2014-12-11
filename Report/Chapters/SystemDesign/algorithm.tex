@@ -1,4 +1,4 @@
-\section{Next Track From History Algorithm}
+\section{Next Track Based on History Algorithm}
 \label{sec:algorithm}
 
 The music at a bar should never stop playing as described in
@@ -11,47 +11,48 @@ algorithm described as pseudo code in \cref{alg:smartfind} should
 prevent sudden changes in genre.
 
 As users vote on tracks, patterns in the music style
-emerges. \cref{alg:smartfind} uses this pattern to find the next track
+emerges. \Cref{alg:smartfind} uses this pattern to find the next track
 to play. Spotify does not contains meta data about which songs are
-related. Instead, Spotify has meta data about related artists, so the
-algorithm looks at the artists of the nine last played tracks at lines
-2 to 7. These artists have some related artists, which are iterated
-through at line 8. The most related artist among the nine tracks will
-be chosen. At line 15 to 17, the most related artist are chosen, and
-the first top tracks which haven't been played are chosen to be played
-next at line 18 to 20. In order to make the algorithm chose the
-highest rated track, the for each loop at line 18 has to run
-sequentially.
+related. Instead, Spotify has meta data about related artists. The algorithm finds the most appearing artist across the last nine played tracks. When this artist is found, one of the artists top tracks, which were not already played, is returned by the algorithm.
+
+Lines 4 to 5 is a check in case the length of the history is not larger than $tracksToLookAt$. $tracksToLookAt$ is then set to the length of the history.
+
+In lines 7 to 14, every artist in the nine last played tracks is iterated. For each of artist found, the artist's related artists, collected from Spotify meta data, is stored. For every related artist found, a check is made in lines 9 to 13. It is counted how many times each related artist appears.
+
+In lines 15 to 18, the most related artist is determined, that is the related artist that was encountered the most in lines 6 to 13.
+
+Now that the most related artist is found, its top tracks is iterated in lines 19 to 21. When a top track is found that has not already been played, the algorithm terminates.
 
 \begin{algorithm}[hbtp]
 \caption{Algorithm for finding the next track to be played, if the playlist is empty.}\label{alg:smartfind}
 \begin{algorithmic}[1]
 	\Function{nextTrack}{$trackHistory$} \Comment{$trackHistory$ is a list of previously played tracks.}
 		\State{$tracksToLookAt = 9$}
-		\State{$l = empty$ $list$}
+		\State{$relatedArtists = empty list$}
 		\If{$trackHistory.length < tracksTolookAt$}
 			\State{$tracksToLookAt = trackHistory.length$}
 		\EndIf{}
-		\For{$i = 0$ \textbf{to} $tracksToLookAt$}
-			\ForAll{$artist$ \textbf{in} $trackHistory[i].Artists$}
+		\State{$lastPlayedTracks = trackHistory.getLast(tracksToLookAt)$}
+		\ForAll{$track$ \textbf{in} $lastPlayedTracks$}
+			\ForAll{$artist$ \textbf{in} $track.Artists$}
 				\ForAll{$relatedArtist$ \textbf{in} $artist.relatedArtists$}
-					\If{$l.contains(relatedArtist)$}
+					\If{$relatedArtists.contains(relatedArtist)$}
 						\State{$relatedArtist.count += 1$}
 					\Else{}
-						\State{$l.add(relatedArtist)$}
+						\State{$relatedArtists.add(relatedArtist)$}
 						\State{$relatedArtist.count = 1$}
 					\EndIf{}
 				\EndFor{}
 			\EndFor{}
 		\EndFor{}
-		\State{$x = null$}
-		\ForAll{$artist$ \textbf{in} $l$}
-			\If{$x = null$ || $artist.count > x.count$}
-				\State{$x = artist$}
+		\State{$mostRelated = null$}
+		\ForAll{$artist$ \textbf{in} $relatedArtists$}
+			\If{$mostRelated == null$ || $artist.count > mostRelated.count$}
+				\State{$mostRelated = artist$}
 			\EndIf{}
 		\EndFor{}
-		\ForAll{$track$ \textbf{in} $x.top$}
-			\If{$!trackHistory.contains(track)$}
+		\ForAll{$track$ \textbf{in} $mostRelated.topTracks$}
+			\If{$!lastPlayedTracks.contains(track)$}
 			\State{}\Return{$track$}
 			\EndIf{}
 		\EndFor{}
