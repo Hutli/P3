@@ -17,14 +17,24 @@ namespace OpenPlaylistServer.Services.Implementation
         {
             foreach (Track t in tracks)
             {
+                var isBlacklisted = false;
+                var isWhitelisted = false;
                 foreach (Restriction r in _restrictions)
                 {
-                    if (r.IsActive && r.Predicate(t))
+                    if (!r.IsActive) continue;
+                    if (r.RestrictionType == RestrictionType.BlackList && r.Predicate(t))
                     {
-                        t.IsFiltered = true;
+                        isBlacklisted = true;
                         break;
                     }
+
+                    if (r.RestrictionType == RestrictionType.WhiteList && r.Predicate(t))
+                    {
+                        isWhitelisted = true;
+                    }
                 }
+
+                t.IsFiltered = isBlacklisted || !isWhitelisted;
             }
         }
 
