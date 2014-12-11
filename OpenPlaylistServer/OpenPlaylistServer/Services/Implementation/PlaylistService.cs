@@ -57,7 +57,11 @@ namespace OpenPlaylistServer.Services.Implementation
                 Console.WriteLine("smart find called. Found " + next);
             }
 
-            if (next == null) return null;
+            if (next == null)
+            {
+                // smartfind could not find next track, so we play a default (debug track)
+                return WebAPIMethods.GetTrack("spotify:track:4vqEoOF7BBERkmvbrhgBN8").Result;
+            }
             next.PScore = 0;
             ResetVotes(next);
             Remove(next);
@@ -86,9 +90,9 @@ namespace OpenPlaylistServer.Services.Implementation
 
         private async Task<Track> SmartFindTrack()
         {
-            var tracks = _historyService.GetLastNTracks(10);
+            var lastTracks = _historyService.GetLastNTracks(10);
             var relArtists = new List<string>();
-            foreach (var track in tracks) //find every related artists id for the last 10 songs
+            foreach (var track in lastTracks) //find every related artists id for the last 10 songs
             {
                 foreach (var artist in track.Album.Artists)
                 {
@@ -112,21 +116,14 @@ namespace OpenPlaylistServer.Services.Implementation
             if (mostAppearing == null) return null;
             string topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
             var jTopTracks = JObject.Parse(topTracks);
-            List<string> uris = new List<string>();
-            foreach (var jTopTrack in jTopTracks["tracks"])
-            {
-                uris.Add((string)jTopTrack["uri"]);
-            }
-            var lastTracks = _historyService.GetLastNTracks(9);
-            var topTrack = new Track();
+
+            var uris = jTopTracks["tracks"].Select(trackToken => (string) trackToken["uri"]);
+            
             foreach (var uri in uris)
             {
-                var tmp = WebAPIMethods.GetTrack(uri).Result;
-                if (!lastTracks.Contains(tmp))
-                    topTrack = tmp;
+                return lastTracks.FirstOrDefault(t => t.URI != uri);
             }
             
-            return topTrack;
 
             //var jToken = jTopTracks["tracks"].First();
             //if (jToken == null) return null;
