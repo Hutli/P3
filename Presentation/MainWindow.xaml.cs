@@ -30,6 +30,8 @@ namespace Presentation
 
         public Track NowPlaying;
 
+        public string Ip { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,7 +44,7 @@ namespace Presentation
                 {
                     await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
                     
-                    ServerData serverData = await GetResults("77.68.200.85");
+                    ServerData serverData = await GetResults(Ip);
 
                     Application.Current.Dispatcher.Invoke((Action)(() =>
                     {
