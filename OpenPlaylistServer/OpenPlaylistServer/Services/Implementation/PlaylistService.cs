@@ -118,12 +118,11 @@ namespace OpenPlaylistServer.Services.Implementation
             var jTopTracks = JObject.Parse(topTracks);
 
             var uris = jTopTracks["tracks"].Select(trackToken => (string) trackToken["uri"]);
-            
             foreach (var uri in uris)
             {
                 return lastTracks.FirstOrDefault(t => t.URI != uri);
             }
-            
+            return null;
 
             //var jToken = jTopTracks["tracks"].First();
             //if (jToken == null) return null;
