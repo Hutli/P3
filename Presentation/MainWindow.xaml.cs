@@ -191,15 +191,19 @@ namespace Presentation
 
             var textSize = MeasureString(leftTextBoxMarquee.Text, leftTextBoxMarquee);
 
+            var maxWidth = Math.Max(canMain.ActualWidth, textSize.Width);
+            if(maxWidth == textSize.Width)
+                maxWidth = maxWidth *2 - (maxWidth - canMain.ActualWidth);
+
             DoubleAnimation leftDoubleAnimation = new DoubleAnimation();
             DoubleAnimation rightDoubleAnimation = new DoubleAnimation();
 
             leftDoubleAnimation.From = 0;
-            leftDoubleAnimation.To = -canMain.ActualWidth;
+            leftDoubleAnimation.To = -maxWidth;
             leftDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
             leftDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(20));
 
-            rightDoubleAnimation.From = canMain.ActualWidth; ;
+            rightDoubleAnimation.From = maxWidth;
             rightDoubleAnimation.To = 0;
             rightDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
             rightDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(20));
