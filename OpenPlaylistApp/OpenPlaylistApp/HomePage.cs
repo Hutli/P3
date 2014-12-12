@@ -51,7 +51,7 @@ namespace OpenPlaylistApp
                 ToolbarItems.Add(tbi1);
             #else
                 tbi1 = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-                playlistPage.ToolbarItems.Add(tbi);
+                playlistPage.ToolbarItems.Add(tbi1);
             #endif
 
             App.User.VenueChanged += CheckedIn;
