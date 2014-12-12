@@ -27,7 +27,7 @@ namespace OpenPlaylistApp
         private VenueView venueView;
         private CheckInView checkInView;
 
-        private ToolbarItem tbi;
+        private ToolbarItem tbi1;
 
         public HomePage()
         {
@@ -39,23 +39,23 @@ namespace OpenPlaylistApp
             checkInView = new CheckInView();
 
             playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView };
-            tbi = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
 
             browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
             venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
 
-            detailPage = new NavigationPage(playlistPage) { Title = "DetailPage" };
+            detailPage = new NavigationPage(playlistPage) { Title = "DetailPage", Icon = "Resources/plussign.png" };
 
             #if WINDOWS_PHONE
-                ToolbarItems.Add(tbi);
+                tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => BrowseClicked(), 0, 0);
+                ToolbarItems.Add(tbi1);
             #else
+                tbi1 = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
                 playlistPage.ToolbarItems.Add(tbi);
             #endif
 
             App.User.VenueChanged += CheckedIn;
             App.User.VenueChanged += (Venue v) => this.IsPresented = false;
-            //App.User.VoteChanged += NewData;
             App.User.VoteChanged += (Track t) => detailPage.PopToRootAsync();
 
             Task.Run(async () =>
@@ -74,16 +74,7 @@ namespace OpenPlaylistApp
             });
 
             #if WINDOWS_PHONE
-            venuePage.BackgroundColor = Color.Accent;
-            //Visibility darkBackgroundVisibility = (Visibility)Application.Current.Resources["PhoneDarkThemeVisibility"];
-            //if (darkBackgroundVisibility == Visibility.Visible)
-            //{
-            //    venueView.BackgroundColor = Color.White;
-            //}
-            //else
-            //{
-            //    venuePage.BackgroundColor = Color.Black;
-            //}
+                venuePage.BackgroundColor = Color.Accent;
             #endif
 
             Detail = checkInPage;
