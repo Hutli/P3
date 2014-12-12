@@ -2,7 +2,12 @@
 \label{imp:libspotify}
 As stated in \cref{techPlat:music_catalog_libspotify} the only way to stream tracks off Spotify is using the C library libspotify. Being written as a C library, one has to take care of managing memory allocation correctly in order to avoid runtime exceptions while using libspotify.
 
-To make it harder to cause these runtime errors and to ease interoperability in the C\# environment, a C\# library can be written that abstracts the error prone elements of C programs away. The C\# library \enquote{SpotifyDotNet} developed for use in the software described in this paper, does just that.
+To make it harder to cause these runtime errors and to ease
+interoperability in the C\# environment, a C\# library can be written
+that abstracts the error prone elements of C programs away. The C\#
+library \enquote{SpotifyDotNet} developed for use in the software
+described in this paper, does just that. This corresponds to the
+SpotifyDotNet component described in \cref{sec:architecture}.
 
 \subsection{Abstracting Low-level C Concepts Away}
 \label{libspotify:abstracting_low_level_c_concepts_away}
