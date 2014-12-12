@@ -74,16 +74,22 @@ namespace OpenPlaylistServer.Services.Implementation
             _viewModel.RemoveTrack_Click(selected);
         }
 
-        private void AddTrack_Click(object sender, RoutedEventArgs e) {
-            
-        }
-
         private void MoveUp_Click(object sender, RoutedEventArgs e) {
-            
+            var selected = playlistList.SelectedItem as Track;
+            if (selected == null)
+            {
+                return;
+            }
+            _viewModel.MoveUp_Click(selected);
         }
 
         private void MoveDown_Click(object sender, RoutedEventArgs e) {
-            
+            var selected = playlistList.SelectedItem as Track;
+            if (selected == null)
+            {
+                return;
+            }
+            _viewModel.MoveDown_Click(selected);
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {

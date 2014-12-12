@@ -92,5 +92,15 @@ namespace OpenPlaylistServer.Services.Implementation
             foreach(User u in users)
                 u.Vote = null;
         }
+
+        public void MoveUp_Click(Track track){
+            var index = Tracks.IndexOf(track);
+            track.PScore = Tracks[index-1].TotalScore + 1-track.TScore;
+        }
+
+        public void MoveDown_Click(Track track){
+            var index = Tracks.IndexOf(track);
+            track.PScore = Tracks[index+1].TotalScore - 1-track.TScore;
+        }
     }
 }
