@@ -66,7 +66,12 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            //_viewModel.RemoveTrack_Click((Track)sender);
+            var selected = playlistList.SelectedItem as Track;
+            if (selected == null)
+            {
+                return;
+            }
+            _viewModel.RemoveTrack_Click(selected);
         }
 
         private void AddTrack_Click(object sender, RoutedEventArgs e) {
