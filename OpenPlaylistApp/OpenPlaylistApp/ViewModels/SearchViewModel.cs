@@ -13,7 +13,7 @@ namespace OpenPlaylistApp.ViewModels
     {
 
         private ObservableCollection<Track> _results = new ObservableCollection<Track>();
-        public int resultCount;
+        public int resultCount = 0;
 
         public ObservableCollection<Track> Results
         {

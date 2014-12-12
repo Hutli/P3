@@ -60,8 +60,8 @@ namespace OpenPlaylistApp.Views
 
         void nextResultsButton_Clicked(object sender, EventArgs e)
         {
-            searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);
             searchViewModel.resultCount += 20;
+            searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);
         }
 
 
