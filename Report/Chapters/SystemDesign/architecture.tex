@@ -7,12 +7,13 @@ architecture can be seen in \cref{fig:architecture}. On this diagram an arrow re
 
 The overall architecture is made as a layered architecture. With three main components; model, function and interface. It is set up as a closed strict architecture, which means that each layer can depend only depend on the one directly below it. Besides the three layers there is the technical platform component.
 
-The system is separated in two subsystem: a client and a server. The two subsystems are divided in a distributed presentation architecture. This means that the server has all the three basic layers, while the client is only responsible displaying
-information given by the server. All the business logic is contained on the
+The system is separated in three subsystem: an interactive client, a presentation client and a server. The three subsystems are divided in a distributed presentation architecture. This means that the server has all the three basic layers, while the clients is only responsible displaying information given by the server. All the business logic is contained on the
 server. This communication occurs through the \textit{System Interface}
-components of the client and server. The information being sent back and
-forth between the client and server is displayed in the \textit{User Interface}
-component of the client and the server.
+components of the clients and server. The information being sent back and
+forth between the clients and server is displayed in the \textit{User Interface}
+component of the clients and the server.
+
+The difference between the clients is that the interactive client, interacts by reading, writing and update the model layer on the server through the function layer, and the presentation client only reads the model, and presents for the users.
 
 The aforementioned business logic on the server is a collection of
 many different components. Each of these components have a distinct
