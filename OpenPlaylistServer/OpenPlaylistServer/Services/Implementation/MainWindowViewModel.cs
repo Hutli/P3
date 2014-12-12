@@ -89,7 +89,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void RemoveTrack_Click(Track track){
             Tracks.Remove(track);
-            var users = Users.Where(u => Equals(u.Vote, track));
+            var users = Users.Where(u => Equals(u.Vote.Track, track));
             foreach(User u in users)
                 u.Vote = null;
         }

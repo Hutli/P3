@@ -21,13 +21,6 @@ namespace WebAPI
             //IsFiltered = false;
         }
 
-
-        public Track()
-        {
-
-        }
-
-
         private int _tScore;
         private int _pScore;
 

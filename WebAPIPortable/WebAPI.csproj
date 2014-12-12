@@ -44,6 +44,7 @@
     <Compile Include="Search.cs" />
     <Compile Include="SpotifyObject.cs" />
     <Compile Include="Track.cs" />
+    <Compile Include="Vote.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

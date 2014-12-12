@@ -32,12 +32,12 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public int CalcTScore(Track track)
         {
-            return _userService.Users.Count(u => Equals(u.Vote, track));
+            return _userService.Users.Count(u => Equals(u.Vote.Track, track));
         }
 
         private void ResetVotes(Track track)
         {
-            var users = _userService.Users.Where(u => Equals(u.Vote, track));
+            var users = _userService.Users.Where(u => Equals(u.Vote.Track, track));
             foreach (var user in users)
             {
                 user.Vote = null;

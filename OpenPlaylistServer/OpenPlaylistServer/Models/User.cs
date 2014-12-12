@@ -9,7 +9,7 @@ namespace OpenPlaylistServer.Models {
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private float _volume;
-        private Track _vote;
+        private Vote _vote;
 
         public string Id { get; private set; }
 
@@ -26,14 +26,12 @@ namespace OpenPlaylistServer.Models {
 
         public bool CheckedIn { get; set; }
 
-        public Track Vote
+        public Vote Vote
         {
             get { return _vote; }
             set
             {
                 _vote = value;
-                
-                
                 // TODO: Den her linje crasher programmet hvis en anden sang er ved at blive spillet... mystisk
                 OnPropertyChanged("Vote");
                 
