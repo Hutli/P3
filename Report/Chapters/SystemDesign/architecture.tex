@@ -3,15 +3,15 @@
 
 This section describes how the different components of the system are
 composed to build a coherent piece. A complete diagram of the
-architecture can be seen in \cref{fig:architecture}.
+architecture can be seen in \cref{fig:architecture}. On this diagram an arrow represents an dependency. That means the pointed at component must exist for other to be complete. The diagram does not specify how that dependency is implemented. It could be a method call or some other way. A detailed description of the implementation of the different components will be described in \cref{par:implementation}.
 
-The system is separated in two main parts: a client and a server. The
-client is simpler than the server; its main task is to display
-information given by the server, and can therefore be seen as a dumb
-client. All the business logic is contained on the
-server. This communication occurs through the \textit{system interface}
+The overall architecture is made as a layered architecture. With three main components; model, function and interface. It is set up as a closed strict architecture, which means that each layer can depend only depend on the one directly below it. Besides the three layers there is the technical platform component.
+
+The system is separated in two subsystem: a client and a server. The two subsystems are divided in a distributed presentation architecture. This means that the server has all the three basic layers, while the client is only responsible displaying
+information given by the server. All the business logic is contained on the
+server. This communication occurs through the \textit{System Interface}
 components of the client and server. The information being sent back and
-forth between the client and server is displayed in the \textit{user interface}
+forth between the client and server is displayed in the \textit{User Interface}
 component of the client and the server.
 
 The aforementioned business logic on the server is a collection of
@@ -28,9 +28,9 @@ technical platform. Components contained in this layer are all
 libraries defined outside of the business logic of the server, but are
 still as part of the complete system. For example, the
 \textit{SpotifyDotNet} component is a library for streaming tracks from
-Spotify. The implementation of this library is described in
-\cref{imp:libspotify}.
-
+Spotify. The implementation details of this is described in
+\cref{cha:technicalPlatform}.
+\frnote{fix pile i diagram}
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.2\linewidth]{Images/Arkitektur.pdf}
