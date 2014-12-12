@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Windows;
 using System.Windows.Threading;
 using System;
+using System.Linq;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
@@ -88,19 +89,23 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void RemoveTrack_Click(Track track){
             Tracks.Remove(track);
-            var users = Users.Where(u => u.Vote == track)
+            var users = Users.Where(u => Equals(u.Vote, track));
             foreach(User u in users)
                 u.Vote = null;
         }
 
         public void MoveUp_Click(Track track){
-            var index = Tracks.IndexOf(track);
-            track.PScore = Tracks[index-1].TotalScore + 1-track.TScore;
+            var largerTracks = Tracks.Where(t => t.TotalScore >= track.TotalScore && !Equals(t, track));
+            if (!largerTracks.Any()) return;
+            var min = largerTracks.Min(t => t.TotalScore);
+            track.PScore = min + 1 - track.TScore;
         }
 
         public void MoveDown_Click(Track track){
-            var index = Tracks.IndexOf(track);
-            track.PScore = Tracks[index+1].TotalScore - 1-track.TScore;
+            var smallerTracks = Tracks.Where(t => t.TotalScore <= track.TotalScore && !Equals(t, track));
+            if (!smallerTracks.Any()) return;
+            var max = smallerTracks.Max(t => t.TotalScore);
+            track.PScore = max - 1 - track.TScore;
         }
     }
 }

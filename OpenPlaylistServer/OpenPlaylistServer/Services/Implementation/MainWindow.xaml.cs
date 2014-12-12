@@ -66,7 +66,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void RemoveTrack_Click(object sender, RoutedEventArgs e) {
-            var selected = playlistList.SelectedItem as Track;
+            var selected = PlaylistView.SelectedItem as Track;
             if (selected == null)
             {
                 return;
@@ -75,7 +75,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void MoveUp_Click(object sender, RoutedEventArgs e) {
-            var selected = playlistList.SelectedItem as Track;
+            var selected = PlaylistView.SelectedItem as Track;
             if (selected == null)
             {
                 return;
@@ -84,7 +84,7 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private void MoveDown_Click(object sender, RoutedEventArgs e) {
-            var selected = playlistList.SelectedItem as Track;
+            var selected = PlaylistView.SelectedItem as Track;
             if (selected == null)
             {
                 return;

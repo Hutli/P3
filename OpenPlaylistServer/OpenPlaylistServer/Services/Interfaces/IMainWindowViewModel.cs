@@ -21,6 +21,10 @@ namespace OpenPlaylistServer.Services.Interfaces
 
         void StopButtonClicked();
 
+        void MoveUp_Click(Track track);
+        
+        void MoveDown_Click(Track track);
+
         void RemoveTrack_Click(Track track);
         void RemoveRestriction(Restriction restriction);
     }
