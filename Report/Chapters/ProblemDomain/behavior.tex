@@ -1,43 +1,56 @@
 As candidates for events, these possible actions on classes are considered:
 \begin{description}
+
 \item[Submitting/Cancelling votes]
     When a user votes for a track, or cancels it. If the \textit{Track} that is voted for fits within the \textit{Restriction}, the\textit{Track}s vote count is changed and potentially its order in the \textit{Playlist}. The specific \textit{User}s vote is also changed.
+
 \item[Checking in/out of venues]
     A \textit{User} checks in at a venue. This allows the user to vote for \textit{Track}s there.
+
 \item[Searching for a track]
     When a \textit{User} is searching for a desired \textit{Track} in the catalogue of \textit{Track}s. The \textit{User} should receive relevant search results that fit within the \textit{Restriction}s.
+
 \item[Adding/Removing a track from the \textit{Playlist}]
     If a \textit{User} has voted for a \textit{Track}, which is not on the \textit{Playlist}, or if a \textit{Track} only had one vote which has been cancelled.
+
 \item[New track is playing]
-    When a \textit{Track} has ended, due to it being skipped or reaching the end. This should affect the vote count of the \textit{Track}. If the \textit{Track}, a \textit{User} has voted for, is played, the \textit{User}s vote should be reset.
+    When a \textit{Track} has ended, due to it being skipped or
+    reaching the end. This should affect the vote count of the
+    \textit{Track}. If the \textit{Track}, a \textit{User} has voted
+    for, is played, the \textit{User}s vote should be reset, and the
+    \textit{Track} that ended should be added to the history.
+
 \item[Adding/Removing restrictions]
     When the administrator either adds or removes a \textit{Restriction} from the \textit{Playlist}. \textit{Track}s on the \textit{Playlist} that do not meet the \textit{Restriction}s should be removed. The \textit{User}s' votes should also be voided if it does not meet the \textit{Restriction}.
+
 \end{description}
 
 The following event table is used to describe what classes are involved in the immediate events of the problem domain.
 
 \begin{table}[htbp]
-    \begin{tabular}{lcccccc}
+    \centering
+    \tabcolsep=0.10cm
+    \begin{tabular}{lccccccc}
         \toprule
-        \textbf{Events}                 & User   & Track  & Playlist & Vote   & Restriction & Venue\\
+        \textbf{Events}                 & User   & Track  & Playlist & Vote   & Restriction & Venue  & History\\
         \midrule
-        (Re)vote                        & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &      \\
-        User checks in at venue         & $+$    &        &          &        &             & $+$ \\
-        User leaves venue               & $+$    &        &          &  $+$   &             & $+$ \\
-        User searches for a track       & $\ast$ &  $+$   &          &        & $\ast$      &   \\
-        User adds new track to playlist & $\ast$ & $\ast$ & $\ast$   & $+$    &             &   \\
-        Remove track from the playlist  &        & $+$    & $\ast$   & $+$    &             &   \\
-        A new track is playing          &        & $\ast$ & $\ast$   & $+$    &             &  \\
-        Restriction activated           &        &        & $\ast$   &        & $\ast$      &  \\
-        Restriction deactivated         &        &        & $\ast$   &        & $\ast$      & \\
+        (Re)vote                        & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
+        User checks in at venue         & $+$    &        &          &        &             & $+$    &        \\
+        User leaves venue               & $+$    &        &          &  $+$   &             & $+$    &        \\
+        User searches for a track       & $\ast$ &  $+$   &          &        & $\ast$      &        &        \\
+        User adds new track to playlist & $\ast$ & $\ast$ & $\ast$   & $+$    &             &        &        \\
+        Remove track from the playlist  &        & $+$    & $\ast$   & $+$    &             &        &        \\
+        A new track is playing          &        & $\ast$ & $\ast$   & $+$    &             &        & $\ast$ \\
+        Restriction activated           &        &        & $\ast$   &        & $\ast$      &        &        \\
+        Restriction deactivated         &        &        & $\ast$   &        & $\ast$      &        &        \\
         \bottomrule
     \end{tabular}
     \caption{Event table for the problem domain}\label{eventtable}
 \end{table}
 
 In \cref{eventtable}, the different events in the problem domain and
-what objects are effected by these are mapped. Stars mean that the
-event can occur zero or more times. Pluses mean that the event can
+what objects are effected by these are mapped. Stars ($\ast$) mean that the
+event can occur zero or more times. Pluses ($+$) mean that the event can
 occur zero or one times. From this, specific state diagrams can be created to illustrate how the objects are created, affected and terminated.
 
 \begin{figure}[H]
@@ -86,4 +99,12 @@ As shown in \cref{fig:StateDiagramVenue}, a venue is created when it first opens
   \caption{State diagram for vote class}\label{fig:StateDiagramVote}
 \end{figure}
 
-\cref{fig:StateDiagramVote} describes the vote class. This class is very simple. It is created when a user votes on a track, and is terminated when the user, that created the vote, changes his/her vote, thereby cancelling the old vote. It also terminates when the track the vote on is is played, the administrator removes the vote or the user leaves, thereby cancelling all his or her votes.
+\Cref{fig:StateDiagramVote} describes the vote class. This class is very simple. It is created when a user votes on a track, and is terminated when the user, that created the vote, changes his/her vote, thereby cancelling the old vote. It also terminates when the track the vote on is is played, the administrator removes the vote or the user leaves, thereby cancelling all his or her votes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{StateDiagramHistory.pdf}
+  \caption{State diagram for history class}\label{fig:StateDiagramHistory}
+\end{figure}
+
+\Cref{fig:StateDiagramHistory} describes the history class. When the venue opens, the history is active. When a new track is playing, the previously playing track is added to the history.
