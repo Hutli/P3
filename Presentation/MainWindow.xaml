@@ -48,7 +48,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="historyListView" Margin="10,0,14,10" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+        <ListView x:Name="historyListView" Margin="10,0,14,10" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Focusable="False">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="Visibility" Value="Collapsed" />
