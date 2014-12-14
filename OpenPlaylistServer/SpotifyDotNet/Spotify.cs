@@ -56,11 +56,13 @@ namespace SpotifyDotNet
 
         private LogMessageDelegate _logMessageCallback;
         private bool _sessionCreated;
+        private StreamingError _streamingError;
 
         private delegate void LogMessageDelegate(IntPtr session, String message);
         private delegate void PlayTokenLost(IntPtr session);
         private delegate void StartPlayback(IntPtr session);
         private delegate void StopPlayback(IntPtr session);
+        private delegate void StreamingError(IntPtr session, libspotify.sp_error error);
 
         /// <summary>
         /// Delivers audio data after SpotifyLoggedIn.Play(track) is excecuted.
@@ -269,6 +271,11 @@ namespace SpotifyDotNet
                 }
             };
 
+            _streamingError = (session, error) =>
+            {
+                Console.WriteLine("Streaming error: " + error);
+            };
+
             libspotify.sp_session_callbacks sessionCallbacks = new libspotify.sp_session_callbacks
             {
                 logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate),
@@ -281,7 +288,7 @@ namespace SpotifyDotNet
                 play_token_lost = Marshal.GetFunctionPointerForDelegate(_playTokenLost),
                 log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback),
                 end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate),
-                streaming_error = IntPtr.Zero,
+                streaming_error = Marshal.GetFunctionPointerForDelegate(_streamingError),
                 userinfo_updated = IntPtr.Zero,
                 start_playback = Marshal.GetFunctionPointerForDelegate(_startPlayback),
                 stop_playback =  Marshal.GetFunctionPointerForDelegate(_stopPlayback),
@@ -328,8 +335,7 @@ namespace SpotifyDotNet
 
         private void NotifyMain(IntPtr session)
         {
-            //_notifyMainTask = Task.Run(() => ProcessEvents());
-            ProcessEvents();
+            Task.Run(() => ProcessEvents());
         }
 
         internal void ProcessEvents()
