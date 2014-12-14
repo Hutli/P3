@@ -2,7 +2,7 @@ As candidates for events, these possible actions on classes are considered:
 \begin{description}
 
 \item[Submitting/Cancelling votes]
-    When a user votes for a track, or cancels it. If the \textit{Track} that is voted for fits within the \textit{Restriction}, the\textit{Track}s vote count is changed and potentially its order in the \textit{Playlist}. The specific \textit{User}s vote is also changed.
+    When a user votes for a track, or cancels it. If the \textit{Track} that is voted for fits within the \textit{Restriction}, the \textit{Track}s vote count is changed and potentially its order in the \textit{Playlist}. The specific \textit{User}s vote is also changed.
 
 \item[Checking in/out of venues]
     A \textit{User} checks in at a venue. This allows the user to vote for \textit{Track}s there.
@@ -75,7 +75,7 @@ In \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created wh
   \caption{State diagram for the track}\label{fig:StateDiagramTrack}
 \end{figure}
 
-As seen in \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played.
+As seen in \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played. \chnote{Hvad med history}
 
 \begin{figure}[H]
   \centering

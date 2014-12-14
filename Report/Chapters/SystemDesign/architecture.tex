@@ -2,8 +2,7 @@
 \label{sec:architecture}
 
 This section describes how the different components of the system are
-composed to build a coherent piece. A complete diagram of the
-architecture can be seen in \cref{fig:architecture}. On this diagram an arrow represents an dependency. That means the pointed at component must exist for other to be complete. The diagram does not specify how that dependency is implemented. It could be a method call or some other way. A detailed description of the implementation of the different components will be described in \cref{par:implementation}.
+composed to build a coherent piece. A complete diagram of the architecture can be seen in \cref{fig:architecture}. On this diagram an arrow represents an dependency. That means the pointed at component must exist for other to be complete. The diagram does not specify how that dependency is implemented. It could be a method call or some other way. A detailed description of the implementation of the different components will be described in \cref{par:implementation}.
 
 The overall architecture is made as a layered architecture. With three main components; model, function and interface. It is set up as a closed strict architecture, which means that each layer can depend only depend on the one directly below it. Besides the three layers there is the technical platform component.
 
