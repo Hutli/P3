@@ -53,13 +53,6 @@ namespace SpotifyDotNet
             Name = Marshal.PtrToStringAnsi(trackNamePtr);
         }
 
-        //public Track(string trackUri)
-        //{
-        //    _trackPtr = SpotifyLoggedIn.Instance.TrackUriToIntPtr(trackUri);
-        //    Uri = trackUri;
-        //    Init(_trackPtr);
-        //}
-
         ~Track()
         {
             Dispose();
@@ -82,7 +75,13 @@ namespace SpotifyDotNet
 
         public void Dispose()
         {
-            //libspotify.sp_track_release(_trackPtr);
+            if (_trackPtr != IntPtr.Zero)
+            {
+                //libspotify.sp_track_release(_trackPtr);
+            }
+
+            
+            
 
             GC.SuppressFinalize(this);
         }

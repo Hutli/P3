@@ -69,26 +69,18 @@ namespace SpotifyDotNet
                 Stop();
             }
 
-            libspotify.sp_error err;
-            // process events until all track is loaded
-            do
+            libspotify.sp_error err = track.Load(_sessionPtr);;
+
+            if (err != libspotify.sp_error.OK)
             {
-                err = track.Load(_sessionPtr);
-                Console.WriteLine("player load " + err);
-                //Spotify.Instance.ProcessEvents();
-            } while (err == libspotify.sp_error.IS_LOADING);
+                Console.WriteLine("error loading trackplayer load: " + err);
+            }
 
-
-            Console.WriteLine(track.IsLoaded);
+            Console.WriteLine("Track should now be loaded successfully");
 
             var playErr = libspotify.sp_session_player_play(_sessionPtr, true);
             _isPlaying = true;
-            Console.WriteLine("player play " + playErr);
-
-            var availability = track.GetAvailability(_sessionPtr);
-            Console.WriteLine(availability);
-
-            Console.WriteLine("duration: " + track.Duration);
+            Console.WriteLine("player status: " + playErr);
         }
 
         /// <summary>
@@ -96,11 +88,19 @@ namespace SpotifyDotNet
         /// </summary>
         public void Stop()
         {
-            
             try
             {
-                if( _isPlaying)
+                if (_isPlaying)
+                {
+                    Console.WriteLine("Trying to unload player");
                     libspotify.sp_session_player_unload(_sessionPtr);
+                    Console.WriteLine("Successfully unloaded player");
+                }
+                else
+                {
+                    Console.WriteLine("There was nothing to stop");
+                }
+                    
             }
             catch (Exception e)
             {
@@ -128,6 +128,7 @@ namespace SpotifyDotNet
                         IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
                         if (spLinkPtr == IntPtr.Zero)
                         {
+                            Console.WriteLine("URI was not a track URI");
                             throw new ArgumentException("URI was not a track URI");
                         }
                         libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
@@ -135,12 +136,17 @@ namespace SpotifyDotNet
                         if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
                         {
                             IntPtr trackLinkPtr = libspotify.sp_link_as_track(spLinkPtr);
-                            //libspotify.sp_link_release(spLinkPtr);
-
+                            if (trackLinkPtr == IntPtr.Zero)
+                            {
+                                Console.WriteLine("sp_link_as_track error");
+                            }
+                            
                             return new Track(trackLinkPtr);
                         }
-                        //libspotify.sp_link_release(spLinkPtr);
-                        throw new ArgumentException("URI was not a track URI");
+
+                        // in case an error happened
+                        Console.WriteLine("Error: Returning null track in TrackFromLink");
+                        return null;
                     });
                     
 
@@ -154,25 +160,5 @@ namespace SpotifyDotNet
             }
             
         }
-
-        ///// <summary>
-        ///// Creates a pointer to a track.
-        ///// </summary>
-        ///// <param name="uri">Valid Spotify track uri</param>
-        ///// <returns>Pointer to a spotify track</returns>
-        //internal IntPtr TrackUriToIntPtr(string uri)
-        //{
-        //    IntPtr linkPtr = Marshal.StringToHGlobalAnsi(uri);
-        //    IntPtr spLinkPtr = libspotify.sp_link_create_from_string(linkPtr);
-
-        //    libspotify.sp_linktype linkType = libspotify.sp_link_type(spLinkPtr);
-
-        //    if (linkType == libspotify.sp_linktype.SP_LINKTYPE_TRACK)
-        //    {
-        //        return libspotify.sp_link_as_track(spLinkPtr);
-        //    }
-        //    throw new ArgumentException("URI was not a track URI");
-            
-        //}
     }
 }

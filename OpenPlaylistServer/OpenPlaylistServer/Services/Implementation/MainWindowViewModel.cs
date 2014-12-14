@@ -1,6 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Net.Mime;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using System;
@@ -18,6 +20,7 @@ namespace OpenPlaylistServer.Services.Implementation
         private IPlaybackService _playbackService;
         private IHistoryService _historyService;
         private IRestrictionService _restrictionService;
+        private bool _trackEndedAlreadyCalled;
 
         public MainWindowViewModel(IPlaylistService playlistService, IUserService userService, IPlaybackService playbackService, IHistoryService historyService, IRestrictionService restrictionService)
         {
@@ -48,8 +51,15 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public void TrackEnded()
         {
-            Console.WriteLine("Track ended called");
+            Console.WriteLine("Track ended called from: " + Thread.CurrentThread.ManagedThreadId);
             // TrackEnded is called from libspotify running in a different thread than the UI thread.
+
+            if (_trackEndedAlreadyCalled)
+            {
+                Console.WriteLine("Avoided calling track ended twice");
+                return;
+            }
+            _trackEndedAlreadyCalled = true;
             RootDispatcherFetcher.RootDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 try
@@ -67,6 +77,10 @@ namespace OpenPlaylistServer.Services.Implementation
                         _playbackService.Stop();
                         _playbackService.Play(next);
                     }
+
+                    //reset trackEndedCalled flag
+                    _trackEndedAlreadyCalled = false;
+                    Console.WriteLine("Track ended can now be called again");
                 }
                 catch (Exception e)
                 {

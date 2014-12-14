@@ -1,3 +1,5 @@
+using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using libspotifydotnet;
 using System;
 using System.Runtime.InteropServices;
@@ -25,7 +27,6 @@ namespace SpotifyDotNet
     public class Spotify
     {
         private IntPtr _sessionPtr = IntPtr.Zero;
-        private int _nextTimeout;
         private Object _sync = new Object();
         private IntPtr _searchComplete = IntPtr.Zero;
         private SearchCompleteDelegate _searchCompleteDelegate;
@@ -42,6 +43,8 @@ namespace SpotifyDotNet
         private NotifyMainDelegate _notifyMainDelegate;
         private TrackEndedDelegate _trackEndedDelegate;
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
+        private StartPlayback _startPlayback;
+        private StopPlayback _stopPlayback;
         private static readonly Spotify _instance = new Spotify();
         //private Task _notifyMainTask;
         private ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
@@ -52,7 +55,14 @@ namespace SpotifyDotNet
         //private Thread _spotifyThread;
 
         private LogMessageDelegate _logMessageCallback;
+        private bool _sessionCreated;
+        private StreamingError _streamingError;
+
         private delegate void LogMessageDelegate(IntPtr session, String message);
+        private delegate void PlayTokenLost(IntPtr session);
+        private delegate void StartPlayback(IntPtr session);
+        private delegate void StopPlayback(IntPtr session);
+        private delegate void StreamingError(IntPtr session, libspotify.sp_error error);
 
         /// <summary>
         /// Delivers audio data after SpotifyLoggedIn.Play(track) is excecuted.
@@ -63,6 +73,16 @@ namespace SpotifyDotNet
         /// Signaled when a track has ended streaming.
         /// </summary>
         public event Action TrackEnded;
+
+        /// <summary>
+        /// Signaled when playback should start
+        /// </summary>
+        public event Action PlaybackShouldStart;
+
+        /// <summary>
+        /// Signaled when playback should stop
+        /// </summary>
+        public event Action PlaybackShouldStop;
 
         /// <summary>
         /// Called when a search has completed. Occurs after the call to SpotifyLoggedIn.Search(query).
@@ -170,8 +190,8 @@ namespace SpotifyDotNet
                     Console.WriteLine(CurrentDurationStep);
                 }
 
-                // only buffer 5 seconds
-                if (BufferedDuration > TimeSpan.FromSeconds(5))
+                // only buffer 2 seconds
+                if (BufferedDuration > TimeSpan.FromSeconds(2))
                 {
                     frames = new byte[0];
                     numFrames = 0;
@@ -180,6 +200,7 @@ namespace SpotifyDotNet
                 {
                     frames = new byte[numFrames * sizeof(Int16) * format.channels];
                 }
+                //frames = new byte[numFrames * sizeof(Int16) * format.channels];
 
                 Marshal.Copy(framesPtr, frames, 0, frames.Length);
 
@@ -199,24 +220,85 @@ namespace SpotifyDotNet
 
             _getAudioBufferStatsDelegate = (session, bufferStatsPtr) =>
             {
-                libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
+                //Console.WriteLine("get audio buffer stats called");
+                
+                var t =Task.Run(() =>
+                {
+                    lock (_sync)
+                    {
+                        libspotify.sp_audio_buffer_stats bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
+                        double samples =  BufferedDuration.Milliseconds * 44.100;
+                        bufferStats.samples = (int) Math.Floor(samples);
+                        bufferStats.stutter = 0;
+                        // copy managed struct to outputPtr
+                        //Marshal.StructureToPtr(bufferStats, bufferStatsPtr, true);
+                    }
+                });
 
-                bufferStats.samples = BufferedBytes / 2;
-                bufferStats.stutter = 0;
-
+                try
+                {
+                    t.Wait();
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                
+                //Console.WriteLine("get audio buffer stats finished ");
             };
 
-            _logMessageCallback = (session, message) => Console.WriteLine(message);
+            _logMessageCallback = (session, message) => Console.WriteLine("Spotify log: " + message);
+
+            
+
+            PlayTokenLost _playTokenLost =
+                session => Console.WriteLine("Play token was lost. Someone logged in to Spotify elsewhere");
+
+            _startPlayback = session =>
+            {
+                if (PlaybackShouldStart != null)
+                {
+                    PlaybackShouldStart();
+                }
+            };
+
+            _stopPlayback = session =>
+            {
+                if (PlaybackShouldStop != null)
+                {
+                    PlaybackShouldStop();
+                }
+            };
+
+            _streamingError = (session, error) =>
+            {
+                Console.WriteLine("Streaming error: " + error);
+            };
 
             libspotify.sp_session_callbacks sessionCallbacks = new libspotify.sp_session_callbacks
             {
                 logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate),
+                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate),
+                metadata_updated = IntPtr.Zero,
+                connection_error = IntPtr.Zero,
+                message_to_user = IntPtr.Zero,
                 notify_main_thread = Marshal.GetFunctionPointerForDelegate(_notifyMainDelegate),
                 music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate),
-                get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate),
+                play_token_lost = Marshal.GetFunctionPointerForDelegate(_playTokenLost),
+                log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback),
                 end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate),
-                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate),
-                log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback)
+                streaming_error = Marshal.GetFunctionPointerForDelegate(_streamingError),
+                userinfo_updated = IntPtr.Zero,
+                start_playback = Marshal.GetFunctionPointerForDelegate(_startPlayback),
+                stop_playback =  Marshal.GetFunctionPointerForDelegate(_stopPlayback),
+                get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate),
+                offline_status_updated = IntPtr.Zero,
+                offline_error = IntPtr.Zero,
+                credentials_blob_updated = IntPtr.Zero,
+                connectionstate_updated = IntPtr.Zero,
+                scrobble_error = IntPtr.Zero,
+                private_session_mode_changed = IntPtr.Zero,
             };
 
 
@@ -235,41 +317,43 @@ namespace SpotifyDotNet
                 callbacks = callbacksPtr
             };
 
-            //TODO: skal måske ikke bruges lock
-            lock (_sync)
+            // only 1 sesion can ever be created
+            if (!_sessionCreated)
             {
-                libspotify.sp_session_create(ref config, out _sessionPtr);
+                var error = libspotify.sp_session_create(ref config, out _sessionPtr);
+                if (error != libspotify.sp_error.OK || _sessionPtr == IntPtr.Zero)
+                {
+                    // could not create session
+                    Console.WriteLine("Error creating session");
+                    throw new InvalidDataException("Error while creating session");
+                }
+
+                _sessionCreated = true;
             }
 
         }
 
         private void NotifyMain(IntPtr session)
         {
-            //_notifyMainTask = Task.Run(() => ProcessEvents());
-            ProcessEvents();
+            Task.Run(() => ProcessEvents());
         }
 
         internal void ProcessEvents()
         {
             lock (_sync)
             {
+                int _nextTimeout = 0;
                 do
                 {
                     libspotify.sp_session_process_events(_sessionPtr, out _nextTimeout);
                     Console.WriteLine("Process events");
-
-                } while (_nextTimeout == 0);
+                }
+                while (_nextTimeout == 0) ;
             }
         }
 
         public void Dispose()
         {
-            //if (_notifyMainTask != null)
-            //{
-            //    _notifyMainTask.Dispose();
-            //}
-            
-
             lock (_sync)
             {
                 if (_sessionPtr != IntPtr.Zero)
@@ -300,16 +384,13 @@ namespace SpotifyDotNet
         /// </returns>
         public Tuple<SpotifyLoggedIn, LoginState> Login(string username, string password, bool rememberMe, byte[] appkey)
         {
-            //var t = Task.Run(() =>
-            //{
             Init(appkey);
             lock(_sync) {
                 libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
             }
+            // wait for the login to happen
             _loggedInResetEvent.WaitOne();
             return new Tuple<SpotifyLoggedIn, LoginState>(_spotifyLoggedIn, _loginState);
-            //});
-            //return t;
         }
 
         public void ResetCurrentDurationStep()
