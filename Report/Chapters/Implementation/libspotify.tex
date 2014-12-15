@@ -46,7 +46,7 @@ However this is not abstracted enough. To the user of the library, no pointers s
 \subsection{Making it Thread-safe}
 \label{libspotify:making_it_thread_safe}
 
-As stated in~\cite{spotifyLibspotifyFAQ}, libspotify is not thread safe. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}. Locks are a way to avoid race conditions i.e. threads modifying the same chunk of memory at the same time. Race conditions lead to non-deterministic results, which is always to be avoided. Locks solve this issue by synchronizing the threads. Whatever code blocks are wrapped around locks can only be accessed by one thread at a time.
+Libspotify is not thread safe~\cite{spotifyLibspotifyFAQ}. This is solved in SpotifyDotNet by using locks around non thread safe code. This is easily done in C\# using the \enquote{lock} keyword as seen in \cref{lst:lock_keyword}. Locks are a way to avoid race conditions i.e. threads modifying the same chunk of memory at the same time. Race conditions lead to non-deterministic results, which is always to be avoided. Locks solve this issue by synchronizing the threads. Whatever code blocks are wrapped around locks can only be accessed by one thread at a time.
 
 \begin{lstlisting}[float, floatplacement=htpb, caption = {Example of using the lock keyword in C\#. \enquote{\_sync} is an object used to store the lock state}, label = {lst:lock_keyword}]
 lock(_sync) {
