@@ -227,3 +227,5 @@ master.pdf
 *.el
 
 *.fmt
+
+*.orig
