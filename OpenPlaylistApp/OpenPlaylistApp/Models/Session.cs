@@ -72,7 +72,8 @@ namespace OpenPlaylistApp.Models
             catch (Exception e)
             {
 				if(loadIndicator) App.Home.IsBusy = false;
-                 //App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
+                if (errorMessageTitle.Equals("Venue not online")) 
+                    App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
                 _connectionFailures++;
                 return null;
             }
