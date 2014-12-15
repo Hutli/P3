@@ -1,25 +1,23 @@
-These are the candidates for classes, the system needs to keep track of:
+These are the candidates for classes the system needs to keep track of:
 \begin{description}
     \item[Track]
 
-    Used for storing meta data eg. artist, duration
+    Used for storing meta data e.g. artist, duration
     \item[User]
 
-    Used for information about the user eg. votes
+    Used for information about the user e.g. votes
     \item[Vote]
 
-    Which track a user voted for to be played, and when the vote was submitted.
+    Which track a user voted for to be played, and when the vote was submitted
     \item[Playlist]
 
     Used for keeping track of the votes and tracks
     \item[Restriction]
 
-    To allow limitation of the set of tracks that can be added to the playlist.
+    To allow limitation of the set of tracks that can be added to the playlist
     \item[Venue]
 
-    To store information about the playlist and restrictions.
+    To store information about the playlist and restrictions
     \item[History]
-    To contain tracks that were played in the past.
+    To contain tracks that were played in the past
 \end{description}
-
-In order for the user to be able to vote for a track, a uniform way of referencing tracks is needed. This is done though a vote class that also contains the information about the vote; the user that voted, the track voted for and the time is was created. To achieve this, a catalogue is introduced. The user can then browse for a desired track.

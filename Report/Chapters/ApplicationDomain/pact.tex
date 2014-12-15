@@ -1,5 +1,5 @@
 %!TEX root = ../../Master.tex
-When designing an interactive system it is important to think about the people using it. The people are a part of the interactive system and therefore it is important to make sure that the design fits the people. In~\cite{benyon2013designing} PACT analysis is presented as a framework for thinking about design situations. To help with the design being human centred, the designer needs to understand the four parts of the analysis: It is important to understand the different kind of people using the system, since they have different prerequisites for using a system. The activities that people want to undertake are equally important, as it says a lot about the way the system will be used. The designer needs to think about the context, the location and organisation, the system will be used in, which provide information about how the system should operate. Lastly the designer should consider the features of interactive technologies and how to incorporate them in the design.
+When designing an interactive system, it is important to think about the people using it. The people are a part of the interactive system and therefore it is important to make sure that the design fits the people. In~\cite{benyon2013designing} PACT analysis is presented as a framework for thinking about design situations. To help with the design being human centred, the designer needs to understand the four parts of the analysis: It is important to understand the different kinds of people using the system, since they have different prerequisites for using a system. The activities that people want to undertake are equally important, as it says a lot about the way the system will be used. The designer needs to think about the context, the location and organisation, the system will be used in, which provides information about how the system should operate. Lastly the designer should consider the features of interactive technologies and how to incorporate them in the design.
 
 \begin{figure}[hbtp]
   \centering
@@ -8,48 +8,44 @@ When designing an interactive system it is important to think about the people u
   \label{fig:pact-overview}
 \end{figure}
 
-It is also important to understand the relationship between activities and technologies. \Cref{fig:pact-overview} shows how the activities people are doing will influence the requirements for technologies. This will create new technology that will change the activities people will be doing with the technology.
+It is also important to understand the relationship between activities and technologies. \Cref{fig:pact-overview} shows how the activities that people are doing will influence the requirements for technologies. This will create new technology that will change the activities that people will be doing with the technology.
 
-It is the variety of requirements that is found during the PACT analysis, that can make designing systems difficult. Therefore, an analysis of the four core elements of PACT will be conducted.
+It is the variety of the requirements that are found during the PACT analysis, that can make designing systems difficult. Therefore, an analysis of the four core elements of PACT will be conducted.
 
 
 \subsection{People}
 \label{sub:pact_people}
 
-The system is used by people who go to bar-like environments, and are possibly intoxicated. At bar-like environments, music is central to the atmosphere, and a lot of people are interested in having their music tastes accommodated. Different people exhibit different behaviour in these social contexts, some may clique together when using a social system and some may be afraid of stigmas when using it. To use the system, a smartphone is required, and some people may be unable or afraid \chnote{uddyb hvorfor} to use their smartphone.
+The system is used by people who go to bar-like environments, and are possibly intoxicated. At bar-like environments, music is central to the atmosphere, and a lot of people are interested in having their music tastes accommodated. Different people exhibit different behaviour in these social contexts, some may clique together when using a social system and some may be afraid of stigmas when using it.
 
 \subsection{Activities}
 \label{sub:pact_activities}
-Usage of the system requires the user to interact with their smartphone or similar device. Firstly the user must install the application on their device. The installation process should not take a long time, or else the user might forget about the application. When the user is checked-in, the current playlist of the venue will be displayed. The transition from the check-in to the playlist screen should occur in less than 100 milliseconds \chnote{kilde på hvorfor tak, en undersøgelse} as to not frustrate the user. From the playlist screen the user can vote on a track. Finding which track to vote for should not be a complex action, as this is an expected frequently done action. \jenote{100 ms? Where did that number come from? Our asses?}
+Usage of the system requires the user to interact with their smartphone or similar device. Firstly the user must install the application on their device. The installation process should not take a long time, or else the user might forget about the application. When the user is checked-in, the current playlist of the venue will be displayed. From the playlist screen the user can vote on a track. Finding which track to vote for should not be a complex action, as this is expected to be a frequent action.
 
 \paragraph{New or improved activities}
-The system introduces a possibility of requesting a track to be played at the venue, without having to ask the administrator. This eases work load on administrator, who might be busy serving beverages to a customer. It also eases the process of requesting a track by not having to get up if sitting and splitting from one's company or partner, which may lead to a more time spend together. The system might change the behaviour of the users and serve as topic of discussion, possibly an icebreaker. These changes in activities should be considered when designing the system.
+The system introduces a possibility of requesting a track to be played at the venue, without having to ask the administrator. This eases the work load on the administrator, who might be busy serving beverages to a customer. It also eases the process of requesting a track by not having to go to the counter, which may lead to more time spent together with one's company. The system might change the behaviour of the users and serve as topic of discussion, possibly an icebreaker. These changes in activities should be considered when designing the system.
 
 \subsection{Context}
 \label{sub:pact_context}
-
-This system can be used at places where many people wants to listen to music, but does not have an efficient method \chnote{påstand, uddyb} of determining which tracks to listen to.
-
-A dark environment with a lot of noise is common in bars/pubs. As people are often dancing in this environment, active use of smartphones is not recommended\chnote{why}. Also, usage of smartphones in these kind of environments often cause anti-social behaviour. \chnote{kilde ville være super nice :)}
+The system will most likely be used in a dark environment with a lot of noise as is common in bars/pubs. The environment most likely involves a lot of movement, such as people dancing. As stated in the interviews in \cref{userInterviews}, usage of smartphones in these kind of environments often causes anti-social behaviour, which is typically not desired in a social setting.
 
 \subsection{Technologies}
 \label{sub:pact_technologies}
 
-The system runs on a host computer with an audio system connected and a business license for Spotify. \chnote{meget specific?} This host computer is located at the installation site.
+The system runs on a host computer with an audio system connected and with access to a music catalogue. This host computer is located at the installation site.
 
-For users to operate this system a smartphone with internet connection and adequate battery life is required. \chnote{ved vi alle de ting? hvis det skal ikke skal være i retrospekt}
-When designing the system, different smartphones and their characteristics have to be considered.
+For users to operate this system, a smartphone with internet connection and adequate battery life is required. When designing the system, different smartphones and their characteristics have to be considered.
 
 \subsection{Summary}
 \label{sec:pact_summary}
 
-The people using the system are possibly intoxicated, and most likely in the context of meeting and talking to other people. It is often considered rude and anti-social to neglect the people you are with, by using a smartphone. In order to minimise this behaviour, the system must be \textit{quick}\footnote{Frequent and determined users might access the system often with a already known task for the system, making them capable of communicating a request of system very quickly, the system should sought to not be the limiting factor in this process.} and \textit{easy to navigate and use}, by providing a small and effective set of functionalities.
-Power consumption on the mobile devices is of concern, as smartphones usually drain their batteries quickly when in active use. Therefore a requirement of the system is to \textit{minimize power consumption}, by not doing extensive computing on the clients side.
+The people using the system are possibly intoxicated, and most likely in the context of meeting and talking to other people. It is often considered rude and anti-social to neglect the people you are with, by using a smartphone. In order to minimise this behaviour, the system must be \textit{quick}\footnote{Frequent and determined users might access the system often with a already known task for the system, making them capable of interacting with the system without hesitation. The system should not be the limiting factor in this process.} and \textit{easy to navigate and use}, by providing a small and effective set of functionalities.
+Power consumption on the mobile devices is of concern, as smartphones drain their batteries quicker when in active use. Therefore a requirement of the system is to \textit{minimise power consumption}, by not doing extensive computing on the clients side.
 
 
 The PACT analysis provides us with the following requirements
 \begin{itemize}
-  \item Should be quicker than the user
+  \item The client should be quick
   \item Easy to use and navigate - Few but effective functionalities
-  \item No unnecessary computations on the client
+  \item Minimal computation on the client
 \end{itemize}
