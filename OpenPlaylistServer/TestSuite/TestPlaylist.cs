@@ -175,10 +175,19 @@ namespace TestSuite {
             var u = new UserService();
             var history = new HistoryService();
             var pl = new PlaylistService(u, history);
-            var pt = new Track();
-            Assert.False(pl.Tracks.Contains(pt));
-            pl.Add(pt);
-            Assert.Single(pl.Tracks, pt);
+
+            var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
+            var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
+            var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
+            IEnumerable<Image> images = new List<Image> { img1, img2, img3 };
+            var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
+            var artists = new List<Artist> { art };
+            var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            
+            Assert.False(pl.Tracks.Contains(track));
+            pl.Add(track);
+            Assert.Single(pl.Tracks, track);
         }
         #endregion
 
@@ -229,10 +238,10 @@ namespace TestSuite {
             Assert.NotNull(track);
 
             Assert.True(vs.Vote(u.Id, track.URI));
-            Assert.True(u.Vote.Equals(track));
+            Assert.True(u.Vote.Track.Equals(track));
 
             //Assert.False(vs.Vote(u.Id, null));
-            Assert.True(u.Vote.Equals(track));
+            Assert.True(u.Vote.Track.Equals(track));
 
 
         }
@@ -325,11 +334,10 @@ namespace TestSuite {
             var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
             var track2 = new Track("50JtiuLYhzRO86ozFGxqYL", "Crossing the Boundaries", 220400, false, 2, "DKFD51642002", "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb", alb);
             var track1Cpy = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var emptyTrack1 = new Track();
-            var emptyTrack2 = new Track();
+
             Assert.False(track1.Equals(track2));
-            Assert.True(track1.Equals(track1Cpy));
-            Assert.True(emptyTrack1.Equals(emptyTrack2));
+            Assert.NotSame(track1, track1Cpy);
+            Assert.Equal(track1, track1Cpy);
         }
         #endregion
 
@@ -337,6 +345,7 @@ namespace TestSuite {
         [Fact]
         public void WebAPIMethodsGetTrackGetsTrack()
         {
+            //Information needed for track constructor
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
@@ -344,9 +353,15 @@ namespace TestSuite {
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
             var artists = new List<Artist> { art };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
-            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var foundTrack = WebAPIMethods.GetTrack(track1.URI);
-            Assert.True(foundTrack.Equals(track1));
+
+            //Construct track manually
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001"
+                                    , "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+
+            //Find track using WebAPI
+            var foundTrack = WebAPIMethods.GetTrack(track.URI);
+
+            Assert.Equal(track, foundTrack);
         }
 
         [Fact]

@@ -1,0 +1,28 @@
+\section{Unit Testing}
+In this section, a description of the unit tests, which were constructed in an effort to check the quality and correctness of the software solution described in this report, will be presented.
+
+\subsection{What is Unit Testing?}
+Unit testing is a way of dividing code into small portions, which can then independently be tested for correctness\cite{unittesting}.
+
+Unit tests should be quick, meaning that a developer can verify whether or not his work is correct without disrupting his work flow. Unit tests should also be small, checking only a single or very small subset of the functionality of the code. Lastly, and perhaps most importantly, unit tests should be correct. If a unit test gives a false positive then a developer would likely be convinced that the code which has been produced is working as it should, when in reality it is not. This could lead to a logical error breaking the application on the end users' devices. Likewise, if a unit test gives a false negative, a developer could waste a lot of time refactoring code, rewriting algorithms and modifying logic, which would be a very undesirable situation if the code was indeed correct, and the developer could have been using the time in a more productive manner.
+
+
+\subsection{Unit Testing for openPlaylist}
+Unit testing in the system described in this report was implemented mostly on the server side. This was done, as the server side of openPlaylist is much more extensive than the rather dumb client. 
+The unit tests which were implemented covered various parts of the code, some test the correctness of methods, others verify connection to third parties and some verify type extensions.
+Unit tests for this project were implemented using xUnit.net\footnote{http://xunit.github.io/}, a powerful tool set for building unit tests in the .Net framework. In xUnit.net, most unit tests are created using assertions, which check that a certain condition is met and if not, fails the test.
+To run the unit tests, a developer simply has to click the "Run All"-button in the Test Explorer in Visual Studio. This gives the developer a quick overview of the unit tests and whether or not they have passed, as can be seen in \cref{fig:UnitTestsPassed}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{UnitTestsPassed.png}
+  \caption{The Test Explorer in Visual Studio.}\label{fig:UnitTestsPassed}
+\end{figure}
+
+As can be seen in \cref{fig:UnitTest}, the unit tests which were implemented in the software solution were fairly simple. The example shows the manual creation of a \textit{Track} and a call to a method, which will automatically get the \textit{Track}. The test is simply an assertion that the two \textit{Track}s are identical. In \cref{fig:UnitTestsPassed}, it can be seen that this assertion is indeed true and the test has passed. This should mean that the method for automatically getting a \textit{Track} works as it should.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{UnitTest.png}
+  \caption{An example of a unit test in openPlaylist.}\label{fig:UnitTest}
+\end{figure}
