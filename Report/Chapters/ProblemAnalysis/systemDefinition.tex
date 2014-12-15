@@ -1,21 +1,27 @@
 \subsection{FACTOR}
+A FACTOR description were created though the current knowledge of the system. This was done to list and organise the system and domain of where the system should be implemented.
+This whas created on the basis of ISMDMUME~\cite{soerensen2004}, adding additional concepts from the rest of the state of the art and combining this with the requirements from both the guests and administrators, found in \cref{sub:administersinterviews} and \cref{userInterviews}, into one system. 
 \subsubsection{Functionality}
+The functionality are what the system should be able. These are mainly formed from the requirements given by both the administrators and guests.
 \begin{itemize}
-    \item Enable users to submit votes
-    \item Administrative overriding of playlist ordering
-    \item Limit the track space the users can search in, at any given time
-    \item View history of played tracks
-    \item Playback of tracks
+    \item Enable users to submit votes. It was chosen that the best way to cater the guests music preferences fairly and dynamically was though votes. This was done since they enable every user to have the possibility to have the same say in what is to be played while still rewarding more active users, hence fair and equal possibilities for all guests. This also makes it possible to implement dynamic voting since votes and be changed and reset as found fitting.
+    \item Administrative overriding of playlist ordering. This was a requirement from the administrators found in \cref{sub:administersinterviews}.
+    \item Limit the track space the users can search in, at any given time. A requirement from section \cref{sub:administersinterviews}.
+    \item View history of played tracks. A history is modelled in the system to keep track of what has been played. This could be used to keep track of the flow of the music, to ensure music continuity and/or as an extended service for the users.
+		\item View the current playlist. The playlist is central for the system, it is what the guests can affect though votes and since it is the order of the tracks what the administrators want to control and make sure follows the venues interests. It is therefore very important to keep track of this and be albe to view.
+    \item Playback of tracks.
 \end{itemize}
 
 \subsubsection{Application Domain}
+The application domain describes what administrators should be able to model in the system. This is found from the interviews with administrators in \cref{sub:administersinterviews}.
 \begin{itemize}
-    \item Administration of tracks and requests
-    \item The order of the tracks on the playlist
-    \item Playback of the playlist
+    \item Administration of tracks and votes. Remove and restrict tracks.
+    \item The order of the tracks on the playlist. They should freely be able to move tracks up and down the playlist as desired.
+    \item Playback of the playlist. This includes play, skip track, pause and stop.
 \end{itemize}
 
 \subsubsection{Conditions}
+The conditions either fount in the interviews or dictated the environment analysed in state of the art.
 \begin{itemize}
     \item The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users
     \item Limitation of what music is allowed at the venue
@@ -23,14 +29,18 @@
 \end{itemize}
 
 \subsubsection{Technology}
+The technology needed for the system to be fully functional.
 \begin{itemize}
-    \item Smartphone
-    \item Computer - for playing music
+    \item Smartphone - For users to interact with the system
+    \item Computer - For playing music and storing the playlist, history and votes
+		\item Situated display - For the preview interface
     \item Internet
     \item Digital music library
 \end{itemize}
 
 \subsubsection{Objects}
+The objects modelled by the system.
+Requests are not modelled as a object for itself. A unifying concept of vote and request was derived from the ideas of voting and requesting from \cref{StateOfTheArt}. In this concept, votes and request are the same thing. This is done by perceiving all tracks in the music catalogue of the venue, as being eligible for votes, but only tracks with at least one vote will be put on the playlist. This voids the need for requests, while still keeping the functionality, and simplifying the whole system. For these reasons, the rest of the project will work under this unified concept, and will refer to user requests as votes.
 \begin{itemize}
     \item Track
     \item Vote
@@ -42,11 +52,16 @@
 \end{itemize}
 
 \subsubsection{Responsibility}
+The responsebility the system will have in the context of a venue.
 \begin{itemize}
     \item User influence on music playback
     \item Administrative control for the venue
 \end{itemize}
 
 \subsection{System Definition}
-An information system enabling venues to have guests vote for tracks to be played. The system should enable the administrators to override the specific tracks and limit the track space the users can vote for, at any given time. The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users. The system should display already requested tracks to all customers, as to improve discoverability.
-The administrative server has to be able to run on an inexpensive computer, with access to a music catalogue and an internet connection of varying stability. The client application has to be able to run on smartphones with unstable internet access and limited data traffic and battery capacity.
+From the FACTOR the system definition were created, clearly defining the system and to be used in the further analysis of the system.
+
+\begin{center}
+\textit{An information system enabling venues to have guests vote for tracks to be played. The system should enable the administrators to override the specific tracks and limit the track space the users can vote for, at any given time. The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users. The system should display already requested tracks to all customers, as to improve discoverability.
+The administrative server has to be able to run on an inexpensive computer, with access to a music catalogue and an internet connection of varying stability. The client application has to be able to run on smartphones with unstable internet access and limited data traffic and battery capacity.}
+\end{center}
