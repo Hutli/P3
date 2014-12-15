@@ -1,23 +1,17 @@
-These are the candidates for classes the system needs to keep track of:
+From the system definition, some entities needs be modelled in the systems problem domain, in order to be able work with them in the application domain. These are the candidates for classes the system needs:
 \begin{description}
     \item[Track]
-
-    Used for storing meta data e.g. artist, duration
+    A track class for metadata e.g. title, artist, duration. With this information a vote made by a user, can be identified as track.
     \item[User]
-
-    Used for information about the user e.g. votes
+    For identifying every individual whom wishes to influence the playlist, by vote on some track
     \item[Vote]
-
-    Which track a user voted for to be played, and when the vote was submitted
+    This class is for modelling what track a user voted for to be played, and when the vote was submitted.
     \item[Playlist]
-
-    Used for keeping track of the votes and tracks
+    A collective of track in some order of what and when to play track.
     \item[Restriction]
-
-    To allow limitation of the set of tracks that can be added to the playlist
+    This is to allow for a limitation set by the administration, e.g. some of the set of tracks that are allowed to be added to the playlist
     \item[Venue]
-
-    To store information about the playlist and restrictions
+    Is the venue that has a playlist and some restrictions to that specific playlist
     \item[History]
-    To contain tracks that were played in the past
+    To contain tracks that were played in the past, this relevant for the flow of the music at the venue
 \end{description}
