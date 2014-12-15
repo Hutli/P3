@@ -72,7 +72,7 @@ namespace OpenPlaylistApp.Models
             catch (Exception e)
             {
 				if(loadIndicator) App.Home.IsBusy = false;
-                 App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
+                 //App.GetMainPage().DisplayAlert(errorMessageTitle, errorMessage, "Ok", "Cancel");
                 _connectionFailures++;
                 return null;
             }
@@ -85,14 +85,16 @@ namespace OpenPlaylistApp.Models
             return await MakeRequest(uriBuilder.Uri, "Venue not online", "The selected venue is not online. Try another one.", new TimeSpan(0,0,5), true);
         }
 
+        public async Task<string> CheckOut(Venue venue, User user)
+        {
+            UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "checkout/" + user.Id);
+            _connectionFailures = 0;
+            return await MakeRequest(uriBuilder.Uri, "Could not checkout", "Checked in venue is offline", new TimeSpan(0, 0, 5), true);
+        }
+
         public async Task<string> GetVenues()
         {
             UriBuilder uriBuilder = new UriBuilder("http", "op.zz.vc");
-            //App.Home.IsBusy = true;
-            //var str = await MakeRequest(uriBuilder.Uri, "Venue list error",
-            //    "Could not get list of venues. Contact your network administrator.", new TimeSpan(0,0,10));
-            //App.Home.IsBusy = true;
-            //return str;
             using (HttpClient client = new HttpClient())
             using (HttpResponseMessage response = await client.GetAsync("http://op.zz.vc/"))
             using (HttpContent content = response.Content)
@@ -107,15 +109,6 @@ namespace OpenPlaylistApp.Models
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "playlist");
 
             return await MakeRequest(uriBuilder.Uri, "Playlist error", "Could not get playlist", new TimeSpan(0,0,10), false);
-
-            //using (HttpClient client = new HttpClient())
-            //using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            //using (HttpContent content = response.Content)
-            //{
-            //    var str = await content.ReadAsStringAsync();
-            //    App.Home.IsBusy = false;
-            //    return str;
-            //}
         }
 
         public async Task<string> GetNowPlaying(Venue venue)
@@ -123,16 +116,6 @@ namespace OpenPlaylistApp.Models
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "nowplaying");
 
             return await MakeRequest(uriBuilder.Uri, "Nowplaying error", "Could not get nowplaying", new TimeSpan(0, 0, 10), false);
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now; //Else Windows Phone will cache and not make new request to the server
-            //    using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            //    using (HttpContent content = response.Content)
-            //    {
-            //        return await content.ReadAsStringAsync();
-            //    }
-            //}
         }
 
         public void ItemSelected(object sender, ItemTappedEventArgs e)
@@ -155,42 +138,12 @@ namespace OpenPlaylistApp.Models
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "vote/" + track.URI + "/" + user.Id);
             await MakeRequest(uriBuilder.Uri, "Vote failed", "Could not vote on selected track", new TimeSpan(0,0,3),true);
-
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    {
-            //        client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
-            //        //Else Windows Phone will cache and not make new request to the server
-
-            //        using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            //        using (HttpContent content = response.Content)
-            //        {
-            //            /*
-            //            var str = await content.ReadAsStringAsync();
-                        
-            //            if (str != "Success")
-            //            {
-            //                throw new Exception("Vote failede");
-            //            }*/
-            //            App.Home.IsBusy = false;
-            //        }
-            //    }
-            //}
         }
 
         public async Task<string> Search(Venue venue, string searchStr, int offset = 0)
         {
             UriBuilder uriBuilder = new UriBuilder("http", venue.IP, 5555, "search/" + searchStr +"/" + offset);
             return await MakeRequest(uriBuilder.Uri, "Search error", "Could not search", new TimeSpan(0, 0, 40),false);
-
-            //using (HttpClient client = new HttpClient())
-            //using (HttpResponseMessage response = await client.GetAsync(uriBuilder.Uri))
-            //using (HttpContent content = response.Content)
-            //{
-            //    var str = await content.ReadAsStringAsync();
-            //    App.Home.browsePage.IsBusy = false;
-            //    return str;
-            //}
         }
     }
 }
