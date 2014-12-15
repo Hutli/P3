@@ -9,12 +9,16 @@ namespace OpenPlaylistApp.Views
     {
         VenueViewModel venueViewModel;
         ListView listView = new ListView();
+        Button checkOutButton = new Button {Text = "Check Out"};
+        StackLayout layout = new StackLayout();
 
         public VenueView()
         {
             GetVenues();
+            layout.Children.Add(listView);
             listView.ItemSelected += ItemSelected;
-            Content = listView;
+            checkOutButton.Clicked += CheckOutClicked;
+            Content = layout;
         }
 
         void GetVenues()
@@ -24,6 +28,19 @@ namespace OpenPlaylistApp.Views
             listView.ItemTemplate = new VenueTemplate();
         }
 
+        async void CheckOutClicked(object sender, EventArgs e)
+        {
+            Session session = Session.Instance();
+            var response = await session.CheckOut(App.User.Venue, App.User);
+            if (response == "OK")
+            {
+                listView.SelectedItem = null;
+                App.User.Venue = null;
+                App.Home.CheckOut();
+                layout.Children.Remove(checkOutButton);
+            }
+        }
+
         async public void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem is Venue)
@@ -31,7 +48,10 @@ namespace OpenPlaylistApp.Views
                 Session session = Session.Instance();
                 var response = await session.CheckIn((Venue)e.SelectedItem, App.User);
                 if (response == "OK")
-                    App.User.Venue = (Venue)e.SelectedItem;
+                {
+                    App.User.Venue = (Venue) e.SelectedItem;
+                    layout.Children.Add(checkOutButton);
+                }
             }
         }
     }

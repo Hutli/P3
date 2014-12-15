@@ -38,13 +38,13 @@ namespace OpenPlaylistApp
             venueView = new VenueView();
             checkInView = new CheckInView();
 
-            playlistPage = new ContentPage { Title = "PlaylistPage", Content = playlistView };
+            playlistPage = new ContentPage { Title = "Playlist", Content = playlistView };
 
-            browsePage = new ContentPage { Title = "BrowsePage", Content = searchView };
-            venuePage = new ContentPage { Title = "VenuePage", Content = venueView };
-            checkInPage = new ContentPage { Title = "CheckInPage", Content = checkInView };
+            browsePage = new ContentPage { Title = "Browse", Content = searchView };
+            venuePage = new ContentPage { Title = "Venues", Content = venueView };
+            checkInPage = new ContentPage { Title = "CheckIn", Content = checkInView };
 
-            detailPage = new NavigationPage(playlistPage) { Title = "DetailPage", Icon = "Resources/plussign.png" };
+            detailPage = new NavigationPage(playlistPage) { Title = "Playlist", Icon = "Resources/plussign.png" };
 
             #if WINDOWS_PHONE
                 tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => BrowseClicked(), 0, 0);

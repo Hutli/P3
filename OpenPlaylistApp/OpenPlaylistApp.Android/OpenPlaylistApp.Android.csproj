@@ -128,7 +128,6 @@
     <AndroidResource Include="Resources\Drawable\plussign.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidResource>
-    <AndroidResource Include="Resources\Drawable\checkmark.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WebAPIPortable\WebAPI.csproj">
