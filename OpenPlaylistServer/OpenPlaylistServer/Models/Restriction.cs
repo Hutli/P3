@@ -123,11 +123,7 @@ namespace OpenPlaylistServer.Models
                 var now = DateTime.Now.TimeOfDay;
                 var startTimeCompare = StartTime.TimeOfDay.CompareTo(now);
                 var endTimeCompare = EndTime.TimeOfDay.CompareTo(now);
-                if (startTimeCompare <= 0 && endTimeCompare >= 0)
-                {
-                    return true;
-                }
-                return false;
+                return startTimeCompare <= 0 && endTimeCompare >= 0;
             }
         }
 
@@ -156,29 +152,23 @@ namespace OpenPlaylistServer.Models
 
             Func<Track, bool> chainedFilter = t => false;
 
-            if (titles.Count() == 0 && artists.Count() == 0)
+            if (!titles.Any() && !artists.Any()) { return chainedFilter; }
+
+            Func<RestrictionUnit, Func<Track, bool>> titleFilter = unit =>
             {
-                return chainedFilter;
+                return (track => track.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower()));
+            };
 
-            }
-            else
+            var titlePred = CombineOrTrackField(titles, titleFilter);
+
+            Func<RestrictionUnit, Func<Track, bool>> artistFilter = unit =>
             {
-                Func<RestrictionUnit, Func<Track, bool>> titleFilter = unit =>
-                {
-                    return new Func<Track, bool>(track => track.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower()));
-                };
+                return (track => track.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower())));
+            };
 
-                var titlePred = CombineOrTrackField(titles, titleFilter);
+            var artistPred = CombineOrTrackField(artists, artistFilter);
 
-                Func<RestrictionUnit, Func<Track, bool>> artistFilter = unit =>
-                {
-                    return new Func<Track, bool>(track => track.Album.Artists.Any(a => a.Name.ToLower().Contains(unit.FieldValue.Trim().ToLower())));
-                };
-
-                var artistPred = CombineOrTrackField(artists, artistFilter);
-
-                chainedFilter = t => titlePred(t) && artistPred(t);
-            }
+            chainedFilter = t => titlePred(t) && artistPred(t);
 
 
             if (restrictionType == RestrictionType.WhiteList)
@@ -194,13 +184,13 @@ namespace OpenPlaylistServer.Models
         private Func<Track, bool> CombineOrTrackField(IEnumerable<RestrictionUnit> restrictionUnits, Func<RestrictionUnit,Func<Track, bool>> filterFunc)
         {
             // if there are no restrictionUnits, the filter should just apply for everything
-            if (restrictionUnits.Count() == 0)
+            if (!restrictionUnits.Any())
             {
                 return t => true;
             }
 
             var predicates = restrictionUnits
-                .Select(unit => filterFunc(unit)); // map each unit to a filterFunction
+                .Select(filterFunc); // map each unit to a filterFunction
 
             Func<Track, bool> predicate = t =>
             {

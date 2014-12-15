@@ -6,11 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace OpenPlaylistServer.Services.Implementation
 {
-    class RestrictionService : IRestrictionService
+    public class RestrictionService : IRestrictionService
     {
-
         private ObservableCollection<Restriction> _restrictions = new ObservableCollection<Restriction>();
-
         public ObservableCollection<Restriction> Restrictions { get { return _restrictions; } }
 
         public void RestrictTracks(IEnumerable<Track> tracks)

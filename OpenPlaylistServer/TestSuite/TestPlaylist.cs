@@ -1,7 +1,8 @@
-//#define LoginToSpotify
+#define LoginToSpotify
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using OpenPlaylistServer.Collections;
 using OpenPlaylistServer.Models;
 using OpenPlaylistServer.Services.Implementation;
@@ -193,6 +194,10 @@ namespace TestSuite {
             Assert.True(playback.GetCurrentVolume().Equals(0.5F));
             u.Volume = 0.9F;
             Assert.True(playback.GetCurrentVolume().Equals(u.Volume));
+            u.Volume = 2F;
+            Assert.True(playback.GetCurrentVolume().Equals(0.9F));
+            u.Volume = -0.5F;
+            Assert.True(playback.GetCurrentVolume().Equals(0.9F));
         } 
         #endregion
 
@@ -234,9 +239,77 @@ namespace TestSuite {
         #endregion
 
         #region RestrictionService
+        [Fact]
+        public void RestrictionServiceRestrictTracksBlackTitlesWorks()
+        {
+            var resServ = new RestrictionService();
+            var resUnit = new RestrictionUnit(TrackField.Titles, "hej");
+            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.BlackList, resUnit);
 
+            var searchRes = WebAPIMethods.Search("hej", 20).Result;
+
+            Assert.True(searchRes.Any(t => t.Name.ToLower().Contains("hej") && !t.IsFiltered), "Search failed");
+
+            resServ.AddRestriction(res);
+            resServ.RestrictTracks(searchRes);
+
+            Assert.True(searchRes.Where(t => t.Name.ToLower().Contains("hej")).All(t => t.IsFiltered), "Restriction failed");
+        }
+
+        [Fact]
+        public void RestrictionServiceRestrictTrackWhiteTitlesWorks() {
+            var resServ = new RestrictionService();
+            var resUnit = new RestrictionUnit(TrackField.Titles, "hej");
+            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.WhiteList, resUnit);
+
+            var searchRes = WebAPIMethods.Search("hej", 20).Result;
+
+            Assert.True(searchRes.Any(t => !t.Name.ToLower().Contains("hej")), "Search failed");
+
+            resServ.AddRestriction(res);
+            resServ.RestrictTracks(searchRes);
+
+            Assert.True(searchRes.All(t => (t.Name.ToLower().Contains("hej") && !t.IsFiltered) || t.IsFiltered), "Restriction failed");
+        }
+
+        [Fact]
+        public void RestrictionServiceRestrictTrackBlackArtistsWorks() {
+            var resServ = new RestrictionService();
+            var resUnit = new RestrictionUnit(TrackField.Artists, "hej");
+            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.BlackList, resUnit);
+
+            var searchRes = WebAPIMethods.Search("hej", 20).Result;
+
+            Assert.True(searchRes.Any(t => t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej"))), "Search failed");
+
+            resServ.AddRestriction(res);
+            resServ.RestrictTracks(searchRes);
+
+            Assert.True(searchRes.All(t => 
+                (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered) 
+                || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered)), "Restriction failed");
+        }
+
+        [Fact]
+        public void RestrictionServiceRestrictTrackWhiteArtistsWorks() {
+            var resServ = new RestrictionService();
+            var resUnit = new RestrictionUnit(TrackField.Artists, "hej");
+            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.WhiteList, resUnit);
+
+            var searchRes = WebAPIMethods.Search("hej", 20).Result;
+
+            Assert.True(searchRes.Any(t => t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej"))), "Search failed");
+
+            resServ.AddRestriction(res);
+            resServ.RestrictTracks(searchRes);
+
+            Assert.True(searchRes.All(t =>
+                (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered)
+                || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered)), "Restriction failed");
+        }
         #endregion
     #endregion
+
     #region WebAPI
         #region Track
         [Fact]
@@ -307,6 +380,7 @@ namespace TestSuite {
         public void SpotifyLoggedInPlayWorks() {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             Assert.DoesNotThrow(() => _data.Spl.Play(t));
+            Assert.Throws<NullReferenceException>(() => _data.Spl.Play(null));
         }
 
         [Fact]
@@ -315,6 +389,14 @@ namespace TestSuite {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             _data.Spl.Play(t);
             Assert.DoesNotThrow(()=> _data.Spl.Stop());
+        }
+
+        [Fact]
+        public void SpotifyLoggedInPlayAfterStopWorks() {
+            var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
+            Assert.DoesNotThrow(() => _data.Spl.Play(t));
+            Assert.DoesNotThrow(() => _data.Spl.Stop());
+            Assert.DoesNotThrow(() => _data.Spl.Play(t));
         }
     #endregion
 
