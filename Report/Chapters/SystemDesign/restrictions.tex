@@ -4,13 +4,34 @@
 It was found in the interviews in \cref{sub:administersinterviews} and with our industry partner in \cref{sec:fabrikken}, that the venues have a strong desire for the ability to control what guests can vote for. This was valued to be a must have and of high priority. A possible concept for solving this problem, is by putting restrictions on what tracks, can be added to the playlist. This section will present the concepts of white- and black-listing.
 
 \paragraph{Whitelisting} is a concept of being able to choose, what entities is accepted as a valid input. Strictly if $A$ is the set of accepted inputs, $B$ is the whitelist set and $i$ is the input then $i \in A$ \textbf{if and only if} $i \in B$. If there are multiple whitelists, the input is valid if it is contained in any of them.
-
-\paragraph{Blacklisting} is the reverse of whitelisting. The concept is that the blacklist excludes specific entities from being a valid input. Entities in the blacklist set is excluded from the set of accepted inputs. Strictly $A$ is the set of accepted inputs, $B$ is the blacklist set and $i$ is the input set then $i \in A$ \textbf{if and only if} $i \notin B$.
+To get a better understanding of how this works mathematically, we can convert a whitelist to a logical expression evaluating to \textbf{true} if the item is on the whitelist or \textbf{false} if not. With $n$ whitelists these logical expressions can combined into logical expression evaluating to \textbf{true} if the track is allowed and \textbf{false} if not, this can be seen in \cref{eq:whitelist}.
 
 \begin{equation}
-\label{eq:restrictions}
-	IsFiltered = (B_{1.1} \wedge B_{1.2}) \vee (B_{2.1} \wedge B_{2.2}) \vee \neg((W_{1.1} \wedge W_{1.2}) \vee (W_{2.1} \wedge W_{2.2}))
+\label{eq:whitelist}
+	W_1 \vee W_2 \vee W_3 \vee ... \vee W_n
 \end{equation}
+
+\paragraph{Blacklisting} is the reverse of whitelisting. The concept is that the blacklist excludes specific entities from being a valid input. Entities in the blacklist set is excluded from the set of accepted inputs. Strictly $A$ is the set of accepted inputs, $B$ is the blacklist set and $i$ is the input set then $i \in A$ \textbf{if and only if} $i \notin B$.
+We can in the same way as whitelists convert a blacklist to a logical expression returning \textbf{true} if the item is on the blacklist or \textbf{false} if not, and again with $n$ blacklists create a combined logical expression that would evaluate \textbf{true} if a track is allowed and \textbf{false} if not, as seen in \cref{eq:blacklist}.
+
+\begin{equation}
+\label{eq:blacklist}
+	\neg(B_1 \vee B_2 \vee B_3 \vee ... \vee B_n)
+\end{equation}
+
+For an entity to be accepted it must be evaluated as \textbf{true} in both of the combined logical expressions in \cref{eq:blacklist} and \cref{eq:whitelist}. These expressions can therefore be combined into one expression as seen in \cref{eq:blacklist&whitelist}.
+
+\begin{equation}
+\label{eq:blacklist&whitelist}
+		(W_1 \vee W_2 \vee ... \vee W_n) \wedge \neg(B_1 \vee B_2 \vee ... \vee B_n)
+\end{equation}
+
+One restriction is a collection of rules on any of the meta data a track contains. This means that if you do not want to hear \enquote{Still Alive} with with \enquote{Lisa Miskovsky} this is one blacklist restriction. People would though still be able to hear songs titled \enquote{Still Alive} or music from \enquote{Lisa Miskovsky}. For an entity to evaluate true, thus being on the blacklist or whitelists, it must be true for all criterias of the list. For \emph{n} whitelists and \emph{m} blacklists with a variable number of criterias the complete and final expression would look as seen in \cref{eq:restrictions}.
+
+\begin{eqnarray}
+	\label{eq:restrictions}
+	((W_{1.1} \wedge ... \wedge W_{1.a}) \vee (W_{2.1} \wedge ... \wedge W_{2.b}) \vee ... \vee (W_{n.1} \wedge ... \wedge W_{n.c})) \wedge \nonumber \\ \neg((B_{1.1} \wedge ... \wedge B_{1.d}) \vee (B_{2.1} \wedge ... \wedge B_{2.e}) \vee ... \vee (B_{m.1} \wedge ... \wedge B_{m.f}))
+\end{eqnarray}
 
 With these concepts it is possible to restrict the music catalogue to a subset of allowed tracks, satifying the requirement of being able to control what music is being played. Restrictions can also improve the music flow (described in \cref{sub:MusicFlow}) if the restrictions limits allowed tracks to certain genre or mood, although this should be just be supplement to another concept, analysing the tracks on the playlist.
 
