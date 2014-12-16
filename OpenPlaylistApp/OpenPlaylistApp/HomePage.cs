@@ -44,14 +44,12 @@ namespace OpenPlaylistApp
             venuePage = new ContentPage { Title = "Venues", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckIn", Content = checkInView };
 
-            detailPage = new NavigationPage(playlistPage) { Title = "Playlist", Icon = "Resources/plussign.png" };
-
+            detailPage = new NavigationPage(playlistPage) { Title = "Playlist", Icon = "Resources/venueIcon.png" };
+            
             #if WINDOWS_PHONE
                 tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => BrowseClicked(), 0, 0);
-                ToolbarItems.Add(tbi1);
             #else
                 tbi1 = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
-                playlistPage.ToolbarItems.Add(tbi1);
             #endif
 
             App.User.VenueChanged += CheckedIn;
@@ -105,13 +103,24 @@ namespace OpenPlaylistApp
             if (v != null)
             {
                 Detail = detailPage;
+#if WINDOWS_PHONE
+                ToolbarItems.Add(tbi1);
+#else
+                playlistPage.ToolbarItems.Add(tbi1);
+#endif
             }
         }
 
         public void CheckOut()
         {
             Detail = checkInPage;
+#if WINDOWS_PHONE
+                ToolbarItems.Remove(tbi1);
+#else
+            playlistPage.ToolbarItems.Remove(tbi1);
+#endif
             App.User.Venue = null;
+            App.User.Vote = null;
         }
     }
 }

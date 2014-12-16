@@ -1,39 +1,38 @@
-As part of the analysis of the application domain an analysis of the functions are needed. It is done in order to get an understanding of what the system should do. A function is something that makes the model usable by the user and supports their use cases. There are three different kinds of functions:
+As part of the analysis of the application domain, an analysis of the functions are needed. It is done in order to get an understanding of what the system should do. A function is something that makes the model usable by the user and supports their use cases. There are three different kinds of functions:
 
 \begin{description}
-    \item[Update] functions are functions that are triggered by an event in the problem or application domain that then needs to update the state of the model. Update functions are used to keep the model up to date with reality.
+    \item[Update] functions are triggered by an event in the problem or application domain that then needs to update the state of the model. Update functions are used to keep the model up to date with reality.
 
-    \item[Signalling] functions are triggered by changes in the model. They notify the actors or do a direct action in the problem domain. \chnote{Update? ligesom i tabellen?}
+    \item[Signalling] functions are triggered by changes in the model. They notify the actors or do a direct action in the problem domain.
 
-    \item[Read] functions are functions that makes the model readable by
-the outside. It is used by an actor when updates from the model is needed in the system.
+    \item[Read] functions make the model readable by the outside. It is used by an actor when updates from the model is needed in the system.
 
-    \item[Compute] functions are similar to read functions but instead of just reading the model they do some extra computation. They might also read different places in the model and combining them with some computation.
+    \item[Compute] functions are similar to read functions, but instead of only reading the model they do some extra computation. They might also read different places in the model and combining them with some computation.
 \end{description}
 
-In \cref{table:functionlist} is a table of functions from the system. The functions were made based on the use cases described in \cref{usecase} and the system definition in \cref{systemDefinition}. The table also includes the complexity of the functions. This is a subjective assessment made in collaboration with the users of the system. It tells how difficult a function is to develop. Most functions can be specified with just a name but some of the more complex functions needs to have a detailed specification.
+In \cref{table:functionlist} is a table of functions from the system. The functions were made based on the use cases described in \cref{usecase} and the system definition in \cref{systemDefinition}. The table also includes the complexity of the functions. The complexity tells how difficult a function is to develop. Most functions can be specified with just a name but some of the more complex functions needs to have a detailed specification.
 
 \begin{table}[hbtp]
 \centering
 \begin{tabular}{lcr}
 \toprule
-\multicolumn{3}{c}{\textbf{Social music playing}} \\
+\textbf{Name}									 & \textbf{Complexity}	& \textbf{Type} \\
 \midrule
-Restrict tracks                & Medium  & Compute \\
-Create restriction             & Simple  & Update  \\
-Read restriction               & Simple  & Read    \\
-Update restriction             & Simple  & Update  \\
-Delete restriction             & Simple  & Update  \\
-Get current playlist           & Simple  & Read    \\
-Change track votes             & Simple  & Update  \\
-Play track on speakers         & Medium  & Signal  \\
-Change playing state           & Medium  & Update  \\
-Track vote                     & Medium  & Update  \\
-Get next track                 & Complex & Compute \\
-Search tracks                  & Complex & Read    \\
+Change track votes             & Simple								& Update  \\
+Create restriction             & Simple								& Update  \\
+Delete restriction             & Simple								& Update  \\
+Update restriction             & Simple								& Update  \\
+Get current playlist           & Simple								& Read    \\
+Read restriction               & Simple								& Read    \\
+Change playing state           & Medium								& Update  \\
+Track vote                     & Medium								& Update  \\
+Play track on speakers         & Medium								& Signal  \\
+Restrict tracks                & Medium								& Compute \\
+Search tracks                  & Complex							& Read    \\
+Get next track                 & Complex							& Compute \\
 \bottomrule
 \end{tabular}
-\caption{Function list.}
+\caption{Function table.}
 \label{table:functionlist}
 \end{table}
 
@@ -87,4 +86,3 @@ Pseudocode approximation of the two functions marked as complex in \cref{table:f
 	\EndFunction{}
 \end{algorithmic}
 \end{algorithm}
-\jenote{Description?}

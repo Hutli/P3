@@ -12,10 +12,11 @@ namespace OpenPlaylistApp.Views
 
         public CheckInView()
         {
-            System.Uri uri = new Uri("https://www.dropbox.com/s/hldn5ddxr0zsdy4/checkin.png");
-            //image.Source = ImageSource.(uri);
-
-            image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("checkin") }; ;
+            #if WINDOWS_PHONE
+            image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("Resources/checkin.png")};
+#else
+            image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("checkin") };
+            #endif
             image.Aspect = Aspect.AspectFit;
             Content = image;
             Content.VerticalOptions = LayoutOptions.CenterAndExpand;

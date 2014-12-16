@@ -35,7 +35,6 @@ namespace OpenPlaylistApp.Views
             if (response == "OK")
             {
                 listView.SelectedItem = null;
-                App.User.Venue = null;
                 App.Home.CheckOut();
                 layout.Children.Remove(checkOutButton);
             }
