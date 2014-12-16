@@ -1,1 +1,19 @@
 \chapter{Conclusion}
+A software solution was developed using an iterative development process described in \cref{IterativeDesignProcess}. This software solution is divided into a server application, a presentation application and a cross platform mobile application, as seen in \cref{sec:architecture}.
+
+A problem analysis was made in \cref{cha:problem_analysis} based on interviews. Interviews of bar owners and bartenders were performed to analyse the different systems currently in use to control the music at a bar. Additionally interviews with guests at venues were conducted. The interviews are documented in \cref{userInterviews} and \cref{sub:administersinterviews}. From these interviews, user requirements were found and a problem statement was created in \cref{sub:problemStatement}, as a description of the main problem for this project.
+
+After a clear definition of the problem was made, research on solutions to similar problems was done in \cref{StateOfTheArt}. Based on this research, the platform was chosen and a system definition was made for describing the outlines of a technical solution to the problem statement.
+
+
+The mobile application allows guests of venues to cater to their music preferences fairly and dynamically through voting, as described in \cref{VotingAndRequesting}. The resulting playlist can be seen decentralised or centralised, respectively through the mobile application or on a presentation screen placed in the venue.
+
+
+A server, running on a PC connected to the music system, automatically plays music from the playlist or, if no music is currently on the playlist, automatically finds new songs that fit the current style of music. This is done to ensure continuity in the music playback. Furthermore the server allows administrators to supervise and control through an administrative interface. Extended control and undesirable music flow can be avoided through black- and whitelisting restrictions, which can be assigned time intervals.
+
+
+To ensure the usability of the software solution it was tested by potential end users in usability tests. No critical issues were found. However several serious and minor issues were found. The issues which were deemed fixable in the time span of the project were corrected.
+
+
+Unit tests were written to verify the correctness of the implementation of the software solution. All logical faults which were found, were corrected.
+
