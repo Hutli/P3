@@ -41,7 +41,8 @@ The following event table is used to describe what classes are involved in the i
         \toprule
         \textbf{Events}                 & User   & Track  & Playlist & Vote   & Restriction & Venue  & History\\
         \midrule
-        (Re)vote                        & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
+        Vote on track                   & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
+        Cancel vote on track            & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
         User checks in at venue         & $+$    &        &          &        &             & $+$    &        \\
         User leaves venue               & $+$    &        &          &  $+$   &             & $+$    &        \\
         User searches for a track       & $\ast$ &  $+$   &          &        & $\ast$      &        &        \\
@@ -62,15 +63,15 @@ occur zero or one times. From this, specific state diagrams can be created to il
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{StateDiagramUser.png}
+  \includegraphics[width=.7\textwidth]{StateDiagramUser.pdf}
   \caption{State diagram for the user.}\label{fig:StateDiagramUser}
 \end{figure}
 
-In \cref{fig:StateDiagramUser} the state diagram for a user can be seen. The problem domain is the context of the venue, and a user can therefore only affect the problem domain, when he or she is present at the venue. This results in the creation of the user, when he or she enters, and the termination when he or she leaves. When present at the venue, the user can search for tracks and vote or revote for these.
+In \cref{fig:StateDiagramUser} the state diagram for a user can be seen. The problem domain is the context of the venue, and a user can therefore only affect the problem domain, when he or she is present at the venue. This results in the creation of the user, when he or she enters, and the termination when he or she leaves. When checked-in at the venue, the user can search for tracks and vote or cancel votes for tracks.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{StateDiagramPlaylist.png}
+  \includegraphics[width=.7\textwidth]{StateDiagramPlaylist.pdf}
   \caption{State diagram for the playlist.}\label{fig:StateDiagramPlaylist}
 \end{figure}
 
@@ -101,11 +102,11 @@ As shown in \cref{fig:StateDiagramRestriction}, a restriction can be created and
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{pd_venueState.png}
+  \includegraphics[width=.7\textwidth]{StateDiagramVenue.pdf}
   \caption{State diagram for the venue.}\label{fig:StateDiagramVenue}
 \end{figure}
 
-As shown in \cref{fig:StateDiagramVenue}, a venue is created when it first opens and is terminated when it is shut down. A venue has only two states, active and inactive, meaning whether or not guests are allowed. A venue can edit its playlist, without changing state, and likewise add or remove restrictions.
+As shown in \cref{fig:StateDiagramVenue}, a venue is created when it first opens and is terminated when it is shut down. A venue has only two states, active and inactive, meaning whether or not it is possible to vote for tracks. A venue can edit its playlist without changing state, and likewise add or remove restrictions.
 
 \begin{figure}[H]
   \centering
