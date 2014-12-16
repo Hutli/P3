@@ -1,28 +1,34 @@
-From the classes it is possible to find some candidates for events, and describe how these event affect the problem domain. Also through this exercise it possible to refine classes with low cohenrence, if the classes appear to have a lot of responsiblity in the events. For events if it incorporates many different classes it is a sign for high cobling.
-These are the candidates for events:
+This section describes the possible events that may happen in the
+problem domain. These events and the classes affected by them, will be
+described through an event table and a state diagram for each class
+described in \cref{sub:pd_classes}.
+
 \begin{description}
 
 \item[Submitting/Cancelling votes]
-    When a user votes for a track, or cancels it. If the \textit{Track} that is voted for fits within the \textit{Restriction}, the \textit{Track}s vote count is changed and potentially its order in the \textit{Playlist}. The specific \textit{User}s vote is also changed.
+    When a user votes for a track, or cancels it. If the \emph{Track} that is voted for fits within the \emph{Restriction}, the \emph{Track}s vote count is changed and potentially its order in the \emph{Playlist}. The specific \emph{User}s vote is also changed.
 
 \item[Checking in/out of venues]
-    A \textit{User} checks in at a venue. This allows the user to vote for \textit{Track}s there.
+    A \emph{User} checks in at a venue. This allows the user to vote
+    for \emph{Tracks} on the venue's playlist.
 
 \item[Searching for a track]
-    When a \textit{User} is searching for a desired \textit{Track} in the catalogue of \textit{Track}s. The \textit{User} should receive relevant search results that fit within the \textit{Restriction}s.
+    When a \emph{User} is searching for a desired \emph{Track} in the catalogue of \emph{Track}s. The \emph{User} should receive relevant search results that fit within the \emph{Restriction}s.
 
-\item[Adding/Removing a track from the \textit{Playlist}]
-    If a \textit{User} has voted for a \textit{Track}, which is not on the \textit{Playlist}, or if a \textit{Track} only had one vote which has been cancelled.
+\item[Adding/Removing a track from the \emph{Playlist}]
+    Tracks can be added to the playlist by a \empth{User} voting on a
+    \emph{Track}. A \emph{Track} can be removed from the playlist if
+    either its votes were cancelled, or if the \emph{Track} was just played.
 
 \item[New track is playing]
-    When a \textit{Track} has ended, due to it being skipped or
+    This event happens when a \emph{Track} has ended, due to it being skipped or
     reaching the end. This should affect the vote count of the
-    \textit{Track}. If the \textit{Track}, a \textit{User} has voted
-    for, is played, the \textit{User}s vote should be reset, and the
-    \textit{Track} that ended should be added to the history.
+    \emph{Track}. If the \emph{Track} a \emph{User} has voted
+    for is played, the \emph{User}s vote should be reset, and the
+    \emph{Track} that ended should be added to the history.
 
 \item[Adding/Removing restrictions]
-    When the administrator either adds or removes a \textit{Restriction} from the \textit{Playlist}. \textit{Track}s on the \textit{Playlist} that do not meet the \textit{Restriction}s should be removed. The \textit{User}s' votes should also be voided if it does not meet the \textit{Restriction}.
+    When the administrator either adds or removes a \emph{Restriction} from the \emph{Playlist}. \emph{Track}s on the \emph{Playlist} that do not meet the \emph{Restriction}s should be removed. The \emph{User}s' votes should also be voided if it does not meet the \emph{Restriction}.
 
 \end{description}
 
@@ -76,7 +82,14 @@ In \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created wh
   \caption{State diagram for the track.}\label{fig:StateDiagramTrack}
 \end{figure}
 
-As seen in \cref{fig:StateDiagramTrack}, a track is only modelled in the problem domain, when it has votes. This means that it will be created, when it receives its first vote. If votes are removed from the track, it can result in the track having 0 votes again, and will therefore be terminated. While active the track can receive and lose votes from any user, when he or she changes his or her vote. The track will also be terminated when it has been played. \chnote{Hvad med history}
+As seen in \cref{fig:StateDiagramTrack}, a track is only active in
+the problem domain, when it has votes or is on the history of last
+played tracks. This means that it will be created, when it receives
+its first vote. If votes are removed from the track, it can result in
+the track having zero votes again, and will therefore be
+terminated. While active, the track can receive and lose votes from
+any user when the user's vote is changed. A track is terminated once it has
+been removed from the history of last played tracks.
 
 \begin{figure}[H]
   \centering
