@@ -1,4 +1,4 @@
-\section{Next Track Based on History Algorithm}
+\section{Continuous Playback}
 \label{sec:algorithm}
 
 The music at a bar should never stop playing as described in
@@ -11,8 +11,8 @@ algorithm described as pseudo code in \cref{alg:smartfind} should
 prevent sudden changes in genre.
 
 As users vote on tracks, patterns in the music style
-emerges. \Cref{alg:smartfind} uses this pattern to find the next track
-to play. Spotify does not contains meta data about which songs are
+emerges. \Cref{alg:smartfind} uses these patterns to find the next track
+to play. Spotify does not supply meta data about which tracks are
 related. Instead, Spotify has meta data about related artists. The algorithm finds the most appearing artist across the last nine played tracks. When this artist is found, one of the artists top tracks, which were not already played, is returned by the algorithm.
 
 Lines 4 to 5 is a check in case the length of the history is not larger than $tracksToLookAt$. $tracksToLookAt$ is then set to the length of the history.
