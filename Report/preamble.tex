@@ -64,6 +64,8 @@ bibencoding=utf8,
 
 \usepackage{hyperref} % hyperlinks in pdf
 \usepackage{cleveref} % clever references. Use with \cref...
+\let\origref\cref
+\def\cref#1{\emph{\origref{#1}}}
 
   % ¤¤ Kapiteludssende ¤¤ %
 \usepackage{titlesec}
