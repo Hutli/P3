@@ -2,21 +2,24 @@
 using System.Windows.Threading;
 
 
-namespace OpenPlaylistServer {
-    public class RootDispatcherFetcher {
+namespace OpenPlaylistServer
+{
+    public static class RootDispatcherFetcher
+    {
         private static Dispatcher _rootDispatcher;
 
-        public static Dispatcher RootDispatcher {
+        public static Dispatcher RootDispatcher
+        {
             get
             {
-                _rootDispatcher = _rootDispatcher ??
+                return _rootDispatcher ??
                                   (Application.Current != null
                                       ? Application.Current.Dispatcher
                                       : Dispatcher.CurrentDispatcher);
-             return _rootDispatcher;
-         }
+            }
             // unit tests can get access to this via InternalsVisibleTo
-            internal set {
+            internal set
+            {
                 _rootDispatcher = value;
             }
         }

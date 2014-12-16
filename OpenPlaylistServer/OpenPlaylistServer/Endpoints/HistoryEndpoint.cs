@@ -11,7 +11,7 @@ namespace OpenPlaylistServer.Endpoints
         public HistoryEndpoint(IHistoryService historyService)
         {
             var tracks = historyService.Tracks;
-            
+
             Get["history"] = e => JsonConvert.SerializeObject(tracks, Formatting.Indented);
         }
     }

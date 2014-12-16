@@ -15,11 +15,15 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                if (userService.Users.All(x => x.Id != userId))
+                if (userService.Users.Any(x => x.Id == userId))
                 {
                     RootDispatcherFetcher.RootDispatcher.Invoke(() => userService.Add(new User(userId)));
+                    return "OK";
                 }
-                return "OK";
+                else {
+                    return "Already checked in";
+                }
+                
             };
 
             Get["/checkout/{userId}"] = parameters =>
