@@ -15,7 +15,7 @@ namespace OpenPlaylistServer.Endpoints
             Get["/checkin/{userId}"] = parameters =>
             {
                 string userId = parameters.userId;
-                if (userService.Users.Any(x => x.Id == userId))
+                if (!userService.Users.Any(x => x.Id.Equals(userId)))
                 {
                     RootDispatcherFetcher.RootDispatcher.Invoke(() => userService.Add(new User(userId)));
                     return "OK";
