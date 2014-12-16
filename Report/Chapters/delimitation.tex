@@ -1,0 +1,12 @@
+\chapter{Delimitation}
+During the course of this project, a large number of ideas and ambitions were had for the solution, not all of these were possible to implement in the given time span for the project. In this chapter, the functionalities, which were chosen to be delimited, and the reasoning behind the delimitation will be described.
+
+\section{Offline Playback}
+Offline playback, meaning that the solution would be functional, even if the server was offline, was an idea which was brought up in the interviews (see \cref{sub:specific_remarks}).
+To enable music to be played offline would require a local music catalogue on the server. This would have to be designed, implemented and tested with the same rigour as Spotify, which would likely be very time costly. 
+Perhaps even more costly, a local music catalogue would most certainly require licences for the tracks, which are available, meaning that the feature could also cost a lot of money. Additionally, a local music catalogue would require a large amount of storage space\footnote{For a comparison, Spotify used a total of 470 terabytes of storage in 2011, according to their lead engineer (http://www.slideshare.net/ricardovice/spotify-p2p-music-streaming)}, meaning that the feature would either have extreme hardware requirements or be very limited in the amount of tracks, which can be accessed.
+In the end, offline playback was deemed to be a too extensive feature, which would likely be costly on both time and monetary resources, to realistically be implemented within the scope of this project.
+
+\section{Security}
+It was decided to limit the project from taking care of security. This was decided as functionality was prioritised higher than security, mainly because of the limited extent of the use of the system, which this project is concerned with. Securing the solution was deemed too expensive, with regards to time, to be properly implemented and tested in the course of this project.
+This means that any individual, with sufficient knowledge of the inner workings of the system, and the format of the requests made to the server, can abuse the system and change data at will.
