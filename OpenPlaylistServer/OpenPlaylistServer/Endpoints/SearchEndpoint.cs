@@ -15,14 +15,6 @@ namespace OpenPlaylistServer.Endpoints
             Get["/search/{query}"] = parameters => {
                 var tracks = searchService.Search(parameters.query).Result;
                 restrictionService.RestrictTracks(tracks);
-                //foreach (Track t in tracks)
-                //{
-                //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
-                //    if (tmpTrack != null)
-                //    {
-                //        t.TScore = tmpTrack.TotalScore;
-                //    }
-                //}
                 return JsonConvert.SerializeObject(tracks, Formatting.Indented);
             };
 
@@ -30,14 +22,6 @@ namespace OpenPlaylistServer.Endpoints
             {
                 var tracks = searchService.Search(parameters.query, parameters.offset).Result;
                 restrictionService.RestrictTracks(tracks);
-                //foreach (Track t in tracks)
-                //{
-                //    Track tmpTrack = playlistService.Tracks.FirstOrDefault(p => p.Equals(t));
-                //    if (tmpTrack != null)
-                //    {
-                //        t.TScore = tmpTrack.TotalScore;
-                //    }
-                //}
                 return JsonConvert.SerializeObject(tracks, Formatting.Indented);
             };
         }
