@@ -92,7 +92,7 @@ namespace Presentation
 
         private void ApplyChanges(ServerData serverData)
         {
-            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageColumn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - 10;
+            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageColumn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - ThumbsUpColumn.ActualWidth - 10;
             ToStringColumnHist.Width = ToStringColumn.Width;
 
             Playlist.Clear();

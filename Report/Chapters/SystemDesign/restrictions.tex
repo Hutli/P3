@@ -26,14 +26,17 @@ For an entity to be accepted it must be evaluated as \textbf{true} in both of th
 		(W_1 \vee W_2 \vee ... \vee W_n) \wedge \neg(B_1 \vee B_2 \vee ... \vee B_n)
 \end{equation}
 
-One restriction is a collection of rules on any of the meta data a track contains. This means that if you do not want to hear \enquote{Still Alive} with with \enquote{Lisa Miskovsky} this is one blacklist restriction. People would though still be able to hear songs titled \enquote{Still Alive} or music from \enquote{Lisa Miskovsky}. For an entity to evaluate true, thus being on the blacklist or whitelists, it must be true for all criterias of the list. For \emph{n} whitelists and \emph{m} blacklists with a variable number of criterias the complete and final expression would look as seen in \cref{eq:restrictions}.
+One restriction is a collection of rules on any of the meta data a track contains. This means that if you do not want to hear \enquote{Still Alive} by \enquote{Lisa Miskovsky} this is one blacklist restriction. People would still be able to hear other songs titled \enquote{Still Alive} or other music from \enquote{Lisa Miskovsky}. For an entity to evaluate true, thus being on the blacklist or whitelists, it must be true for all criterias of the list. For \emph{n} whitelists and \emph{m} blacklists with a variable number of criterias the complete and final expression would look as seen in \cref{eq:restrictions}.
 
 \begin{eqnarray}
 	\label{eq:restrictions}
 	((W_{1.1} \wedge ... \wedge W_{1.a}) \vee (W_{2.1} \wedge ... \wedge W_{2.b}) \vee ... \vee (W_{n.1} \wedge ... \wedge W_{n.c})) \wedge \nonumber \\ \neg((B_{1.1} \wedge ... \wedge B_{1.d}) \vee (B_{2.1} \wedge ... \wedge B_{2.e}) \vee ... \vee (B_{m.1} \wedge ... \wedge B_{m.f}))
 \end{eqnarray}
 
-With these concepts it is possible to restrict the music catalogue to a subset of allowed tracks, satifying the requirement of being able to control what music is being played. Restrictions can also improve the music flow (described in \cref{sub:MusicFlow}) if the restrictions limits allowed tracks to certain genre or mood, although this should be just be supplement to another concept, analysing the tracks on the playlist.
+With these concepts it is possible to restrict the music catalogue to a subset of allowed tracks, satisfying the requirement of being able to control what music is being played.
+
+
+Restrictions can also improve the music flow (described in \cref{sub:MusicFlow}) if the restrictions limits allowed tracks to certain genre or mood, although this should be just be supplement to another concept, analysing the tracks on the playlist.
 
 Furthermore the owner of Fabrikken (see \cref{sec:fabrikken}) wants to be able to have timed intervals of restrictions, so that the restrictions acts accordingly to the progression in intensity and mood of the bar environment. This is quite trivially implemented with a selective control structure, checking if the restriction is relevant at that time of day.
 

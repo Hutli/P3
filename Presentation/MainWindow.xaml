@@ -44,7 +44,20 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn x:Name="ToStringColumn" DisplayMemberBinding="{Binding ToStringProperty}"/>
-                    <GridViewColumn x:Name="TotalScoreColumn" Width="100" DisplayMemberBinding="{Binding TotalScore}"/>
+                    <GridViewColumn x:Name="TotalScoreColumn" Width="64">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TotalScore}" HorizontalAlignment="Right"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>    
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="ThumbsUpColumn" Width="40">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                                <Image Source="Resources/ThumbsUp.png"/>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                    </GridViewColumn>  
                 </GridView>
             </ListView.View>
         </ListView>
