@@ -31,3 +31,12 @@ on the currently playing track.
 
 \section{Security}
 If this solution is to become a standard in its field, security against attacks will have to be implemented, as the likelihood of an attacker to try to exploit the system grows with the amount of users, and people in general who are aware of the system. Any security flaw reaching the end users has the potential to break the fairness of the solution and, more seriously, deteriorate the reputation of the solution, possibly killing any chance of widespread use.
+
+\section{User Authorisation}\label{sec:UAuth}
+In order to differentiate users of the client application, some mechanism of authorisation is needed in the client application. Possible mechanisms are: logging in with already established login services like Google login and Facebook login, logging in with a self made login system or basing the authorisation of a device id e.g. IMEI number or a phone number.
+
+The good thing about reusing login services like Facebook login or Google login which are well known is that users do not need to create a new account just to use the application. Another benefit is that security is taken care of externally i.e. secure password storage is not a concern in the development of this application. Some users might have a stigma against these services or fear of their privacy by using the services e.g. that the client application would post on their Facebook timeline.
+
+The only benefits of creating a self made login system is that there is more control about the user's accounts and the users do not have to have fear the application manipulating their Facebook account. However, the benefits from external login systems are lost i.e. password storage would have to be implemented in a secure way and kept up to par with the latest exploits. Users would also have to create an account solely for the application.
+
+By using a device constant like the IMEI number, the authorisation is automatic so the user does not need to do any login. This greatly simplifies the authorisation both for the user and for the developer. A limitation of this approach is that all user data associated with the device constant is lost if the user buys a new device, and thereby uses a new device constant.

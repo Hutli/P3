@@ -9,7 +9,6 @@ Unit tests should be quick, meaning that a developer can verify whether or not t
 Unit tests should also be small, checking only a single or very small subset of the functionality of the systems code.
 Lastly, and perhaps most importantly, unit tests should be correct. If a unit test gives a false positive\footnote{A \emph{false positive} is when a test indicates that a condition is true, when, in reality, the condition is false. Likewise, a \emph{false negative} is when a test indicates a condition being false, when it is true.} then a developer would likely be convinced that the code which has been produced is working as it should, when in reality it is not. This could potentially lead to a logical error breaking the application on the end users' devices, among other undesirable situations. Likewise, if a unit test gives a false negative, a developer could waste a lot of time refactoring code, rewriting algorithms and modifying logic, even though the code was correct.
 
-
 \subsection{Unit Testing for openPlaylist}
 Unit testing in the system described in this report was implemented mostly on the server side. This was done, as the server side of openPlaylist is much more extensive than the rather dumb client.
 The unit tests which were implemented covered various parts of the code, some test the correctness of methods, others verify connections to third party servers and some verify type extensions.

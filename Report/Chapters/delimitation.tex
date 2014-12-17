@@ -17,3 +17,9 @@ while these tasks are performed by the server. An idea was that a lockdown must 
 \section{Security}
 It was decided to limit the project from taking care of security. This was decided as functionality was prioritised higher than security, mainly because of the limited extent of the use of the system, which this project is concerned with. Securing the solution was deemed too expensive, with regards to time, to be properly implemented and tested in the course of this project.
 This means that any individual, with sufficient knowledge of the inner workings of the system, and the format of the requests made to the server, can abuse the system and change data at will.
+
+\subsection{User Authorisation}
+\label{par:user_authorization}
+User authorisation on the client side would mean the ability to differentiate users. With this information, a lot of features are possible. The application could for example be made to remember the user's votes, in order to smartly suggest tracks.
+Implementing user authorisation in a proper way is not simple however. Some discussion on different ideas for the implementation of user authorisation will be described in \cref{sec:UAuth}.
+As the biggest benefit of user authorisation lies in the advanced features, which it is a prerequisite of, it was chosen to delimit user authorisation. This was decided since it was not deemed possible to fit the design, implementation and testing of this feature into the timespan of this project, which would in any case not give any real benefits before some more advanced features were implemented.
