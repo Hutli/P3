@@ -17,7 +17,7 @@ namespace OpenPlaylistApp
     public class HomePage : MasterDetailPage
     {
         private NavigationPage detailPage;
-        public ContentPage browsePage;
+        public ContentPage searchPage;
         private ContentPage playlistPage;
         public ContentPage venuePage;
         private ContentPage checkInPage;
@@ -40,16 +40,16 @@ namespace OpenPlaylistApp
 
             playlistPage = new ContentPage { Title = "Playlist", Content = playlistView };
 
-            browsePage = new ContentPage { Title = "Browse", Content = searchView };
+            searchPage = new ContentPage { Title = "Search", Content = searchView };
             venuePage = new ContentPage { Title = "Venues", Content = venueView };
             checkInPage = new ContentPage { Title = "CheckIn", Content = checkInView };
 
             detailPage = new NavigationPage(playlistPage) { Title = "Playlist", Icon = "Resources/venueIcon.png" };
             
             #if WINDOWS_PHONE
-                tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => BrowseClicked(), 0, 0);
+                tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => SearchClicked(), 0, 0);
             #else
-                tbi1 = new ToolbarItem("Add", "plussign.png", () => BrowseClicked(), 0, 0);
+                tbi1 = new ToolbarItem("Add", "plussign.png", () => SearchClicked(), 0, 0);
             #endif
 
             App.User.VenueChanged += CheckedIn;
@@ -87,9 +87,9 @@ namespace OpenPlaylistApp
             App.User.ScreenWidth = width;
         }
 
-        public void BrowseClicked()
+        public void SearchClicked()
         {
-            detailPage.PushAsync(browsePage);
+            detailPage.PushAsync(searchPage);
         }
 
         public void BackPressed()

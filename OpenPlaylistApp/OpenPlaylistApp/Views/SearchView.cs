@@ -63,19 +63,5 @@ namespace OpenPlaylistApp.Views
             searchViewModel.resultCount += 20;
             searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);
         }
-
-
-        //void SearchButtonPressed(object sender, EventArgs e)
-        //{
-        //    if (searchViewModel == null)
-        //    {
-        //        var searchString = ((SearchBar)sender).Text;
-        //        searchViewModel = new SearchViewModel(searchString);
-        //        listView.ItemsSource = searchViewModel.Results;
-        //        listView.ItemTemplate = new TrackTemplate();
-        //    }
-        //    else
-        //        searchViewModel.GetResults(((SearchBar)sender).Text);
-        //}
     }
 }
