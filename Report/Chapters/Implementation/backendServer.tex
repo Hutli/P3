@@ -11,7 +11,7 @@ Spotify are detailed.
 Nancy, a lightweight framework for building HTTP services in C\# is leveraged
 to cut down development time.
 
-\subsection{Checking-in}
+\subsection{Check-in}
 For checking in to a venue, the client has to send a unique user ID to
 the endpoint shown in \cref{lst:endpoint_checkin}
 
@@ -22,7 +22,7 @@ http://server:port/checkin/{userID}
 \subsubsection{Returns}
 \enquote{OK} when action is completed, or \enquote{Already checked in}.
 
-\subsection{Checking-out}
+\subsection{Check-out}
 
 \begin{lstlisting}[label={lst:endpoint_checkout}, caption={Text surrounded by curly brackets are parameters.}]
 http://server:port/checkout/{userID}
@@ -89,7 +89,7 @@ http://server:port/history
 \end{lstlisting}
 
 \subsubsection{Returns}
-The history of last played tracks is returned to the client in JSON.
+The last played tracks.
 
 %%% Local Variables:
 %%% mode: latex
