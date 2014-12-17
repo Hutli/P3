@@ -1,18 +1,47 @@
 \section{Continuous Playback}
 \label{sec:algorithm}
 The music at a bar should never stop playing as described in
-\cref{sub:summary}. Specifically this means that, when there is not voted
+\cref{subsub:functionality}. Specifically this means that, when there has not been voted
 on any track on the current playlist, the system should not stop
-playing. In \cref{sub:MusicFlow} it's described that the music may not
-suddenly change genre. To handle this, an algorithm was designed to
-choose a track similarly to the previously played tracks. The
-algorithm described as pseudo code in \cref{alg:smartfind} should
-prevent sudden changes in genre.
+playing. Because of this \cref{alg:getnexttrack} will always choose a track to be played next. This will be described later. In both in \cref{subsub:functionality} and \cref{sub:MusicFlow} it's described that the music should not suddenly change genre or mood. To handle this, \cref{alg:smartfind} was designed to
+choose a track similar to the previously played tracks. This will be used in chase there is no track on the playlist making sure that the music never stops and it will ensure music flow by keeping the track in the same genre and mood as previously played tracks. This section will look at the complete algorithm that these two algorithms make up that ensures music continuity and music flow.
+
+The first part of the solution for finding the next track can be seen in \cref{alg:getnexttrack}. The logic for this algorithm is as follows. \textbf{If} the playlist is \textbf{empty} find the track \textbf{most related} to the \textbf{history}. \textbf{If} the playlist is \textbf{not empty}, take the track with the \textbf{most votes}, \textbf{if} there exists \textbf{multiple tracks} with most votes take the one \textbf{voted for the longest ago}.
+
+On line 4 we find the algorithm $FindRelated$. This is used to find the most related track from the history, the list of tracks previously played. This algorithm is described later and the pseudo code can be seen in \cref{alg:smartfind}
+
+\begin{algorithm}[hbtp]
+\caption{Algorithm for finding the next track to be played.}\label{alg:getnexttrack}
+\begin{algorithmic}[1]
+	\Function{GetNextTrack}{$playlist$,$history$}
+		\State{$nextTrack$ := $null$}
+		\If{$playlist$ $is$ $empty$}
+			\State{$nextTrack$ := $FindRelated$($history$)}
+			\State{\Return{$nextTrack$}}
+		\EndIf{}
+		\State{$nextTrack$ := $playlist[0]$}
+		\ForAll{$track$ \textbf{in} $playlist$}
+			\If{$track.Votes$ > $nextTrack.Votes$}
+				\State{$nextTrack$ := $track$}
+			\Else{} 
+				\If{$track.Votes$ = $nextTrack.Votes$}
+					\If{$track.Votes[0].Time$ > $nextTrack.Votes[0].Time$}
+						\State{$nextTrack$ := $track$}
+					\EndIf{}
+				\EndIf{}
+			\EndIf{}
+		\EndFor{}
+		\State{\Return{$nextTrack$}}
+	\EndFunction{}
+\end{algorithmic}
+\end{algorithm}
+
+\cref{alg:getnexttrack} utilises \cref{alg:smartfind} to ensure music continuty, but \cref{alg:smartfind} also helps to ensure music flow.
 
 As users vote on tracks, patterns in the music style
 emerges. \Cref{alg:smartfind} uses these patterns to find the next track
 to play. Spotify does not supply meta data about which tracks are
-related. Instead, Spotify has meta data about related artists. The algorithm finds the most appearing artist across the last nine played tracks. When this artist is found, one of the artists top tracks, which were not already played, is returned by the algorithm.
+related. Instead, Spotify has meta data about related artists. The algorithm finds the most appearing artist across the last nine played tracks. When this artist is found, one of the artists top tracks, which has not already been played, is returned by the algorithm.
 
 Lines 4 to 5 is a check in case the length of the history is not larger than $tracksToLookAt$. $tracksToLookAt$ is then set to the length of the history.
 
@@ -23,29 +52,8 @@ In lines 15 to 18, the most related artist is determined, that is the related ar
 Now that the most related artist is found, its top tracks is iterated in lines 19 to 21. When a top track is found that has not already been played, the algorithm terminates.
 
 \begin{algorithm}[hbtp]
-\caption{Algorithm for finding the next track to be played.}\label{alg:smartfind}
+\caption{Algorithm for finding the next track to be played, if no track is on the playlist}\label{alg:smartfind}
 \begin{algorithmic}[1]
-	\Function{GetNextTrack}{$playlist$,$history$}
-		\State{$nextTrack$ = $null$}
-		\If{$playlist$ $is$ $empty$}
-			\State{$nextTrack$ = $FindRelated$($history$)}
-			\State{\Return{$nextTrack$}}
-		\EndIf{}
-		\State{$nextTrack$ = $playlist[0]$}
-		\ForAll{$track$ \textbf{in} $playlist$}
-			\If{$track.Votes$ > $nextTrack.Votes$}
-				\State{$nextTrack$ = $track$}
-			\Else{} 
-				\If{$track.Votes$ == $nextTrack.Votes$}
-					\If{$track.Votes[0].Time$ > $nextTrack.Votes[0].Time$}
-						\State{$nextTrack$ = $track$}
-					\EndIf{}
-				\EndIf{}
-			\EndIf{}
-		\EndFor{}
-		\State{\Return{$nextTrack$}}
-	\EndFunction{}
-
 	\Function{findRelated}{$trackHistory$}
 		\State{$tracksToLookAt = 9$}
 		\State{$relatedArtists = empty list$}
