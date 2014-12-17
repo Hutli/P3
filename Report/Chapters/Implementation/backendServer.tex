@@ -20,7 +20,16 @@ http://server:port/checkin/{userID}
 \end{lstlisting}
 
 \subsubsection{Returns}
-"OK" when action is completed.
+\enquote{OK} when action is completed, or \enquote{Already checked in}.
+
+\subsection{Checking-out}
+
+\begin{lstlisting}[label={lst:endpoint_checkout}, caption={Text surrounded by curly brackets are parameters.}]
+http://server:port/checkout/{userID}
+\end{lstlisting}
+
+\subsubsection{Returns}
+\enquote{OK} when action is completed.
 
 \subsection{Searching}
 To search, just a search query is needed.
@@ -72,17 +81,15 @@ http://server:port/volume/{volPercent}/{userId}
 \subsubsection{Returns}
 The average percentage of volume of all users is returned to the client.
 
-\subsection{Check-out}
+\subsection{History}
 
-\begin{lstlisting}[label={lst:endpoint_checkout}, caption={Text surrounded by curly brackets are parameters.}]
-http://server:port/checkout/{userID}
+\begin{lstlisting}[label={lst:endpoint_history}, caption={Endpoint for
+  history.}]
+http://server:port/history
 \end{lstlisting}
 
 \subsubsection{Returns}
-\enquote{Success} or \enquote{Failure} depending on is the action was successful.
-
-\subsubsection{Returns}
-"OK" when action is completed.
+The history of last played tracks is returned to the client in JSON.
 
 %%% Local Variables:
 %%% mode: latex
