@@ -12,7 +12,7 @@ When the server receives votes it changes the list of votes and
 users. These lists are used to select the next track and convert the
 temporary votes to permanent votes just before the next track is
 played. This could possibly conflict if a user changes his or her vote
-while these tasks are performed by the server. 
+while these tasks are performed by the server.
 An idea was to place a lockdown 10 seconds before the next track is played, so that no user can change their vote.
 
 This feature was chosen not to be implemented due to shortage of time.
@@ -25,4 +25,4 @@ This means that any individual, with sufficient knowledge of the inner workings 
 \label{par:user_authorization}
 User authorisation on the client side would mean the ability to differentiate users. With this information, a lot of features are possible. The application could for example be made to remember the user's votes, in order to smartly suggest tracks.
 Implementing user authorisation in a proper way is not simple however. Some discussion on different ideas for the implementation of user authorisation will be described in \cref{sec:UAuth}.
-As the biggest benefit of user authorisation lies in the advanced features, which it is a prerequisite of, it was chosen to delimit user authorisation. This was decided since it was not deemed possible to fit the design, implementation and testing of this feature into the timespan of this project, which would in any case not give any real benefits before some more advanced features were implemented.
+As the biggest benefit of user authorisation lies in the advanced features, which it is a prerequisite of, it was chosen to delimit user authorisation. This was decided since it was not deemed possible to fit the design, implementation and testing of this feature into the time span of this project, which would in any case not give any real benefits before some more advanced features were implemented.
