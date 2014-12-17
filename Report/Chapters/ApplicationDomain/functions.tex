@@ -75,11 +75,11 @@ Pseudocode approximation of the two functions marked as complex in \cref{table:f
 		\Return{$results$}
 	\EndFunction{}\\
 	\Function{Restrict}{$track$,$restrictions$}
+	\State{$track.IsAllowed = true$}
 		\ForAll{$restriction$ \textbf{in} $restrictions$}
-			\If{$restriction$($track$)}
-				\State{$track.IsAllowed$ = $true$}
-			\Else{}
+			\If{!$restriction$($track$)}
 				\State{$track.IsAllowed$ = $false$}
+				\State{\Return{$track$}}
 			\EndIf{}
 		\EndFor{}
 		\State{\Return{$track$}}
