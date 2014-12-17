@@ -1,17 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using WebAPI;
 
 namespace Presentation
@@ -46,11 +43,11 @@ namespace Presentation
                     
                     ServerData serverData = await GetResults(Ip);
 
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         ApplyChanges(serverData);
                         Console.WriteLine("trying \n");
-                    }));
+                    });
                 }
             });
 
@@ -59,10 +56,10 @@ namespace Presentation
                 while (true)
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(100)); // update from server every second
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         Progress.Value += TimeSpan.FromMilliseconds(100).TotalMilliseconds;
-                    }));
+                    });
                 }
             });
 
@@ -95,7 +92,8 @@ namespace Presentation
 
         private void ApplyChanges(ServerData serverData)
         {
-            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageCoulmn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - 10;
+            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageColumn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - 10;
+            ToStringColumnHist.Width = ToStringColumn.Width;
 
             Playlist.Clear();
             if (serverData.Playlist != null)
@@ -112,7 +110,7 @@ namespace Presentation
                     historyListView.ScrollIntoView(track);
                 }
 
-            if (serverData.NowPlaying != null && NowPlaying != serverData.NowPlaying)
+            if (serverData.NowPlaying != null && !Equals(NowPlaying, serverData.NowPlaying))
             {
                 NowPlaying = serverData.NowPlaying;
                 Progress.Value = NowPlaying.CurrentDurationStep;
@@ -147,10 +145,7 @@ namespace Presentation
                                 return str;
                             }
                         }
-                        else
-                        {
-                            return null;
-                        }
+                        return null;
                     }
                 }
             }
@@ -192,8 +187,8 @@ namespace Presentation
             var textSize = MeasureString(leftTextBoxMarquee.Text, leftTextBoxMarquee);
 
             var maxWidth = Math.Max(canMain.ActualWidth, textSize.Width);
-            if(maxWidth == textSize.Width)
-                maxWidth = maxWidth *2 - (maxWidth - canMain.ActualWidth);
+            if(Equals(maxWidth, textSize.Width))
+                maxWidth = maxWidth * 2 - (maxWidth - canMain.ActualWidth);
 
             DoubleAnimation leftDoubleAnimation = new DoubleAnimation();
             DoubleAnimation rightDoubleAnimation = new DoubleAnimation();

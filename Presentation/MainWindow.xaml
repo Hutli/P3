@@ -32,7 +32,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="ImageCoulmn" Width="100">
+                    <GridViewColumn x:Name="ImageColumn" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image>
@@ -49,9 +49,14 @@
             </ListView.View>
         </ListView>
         <ListView x:Name="historyListView" Margin="10,0,14,10" ScrollViewer.VerticalScrollBarVisibility ="Hidden" ItemsSource="{Binding History}" Background="{x:Null}" FontSize="16" Foreground="#FFEAEAEA" BorderThickness="0,0,0,1" VerticalContentAlignment="Center" Opacity="0.5" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Focusable="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </Style>
             </ListView.Resources>
             <ListView.View>
@@ -61,7 +66,7 @@
                             <DataTemplate />
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="100">
+                    <GridViewColumn x:Name="ImageColumnHist" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image>
@@ -72,9 +77,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Album.ArtistsToString}" />
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding TotalScore}" />
+                    <GridViewColumn x:Name="ToStringColumnHist" DisplayMemberBinding="{Binding ToStringProperty}"/>
                 </GridView>
             </ListView.View>
         </ListView>
