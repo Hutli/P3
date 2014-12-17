@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using WebAPI;
+﻿using WebAPI;
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp.Views
 {
-    class CurrentVoteView : ContentView
+    internal class CurrentVoteView : ContentView
     {
         private readonly Label _lbl = new Label();
 
@@ -16,12 +15,10 @@ namespace OpenPlaylistApp.Views
 
         private void ChangeVote(Track track)
         {
-            if (track == null || track.Name == null || track.Album == null)
+            if(track == null || track.Name == null || track.Album == null)
                 _lbl.Text = string.Empty;
             else
-            {
                 _lbl.Text = "Your vote: " + track.Name + " on " + track.Album;
-            }
         }
     }
 }

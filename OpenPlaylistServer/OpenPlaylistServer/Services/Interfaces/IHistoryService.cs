@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using OpenPlaylistServer.Collections;
 using WebAPI;
 
-namespace OpenPlaylistServer.Services.Interfaces {
+namespace OpenPlaylistServer.Services.Interfaces
+{
     public interface IHistoryService
     {
         ObservableCollection<Track> Tracks { get; }

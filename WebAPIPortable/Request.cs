@@ -4,26 +4,24 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-	public static class Request
-	{
+    public static class Request
+    {
         /// <summary>
-        /// Gets JSON from URL
+        ///     Gets JSON from url
         /// </summary>
-        /// <param name="url">URL to JSON</param>
+        /// <param name="url">url to JSON</param>
         /// <returns>JSON</returns>
-		public async static Task<String> Get(string url)
-		{
-			using (var client = new HttpClient ()) {
-				client.DefaultRequestHeaders.Accept.Clear ();
+        public static async Task<String> Get(string url)
+        {
+            using(var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
 
-				HttpResponseMessage response = client.GetAsync (url).Result;
-			    if (!response.IsSuccessStatusCode)
-			    {
-			        return null;
-			    }
-			    return await response.Content.ReadAsStringAsync ();
-			}
-		}
-
-	}
+                var response = client.GetAsync(url).Result;
+                if(!response.IsSuccessStatusCode)
+                    return null;
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+    }
 }

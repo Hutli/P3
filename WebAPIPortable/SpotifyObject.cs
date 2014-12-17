@@ -1,46 +1,45 @@
-using System;
 using Newtonsoft.Json;
 
-namespace WebAPI {
+namespace WebAPI
+{
     [JsonObject(MemberSerialization.OptOut)]
-	public abstract class SpotifyObject {
-		protected string _id;
-		protected string _name;
+    public abstract class SpotifyObject
+    {
+        private string _id;
+        private readonly string _name;
 
-	    protected SpotifyObject (string id, string name) {
-			_id = id;
-			_name = name;
-		}
-
-        protected SpotifyObject()
+        protected SpotifyObject(string id, string name)
         {
-            
+            _id = id;
+            _name = name;
         }
+
+        protected SpotifyObject() { }
 
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get { return _id; }
             protected set { _id = value; }
         }
 
         [JsonProperty]
-        public string Name { get { return _name; } }
+        public string Name
+        {
+            get { return _name; }
+        }
 
-        public virtual string URI { get { return ""; } } //TODO generate URI
+        public virtual string Uri
+        {
+            get { return ""; }
+        } //TODO generate Uri
 
         public override bool Equals(object obj)
         {
-            SpotifyObject spotifyObject = obj as SpotifyObject;
+            var spotifyObject = obj as SpotifyObject;
 
             return spotifyObject != null && spotifyObject.Id.Equals(Id);
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-	}
+        public override int GetHashCode() { return base.GetHashCode(); }
+    }
 }

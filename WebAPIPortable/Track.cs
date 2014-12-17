@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace WebAPI
@@ -8,28 +6,24 @@ namespace WebAPI
     [JsonObject(MemberSerialization.OptOut)]
     public class Track : SpotifyObject, INotifyPropertyChanged
     {
+        private int _pScore;
+        private int _tScore;
+
         [JsonConstructor]
-        public Track(string id, string name, int duration, bool isExplicit, int trackNumber, string isrc, string previewURL, Album album)
-            : base(id, name)
+        public Track(string id, string name, int duration, bool isExplicit, int trackNumber, string isrc, string previewUrl, Album album) : base(id, name)
         {
             Duration = duration;
             IsExplicit = isExplicit;
             TrackNumber = trackNumber;
-            ISRC = isrc;
-            PreviewURL = previewURL;
+            Isrc = isrc;
+            PreviewUrl = previewUrl;
             Album = album;
             //IsFiltered = false;
         }
 
-        private int _tScore;
-        private int _pScore;
-
         public int TScore
         {
-            get
-            {
-                return _tScore;
-            }
+            get { return _tScore; }
             set
             {
                 _tScore = value;
@@ -47,31 +41,14 @@ namespace WebAPI
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void OnPropertyChanged(string pName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(pName));
-            }
-        }
-
-        public string ISRC { get; set; }
-
+        private string Isrc { get; set; }
         public bool IsFiltered { get; set; }
-
-        public string PreviewURL { get; set; }
-
-        public int Duration { get; set; }
-
+        private string PreviewUrl { get; set; }
+        public int Duration { get; private set; }
         public int CurrentDurationStep { get; set; }
-
         public bool IsSelected { get; set; }
-
-        public bool IsExplicit { get; set; }
-
-        public int TrackNumber { get; set; }
+        private bool IsExplicit { get; set; }
+        private int TrackNumber { get; set; }
 
         public int TotalScore
         {
@@ -79,33 +56,37 @@ namespace WebAPI
         }
 
         [JsonProperty]
-        public Album Album { get; set; }
+        public Album Album { get; private set; }
 
-        public string ToStringProperty { get { return ToString(); } }
+        public string ToStringProperty
+        {
+            get { return ToString(); }
+        }
 
-        public override string URI { get { return "spotify:track:" + Id; } }
+        public override string Uri
+        {
+            get { return "spotify:track:" + Id; }
+        }
+
+        public int Rank { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string pName)
+        {
+            if(PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(pName));
+        }
 
         public override string ToString() { return string.Format("{0} - {1}", Name, Album.ArtistsToString); }
 
         public override bool Equals(object obj)
         {
-            if (obj.GetType() == typeof(Track))
-            {
-                return (((Track)obj).Id == Id || ((Track)obj).ISRC == ISRC);
-            }
+            if(obj.GetType() == typeof(Track))
+                return (((Track)obj).Id == Id || ((Track)obj).Isrc == Isrc);
             return false;
         }
-        public int Rank { get; set; }
 
-        public bool Equals(string id, string isrc)
-        {
-            return (Id == id || ISRC == isrc);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public bool Equals(string id, string isrc) { return (Id == id || Isrc == isrc); }
+        public override int GetHashCode() { return base.GetHashCode(); }
     }
 }
-

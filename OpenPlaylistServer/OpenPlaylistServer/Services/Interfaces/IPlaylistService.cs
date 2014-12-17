@@ -5,13 +5,10 @@ namespace OpenPlaylistServer.Services.Interfaces
 {
     public interface IPlaylistService
     {
-        Track FindTrack(string trackUri);
-
-        void Add(Track track);
-
         ObservableCollection<Track> Tracks { get; }
+        Track FindTrack(string trackUri);
+        void Add(Track track);
         int CalcTScore(Track track);
-
         Track NextTrack();
         void Remove(Track track);
     }
