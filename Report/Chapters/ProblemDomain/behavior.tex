@@ -41,14 +41,14 @@ The following event table is used to describe what classes are involved in the i
         \toprule
         \textbf{Events}                 & User   & Track  & Playlist & Vote   & Restriction & Venue  & History\\
         \midrule
-        Vote on track                   & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
-        Cancel vote on track            & $\ast$ & $\ast$ &   $\ast$ &   $+$  &             &        &        \\
-        User checks in at venue         & $+$    &        &          &        &             & $+$    &        \\
-        User leaves venue               & $+$    &        &          &  $+$   &             & $+$    &        \\
-        User searches for a track       & $\ast$ &  $+$   &          &        & $\ast$      &        &        \\
+        Vote on track                   & $\ast$ & $\ast$ & $\ast$   & $+$    &             &        &        \\
+        Cancel vote on track            & $\ast$ & $\ast$ & $\ast$   & $+$    &             &        &        \\
+        User checks in at venue         & $+$    &        &          &        &             & $\ast$ &        \\
+        User leaves venue               & $+$    &        &          & $+$    &             & $\ast$ &        \\
+        User searches for a track       & $\ast$ & $+$    &          &        & $\ast$      &        &        \\
         Track added to playlist         & $\ast$ & $\ast$ & $\ast$   & $+$    &             &        &        \\
-        Track removed from playlist     &        & $+$    & $\ast$   & $+$    &             &        &        \\
-        A new track is playing          &        & $\ast$ & $\ast$   & $+$    &             &        & $\ast$ \\
+        Track removed from playlist     &        & $+$    & $\ast$   & $+$    &             & $\ast$ &        \\
+        A new track is playing          &        & $\ast$ & $\ast$   & $+$    &             & $\ast$ & $\ast$ \\
         Restriction activated           &        &        & $\ast$   &        & $\ast$      &        &        \\
         Restriction deactivated         &        &        & $\ast$   &        & $\ast$      &        &        \\
         \bottomrule
