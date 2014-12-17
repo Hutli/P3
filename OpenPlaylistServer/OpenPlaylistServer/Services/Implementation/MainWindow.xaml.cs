@@ -93,10 +93,22 @@ namespace OpenPlaylistServer.Services.Implementation
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
-            //"jensstaermose@hotmail.com", "hejheider"
-            Button test = (Button)sender;
-            test.IsEnabled = false;
-            var spotifyLoggedIn = _session.Login("jensstaermose@hotmail.com", "hejheider", false, _appkey);
+            Button loginButton = (Button)sender;
+            loginButton.IsEnabled = false;
+            var username = UsernameBox.Text;
+            var password = PasswordBox.Password;
+
+            Tuple<SpotifyLoggedIn, LoginState> spotifyLoggedIn;
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                spotifyLoggedIn = _session.Login("jensstaermose@hotmail.com", "hejheider", false, _appkey);
+            }
+            else
+            {
+                spotifyLoggedIn = _session.Login(username, password, false, _appkey);
+            }
+            
+            
             if (spotifyLoggedIn.Item2 == LoginState.OK)
             {
                 OnLoginSuccess();
