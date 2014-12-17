@@ -4,6 +4,12 @@
 This section describes how the different components of the system are
 composed to build a coherent piece. A complete diagram of the architecture can be seen in \cref{fig:architecture}. On this diagram an arrow represents a dependency. That means the pointed at component must exist for other to be complete. The diagram does not specify how that dependency is implemented. It could be a method call or some other way. A detailed description of the implementation of the different components will be described in \cref{par:implementation}.
 
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[width=1.2\linewidth]{Images/Arkitektur.pdf}
+  \caption{Architecture of the system.}\label{fig:architecture}
+\end{figure}
+
 \subsection{Overall Architecture}
 The overall architecture is made as a layered architecture. With three main components; model, function and interface. It is set up as a closed strict architecture, which means that each layer only depends on the one directly below it. Besides the three layers there is the \emph{technical platform} component.
 
@@ -35,9 +41,3 @@ still as part of the complete system. For example, the
 \textit{SpotifyDotNet} component is a library for streaming tracks from
 Spotify. The implementation details of this is described in
 \cref{cha:technicalPlatform}.
-
-\begin{figure}[hbtp]
-  \centering
-  \includegraphics[width=1.2\linewidth]{Images/Arkitektur.pdf}
-  \caption{Architecture of the system.}\label{fig:architecture}
-\end{figure}
