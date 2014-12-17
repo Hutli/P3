@@ -1,7 +1,7 @@
 \section{Restrictions}
 \label{sec:restrictions}
 
-It was found in the interviews in \cref{sub:administersinterviews} and with our industry partner in \cref{sec:fabrikken}, that the venues have a strong desire for the ability to control what guests can vote for. This was valued to be a must have and of high priority. A possible concept for solving this problem, is by putting restrictions on what tracks, can be added to the playlist. This section will present the concepts of white- and black-listing.
+As described in \cref{} It was found in the interviews in \cref{sub:administersinterviews} and with our industry partner in \cref{sec:fabrikken}, that the venues have a strong desire for the ability to control what guests can vote for. This was valued to be a must have and of high priority. A possible concept for solving this problem, is by putting restrictions on what tracks, can be added to the playlist. This section will present the concepts of white- and black-listing.
 
 \paragraph{Whitelisting} is a concept of being able to choose, what entities is accepted as a valid input. Strictly if $A$ is the set of accepted inputs, $B$ is the whitelist set and $i$ is the input then $i \in A$ \textbf{if and only if} $i \in B$. If there are multiple whitelists, the input is valid if it is contained in any of them.
 To get a better understanding of how this works mathematically, we can convert a whitelist to a logical expression evaluating to \textbf{true} if the item is on the whitelist or \textbf{false} if not. With $n$ whitelists these logical expressions can combined into logical expression evaluating to \textbf{true} if the track is allowed and \textbf{false} if not, this can be seen in \cref{eq:whitelist}.
@@ -36,3 +36,31 @@ One restriction is a collection of rules on any of the meta data a track contain
 With these concepts it is possible to restrict the music catalogue to a subset of allowed tracks, satifying the requirement of being able to control what music is being played. Restrictions can also improve the music flow (described in \cref{sub:MusicFlow}) if the restrictions limits allowed tracks to certain genre or mood, although this should be just be supplement to another concept, analysing the tracks on the playlist.
 
 Furthermore the owner of Fabrikken (see \cref{sec:fabrikken}) wants to be able to have timed intervals of restrictions, so that the restrictions acts accordingly to the progression in intensity and mood of the bar environment. This is quite trivially implemented with a selective control structure, checking if the restriction is relevant at that time of day.
+
+
+\begin{algorithm}[htbp] \caption{Algorithm for filtering tracks in a search}\label{alg:Search}
+\begin{algorithmic}[1]
+	\Function{Search}{$query$, $restrictions$}
+		\State{$results$ := $GetResults$($query$)}
+		\ForAll{$track$ \textbf{in} $results$}
+			\State{$track.IsAllowed$ := $Restrict$($track$,$restrictions$)}
+		\EndFor{}
+		\Return{$results$}
+	\EndFunction{}\\
+	\Function{Restrict}{$track$, $restrictions$}
+		\State{$WhitelistExists$ := $false$}
+		\State{$IsOnWhitelist$ := $false$}
+		\State{$IsOnBlacklist$ := $false$}
+		\ForAll{$restriction$ \textbf{in} $restrictions$}
+			\If{$restriction.Type$ = $whitelist$ $\wedge$ $\neg IsOnWhitelist$}
+				\State{$WhitelistExists$ := $true$}
+				\State{$IsOnWhitelist$ := $restriction$($track$)}
+			\EndIf{}
+			\If{$restriction.Type$ = $blacklist$ $\wedge$ $\neg IsOnBlacklist$}
+				\State{$IsOnBlacklist$ := $restriction$($track$)}
+			\EndIf{}
+		\EndFor{}
+		\State{\Return{($WhitelistExists$ $\to$ $IsOnWhitelist$) $\wedge$ $\neg IsOnBlacklist$}}
+	\EndFunction{}
+\end{algorithmic}
+\end{algorithm}

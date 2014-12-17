@@ -6,6 +6,7 @@ The rest of this section will focus on describing each concept and the specific 
 All three systems work with the concept of a playlist. Tracks are added to the playlist by user requests. The tracks can now change positions in the queue in two ways, up or down. The users can vote on the tracks or the music system can decide what the most fitting track is at any given time.
 
 \subsection{Voting}
+\label{Voting}
 All three systems implement voting of tracks in some way. SecretDJ and Rockbot only allow up-votes i.e. users can only vote for a track they would like to be played. Mixgar also implements the concept of down-voting tracks, enabling the user to vote against tracks they would not like to be played.
 
 \subsection{Requesting}
@@ -25,10 +26,12 @@ In the case of Mixgar, the users cannot request tracks and their votes do not di
 Mixgar works with the concept of the system adding tracks to the playlist automatically. First off the system utilises the users’ Facebook likes to find out which artists and genres the users like. With this data, a playlist is created. The system now accumulates data about the party’s mood curve from the users votes and the previously played tracks. The system can then, based upon this, automatically arrange tracks in the playlist.
 
 \subsection{Administrative Editing of Playlist}
+\label{AdministrativeEditingofPlaylist}
 Both Rockbot and Mixgar implements the ability for administrators at venues to remove, add and move tracks around on the playlist, essentially overriding the users' will. Especially for Rockbot, this is a very strong selling point for businesses which suggests that it
 is very important for the administrators to have the last say in and control over what is played since it is their venue and neither the system nor the users should be able subdue the venues' wishes.
 
 \subsection{Administrative Restriction of Playlist}
+\label{AdministrativeRestrictionofPlaylist}
 In both Mixgar's and Rockbot's system, the administrators are able to
 restrict what users are able to add to the playlist. This means that
 the administrators of the venues can decide which genres, artists,
