@@ -24,35 +24,16 @@ was achieved by making all views accessible from home. See \cref{fig:UserInterfa
 \begin{itemize}
 \item Venue view: The user is presented a list of venues for the user to check in at, see \cref{fig:VenueSketch}.
 \item Playlist view: The user is now checked in at a venue and is presented with the playlist of the venue, including what is current playing. See \cref{fig:PlaylistSketch}.
-\item Browse view: From here the user can choose a track to add to the playlist from a top- and hot list or make a search query by clicking the magnifyglass. See \cref{fig:BrowseSketch}.
-\item Search view: Search results are displayed. These can be added to
-  the playlist.
+\item Search view: From here the user can search for a track in the music catalog. The search bar is indicated by a magnifyglass, See \cref{fig:SearchSketch}. When results of the search query is recieved from the sercer, is it displayed below the search bar, in descending order according to relevance.
 \end{itemize}
 
-When browsing for music in the system, the user is in the procces of
-adding to the playlist, therefore navigating to the process adding,
-browsing top- and hot lists and searching for a specific track is
-grouped as one page visually by a \emph{+} icon. See
-\cref{fig:PlaylistSketch}. To ensure that if a user wants to return to
-previously requested a search query after pressing home, now the "+"
-icon takes them back to their results. Also if the user already did
-one search, one might want to do another shortening to path while
-maintaining the mental mapping. \sinote{forstår ikke dette. skal omskrives}
-
+The idea behind the \emph{+} icon in the top right of \cref{fig:PlaylistSketch}, is that it should indicate a process of "adding", in this context adding to the playlist. During some usability tests this was shown to be viable assumption, in that this was not a cause to any of the problems found, the usability tests will be decribed in \cref{sub:usabilityTesting}.
 Should the user want to change venue, one is checked in at, another list view of venue \enquote{swiped} in from the left. Following the reading direction of left to right, giving a notion of upper layered list of venues, from which the user can change between lower layered playlists.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.25\linewidth]{Images/sketch1.png}
-%   \caption{Sketch1}
-%   \label{fig:sketch1}
-% \end{figure}
-% First the user is presented with the systems logo, and a single button. The caption of the button suggest to the user that, one is about to "check in". As shown in \cref{fig:sketch1}.
 
 \begin{figure}[hbtp]
   \centering
   \includegraphics[width=0.3\linewidth]{Images/sketch3.png}
-  \caption[Playlist view sketch.]{A "+" icon suggests an action of addition, which in this context is adding to the playlist. If clicked, the user can now browse through tracks and add them to the playlist. The "top" tracks of that specific venue is displayed, or the user can view trending "hot" tracks. Shown in \cref{fig:BrowseSketch}.}
+  \caption[Playlist view sketch.]{This view presents the user with the current playlist.}
   \label{fig:PlaylistSketch}
 \end{figure}
 
@@ -68,7 +49,7 @@ Should the user want to change venue, one is checked in at, another list view of
   \centering
   \includegraphics[width=0.3\linewidth]{Images/sketch4.png}
   \caption[Search sketch.]{The magnifying glass at the very top is symbolising an action of searching, when clicked the user can search for specific tracks.}
-  \label{fig:BrowseSketch}
+  \label{fig:SearchSketch}
 \end{figure}
 
-From \cref{sub:usabilityTesting} it was extracted that, the interface should change views automaticly as an confirmation of actions completed. This resulted in when selecting a venue in the venueView or a track in the searchView, the user would be presented with the current playlist of the venue, at the playlistView.
+From \cref{sub:usabilityTesting} it was extracted that the interface should change views automatically as a confirmation of an action completed. This resulted in when selecting a venue in the venue view or a track in the search view, the user would be presented with the current playlist of the venue, at the playlist view.
