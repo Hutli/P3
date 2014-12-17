@@ -46,7 +46,7 @@ namespace OpenPlaylistApp.Views
             {
                 Session session = Session.Instance();
                 var response = await session.CheckIn((Venue)e.SelectedItem, App.User);
-                if (response == "OK")
+                if (response == "OK" || response == "Already checked in")
                 {
                     App.User.Venue = (Venue) e.SelectedItem;
                     layout.Children.Add(checkOutButton);
