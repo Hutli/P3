@@ -1,6 +1,5 @@
 \section{Continuous Playback}
 \label{sec:algorithm}
-
 The music at a bar should never stop playing as described in
 \cref{sub:summary}. Specifically this means that, when there is not voted
 on any track on the current playlist, the system should not stop
@@ -47,7 +46,7 @@ Now that the most related artist is found, its top tracks is iterated in lines 1
 		\State{\Return{$nextTrack$}}
 	\EndFunction{}
 
-	\Function{findRelated}{$trackHistory$} \Comment{$trackHistory$ is a list of previously played tracks.}
+	\Function{findRelated}{$trackHistory$}
 		\State{$tracksToLookAt = 9$}
 		\State{$relatedArtists = empty list$}
 		\If{$trackHistory.length < tracksTolookAt$}
