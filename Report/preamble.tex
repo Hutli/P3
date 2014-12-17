@@ -158,3 +158,16 @@ bibencoding=utf8,
 % end vertical rule patch for algorithmicx
 
 \renewcommand{\algorithmicforall}{\textbf{for each}}
+
+\def\mypart#1#2{% 
+\refstepcounter{part}% Next part 
+\addcontentsline{toc}{part}{\thepart~#1}
+\par\newpage\clearpage % Page break 
+\vspace*{5cm} % Vertical shift 
+{\centering \textbf{\Huge Part \thepart}\par}\thispagestyle{empty}% 
+\vspace{1cm}% Vertical shift 
+{\centering \textbf{\Huge #1}\par}% 
+\vspace{2cm}% Vertical shift % 
+\noindent #2 
+\vfill\pagebreak % Fill the end of page and page break 
+}
