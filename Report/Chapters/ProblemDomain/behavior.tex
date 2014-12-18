@@ -79,7 +79,7 @@ In \cref{fig:StateDiagramPlaylist} it can be seen that a playlist, is created wh
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{StateDiagramTrack.pdf}
+  \includegraphics[width=.9\textwidth]{StateDiagramTrack.pdf}
   \caption{State diagram for the track.}\label{fig:StateDiagramTrack}
 \end{figure}
 
@@ -88,9 +88,11 @@ the problem domain, when it has votes or is on the history of last
 played tracks. This means that it will be created, when it receives
 its first vote. If votes are removed from the track, it can result in
 the track having zero votes again, and will therefore be
-terminated. While active, the track can receive and lose votes from
-any user when the user's vote is changed. A track is terminated once it has
-been removed from the history of last played tracks.
+terminated. While on the playlist, the track can receive and lose votes from
+any user when the user's vote is changed. A track is transferred to
+the \enquote{is Playing} state when the track is playing. Once it has
+finished playing or skipped, it is added to the history of last played
+tracks. Another way for a track to terminate is when the venue closes.
 
 \begin{figure}[H]
   \centering
