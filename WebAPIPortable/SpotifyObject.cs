@@ -31,7 +31,7 @@ namespace WebAPI
         public virtual string Uri
         {
             get { return ""; }
-        } //TODO generate Uri
+        }
 
         public override bool Equals(object obj)
         {
