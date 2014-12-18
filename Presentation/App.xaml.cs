@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 
-namespace Presentation
-{
+namespace Presentation {
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>

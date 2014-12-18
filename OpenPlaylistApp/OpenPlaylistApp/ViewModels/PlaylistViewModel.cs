@@ -7,19 +7,18 @@ using Newtonsoft.Json;
 using OpenPlaylistApp.Models;
 using WebAPI;
 
-namespace OpenPlaylistApp.ViewModels
-{
-    public class PlaylistViewModel : BaseViewModel
-    {
+namespace OpenPlaylistApp.ViewModels {
+    public class PlaylistViewModel : BaseViewModel {
         private ObservableCollection<Track> _results = new ObservableCollection<Track>();
         private Track _selectedItem;
-        public PlaylistViewModel() { App.User.VoteChanged += VoteChanged; }
 
-        public ObservableCollection<Track> Results
-        {
-            get { return _results; }
-            set
-            {
+        public PlaylistViewModel() {
+            App.User.VoteChanged += VoteChanged;
+        }
+
+        public ObservableCollection<Track> Results {
+            get {return _results;}
+            set {
                 _results = value;
                 OnPropertyChanged("Results");
             }
@@ -28,11 +27,9 @@ namespace OpenPlaylistApp.ViewModels
         /// <summary>
         ///     Gets or sets the selected feed item
         /// </summary>
-        public Track SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
+        public Track SelectedItem {
+            get {return _selectedItem;}
+            set {
                 _selectedItem = value;
                 OnPropertyChanged("SelectedItem");
             }
@@ -40,30 +37,24 @@ namespace OpenPlaylistApp.ViewModels
 
         public event Action LoadComplete;
 
-        private void VoteChanged(Track inputTrack)
-        {
+        private void VoteChanged(Track inputTrack) {
             var oldSelected = Results.FirstOrDefault(p => p.IsSelected);
             var newSelected = Results.FirstOrDefault(p => p.Id.Equals(inputTrack.Id));
-            if(oldSelected != null)
-            {
+            if(oldSelected != null) {
                 oldSelected.IsSelected = false;
                 Results[Results.IndexOf(oldSelected)] = oldSelected;
             }
-            if(newSelected != null)
-            {
+            if(newSelected != null) {
                 newSelected.IsSelected = true;
                 Results[Results.IndexOf(newSelected)] = newSelected;
-            } else
-            {
+            } else {
                 inputTrack.IsSelected = true;
                 Results.Add(inputTrack);
             }
         }
 
-        private void UpdateResults(ObservableCollection<Track> newData)
-        {
-            if (OpenPlaylistApp.App.User.Vote != null)
-            {
+        private void UpdateResults(ObservableCollection<Track> newData) {
+            if(OpenPlaylistApp.App.User.Vote != null) {
                 var selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(OpenPlaylistApp.App.User.Vote.Id));
 
                 if(selectedTrack != null)
@@ -71,14 +62,10 @@ namespace OpenPlaylistApp.ViewModels
             }
 
             int i;
-            for(i = 0; i < newData.Count; i++)
-            {
-                if(i < Results.Count)
-                {
-                    if (!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
-                    {
+            for(i = 0; i < newData.Count; i++) {
+                if(i < Results.Count) {
+                    if(!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
                         Results[i] = newData[i];
-                    }
                 } else
                     Results.Add(newData[i]);
             }
@@ -88,21 +75,19 @@ namespace OpenPlaylistApp.ViewModels
             OnPropertyChanged("TotalScore");
         }
 
-        public async void GetResults(Venue venue)
-        {
+        public async void GetResults(Venue venue) {
             var session = Session.Instance();
             var returnValue = new ObservableCollection<Track>();
-            try
-            {
+            try {
                 var json = await session.GetPlaylist(venue);
-                returnValue = (ObservableCollection<Track>)JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
+                returnValue =
+                    (ObservableCollection<Track>)
+                    JsonConvert.DeserializeObject(json, typeof(ObservableCollection<Track>));
 
                 UpdateResults(returnValue);
 
                 LoadComplete();
-            } catch(Exception)
-            {
-            }
+            } catch(Exception) {}
         }
     }
 }

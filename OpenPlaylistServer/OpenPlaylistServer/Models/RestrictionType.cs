@@ -1,7 +1,5 @@
-﻿namespace OpenPlaylistServer.Models
-{
-    public enum RestrictionType
-    {
+﻿namespace OpenPlaylistServer.Models {
+    public enum RestrictionType {
         WhiteList,
         BlackList
     }

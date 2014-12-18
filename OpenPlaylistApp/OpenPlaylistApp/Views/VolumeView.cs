@@ -1,12 +1,9 @@
 ﻿using OpenPlaylistApp.ViewModels;
 using Xamarin.Forms;
 
-namespace OpenPlaylistApp.Views
-{
-    public class VolumeView : ContentView
-    {
-        public VolumeView()
-        {
+namespace OpenPlaylistApp.Views {
+    public class VolumeView : ContentView {
+        public VolumeView() {
             BindingContext = new VolumeViewModel();
             var layout = new StackLayout();
             var slider = new Slider(0, 100, 50);

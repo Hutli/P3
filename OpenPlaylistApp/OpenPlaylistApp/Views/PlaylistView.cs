@@ -2,17 +2,14 @@
 using OpenPlaylistApp.ViewModels;
 using Xamarin.Forms;
 
-namespace OpenPlaylistApp.Views
-{
-    internal class PlaylistView : ContentView
-    {
+namespace OpenPlaylistApp.Views {
+    internal class PlaylistView : ContentView {
         public ListView listView = new ListView();
         private readonly StackLayout layout = new StackLayout();
         private readonly NowPlayingView nowPlayingView = new NowPlayingView();
         private readonly VolumeView volumeView = new VolumeView();
 
-        public PlaylistView()
-        {
+        public PlaylistView() {
             var session = Session.Instance();
 
             BindingContext = new PlaylistViewModel();
@@ -34,29 +31,23 @@ namespace OpenPlaylistApp.Views
 
         //private CurrentVoteView currentVoteView = new CurrentVoteView();
 
-        private PlaylistViewModel playlistViewModel
-        {
-            get { return BindingContext as PlaylistViewModel; }
+        private PlaylistViewModel playlistViewModel {
+            get {return BindingContext as PlaylistViewModel;}
         }
 
-        public void GetPlaylist(Venue venue)
-        {
+        public void GetPlaylist(Venue venue) {
             playlistViewModel.GetResults(venue);
             nowPlayingView.GetNowPlaying(venue);
         }
 
-        private void OnLoadComplete()
-        {
-            if(App.User.Vote != null && !playlistViewModel.Results.Contains(App.User.Vote))
-            {
+        private void OnLoadComplete() {
+            if(App.User.Vote != null && !playlistViewModel.Results.Contains(App.User.Vote)) {
                 //playlistViewModel.Results.Add(App.User.Vote);
             }
 
-            foreach(var e in playlistViewModel.Results)
-            {
+            foreach(var e in playlistViewModel.Results) {
                 var currentVote = App.User.Vote;
-                if(currentVote != null && e.Uri == currentVote.Uri)
-                {
+                if(currentVote != null && e.Uri == currentVote.Uri) {
                     listView.SelectedItem = e;
                     break;
                 }

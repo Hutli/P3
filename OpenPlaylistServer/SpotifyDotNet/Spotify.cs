@@ -5,13 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using libspotifydotnet;
 
-namespace SpotifyDotNet
-{
+namespace SpotifyDotNet {
     /// <summary>
     ///     Possible states of the login operation
     /// </summary>
-    public enum LoginState
-    {
+    public enum LoginState {
         OK,
         UnableToContactServer,
         UserBanned,
@@ -23,15 +21,13 @@ namespace SpotifyDotNet
     ///     The main entry point for logging into Spotify.
     ///     For anything other than logging in, use the SpotifyLoggedIn class obtained through <see cref="Login" /> method.
     /// </summary>
-    public class Spotify
-    {
+    public class Spotify {
         private static readonly Spotify _instance = new Spotify();
         private GetAudioBufferStatsDelegate _getAudioBufferStatsDelegate;
         private bool _loggedIn;
         private LoggedInDelegate _loggedInCallbackDelegate;
         private LoggedOutDelegate _loggedOutCallbackDelegate;
         private LoginState _loginState;
-        //private Thread _spotifyThread;
 
         private LogMessageDelegate _logMessageCallback;
         private MusicDeliveryDelegate _musicDeliveryDelegate;
@@ -45,31 +41,42 @@ namespace SpotifyDotNet
         private StopPlayback _stopPlayback;
         private StreamingError _streamingError;
         private TrackEndedDelegate _trackEndedDelegate;
-        //private Task _notifyMainTask;
         private readonly ManualResetEvent _loggedInResetEvent = new ManualResetEvent(false);
         private readonly ManualResetEvent _loggedOutWaitHandler = new ManualResetEvent(false);
         private readonly Object _sync = new Object();
-        private Spotify() { }
+        private Spotify() {}
 
         /// <summary>
         ///     Used to tell how much data is currently buffered elsewhere
         /// </summary>
-        public TimeSpan BufferedDuration { private get; set; }
+        public TimeSpan BufferedDuration {
+            private get;
+            set;
+        }
 
-        public TimeSpan CurrentDurationStep { get; private set; }
-        private int BufferedFrames { get; set; }
+        public TimeSpan CurrentDurationStep {
+            get;
+            private set;
+        }
+
+        private int BufferedFrames {
+            get;
+            set;
+        }
 
         /// <summary>
         ///     The number of bytes currently buffered elsewhere.
         /// </summary>
-        public int BufferedBytes { private get; set; }
+        public int BufferedBytes {
+            private get;
+            set;
+        }
 
         /// <summary>
         ///     Returns the instance of the Spotify class.
         /// </summary>
-        public static Spotify Instance
-        {
-            get { return _instance; }
+        public static Spotify Instance {
+            get {return _instance;}
         }
 
         /// <summary>
@@ -97,159 +104,179 @@ namespace SpotifyDotNet
         /// </summary>
         public event Action<SearchResult> SearchComplete;
 
-        ~Spotify() { Dispose(); }
+        ~Spotify() {
+            Dispose();
+        }
 
-        private void Init(byte[] appkey)
-        {
-            _loggedInCallbackDelegate = (session, error) =>
-                                        {
-                                            LoginState loginState;
+        private void Init(byte[] appkey) {
+            _loggedInCallbackDelegate = (session, error) => {
+                LoginState loginState;
 
-                                            switch(error)
-                                            {
-                                                case libspotify.sp_error.OK:
-                                                    // login was successful, so no need to check for anything else. Just signal Success.
-                                                    loginState = LoginState.OK;
-                                                    _loggedIn = true;
-                                                    _spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
-                                                    break;
-                                                case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
-                                                    loginState = LoginState.BadUsernameOrPassword;
-                                                    break;
-                                                case libspotify.sp_error.UNABLE_TO_CONTACT_SERVER:
-                                                    loginState = LoginState.UnableToContactServer;
-                                                    break;
-                                                case libspotify.sp_error.USER_NEEDS_PREMIUM:
-                                                    loginState = LoginState.UserNeedsPremium;
-                                                    break;
-                                                case libspotify.sp_error.USER_BANNED:
-                                                    loginState = LoginState.UserBanned;
-                                                    break;
-                                                default:
-                                                    throw new Exception("Unknown case " + error);
-                                            }
+                switch(error) {
+                    case libspotify.sp_error.OK:
+                        // login was successful, so no need to check for anything else. Just signal Success.
+                        loginState = LoginState.OK;
+                        _loggedIn = true;
+                        _spotifyLoggedIn = new SpotifyLoggedIn(ref _sessionPtr, _sync, ref _searchComplete);
+                        break;
+                    case libspotify.sp_error.BAD_USERNAME_OR_PASSWORD:
+                        loginState = LoginState.BadUsernameOrPassword;
+                        break;
+                    case libspotify.sp_error.UNABLE_TO_CONTACT_SERVER:
+                        loginState = LoginState.UnableToContactServer;
+                        break;
+                    case libspotify.sp_error.USER_NEEDS_PREMIUM:
+                        loginState = LoginState.UserNeedsPremium;
+                        break;
+                    case libspotify.sp_error.USER_BANNED:
+                        loginState = LoginState.UserBanned;
+                        break;
+                    default:
+                        throw new Exception("Unknown case " + error);
+                }
 
-                                            _loginState = loginState;
-                                            _loggedInResetEvent.Set();
-                                        };
+                _loginState = loginState;
+                _loggedInResetEvent.Set();
+            };
 
             _loggedOutCallbackDelegate = session => _loggedOutWaitHandler.Set();
 
-            _searchCompleteDelegate = (search, userData) =>
-                                      {
-                                          var searchResults = new SearchResult(search);
-                                          if(SearchComplete != null)
-                                              SearchComplete(searchResults);
-                                      };
+            _searchCompleteDelegate = (search, userData) => {
+                var searchResults = new SearchResult(search);
+                if(SearchComplete != null)
+                    SearchComplete(searchResults);
+            };
 
             _searchComplete = Marshal.GetFunctionPointerForDelegate(_searchCompleteDelegate);
 
             _notifyMainDelegate = NotifyMain;
 
-            _musicDeliveryDelegate = (session, audioFormat, framesPtr, numFrames) =>
-                                     {
-                                         byte[] frames;
-                                         var format = (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));
+            _musicDeliveryDelegate = (session, audioFormat, framesPtr, numFrames) => {
+                byte[] frames;
+                var format =
+                    (libspotify.sp_audioformat)Marshal.PtrToStructure(audioFormat, typeof(libspotify.sp_audioformat));
 
-                                         if(numFrames == 0)
-                                         {
-                                             Console.WriteLine("No frames, may be buffering");
-                                             return 0;
-                                         }
+                if(numFrames == 0) {
+                    Console.WriteLine("No frames, may be buffering");
+                    return 0;
+                }
 
-                                         if(BufferedFrames / format.sample_rate > 0)
-                                         {
-                                             CurrentDurationStep = CurrentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000));
-                                             // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
-                                             BufferedFrames = BufferedFrames - format.sample_rate;
-                                             Console.WriteLine(CurrentDurationStep);
-                                         }
+                if(BufferedFrames / format.sample_rate > 0) {
+                    CurrentDurationStep = CurrentDurationStep.Add(new TimeSpan(0, 0, 0, 0, 1000));
+                    // Maybe every 1000 ms? Fits perfectly! :D Source: https://github.com/FrontierPsychiatrist/node-spotify/blob/master/src/callbacks/SessionCallbacks.cc
+                    BufferedFrames = BufferedFrames - format.sample_rate;
+                    Console.WriteLine(CurrentDurationStep);
+                }
 
-                                         // only buffer 2 seconds
-                                         if(BufferedDuration > TimeSpan.FromSeconds(2))
-                                         {
-                                             frames = new byte[0];
-                                             numFrames = 0;
-                                         } else
-                                             frames = new byte[numFrames * sizeof(Int16) * format.channels];
-                                         //frames = new byte[numFrames * sizeof(Int16) * format.channels];
+                // only buffer 2 seconds
+                if(BufferedDuration > TimeSpan.FromSeconds(2)) {
+                    frames = new byte[0];
+                    numFrames = 0;
+                } else
+                    frames = new byte[numFrames * sizeof(Int16) * format.channels];
+                //frames = new byte[numFrames * sizeof(Int16) * format.channels];
 
-                                         Marshal.Copy(framesPtr, frames, 0, frames.Length);
+                Marshal.Copy(framesPtr, frames, 0, frames.Length);
 
-                                         if(MusicDelivery != null)
-                                             MusicDelivery(format.sample_rate, format.channels, frames);
+                if(MusicDelivery != null)
+                    MusicDelivery(format.sample_rate, format.channels, frames);
 
-                                         BufferedFrames += numFrames;
+                BufferedFrames += numFrames;
 
-                                         return numFrames;
-                                     };
+                return numFrames;
+            };
 
-            _trackEndedDelegate = session =>
-                                  {
-                                      ResetCurrentDurationStep();
-                                      TrackEnded();
-                                  };
+            _trackEndedDelegate = session => {
+                ResetCurrentDurationStep();
+                TrackEnded();
+            };
 
-            _getAudioBufferStatsDelegate = (session, bufferStatsPtr) =>
-                                           {
-                                               //Console.WriteLine("get audio buffer stats called");
+            _getAudioBufferStatsDelegate = (session, bufferStatsPtr) => {
+                //Console.WriteLine("get audio buffer stats called");
 
-                                               var t = Task.Run(() =>
-                                                                {
-                                                                    lock(_sync)
-                                                                    {
-                                                                        var bufferStats = (libspotify.sp_audio_buffer_stats)Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
-                                                                        var samples = BufferedDuration.Milliseconds * 44.100;
-                                                                        bufferStats.samples = (int)Math.Floor(samples);
-                                                                        bufferStats.stutter = 0;
-                                                                        // copy managed struct to outputPtr
-                                                                        //Marshal.StructureToPtr(bufferStats, bufferStatsPtr, true);
-                                                                    }
-                                                                });
+                var t = Task.Run(() => {
+                    lock(_sync) {
+                        var bufferStats =
+                            (libspotify.sp_audio_buffer_stats)
+                            Marshal.PtrToStructure(bufferStatsPtr, typeof(libspotify.sp_audio_buffer_stats));
+                        var samples = BufferedDuration.Milliseconds * 44.100;
+                        bufferStats.samples = (int)Math.Floor(samples);
+                        bufferStats.stutter = 0;
+                        // copy managed struct to outputPtr
+                        //Marshal.StructureToPtr(bufferStats, bufferStatsPtr, true);
+                    }
+                });
 
-                                               try
-                                               {
-                                                   t.Wait();
-                                               } catch(Exception)
-                                               {
-                                                   throw;
-                                               }
+                try {
+                    t.Wait();
+                } catch(Exception) {
+                    throw;
+                }
 
-                                               //Console.WriteLine("get audio buffer stats finished ");
-                                           };
+                //Console.WriteLine("get audio buffer stats finished ");
+            };
 
             _logMessageCallback = (session, message) => Console.WriteLine("Spotify log: " + message);
 
-            PlayTokenLost playTokenLost = session => Console.WriteLine("Play token was lost. Someone logged in to Spotify elsewhere");
+            PlayTokenLost playTokenLost =
+                session => Console.WriteLine("Play token was lost. Someone logged in to Spotify elsewhere");
 
-            _startPlayback = session =>
-                             {
-                                 if(PlaybackShouldStart != null)
-                                     PlaybackShouldStart();
-                             };
+            _startPlayback = session => {
+                if(PlaybackShouldStart != null)
+                    PlaybackShouldStart();
+            };
 
-            _stopPlayback = session =>
-                            {
-                                if(PlaybackShouldStop != null)
-                                    PlaybackShouldStop();
-                            };
+            _stopPlayback = session => {
+                if(PlaybackShouldStop != null)
+                    PlaybackShouldStop();
+            };
 
-            _streamingError = (session, error) => { Console.WriteLine("Streaming error: " + error); };
+            _streamingError = (session, error) => {
+                Console.WriteLine("Streaming error: " + error);
+            };
 
-            var sessionCallbacks = new libspotify.sp_session_callbacks {logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate), logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate), metadata_updated = IntPtr.Zero, connection_error = IntPtr.Zero, message_to_user = IntPtr.Zero, notify_main_thread = Marshal.GetFunctionPointerForDelegate(_notifyMainDelegate), music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate), play_token_lost = Marshal.GetFunctionPointerForDelegate(playTokenLost), log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback), end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate), streaming_error = Marshal.GetFunctionPointerForDelegate(_streamingError), userinfo_updated = IntPtr.Zero, start_playback = Marshal.GetFunctionPointerForDelegate(_startPlayback), stop_playback = Marshal.GetFunctionPointerForDelegate(_stopPlayback), get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate), offline_status_updated = IntPtr.Zero, offline_error = IntPtr.Zero, credentials_blob_updated = IntPtr.Zero, connectionstate_updated = IntPtr.Zero, scrobble_error = IntPtr.Zero, private_session_mode_changed = IntPtr.Zero};
+            var sessionCallbacks = new libspotify.sp_session_callbacks {
+                logged_in = Marshal.GetFunctionPointerForDelegate(_loggedInCallbackDelegate),
+                logged_out = Marshal.GetFunctionPointerForDelegate(_loggedOutCallbackDelegate),
+                metadata_updated = IntPtr.Zero,
+                connection_error = IntPtr.Zero,
+                message_to_user = IntPtr.Zero,
+                notify_main_thread = Marshal.GetFunctionPointerForDelegate(_notifyMainDelegate),
+                music_delivery = Marshal.GetFunctionPointerForDelegate(_musicDeliveryDelegate),
+                play_token_lost = Marshal.GetFunctionPointerForDelegate(playTokenLost),
+                log_message = Marshal.GetFunctionPointerForDelegate(_logMessageCallback),
+                end_of_track = Marshal.GetFunctionPointerForDelegate(_trackEndedDelegate),
+                streaming_error = Marshal.GetFunctionPointerForDelegate(_streamingError),
+                userinfo_updated = IntPtr.Zero,
+                start_playback = Marshal.GetFunctionPointerForDelegate(_startPlayback),
+                stop_playback = Marshal.GetFunctionPointerForDelegate(_stopPlayback),
+                get_audio_buffer_stats = Marshal.GetFunctionPointerForDelegate(_getAudioBufferStatsDelegate),
+                offline_status_updated = IntPtr.Zero,
+                offline_error = IntPtr.Zero,
+                credentials_blob_updated = IntPtr.Zero,
+                connectionstate_updated = IntPtr.Zero,
+                scrobble_error = IntPtr.Zero,
+                private_session_mode_changed = IntPtr.Zero
+            };
 
             // Convert structure to C Pointer
             var callbacksPtr = Marshal.AllocHGlobal(Marshal.SizeOf(sessionCallbacks));
             Marshal.StructureToPtr(sessionCallbacks, callbacksPtr, true);
 
-            var config = new libspotify.sp_session_config {application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey, 0), application_key_size = appkey.Length, api_version = libspotify.SPOTIFY_API_VERSION, user_agent = "OpenPlaylist", cache_location = "tmp", settings_location = "tmp", callbacks = callbacksPtr};
+            var config = new libspotify.sp_session_config {
+                application_key = Marshal.UnsafeAddrOfPinnedArrayElement(appkey, 0),
+                application_key_size = appkey.Length,
+                api_version = libspotify.SPOTIFY_API_VERSION,
+                user_agent = "OpenPlaylist",
+                cache_location = "tmp",
+                settings_location = "tmp",
+                callbacks = callbacksPtr
+            };
 
             // only 1 sesion can ever be created
-            if(!_sessionCreated)
-            {
+            if(!_sessionCreated) {
                 var error = libspotify.sp_session_create(ref config, out _sessionPtr);
-                if(error != libspotify.sp_error.OK || _sessionPtr == IntPtr.Zero)
-                {
+                if(error != libspotify.sp_error.OK || _sessionPtr == IntPtr.Zero) {
                     // could not create session
                     Console.WriteLine("Error creating session");
                     throw new InvalidDataException("Error while creating session");
@@ -259,29 +286,24 @@ namespace SpotifyDotNet
             }
         }
 
-        private void NotifyMain(IntPtr session) { Task.Run(() => ProcessEvents()); }
+        private void NotifyMain(IntPtr session) {
+            Task.Run(() => ProcessEvents());
+        }
 
-        private void ProcessEvents()
-        {
-            lock(_sync)
-            {
+        private void ProcessEvents() {
+            lock(_sync) {
                 var nextTimeout = 0;
-                do
-                {
+                do {
                     libspotify.sp_session_process_events(_sessionPtr, out nextTimeout);
                     Console.WriteLine("Process events");
                 } while(nextTimeout == 0);
             }
         }
 
-        private void Dispose()
-        {
-            lock(_sync)
-            {
-                if(_sessionPtr != IntPtr.Zero)
-                {
-                    if(_loggedIn)
-                    {
+        private void Dispose() {
+            lock(_sync) {
+                if(_sessionPtr != IntPtr.Zero) {
+                    if(_loggedIn) {
                         libspotify.sp_session_logout(_sessionPtr);
                         _loggedOutWaitHandler.WaitOne();
                     }
@@ -306,11 +328,9 @@ namespace SpotifyDotNet
         ///     If login was unsuccessful spotifyLoggedIn object will be null,
         ///     and the second element of the tuple will contain the error desription.
         /// </returns>
-        public Tuple<SpotifyLoggedIn, LoginState> Login(string username, string password, bool rememberMe, byte[] appkey)
-        {
+        public Tuple<SpotifyLoggedIn, LoginState> Login(string username, string password, bool rememberMe, byte[] appkey) {
             Init(appkey);
-            lock(_sync)
-            {
+            lock(_sync) {
                 libspotify.sp_session_login(_sessionPtr, username, password, rememberMe, null);
             }
             // wait for the login to happen
@@ -318,7 +338,9 @@ namespace SpotifyDotNet
             return new Tuple<SpotifyLoggedIn, LoginState>(_spotifyLoggedIn, _loginState);
         }
 
-        public void ResetCurrentDurationStep() { CurrentDurationStep = TimeSpan.Zero; }
+        public void ResetCurrentDurationStep() {
+            CurrentDurationStep = TimeSpan.Zero;
+        }
 
         private delegate void SearchCompleteDelegate(IntPtr search, IntPtr userData);
 

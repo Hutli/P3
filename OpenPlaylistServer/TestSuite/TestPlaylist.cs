@@ -10,33 +10,35 @@ using WebAPI;
 using Xunit;
 using Track = WebAPI.Track;
 
-namespace TestSuite
-{
+namespace TestSuite {
 
     #region Login
 
-    public class TestsFixture : IDisposable
-    {
+    public class TestsFixture : IDisposable {
         public readonly SpotifyLoggedIn Spl;
 
-        public TestsFixture()
-        {
+        public TestsFixture() {
 #if (!LoginToSpotify)
                 return;
             #endif
-            var result = Spotify.Instance.Login("jensstaermose@hotmail.com", "hejheider", false, Resources.spotify_appkey);
+            var result = Spotify.Instance.Login("jensstaermose@hotmail.com",
+                                                "hejheider",
+                                                false,
+                                                Resources.spotify_appkey);
             Spl = result.Item1;
         }
 
-        public void Dispose() { }
+        public void Dispose() {}
     }
 
     #endregion
 
-    public class TestPlaylist : IUseFixture<TestsFixture>
-    {
+    public class TestPlaylist : IUseFixture<TestsFixture> {
         private TestsFixture _data;
-        public void SetFixture(TestsFixture data) { _data = data; }
+
+        public void SetFixture(TestsFixture data) {
+            _data = data;
+        }
 
         #region Server
 
@@ -45,8 +47,7 @@ namespace TestSuite
         #region PlaylistService
 
         [Fact]
-        public void PlaylistFindTrackFindsTrack()
-        {
+        public void PlaylistFindTrackFindsTrack() {
             var users = new UserService();
             var hist = new HistoryService();
             var pl = new PlaylistService(users, hist);
@@ -54,13 +55,33 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
 
-            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL", "Crossing the Boundaries", 220400, false, 2, "DKFD51642002", "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb", alb);
+            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                   "Obliteration of the Weak",
+                                   232120,
+                                   false,
+                                   1,
+                                   "DKFD51642001",
+                                   "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                   alb);
+            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL",
+                                   "Crossing the Boundaries",
+                                   220400,
+                                   false,
+                                   2,
+                                   "DKFD51642002",
+                                   "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb",
+                                   alb);
 
             pl.Add(track1);
             pl.Add(track2);
@@ -70,8 +91,7 @@ namespace TestSuite
         }
 
         [Fact]
-        public void PlaylistCalcTScoreCalculatesScore()
-        {
+        public void PlaylistCalcTScoreCalculatesScore() {
             var users = new UserService();
             var hist = new HistoryService();
             var pl = new PlaylistService(users, hist);
@@ -79,13 +99,33 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
 
-            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL", "Crossing the Boundaries", 220400, false, 2, "DKFD51642002", "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb", alb);
+            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                   "Obliteration of the Weak",
+                                   232120,
+                                   false,
+                                   1,
+                                   "DKFD51642001",
+                                   "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                   alb);
+            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL",
+                                   "Crossing the Boundaries",
+                                   220400,
+                                   false,
+                                   2,
+                                   "DKFD51642002",
+                                   "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb",
+                                   alb);
             var a = new User("1234");
             var b = new User("2345");
 
@@ -104,8 +144,7 @@ namespace TestSuite
         }
 
         [Fact]
-        public void PlaylistNextTrackHasHighestVotes()
-        {
+        public void PlaylistNextTrackHasHighestVotes() {
             //Tests that the next track is the one with highest votes
             var users = new UserService();
             var hist = new HistoryService();
@@ -114,13 +153,33 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
 
-            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL", "Crossing the Boundaries", 220400, false, 2, "DKFD51642002", "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb", alb);
+            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                   "Obliteration of the Weak",
+                                   232120,
+                                   false,
+                                   1,
+                                   "DKFD51642001",
+                                   "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                   alb);
+            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL",
+                                   "Crossing the Boundaries",
+                                   220400,
+                                   false,
+                                   2,
+                                   "DKFD51642002",
+                                   "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb",
+                                   alb);
             var a = new User("1234");
             var b = new User("2345");
             var c = new User("3456");
@@ -143,8 +202,7 @@ namespace TestSuite
         }
 
         [Fact]
-        public void PlaylistNextTrackFindsTrackIfEmpty()
-        {
+        public void PlaylistNextTrackFindsTrackIfEmpty() {
             var users = new UserService();
             var hist = new HistoryService();
             var pl = new PlaylistService(users, hist);
@@ -152,13 +210,28 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
-            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                  "Obliteration of the Weak",
+                                  232120,
+                                  false,
+                                  1,
+                                  "DKFD51642001",
+                                  "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                  alb);
 
-            users.Add(new User("1234") {Vote = track});
+            users.Add(new User("1234") {
+                Vote = track
+            });
             pl.Add(track);
 
             var track1 = pl.NextTrack();
@@ -177,8 +250,7 @@ namespace TestSuite
         }
 
         [Fact]
-        public void PlaylistAddAddsTrack()
-        {
+        public void PlaylistAddAddsTrack() {
             var u = new UserService();
             var history = new HistoryService();
             var pl = new PlaylistService(u, history);
@@ -186,11 +258,24 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
-            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                  "Obliteration of the Weak",
+                                  232120,
+                                  false,
+                                  1,
+                                  "DKFD51642001",
+                                  "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                  alb);
 
             Assert.False(pl.Tracks.Contains(track));
             pl.Add(track);
@@ -202,8 +287,7 @@ namespace TestSuite
         #region PlaybackService
 
         [Fact]
-        public void PlaybackGetCurrentVolWorks()
-        {
+        public void PlaybackGetCurrentVolWorks() {
             var userService = new UserService();
             var playback = new PlaybackService(userService);
 
@@ -223,8 +307,7 @@ namespace TestSuite
         #region VoteService
 
         [Fact]
-        public void VoteServiceVoteWorks()
-        {
+        public void VoteServiceVoteWorks() {
             var users = new UserService();
             var hist = new HistoryService();
             var pl = new PlaylistService(users, hist);
@@ -236,12 +319,25 @@ namespace TestSuite
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
 
-            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                  "Obliteration of the Weak",
+                                  232120,
+                                  false,
+                                  1,
+                                  "DKFD51642001",
+                                  "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                  alb);
             pl.Add(track);
 
             Assert.NotNull(vs);
@@ -260,11 +356,13 @@ namespace TestSuite
         #region RestrictionService
 
         [Fact]
-        public void RestrictionServiceRestrictTracksBlackTitlesWorks()
-        {
+        public void RestrictionServiceRestrictTracksBlackTitlesWorks() {
             var resServ = new RestrictionService();
             var resUnit = new RestrictionUnit(TrackField.Titles, "hej");
-            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.BlackList, resUnit);
+            var res = new Restriction(new DateTime(),
+                                      new DateTime(1, 1, 1, 23, 59, 59),
+                                      RestrictionType.BlackList,
+                                      resUnit);
 
             var searchRes = WebAPIMethods.Search("hej", 20).Result;
 
@@ -273,15 +371,18 @@ namespace TestSuite
             resServ.AddRestriction(res);
             resServ.RestrictTracks(searchRes);
 
-            Assert.True(searchRes.Where(t => t.Name.ToLower().Contains("hej")).All(t => t.IsFiltered), "Restriction failed");
+            Assert.True(searchRes.Where(t => t.Name.ToLower().Contains("hej")).All(t => t.IsFiltered),
+                        "Restriction failed");
         }
 
         [Fact]
-        public void RestrictionServiceRestrictTrackWhiteTitlesWorks()
-        {
+        public void RestrictionServiceRestrictTrackWhiteTitlesWorks() {
             var resServ = new RestrictionService();
             var resUnit = new RestrictionUnit(TrackField.Titles, "hej");
-            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.WhiteList, resUnit);
+            var res = new Restriction(new DateTime(),
+                                      new DateTime(1, 1, 1, 23, 59, 59),
+                                      RestrictionType.WhiteList,
+                                      resUnit);
 
             var searchRes = WebAPIMethods.Search("hej", 20).Result;
 
@@ -290,15 +391,18 @@ namespace TestSuite
             resServ.AddRestriction(res);
             resServ.RestrictTracks(searchRes);
 
-            Assert.True(searchRes.All(t => (t.Name.ToLower().Contains("hej") && !t.IsFiltered) || t.IsFiltered), "Restriction failed");
+            Assert.True(searchRes.All(t => (t.Name.ToLower().Contains("hej") && !t.IsFiltered) || t.IsFiltered),
+                        "Restriction failed");
         }
 
         [Fact]
-        public void RestrictionServiceRestrictTrackBlackArtistsWorks()
-        {
+        public void RestrictionServiceRestrictTrackBlackArtistsWorks() {
             var resServ = new RestrictionService();
             var resUnit = new RestrictionUnit(TrackField.Artists, "hej");
-            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.BlackList, resUnit);
+            var res = new Restriction(new DateTime(),
+                                      new DateTime(1, 1, 1, 23, 59, 59),
+                                      RestrictionType.BlackList,
+                                      resUnit);
 
             var searchRes = WebAPIMethods.Search("hej", 20).Result;
 
@@ -307,15 +411,22 @@ namespace TestSuite
             resServ.AddRestriction(res);
             resServ.RestrictTracks(searchRes);
 
-            Assert.True(searchRes.All(t => (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered) || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered)), "Restriction failed");
+            Assert.True(
+                searchRes.All(
+                    t =>
+                    (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered)
+                    || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered)),
+                "Restriction failed");
         }
 
         [Fact]
-        public void RestrictionServiceRestrictTrackWhiteArtistsWorks()
-        {
+        public void RestrictionServiceRestrictTrackWhiteArtistsWorks() {
             var resServ = new RestrictionService();
             var resUnit = new RestrictionUnit(TrackField.Artists, "hej");
-            var res = new Restriction(new DateTime(), new DateTime(1, 1, 1, 23, 59, 59), RestrictionType.WhiteList, resUnit);
+            var res = new Restriction(new DateTime(),
+                                      new DateTime(1, 1, 1, 23, 59, 59),
+                                      RestrictionType.WhiteList,
+                                      resUnit);
 
             var searchRes = WebAPIMethods.Search("hej", 20).Result;
 
@@ -324,7 +435,12 @@ namespace TestSuite
             resServ.AddRestriction(res);
             resServ.RestrictTracks(searchRes);
 
-            Assert.True(searchRes.All(t => (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered) || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered)), "Restriction failed");
+            Assert.True(
+                searchRes.All(
+                    t =>
+                    (t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && !t.IsFiltered)
+                    || (!t.Album.Artists.Any(a => a.Name.ToLower().Contains("hej")) && t.IsFiltered)),
+                "Restriction failed");
         }
 
         #endregion
@@ -336,18 +452,44 @@ namespace TestSuite
         #region Track
 
         [Fact]
-        public void TrackEquals()
-        {
+        public void TrackEquals() {
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
-            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
-            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL", "Crossing the Boundaries", 220400, false, 2, "DKFD51642002", "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb", alb);
-            var track1Cpy = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            var track1 = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                   "Obliteration of the Weak",
+                                   232120,
+                                   false,
+                                   1,
+                                   "DKFD51642001",
+                                   "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                   alb);
+            var track2 = new Track("50JtiuLYhzRO86ozFGxqYL",
+                                   "Crossing the Boundaries",
+                                   220400,
+                                   false,
+                                   2,
+                                   "DKFD51642002",
+                                   "https://p.scdn.co/mp3-preview/1dbb52c571db58003ecd0eb9dcf0d09c8bc4f0bb",
+                                   alb);
+            var track1Cpy = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                      "Obliteration of the Weak",
+                                      232120,
+                                      false,
+                                      1,
+                                      "DKFD51642001",
+                                      "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                      alb);
 
             Assert.False(track1.Equals(track2));
             Assert.NotSame(track1, track1Cpy);
@@ -359,19 +501,31 @@ namespace TestSuite
         #region WebAPIMethods
 
         [Fact]
-        public void WebAPIMethodsGetTrackGetsTrack()
-        {
+        public void WebAPIMethodsGetTrackGetsTrack() {
             //Information needed for track constructor
             var img1 = new Image(600, 600, "https://i.scdn.co/image/6885d1703f4f4fcbedd7beb231ecca8131de5683");
             var img2 = new Image(300, 300, "https://i.scdn.co/image/c70d12c712e41ed4f532e4d190f3476380d0f708");
             var img3 = new Image(64, 64, "https://i.scdn.co/image/cae856966342ec081a5dae800bb0efc8f8993612");
-            IEnumerable<Image> images = new List<Image> {img1, img2, img3};
+            IEnumerable<Image> images = new List<Image> {
+                img1,
+                img2,
+                img3
+            };
             var art = new Artist("40UIlN4YEByXy4ewEZmqXu", "Aphyxion");
-            var artists = new List<Artist> {art};
+            var artists = new List<Artist> {
+                art
+            };
             var alb = new Album("0hNtREj1dl7bKoWEz0XXMr", "Obliteration of the Weak", "album", images, artists);
 
             //Construct track manually
-            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1", "Obliteration of the Weak", 232120, false, 1, "DKFD51642001", "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a", alb);
+            var track = new Track("19pTAbMZmWsgGkYZ4v2TM1",
+                                  "Obliteration of the Weak",
+                                  232120,
+                                  false,
+                                  1,
+                                  "DKFD51642001",
+                                  "https://p.scdn.co/mp3-preview/1d3ee1111d679b5e5b50c53aa3bfcceb4c83da8a",
+                                  alb);
 
             //Find track using WebAPI
             var foundTrack = WebAPIMethods.GetTrack(track.Uri);
@@ -380,10 +534,8 @@ namespace TestSuite
         }
 
         [Fact]
-        public async void WebAPIMethodsSearchGetsCorrectNoOfTracks()
-        {
-            for(var i = 1; i < 10; i++)
-            {
+        public async void WebAPIMethodsSearchGetsCorrectNoOfTracks() {
+            for(var i = 1; i < 10; i++) {
                 var tracks = await WebAPIMethods.Search("hej", 10);
                 Assert.True(tracks.Count().Equals(10));
             }
@@ -396,11 +548,12 @@ namespace TestSuite
         #region SpotifyLoggedIn
 
         [Fact]
-        public void SpotifyLoggedInIsLoggedInToSpotify() { Assert.NotNull(_data.Spl); }
+        public void SpotifyLoggedInIsLoggedInToSpotify() {
+            Assert.NotNull(_data.Spl);
+        }
 
         [Fact]
-        public void SpotifyLoggedInTrackFromLinkLoadsCorrectly()
-        {
+        public void SpotifyLoggedInTrackFromLinkLoadsCorrectly() {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
 
             Assert.Equal("Obliteration of the Weak", t.Name);
@@ -408,24 +561,21 @@ namespace TestSuite
         }
 
         [Fact]
-        public void SpotifyLoggedInPlayWorks()
-        {
+        public void SpotifyLoggedInPlayWorks() {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             Assert.DoesNotThrow(() => _data.Spl.Play(t));
             Assert.Throws<NullReferenceException>(() => _data.Spl.Play(null));
         }
 
         [Fact]
-        public void SpotifyLoggedInStopWorks()
-        {
+        public void SpotifyLoggedInStopWorks() {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             _data.Spl.Play(t);
             Assert.DoesNotThrow(() => _data.Spl.Stop());
         }
 
         [Fact]
-        public void SpotifyLoggedInPlayAfterStopWorks()
-        {
+        public void SpotifyLoggedInPlayAfterStopWorks() {
             var t = _data.Spl.TrackFromLink("spotify:track:19pTAbMZmWsgGkYZ4v2TM1").Result;
             Assert.DoesNotThrow(() => _data.Spl.Play(t));
             Assert.DoesNotThrow(() => _data.Spl.Stop());

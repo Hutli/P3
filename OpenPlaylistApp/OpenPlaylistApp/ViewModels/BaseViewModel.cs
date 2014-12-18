@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace OpenPlaylistApp.ViewModels
-{
-    public class BaseViewModel : INotifyPropertyChanged, INotifyPropertyChanging
-    {
+namespace OpenPlaylistApp.ViewModels {
+    public class BaseViewModel : INotifyPropertyChanged, INotifyPropertyChanging {
         /// <summary>
         ///     Gets or sets if the view is busy.
         /// </summary>
@@ -19,16 +17,14 @@ namespace OpenPlaylistApp.ViewModels
         private bool canLoadMore = true;
         private bool isBusy;
 
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value, IsBusyPropertyName); }
+        public bool IsBusy {
+            get {return isBusy;}
+            set {SetProperty(ref isBusy, value, IsBusyPropertyName);}
         }
 
-        public bool CanLoadMore
-        {
-            get { return canLoadMore; }
-            set { SetProperty(ref canLoadMore, value, CanLoadMorePropertyName); }
+        public bool CanLoadMore {
+            get {return canLoadMore;}
+            set {SetProperty(ref canLoadMore, value, CanLoadMorePropertyName);}
         }
 
         #region INotifyPropertyChanged implementation
@@ -43,8 +39,11 @@ namespace OpenPlaylistApp.ViewModels
 
         #endregion
 
-        protected void SetProperty<T>(ref T backingStore, T value, string propertyName, Action onChanged = null, Action<T> onChanging = null)
-        {
+        protected void SetProperty<T>(ref T backingStore,
+                                      T value,
+                                      string propertyName,
+                                      Action onChanged = null,
+                                      Action<T> onChanging = null) {
             if(EqualityComparer<T>.Default.Equals(backingStore, value))
                 return;
 
@@ -61,16 +60,14 @@ namespace OpenPlaylistApp.ViewModels
             OnPropertyChanged(propertyName);
         }
 
-        public void OnPropertyChanging(string propertyName)
-        {
+        public void OnPropertyChanging(string propertyName) {
             if(PropertyChanging == null)
                 return;
 
             PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
         }
 
-        public void OnPropertyChanged(string propertyName)
-        {
+        public void OnPropertyChanged(string propertyName) {
             if(PropertyChanged == null)
                 return;
 

@@ -7,13 +7,11 @@ using Xamarin;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-namespace OpenPlaylistApp.Droid
-{
-    [Activity(Label = "OpenPlaylist", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : AndroidActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
+namespace OpenPlaylistApp.Droid {
+    [Activity(Label = "OpenPlaylist", MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : AndroidActivity {
+        protected override void OnCreate(Bundle bundle) {
             Insights.Initialize("b827463746b0194debd3651572cf7f0b64ad0ab2", ApplicationContext);
             base.OnCreate(bundle);
             Forms.Init(this, bundle);

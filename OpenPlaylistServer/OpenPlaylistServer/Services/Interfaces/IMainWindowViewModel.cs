@@ -2,13 +2,20 @@
 using OpenPlaylistServer.Models;
 using WebAPI;
 
-namespace OpenPlaylistServer.Services.Interfaces
-{
-    public interface IMainWindowViewModel
-    {
-        ObservableCollection<Track> Tracks { get; }
-        ObservableCollection<Track> History { get; }
-        ObservableCollection<Restriction> Restrictions { get; }
+namespace OpenPlaylistServer.Services.Interfaces {
+    public interface IMainWindowViewModel {
+        ObservableCollection<Track> Tracks {
+            get;
+        }
+
+        ObservableCollection<Track> History {
+            get;
+        }
+
+        ObservableCollection<Restriction> Restrictions {
+            get;
+        }
+
         void AddRestriction(Restriction restriction);
         void TrackEnded();
         void PlayButtonClicked();

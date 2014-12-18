@@ -11,76 +11,72 @@ using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using WebAPI;
 
-namespace Presentation
-{
+namespace Presentation {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
         private ObservableCollection<Track> _history = new ObservableCollection<Track>();
         private ObservableCollection<Track> _playlist = new ObservableCollection<Track>();
         private Track _nowPlaying;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
 
             DataContext = this;
 
-            Task.Run(async () =>
-                           {
-                               while(true)
-                               {
-                                   await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
+            Task.Run(async () => {
+                while(true) {
+                    await Task.Delay(TimeSpan.FromSeconds(3)); // update from server every second
 
-                                   var serverData = await GetResults(Ip);
+                    var serverData = await GetResults(Ip);
 
-                                   Application.Current.Dispatcher.Invoke(() =>
-                                                                         {
-                                                                             ApplyChanges(serverData);
-                                                                             Console.WriteLine("trying \n");
-                                                                         });
-                               }
-                           });
+                    Application.Current.Dispatcher.Invoke(() => {
+                        ApplyChanges(serverData);
+                        Console.WriteLine("trying \n");
+                    });
+                }
+            });
 
-            Task.Run(async () =>
-                           {
-                               while(true)
-                               {
-                                   await Task.Delay(TimeSpan.FromMilliseconds(100)); // update from server every second
-                                   Application.Current.Dispatcher.Invoke(() => { Progress.Value += TimeSpan.FromMilliseconds(100).TotalMilliseconds; });
-                               }
-                           });
+            Task.Run(async () => {
+                while(true) {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100)); // update from server every second
+                    Application.Current.Dispatcher.Invoke(() => {
+                        Progress.Value += TimeSpan.FromMilliseconds(100).TotalMilliseconds;
+                    });
+                }
+            });
         }
 
-        public ObservableCollection<Track> Playlist
-        {
-            get { return _playlist; }
+        public ObservableCollection<Track> Playlist {
+            get {return _playlist;}
         }
 
-        public ObservableCollection<Track> History
-        {
-            get { return _history; }
+        public ObservableCollection<Track> History {
+            get {return _history;}
         }
 
-        public Track NowPlaying
-        {
-            get { return _nowPlaying; }
+        public Track NowPlaying {
+            get {return _nowPlaying;}
         }
 
-        public string Ip { get; set; }
+        public string Ip {
+            get;
+            set;
+        }
 
-        private async Task<ServerData> GetResults(string ip)
-        {
+        private async Task<ServerData> GetResults(string ip) {
             var serverData = new ServerData();
-            try
-            {
+            try {
                 var playlistJson = await GetPlaylist(ip);
-                serverData.Playlist = (ObservableCollection<Track>)JsonConvert.DeserializeObject(playlistJson, typeof(ObservableCollection<Track>));
+                serverData.Playlist =
+                    (ObservableCollection<Track>)
+                    JsonConvert.DeserializeObject(playlistJson, typeof(ObservableCollection<Track>));
 
                 var historyJson = await GetHistory(ip);
-                serverData.History = (ObservableCollection<Track>)JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
+                serverData.History =
+                    (ObservableCollection<Track>)
+                    JsonConvert.DeserializeObject(historyJson, typeof(ObservableCollection<Track>));
 
                 var nowPlayingJson = await GetNowPlaying(ip);
                 serverData.NowPlaying = (Track)JsonConvert.DeserializeObject(nowPlayingJson, typeof(Track));
@@ -88,34 +84,30 @@ namespace Presentation
             return serverData;
         }
 
-        private void ApplyChanges(ServerData serverData)
-        {
-            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageColumn.ActualWidth - RankColumn.ActualWidth - TotalScoreColumn.ActualWidth - ThumbsUpColumn.ActualWidth - 10;
+        private void ApplyChanges(ServerData serverData) {
+            ToStringColumn.Width = PlaylistListView.ActualWidth - ImageColumn.ActualWidth - RankColumn.ActualWidth
+                                   - TotalScoreColumn.ActualWidth - ThumbsUpColumn.ActualWidth - 10;
             ToStringColumnHist.Width = ToStringColumn.Width;
 
             Playlist.Clear();
-            if(serverData.Playlist != null)
-            {
+            if(serverData.Playlist != null) {
                 foreach(var track in serverData.Playlist)
                     Playlist.Add(track);
             }
 
             History.Clear();
-            if(serverData.History != null)
-            {
-                foreach(var track in serverData.History)
-                {
+            if(serverData.History != null) {
+                foreach(var track in serverData.History) {
                     History.Add(track);
                     HistoryListView.ScrollIntoView(track);
                 }
             }
 
-            if(serverData.NowPlaying != null && !Equals(_nowPlaying, serverData.NowPlaying))
-            {
+            if(serverData.NowPlaying != null && !Equals(_nowPlaying, serverData.NowPlaying)) {
                 _nowPlaying = serverData.NowPlaying;
                 Progress.Value = _nowPlaying.CurrentDurationStep;
-                if(string.IsNullOrEmpty(LeftTextBoxMarquee.Text) || !_nowPlaying.ToString().Equals(LeftTextBoxMarquee.Text))
-                {
+                if(string.IsNullOrEmpty(LeftTextBoxMarquee.Text)
+                   || !_nowPlaying.ToString().Equals(LeftTextBoxMarquee.Text)) {
                     NowPlayingImage.Source = new BitmapImage(new Uri(_nowPlaying.Album.Images[1].Url));
 
                     LeftTextBoxMarquee.Text = _nowPlaying.ToString();
@@ -126,22 +118,16 @@ namespace Presentation
             }
         }
 
-        private static async Task<String> MakeRequest(Uri request, TimeSpan timeout)
-        {
-            try
-            {
-                using(var client = new HttpClient())
-                {
+        private static async Task<String> MakeRequest(Uri request, TimeSpan timeout) {
+            try {
+                using(var client = new HttpClient()) {
                     client.Timeout = timeout;
                     //Else Windows Phone will cache and not make new request to the server
                     client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Now;
 
-                    using(var response = await client.GetAsync(request))
-                    {
-                        if(response.IsSuccessStatusCode)
-                        {
-                            using(var content = response.Content)
-                            {
+                    using(var response = await client.GetAsync(request)) {
+                        if(response.IsSuccessStatusCode) {
+                            using(var content = response.Content) {
                                 var str = await content.ReadAsStringAsync();
                                 return str;
                             }
@@ -149,36 +135,31 @@ namespace Presentation
                         return null;
                     }
                 }
-            } catch(Exception)
-            {
+            } catch(Exception) {
                 Console.WriteLine("Http error");
                 return null;
             }
         }
 
-        private async Task<string> GetPlaylist(string ip)
-        {
+        private async Task<string> GetPlaylist(string ip) {
             var uriBuilder = new UriBuilder("http", ip, 5555, "playlist");
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
 
-        private async Task<string> GetNowPlaying(string ip)
-        {
+        private async Task<string> GetNowPlaying(string ip) {
             var uriBuilder = new UriBuilder("http", ip, 5555, "nowplaying");
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
 
-        private async Task<string> GetHistory(string ip)
-        {
+        private async Task<string> GetHistory(string ip) {
             var uriBuilder = new UriBuilder("http", ip, 5555, "history");
 
             return await MakeRequest(uriBuilder.Uri, new TimeSpan(0, 0, 10));
         }
 
-        private async void RightToLeftMarquee()
-        {
+        private async void RightToLeftMarquee() {
             var height = CanMain.ActualHeight - LeftTextBoxMarquee.ActualHeight;
             LeftTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
             RightTextBoxMarquee.Margin = new Thickness(0, height / 2, 0, 0);
@@ -211,15 +192,21 @@ namespace Presentation
             RightTextBoxMarquee.BeginAnimation(Canvas.LeftProperty, rightDoubleAnimation);
         }
 
-        private Size MeasureString(string candidate, TextBlock inputTextBlock)
-        {
-            var formattedText = new FormattedText(candidate, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(inputTextBlock.FontFamily, inputTextBlock.FontStyle, inputTextBlock.FontWeight, inputTextBlock.FontStretch), inputTextBlock.FontSize, Brushes.Black);
+        private Size MeasureString(string candidate, TextBlock inputTextBlock) {
+            var formattedText = new FormattedText(candidate,
+                                                  CultureInfo.CurrentUICulture,
+                                                  FlowDirection.LeftToRight,
+                                                  new Typeface(inputTextBlock.FontFamily,
+                                                               inputTextBlock.FontStyle,
+                                                               inputTextBlock.FontWeight,
+                                                               inputTextBlock.FontStretch),
+                                                  inputTextBlock.FontSize,
+                                                  Brushes.Black);
 
             return new Size(formattedText.Width, formattedText.Height);
         }
 
-        private struct ServerData
-        {
+        private struct ServerData {
             public ObservableCollection<Track> History;
             public Track NowPlaying;
             public ObservableCollection<Track> Playlist;

@@ -1,9 +1,7 @@
 ﻿using WebAPI;
 
-namespace OpenPlaylistServer.Services.Interfaces
-{
-    public interface IPlaybackService
-    {
+namespace OpenPlaylistServer.Services.Interfaces {
+    public interface IPlaybackService {
         void RefreshCurrentVolume();
         float GetCurrentVolume();
         void Play(Track track);

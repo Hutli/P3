@@ -5,10 +5,8 @@ using OpenPlaylistApp.Views;
 using WebAPI;
 using Xamarin.Forms;
 
-namespace OpenPlaylistApp
-{
-    public class HomePage : MasterDetailPage
-    {
+namespace OpenPlaylistApp {
+    public class HomePage : MasterDetailPage {
         public ContentPage searchPage;
         public ContentPage venuePage;
         private readonly ContentPage checkInPage;
@@ -20,8 +18,7 @@ namespace OpenPlaylistApp
         private readonly ToolbarItem tbi1;
         private readonly VenueView venueView;
 
-        public HomePage()
-        {
+        public HomePage() {
             Title = "Home";
 
             playlistView = new PlaylistView();
@@ -29,13 +26,28 @@ namespace OpenPlaylistApp
             venueView = new VenueView();
             checkInView = new CheckInView();
 
-            playlistPage = new ContentPage {Title = "Playlist", Content = playlistView};
+            playlistPage = new ContentPage {
+                Title = "Playlist",
+                Content = playlistView
+            };
 
-            searchPage = new ContentPage {Title = "Search", Content = searchView};
-            venuePage = new ContentPage {Title = "Venues", Content = venueView};
-            checkInPage = new ContentPage {Title = "CheckIn", Content = checkInView};
+            searchPage = new ContentPage {
+                Title = "Search",
+                Content = searchView
+            };
+            venuePage = new ContentPage {
+                Title = "Venues",
+                Content = venueView
+            };
+            checkInPage = new ContentPage {
+                Title = "CheckIn",
+                Content = checkInView
+            };
 
-            detailPage = new NavigationPage(playlistPage) {Title = "Playlist", Icon = "Resources/venueIcon.png"};
+            detailPage = new NavigationPage(playlistPage) {
+                Title = "Playlist",
+                Icon = "Resources/venueIcon.png"
+            };
 
 #if WINDOWS_PHONE
                 tbi1 = new ToolbarItem("Add", "Resources/plussign.png", () => SearchClicked(), 0, 0);
@@ -47,15 +59,16 @@ namespace OpenPlaylistApp
             App.User.VenueChanged += (Venue v) => IsPresented = false;
             App.User.VoteChanged += (Track t) => detailPage.PopToRootAsync();
 
-            Task.Run(async () =>
-                           {
-                               while(true)
-                               {
-                                   await Task.Delay(TimeSpan.FromSeconds(1)); // update from server every second
-                                   if(App.User != null && App.User.Venue != null)
-                                       Device.BeginInvokeOnMainThread((() => { playlistView.GetPlaylist(App.User.Venue); }));
-                               }
-                           });
+            Task.Run(async () => {
+                while(true) {
+                    await Task.Delay(TimeSpan.FromSeconds(1)); // update from server every second
+                    if(App.User != null && App.User.Venue != null) {
+                        Device.BeginInvokeOnMainThread((() => {
+                            playlistView.GetPlaylist(App.User.Venue);
+                        }));
+                    }
+                }
+            });
 
 #if WINDOWS_PHONE
                 venuePage.BackgroundColor = Color.Accent;
@@ -65,26 +78,24 @@ namespace OpenPlaylistApp
             Master = venuePage;
         }
 
-        protected override void OnSizeAllocated(double width, double height)
-        {
+        protected override void OnSizeAllocated(double width, double height) {
             base.OnSizeAllocated(width, height);
 
             App.User.ScreenHeight = height;
             App.User.ScreenWidth = width;
         }
 
-        public void SearchClicked() { detailPage.PushAsync(searchPage); }
+        public void SearchClicked() {
+            detailPage.PushAsync(searchPage);
+        }
 
-        public void BackPressed()
-        {
+        public void BackPressed() {
             if(App.User.Venue != null)
                 detailPage.PopAsync();
         }
 
-        public void CheckedIn(Venue v)
-        {
-            if(v != null)
-            {
+        public void CheckedIn(Venue v) {
+            if(v != null) {
                 Detail = detailPage;
 #if WINDOWS_PHONE
                     ToolbarItems.Add(tbi1);
@@ -94,8 +105,7 @@ namespace OpenPlaylistApp
             }
         }
 
-        public void CheckOut()
-        {
+        public void CheckOut() {
             Detail = checkInPage;
 #if WINDOWS_PHONE
                 ToolbarItems.Remove(tbi1);
