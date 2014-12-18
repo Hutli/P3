@@ -1,15 +1,18 @@
-using System;
 using System.ComponentModel;
-using System.Windows;
-using OpenPlaylistServer.Services.Interfaces;
 using WebAPI;
 
-namespace OpenPlaylistServer.Models {
+namespace OpenPlaylistServer.Models
+{
     public class User : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private float _volume;
         private Vote _vote;
+
+        public User(string id)
+        {
+            Id = id;
+            Volume = 0.5f;
+        }
 
         public string Id { get; private set; }
 
@@ -18,7 +21,8 @@ namespace OpenPlaylistServer.Models {
             get { return _volume; }
             set
             {
-                if (!(value >= 0) || !(value <= 1)) return;
+                if(!(value >= 0) || !(value <= 1))
+                    return;
                 _volume = value;
                 OnPropertyChanged("Volume");
             }
@@ -34,22 +38,15 @@ namespace OpenPlaylistServer.Models {
                 _vote = value;
                 // TODO: Den her linje crasher programmet hvis en anden sang er ved at blive spillet... mystisk
                 OnPropertyChanged("Vote");
-                
             }
         }
 
-        public User(string id) {
-            Id = id;
-            Volume = 0.5f;
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-
-        void OnPropertyChanged(string pName)
+        private void OnPropertyChanged(string pName)
         {
-            if (PropertyChanged != null)
-            {
+            if(PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(pName));
-            }
-        } 
+        }
     }
 }

@@ -1,22 +1,18 @@
-﻿using OpenPlaylistApp.Models;
-using OpenPlaylistApp.ViewModels;
-using System;
-using System.Collections.ObjectModel;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace OpenPlaylistApp.Views
 {
-    class CheckInView : ContentView
+    internal class CheckInView : ContentView
     {
-        private Image image;
+        private readonly Image image;
 
         public CheckInView()
         {
-            #if WINDOWS_PHONE
+#if WINDOWS_PHONE
             image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("Resources/checkin.png")};
 #else
-            image = new Xamarin.Forms.Image { Source = ImageSource.FromFile("checkin") };
-            #endif
+            image = new Image {Source = ImageSource.FromFile("checkin")};
+#endif
             image.Aspect = Aspect.AspectFit;
             Content = image;
             Content.VerticalOptions = LayoutOptions.CenterAndExpand;

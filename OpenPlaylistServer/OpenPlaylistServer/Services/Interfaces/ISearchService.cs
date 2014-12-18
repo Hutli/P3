@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Track = WebAPI.Track;
+using WebAPI;
 
 namespace OpenPlaylistServer.Services.Interfaces
 {

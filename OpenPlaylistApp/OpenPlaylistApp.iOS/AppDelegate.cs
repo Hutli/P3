@@ -1,6 +1,5 @@
 ﻿using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-
 using Xamarin.Forms;
 
 namespace OpenPlaylistApp.iOS
@@ -9,11 +8,10 @@ namespace OpenPlaylistApp.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : UIApplicationDelegate
+    public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        UIWindow _window;
-
+        private UIWindow _window;
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -25,13 +23,9 @@ namespace OpenPlaylistApp.iOS
         {
             Forms.Init();
 
-            _window = new UIWindow(UIScreen.MainScreen.Bounds)
-            {
-                RootViewController = App.GetMainPage().CreateViewController()
-                
-            };
+            _window = new UIWindow(UIScreen.MainScreen.Bounds) {RootViewController = App.GetMainPage().CreateViewController()};
             _window.MakeKeyAndVisible();
-            
+
             return true;
         }
     }

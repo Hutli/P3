@@ -1,54 +1,36 @@
-﻿using Newtonsoft.Json;
-using OpenPlaylistApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using OpenPlaylistApp.Models;
 using WebAPI;
-using Xamarin.Forms;
 
 namespace OpenPlaylistApp.ViewModels
 {
     public class NowPlayingViewModel : INotifyPropertyChanged
     {
+        public NowPlayingViewModel(Venue venue) { GetResult(venue); }
+        public Track Result { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action LoadComplete;
 
-        public Track Result
+        public async void GetResult(Venue venue)
         {
-            get;
-            set;
-        }
-
-        public NowPlayingViewModel(Venue venue)
-        {
-            GetResult(venue);
-        }
-
-        async public void GetResult(Venue venue)
-        {
-            Session session = Session.Instance();
+            var session = Session.Instance();
             try
             {
                 var json = await session.GetNowPlaying(venue);
 
-                if (json == "Nothing currently playing")
-                {
+                if(json == "Nothing currently playing")
                     return;
-                    //throw new Exception("GetNowPlaying failed");
-                }
                 App.Home.IsBusy = false;
                 Result = (Track)JsonConvert.DeserializeObject(json, typeof(Track));
-                if (App.User.Vote != null && Result.Equals(App.User.Vote))
+                if(App.User.Vote != null && Result.Equals(App.User.Vote))
                     App.User.Vote = null;
                 LoadComplete();
-            }
-            catch (Exception ex)
+            } catch(Exception)
             {
                 //App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
         }
     }
 }
-

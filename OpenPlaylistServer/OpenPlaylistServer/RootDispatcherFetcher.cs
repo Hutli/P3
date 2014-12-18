@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
 
-
 namespace OpenPlaylistServer
 {
     public static class RootDispatcherFetcher
@@ -10,18 +9,9 @@ namespace OpenPlaylistServer
 
         public static Dispatcher RootDispatcher
         {
-            get
-            {
-                return _rootDispatcher ??
-                                  (Application.Current != null
-                                      ? Application.Current.Dispatcher
-                                      : Dispatcher.CurrentDispatcher);
-            }
+            get { return _rootDispatcher ?? (Application.Current != null ? Application.Current.Dispatcher : Dispatcher.CurrentDispatcher); }
             // unit tests can get access to this via InternalsVisibleTo
-            internal set
-            {
-                _rootDispatcher = value;
-            }
+            internal set { _rootDispatcher = value; }
         }
     }
 }

@@ -1,33 +1,28 @@
-﻿using libspotifydotnet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using libspotifydotnet;
 
 namespace SpotifyDotNet
 {
     public class SearchResult : IDisposable
     {
-        private IntPtr _searchPtr;
-
-        public List<Track> Tracks { get; private set; }
+        private readonly IntPtr _searchPtr;
 
         internal SearchResult(IntPtr searchPtr)
         {
             Tracks = new List<Track>();
             _searchPtr = searchPtr;
-            int numTracks = libspotify.sp_search_num_tracks(searchPtr);
-         
-            for (int i = 0; i < numTracks; i++)
+            var numTracks = libspotify.sp_search_num_tracks(searchPtr);
+
+            for(var i = 0; i < numTracks; i++)
             {
-                IntPtr trackPtr = libspotify.sp_search_track(searchPtr, i);
-                Track track = new Track(trackPtr);
+                var trackPtr = libspotify.sp_search_track(searchPtr, i);
+                var track = new Track(trackPtr);
                 Tracks.Add(track);
             }
         }
 
-        ~SearchResult()
-        {
-            Dispose();
-        }
+        private List<Track> Tracks { get; set; }
 
         public void Dispose()
         {
@@ -35,5 +30,7 @@ namespace SpotifyDotNet
 
             GC.SuppressFinalize(this);
         }
+
+        ~SearchResult() { Dispose(); }
     }
 }

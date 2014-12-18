@@ -6,31 +6,36 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="RestrictionDialog" Height="300" Width="265">
     <Window.Resources>
-        <converter:EnumToBoolConverter x:Key="EBConverter"/>
+        <converter:EnumToBoolConverter x:Key="EBConverter" />
     </Window.Resources>
     <Grid>
-        <TextBox Text="{Binding Titles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Titles:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="Artists:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="59,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.567,0.913"/>
-        <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,72,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" IsChecked="{Binding RestrictionType, 
+        <TextBox Text="{Binding Titles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                 Height="23" Margin="59,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+        <Label Content="Titles:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+        <Label Content="Artists:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Artists, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                 Height="23" Margin="59,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"
+                 RenderTransformOrigin="0.567,0.913" />
+        <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,41,0,0" VerticalAlignment="Top" />
+        <Label Content="(optional)" HorizontalAlignment="Left" Margin="179,72,0,0" VerticalAlignment="Top" />
+        <RadioButton GroupName="Type"
+                     IsChecked="{Binding RestrictionType, 
             Converter={StaticResource EBConverter}, 
-            ConverterParameter={x:Static local:RestrictionType.WhiteList}}" 
-            Content="Whitelist" HorizontalAlignment="Left" Margin="59,108,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="Type" IsChecked="{Binding RestrictionType, 
+            ConverterParameter={x:Static local:RestrictionType.WhiteList}}"
+                     Content="Whitelist" HorizontalAlignment="Left" Margin="59,108,0,0" VerticalAlignment="Top" />
+        <RadioButton GroupName="Type"
+                     IsChecked="{Binding RestrictionType, 
             Converter={StaticResource EBConverter}, 
-            ConverterParameter={x:Static local:RestrictionType.BlackList}}" 
-                     Content="Blacklist" HorizontalAlignment="Left" Margin="59,129,0,0" VerticalAlignment="Top"/>
-        <Label Content="Type:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <Label Content="(required)" HorizontalAlignment="Left" Margin="179,111,0,0" VerticalAlignment="Top"/>
-        <xctk:DateTimeUpDown Value="{Binding StartTime, Mode=TwoWay}"  Format="ShortTime" Margin="81,150,77,92" />
-        <xctk:DateTimeUpDown Value="{Binding EndTime, Mode=TwoWay}"  Format="ShortTime" Margin="81,182,77,61" />
-        <Label Content="Start Time:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
-        <Label Content="End Time:" HorizontalAlignment="Left" Margin="10,182,0,0" VerticalAlignment="Top"/>
-        <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,150,0,0" VerticalAlignment="Top"/>
-        <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,177,0,0" VerticalAlignment="Top"/>
-        
+            ConverterParameter={x:Static local:RestrictionType.BlackList}}"
+                     Content="Blacklist" HorizontalAlignment="Left" Margin="59,129,0,0" VerticalAlignment="Top" />
+        <Label Content="Type:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" />
+        <Label Content="(required)" HorizontalAlignment="Left" Margin="179,111,0,0" VerticalAlignment="Top" />
+        <xctk:DateTimeUpDown Value="{Binding StartTime, Mode=TwoWay}" Format="ShortTime" Margin="81,150,77,92" />
+        <xctk:DateTimeUpDown Value="{Binding EndTime, Mode=TwoWay}" Format="ShortTime" Margin="81,182,77,61" />
+        <Label Content="Start Time:" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" />
+        <Label Content="End Time:" HorizontalAlignment="Left" Margin="10,182,0,0" VerticalAlignment="Top" />
+        <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,150,0,0" VerticalAlignment="Top" />
+        <Label Content="(optional)" HorizontalAlignment="Left" Margin="180,177,0,0" VerticalAlignment="Top" />
+
     </Grid>
 </Window>
