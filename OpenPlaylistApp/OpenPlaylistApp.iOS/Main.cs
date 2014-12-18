@@ -6,7 +6,7 @@ namespace OpenPlaylistApp.iOS {
         private static void Main(string[] args) {
             var uid = UIDevice.CurrentDevice.IdentifierForVendor.AsString();
             App.User.Id = uid;
-            ;
+            
 
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.

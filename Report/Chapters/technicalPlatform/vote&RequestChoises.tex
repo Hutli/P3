@@ -1,4 +1,4 @@
-\section{Voting and Requesting}
+\section{Voting}
 \label{VotingAndRequesting}
 In the interviews that were conducted with potential users, it was expressed that most people found it distracting and annoying when other people at social venues were using their smartphones too much, instead of interacting with each other at the venue, and that this is a frequent phenomena.
 
@@ -6,5 +6,3 @@ Following this approach it was decided that the user will only get one vote per 
 The users can change their vote as they like, but can only ever have one active vote on a single track.
 When the track that is playing comes to an end, information is gathered, about which tracks are voted for, and the votes are saved permanently.
 The users, who voted on the track that was chosen as the next to be played, will have their votes reset. The other users’ votes will remain the same, as they are most likely still relevant.
-
-To simplify the request system, the implementation is based on the concept of \cref{FACTORObjects}. This implementation results in that when a track, that is not on the playlist, gets a vote it is added to the playlist. If a track has 0 votes it is removed from the playlist. This means that tracks that have not been requested do not appear on the playlist.

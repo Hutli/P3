@@ -3,13 +3,14 @@ To concretise the system which is described in this report, this section will pr
 
 \subsection{FACTOR}
 \label{FACTOR}
-FACTOR is a list of criteria that can be use in the process of creating a system definition. This is done by checking the definition against the criteria \cite{mathiassen2001objektorienteret}. A FACTOR were created though the current knowledge of the system. This was done to list and organise the system and domain of where the system should be implemented.
+FACTOR is a list of criteria that can be used in the process of creating a system definition. A FACTOR was created through the current knowledge of the system. This was done to list and organise the system and domain of where the system should be implemented.
+
 This was created on the basis of \citetitle{sorensen2012}~\cite{sorensen2012}, adding additional concepts from the rest of the state of the art confirmed by requirements from both the guests and administrators, found in \cref{sub:administersinterviews} and \cref{userInterviews}, or otherwise argued for.
 \subsubsection{Functionality}
 \label{subsub:functionality}
 The functionality is what the system should be able to do. These are mainly formed from the requirements, given by both the administrators and guests.
 \begin{itemize}
-    \item Enable users to submit votes. Building on the base principle of \citetitle{sorensen2012}~\cite{sorensen2012} described in \cref{MDCI} users should be able to interact with the system, in order to cater to their music preferences. This was also confirmed by guests of a venue, as a good idea in \cref{ProposalsForGuestControlledMusic}. From the principle of voting in \cref{Voting}, it was chosen that the best way to do this fairly and dynamically (see \cref{sub:problemStatement}) was through votes. This was done, since votes enable every user to have the possibility to have equal say in what is to be played, while still rewarding more active users, hence fair and equal possibilities for all guests. This also makes it possible to implement dynamic voting since votes can be changed or reset as desired.
+    \item Enable users to submit votes. Building on the base principle of \citetitle{sorensen2012}~\cite{sorensen2012}, described in \cref{MDCI}, users should be able to interact with the system, in order to cater to their music preferences. This was also confirmed by guests of a venue, as a good idea in \cref{ProposalsForGuestControlledMusic}. From the principle of voting in \cref{Voting}, it was chosen that the best way to do this fairly and dynamically (see \cref{sub:problemStatement}) was through votes. This was done, since votes enable every user to have the possibility to have equal say in what is to be played, while still rewarding more active users, hence fair and equal possibilities for all guests. This also makes it possible to implement dynamic voting since votes can be changed or reset as desired.
     \item Administrative overriding of playlist ordering. This concept was described in \cref{AdministrativeEditingofPlaylist} and was decided to be used from the requirements, found in the interviews with administrators, described in \cref{sub:administersinterviews}.
     \item Limit the track space which the users can search in, at any given time. This principle was described in \cref{sub:auto_rearrange_playlist}. This concept is included, due to the requirements in \cref{sub:administersinterviews}.
 		\item Ensure continuous playback of music. One criteria for the system in \citetitle{sorensen2012}~\cite{sorensen2012} was that the music should never stop playing. This was also confirmed in the interviews, expressed in \cref{sub:specific_remarks}, where all bars expressed that the music should not stop playing, unless it was intentional from the administrators, even if the playlist was empty and/or no one had voted for anything. An extension of this concept was found in \cref{sub:auto_rearrange_playlist}, where the application Mixgar automatically adds tracks to the playlist from analysing the party’s mood curve from the users votes, social media accounts and the previously played tracks. This will be looked further into in \cref{sec:algorithm}.
@@ -19,36 +20,35 @@ The functionality is what the system should be able to do. These are mainly form
 \end{itemize}
 
 \subsubsection{Application Domain}
-The application domain describes what administrators should be able to model in the system. This is found from the interviews with administrators in \cref{sub:administersinterviews}.
+The application domain describes work flows of the administrators. These were determined from the concepts, described in \cref{StateOfTheArt} and confirmed in interviews made with administrators in \cref{sub:administersinterviews}.
 \begin{itemize}
-    \item Administration of tracks and votes. Remove and restrict tracks
-    \item The order of the tracks on the playlist. They should freely be able to move tracks up and down the playlist as desired
-    \item Playback of the playlist. This includes play, skip track, pause and stop
+    \item Restrict tracks
+		\item Reorder and edit the playlist
+    \item Play, pause and stop music
 \end{itemize}
 
 \subsubsection{Conditions}
-These are the conditions, either found in the interviews or dictated by the environment, analysed in state of the art.
+These are the conditions for, either the development or usage of, the system. These were either found, in the interviews in \cref{sub:administersinterviews,userInterviews}, or dictated, by the environment, dictated by the concepts in \cref{StateOfTheArt}.
 \begin{itemize}
   \item The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users
-  \item Limitation of what music is allowed at the venue
-  \item Has to keep track of which users are on location
+	\item The client should be accessible for a wide target group
+	\item The system should support multiple users concurrently
+	\item The system should be developed in collaboration with administrators of a venue
 \end{itemize}
 
 \subsubsection{Technology}
 The technology needed for the system to be fully functional.
 \begin{itemize}
-    \item Smartphone - For users to interact with the system. A
-      prototype is presented in \cref{paper_prototype}
-    \item Computer - For playing music and storing the playlist, history and votes
-		\item Situated display - For the presentation interface
+    \item Smartphone, used to interact with the system
+    \item Computer, used for playing music and storing the playlist, history and votes
+		\item Situated display, used for the presentation interface
     \item Internet
-    \item Digital music library
+    \item Digital music catalogue
 \end{itemize}
 
 \subsubsection{Objects}
 \label{FACTORObjects}
-The objects modelled by the system.
-Requests are not modelled as a object for itself. A unifying concept of vote and request was derived from the ideas of voting and requesting from \cref{StateOfTheArt}. In this concept, votes and request are the same thing. This is done by perceiving all tracks in the music catalogue of the venue, as being eligible for votes, but only tracks with at least one vote will be put on the playlist. This voids the need for requests, while still keeping the functionality, and simplifying the whole system. For these reasons, the rest of the project will work under this unified concept, and will refer to user requests as votes.
+The objects modelled in the problem domain.
 \begin{itemize}
   \item Track
   \item Vote
@@ -58,12 +58,13 @@ Requests are not modelled as a object for itself. A unifying concept of vote and
   \item Restriction
   \item Administrator
 \end{itemize}
+Requests are not modelled as a object for itself. A unifying concept of vote and request was derived from the ideas of voting and requesting from \cref{StateOfTheArt}. In this concept, votes and request are the same thing. This is done by perceiving all tracks in the music catalogue of the venue, as being eligible for votes, but only tracks with at least one vote will be put on the playlist. This voids the need for requests, while still keeping the functionality, and simplifying the whole system. For these reasons, the rest of the project will work under this unified concept, and will refer to user requests as votes.
 
 \subsubsection{Responsibility}
 The responsibility the system will have in the context of a venue.
 \begin{itemize}
   \item User influence on music playback
-  \item Administrative control for the venue
+  \item Administrative control and restriction, for the venue
 \end{itemize}
 
 \subsection{System Definition}\label{sub:systemDefinition}
