@@ -1,9 +1,9 @@
 \section{Implementing the User Interface}\label{sec:impinterface}
-As stated in \cref{sec:serverInterface} the usability of the server interface was not consideret. Therefore this section focus on explaining how previously explained functionality is implemented and can be achieved by the administrator.
+As stated in \cref{sec:serverInterface} the usability of the server interface was not considered. Therefore this section focus on explaining how previously explained functionality is implemented and can be achieved by the administrator.
 
 The first screen the administrator meets when opening the application is the login screen for spotify, as seen in \cref{fig:loginInterface}. Here the administrator inputs the login credentials for the venues Business Spotify Account (see \cref{ch:preface} for legal terms). This is used to get the data needed to play songs from spotify's catalogue. From this interface the administrators and stop and start the playback of music as described in \cref{systemDefinition}. Also the icon for the application acts as a skip button where administrators can skip the currently playing track.
 
-\begin{figure}[H]\label{fig:loginInterface}
+\begin{figure}[H]
   \centering
   \subfloat{
     \includegraphics[width=0.5\textwidth]{ServerInterfaceLogin}
@@ -11,7 +11,7 @@ The first screen the administrator meets when opening the application is the log
   \subfloat{
     \includegraphics[width=0.5\textwidth]{ServerInterfaceLoggedin}
   }
-  \caption{Login interface on the server.}
+  \caption{Login interface on the server.}\label{fig:loginInterface}
 \end{figure}
 
 The second interface is the playlist and can be seen in \cref{fig:ServerInterfacePlaylist}. Here the most crucial information about tracks on the playlist can be seen; the title, artist(s), duration (in milliseconds), temporary and permanent votes. The album cover is also displayed for the ability to quickly identify tracks. The playlist is ordered in the order they will be played, the higher a placement, the sooner it will be played. From this interface further administrative control can be executed including removal of specific tracks and rearrangement of the playlist as described in \cref{systemDefinition}. When pressing the move up or move down button the currently selected track changes one position, this is done through changing the permanent votes just enough for the track to change place.
