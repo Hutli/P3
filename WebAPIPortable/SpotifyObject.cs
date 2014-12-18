@@ -19,7 +19,7 @@ namespace WebAPI
         public string Id
         {
             get { return _id; }
-            protected set { _id = value; }
+            set { _id = value; }
         }
 
         [JsonProperty]

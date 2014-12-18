@@ -62,9 +62,9 @@ namespace OpenPlaylistApp.ViewModels
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {
-            if(App.User.Vote != null)
+            if (OpenPlaylistApp.App.User.Vote != null)
             {
-                var selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(App.User.Vote.Id));
+                var selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(OpenPlaylistApp.App.User.Vote.Id));
 
                 if(selectedTrack != null)
                     selectedTrack.IsSelected = true;
@@ -75,8 +75,10 @@ namespace OpenPlaylistApp.ViewModels
             {
                 if(i < Results.Count)
                 {
-                    if(!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
+                    if (!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
+                    {
                         Results[i] = newData[i];
+                    }
                 } else
                     Results.Add(newData[i]);
             }

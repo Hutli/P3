@@ -92,7 +92,7 @@ namespace OpenPlaylistServer.Services.Implementation
             var topTracks = Request.Get(String.Format("https://api.spotify.com/v1/artists/{0}/top-tracks?country=DK", mostAppearing.Key)).Result;
             var jTopTracks = JObject.Parse(topTracks);
 
-            var uris = jTopTracks["tracks"].Select(trackToken => (string)trackToken["Uri"]);
+            var uris = jTopTracks["tracks"].Select(trackToken => (string)trackToken["uri"]);
             var uri = uris.FirstOrDefault(t => !lastTracks.Select(x => x.Uri).Contains(t));
             return WebAPIMethods.GetTrack(uri);
         }

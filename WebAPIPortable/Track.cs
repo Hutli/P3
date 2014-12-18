@@ -41,7 +41,7 @@ namespace WebAPI
             }
         }
 
-        private string Isrc { get; set; }
+        public string Isrc { get; set; }
         public bool IsFiltered { get; set; }
         private string PreviewUrl { get; set; }
         public int Duration { get; private set; }
@@ -81,8 +81,12 @@ namespace WebAPI
 
         public override bool Equals(object obj)
         {
-            if(obj.GetType() == typeof(Track))
-                return (((Track)obj).Id == Id || ((Track)obj).Isrc == Isrc);
+            if (obj != null)
+            {
+                var track = obj as Track;
+                if (track != null)
+                    return track.Id.Equals(Id) || track.Isrc.Equals(Isrc);
+            }
             return false;
         }
 

@@ -31,7 +31,7 @@ namespace WebAPI
                 var duration = (int)(jsonTrack["duration_ms"]);
                 var isExplicit = (bool)jsonTrack["explicit"];
                 var trackNumber = (int)(jsonTrack["track_number"]);
-                var previewUrl = (string)(jsonTrack["preview_Url"]);
+                var previewUrl = (string)(jsonTrack["preview_url"]);
 
                 var tmpArtists = GetArtists(jsonTrack["artists"], artists);
 
@@ -57,7 +57,7 @@ namespace WebAPI
             var duration = (int)(jsonTrack["duration_ms"]);
             var isExplicit = (bool)jsonTrack["explicit"];
             var trackNumber = (int)(jsonTrack["track_number"]);
-            var previewUrl = (string)(jsonTrack["preview_Url"]);
+            var previewUrl = (string)(jsonTrack["preview_url"]);
 
             var tmpArtists = GetArtists(jsonTrack["artists"], artists);
 

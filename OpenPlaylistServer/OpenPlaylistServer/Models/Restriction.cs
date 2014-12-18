@@ -75,7 +75,7 @@ namespace OpenPlaylistServer.Models
             }
         }
 
-        private DateTime StartTime
+        public DateTime StartTime
         {
             get { return _startTime; }
             set
@@ -86,7 +86,7 @@ namespace OpenPlaylistServer.Models
             }
         }
 
-        private DateTime EndTime
+        public DateTime EndTime
         {
             get { return _endTime; }
             set

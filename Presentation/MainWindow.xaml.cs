@@ -54,19 +54,22 @@ namespace Presentation
                            });
         }
 
-        private ObservableCollection<Track> Playlist
+        public ObservableCollection<Track> Playlist
         {
             get { return _playlist; }
-            set { _playlist = value; }
         }
 
-        private ObservableCollection<Track> History
+        public ObservableCollection<Track> History
         {
             get { return _history; }
-            set { _history = value; }
         }
 
-        private string Ip { get; set; }
+        public Track NowPlaying
+        {
+            get { return _nowPlaying; }
+        }
+
+        public string Ip { get; set; }
 
         private async Task<ServerData> GetResults(string ip)
         {

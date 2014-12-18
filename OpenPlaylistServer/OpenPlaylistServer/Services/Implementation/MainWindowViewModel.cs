@@ -27,7 +27,7 @@ namespace OpenPlaylistServer.Services.Implementation
             _restrictionService = restrictionService;
         }
 
-        private ObservableCollection<User> Users
+        public ObservableCollection<User> Users
         {
             get { return _userService.Users; }
         }
