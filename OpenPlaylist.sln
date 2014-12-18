@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{C7A060F0-6AEC-4785-A433-34F152122CAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{2DE8C8E7-CE29-4610-8538-2607BEC3965C}"
-	ProjectSection(SolutionItems) = preProject
-		OpenPlaylistServer\OpenPlaylistServer\User.cs = OpenPlaylistServer\OpenPlaylistServer\User.cs
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenPlaylistServer", "OpenPlaylistServer\OpenPlaylistServer\OpenPlaylistServer.csproj", "{2F5748F5-AE2A-4680-889C-1F6E1EC0B846}"
 EndProject
