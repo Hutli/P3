@@ -1,34 +1,32 @@
 ﻿//using Android.App;
 
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using OpenPlaylistApp.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using WebAPI;
-using Xamarin.Forms;
 
 namespace OpenPlaylistApp.ViewModels
 {
     public class PlaylistViewModel : BaseViewModel
     {
-        public event Action LoadComplete;
-
         private ObservableCollection<Track> _results = new ObservableCollection<Track>();
+        private Track _selectedItem;
+        public PlaylistViewModel() { App.User.VoteChanged += VoteChanged; }
 
         public ObservableCollection<Track> Results
         {
             get { return _results; }
-            set { _results = value; OnPropertyChanged("Results"); }
+            set
+            {
+                _results = value;
+                OnPropertyChanged("Results");
+            }
         }
 
-        private Track _selectedItem;
         /// <summary>
-        /// Gets or sets the selected feed item
+        ///     Gets or sets the selected feed item
         /// </summary>
         public Track SelectedItem
         {
@@ -40,26 +38,22 @@ namespace OpenPlaylistApp.ViewModels
             }
         }
 
-        public PlaylistViewModel()
-        {
-            App.User.VoteChanged += VoteChanged;
-        }
+        public event Action LoadComplete;
 
         private void VoteChanged(Track inputTrack)
         {
-            Track oldSelected = Results.FirstOrDefault(p => p.IsSelected);
-            Track newSelected = Results.FirstOrDefault(p => p.Id.Equals(inputTrack.Id));
-            if (oldSelected != null)
+            var oldSelected = Results.FirstOrDefault(p => p.IsSelected);
+            var newSelected = Results.FirstOrDefault(p => p.Id.Equals(inputTrack.Id));
+            if(oldSelected != null)
             {
                 oldSelected.IsSelected = false;
                 Results[Results.IndexOf(oldSelected)] = oldSelected;
             }
-            if (newSelected != null)
+            if(newSelected != null)
             {
                 newSelected.IsSelected = true;
                 Results[Results.IndexOf(newSelected)] = newSelected;
-            }
-            else
+            } else
             {
                 inputTrack.IsSelected = true;
                 Results.Add(inputTrack);
@@ -68,92 +62,36 @@ namespace OpenPlaylistApp.ViewModels
 
         private void UpdateResults(ObservableCollection<Track> newData)
         {
-            if (App.User.Vote != null)
+            if (OpenPlaylistApp.App.User.Vote != null)
             {
-                Track selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(App.User.Vote.Id));
+                var selectedTrack = newData.FirstOrDefault(p => p.Id.Equals(OpenPlaylistApp.App.User.Vote.Id));
 
-                if (selectedTrack != null)
+                if(selectedTrack != null)
                     selectedTrack.IsSelected = true;
             }
 
             int i;
-            for (i = 0; i < newData.Count; i++)
+            for(i = 0; i < newData.Count; i++)
             {
-                if (i < Results.Count)
+                if(i < Results.Count)
                 {
                     if (!newData[i].Equals(Results[i]) || newData[i].TotalScore != Results[i].TotalScore)
                     {
                         Results[i] = newData[i];
                     }
-                }
-                else
-                {
+                } else
                     Results.Add(newData[i]);
-                }
             }
-            while (i < Results.Count)
-            {
+            while(i < Results.Count)
                 Results.RemoveAt(i);
-            }
 
-            //var toAdd = tmpNewData.FindAll(p => !tmpResults.Contains(p));
-            //var toRemove = tmpResults.FindAll(p => !tmpNewData.Contains(p));
-
-            //foreach (Track t in Results)
-            //{
-            //    var tmpTrack = tmpNewData.FirstOrDefault(p => p.Equals(t));
-            //    if (tmpTrack != null && tmpTrack.TotalScore != t.TotalScore)
-            //    {
-            //        toRemove.Add(t);
-            //        toAdd.Add(tmpTrack);
-            //    }
-            //}
-
-            //foreach (Track t in toRemove)
-            //    Results.Remove(t);
-
-            //foreach (Track t in toAdd)
-            //    Results.Add(t);
-
-            //if (Results.Contains(SelectedItem))
-            //{
-            //    Track tmpTrack = Results.First(p => p.Equals(SelectedItem));
-            //    if (!tmpTrack.IsSelected)
-            //    {
-            //        SelectedItem = tmpTrack;
-            //        tmpTrack.IsSelected = true;
-            //        Results.Remove(tmpTrack);
-            //        Results.Add(tmpTrack);
-            //    }
-            //}
-
-            //tmpResults = new List<Track>(Results);
-            //tmpResults.Sort((x, y) => x.TotalScore.CompareTo(y.TotalScore));
-            //Results = new ObservableCollection<Track>(tmpResults);
-
-            //ObservableCollection<Track> tmpListResults = (ObservableCollection<Track>)Results;
-            //bool evalBool = false;
-            //if (tmpListResults.Count == Results.Count)
-            //{
-            //    for (int i = 0; i < tmpListResults.Count; i++)
-            //    {
-            //        if (!tmpListResults[i].Equals(Results[i]))
-            //        {
-            //            evalBool = true;
-            //            break;
-            //        }
-            //    }
-            //}
-            //else { evalBool = true; }
-            //if (evalBool) { Results = tmpListResults; }
-
-            this.OnPropertyChanged("TotalScore");
+            OnPropertyChanged("TotalScore");
         }
 
-        async public void GetResults(Venue venue)
+        public async void GetResults(Venue venue)
         {
-            Session session = Session.Instance();
-            ObservableCollection<Track> returnValue = new ObservableCollection<Track>();
+            var session = Session.Instance();
+            var returnValue = new ObservableCollection<Track>();
             try
             {
                 var json = await session.GetPlaylist(venue);
@@ -162,12 +100,9 @@ namespace OpenPlaylistApp.ViewModels
                 UpdateResults(returnValue);
 
                 LoadComplete();
-            }
-            catch (Exception ex)
+            } catch(Exception)
             {
-                //App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
         }
     }
 }
-

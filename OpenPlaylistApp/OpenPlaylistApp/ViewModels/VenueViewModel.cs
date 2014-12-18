@@ -1,44 +1,35 @@
-﻿using Newtonsoft.Json.Linq;
-using OpenPlaylistApp.Models;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Newtonsoft.Json.Linq;
+using OpenPlaylistApp.Models;
 
 namespace OpenPlaylistApp.ViewModels
 {
     public class VenueViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<Venue> Results
-        {
-            get;
-            set;
-        }
-
         public VenueViewModel()
         {
             Results = new ObservableCollection<Venue>();
             GetResults();
         }
 
-        async void GetResults()
+        public ObservableCollection<Venue> Results { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private async void GetResults()
         {
-            Session session = Session.Instance();
+            var session = Session.Instance();
             try
             {
                 var str = await session.GetVenues();
-                JArray v = JArray.Parse(str);
-                foreach (var item in v)
-                {
+                var v = JArray.Parse(str);
+                foreach(var item in v)
                     Results.Add(new Venue((string)item["name"], (string)item["detail"], (string)item["ip"], (string)item["iconUrl"]));
-                }
-            }
-            catch (Exception ex)
+            } catch(Exception ex)
             {
                 App.GetMainPage().DisplayAlert("Error", ex.Message, "OK", "Cancel");
             }
         }
     }
 }
-

@@ -5,18 +5,12 @@ namespace OpenPlaylistApp.Models
 {
     public class User
     {
-        public event Action<Venue> VenueChanged;
-        public event Action<Track> VoteChanged;
-
-        public double ScreenWidth { get; set; }
-
-        public double ScreenHeight { get; set; }
-
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-
+        private Venue _venue;
         private Track _vote;
+        public double ScreenWidth { get; set; }
+        public double ScreenHeight { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
 
         public Track Vote
         {
@@ -28,21 +22,18 @@ namespace OpenPlaylistApp.Models
             }
         }
 
-        private Venue _venue;
-
         public Venue Venue
         {
             get { return _venue; }
             set
             {
                 _venue = value;
-                if (VenueChanged != null)
+                if(VenueChanged != null)
                     VenueChanged(_venue);
             }
         }
 
-        public User()
-        {
-        }
+        public event Action<Venue> VenueChanged;
+        public event Action<Track> VoteChanged;
     }
 }

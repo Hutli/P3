@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using Nancy;
+﻿using Nancy;
 using Newtonsoft.Json;
 using OpenPlaylistServer.Services.Interfaces;
-using WebAPI;
 
 namespace OpenPlaylistServer.Endpoints
 {

@@ -1,19 +1,19 @@
 ﻿using Newtonsoft.Json;
 
-namespace WebAPI {
+namespace WebAPI
+{
     [JsonObject(MemberSerialization.OptOut)]
-	public class Image {
-	    public Image (int height, int width, string url) {
-			Height = height;
-			Width = width;
-			URL = url;
-		}
+    public class Image
+    {
+        public Image(int height, int width, string url)
+        {
+            Height = height;
+            Width = width;
+            Url = url;
+        }
 
-	    public int Height { get; private set; }
-
-	    public int Width { get; private set; }
-
-	    public string URL { get; private set; }
-	}
+        private int Height { get; set; }
+        private int Width { get; set; }
+        public string Url { get; private set; }
+    }
 }
-

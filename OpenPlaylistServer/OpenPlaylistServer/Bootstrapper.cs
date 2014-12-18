@@ -5,9 +5,6 @@ namespace OpenPlaylistServer
 {
     public class Bootstrapper : StructureMapNancyBootstrapper
     {
-        protected override IContainer GetApplicationContainer()
-        {
-            return ObjectFactory.Container;
-        }
+        protected override IContainer GetApplicationContainer() { return ObjectFactory.Container; }
     }
 }

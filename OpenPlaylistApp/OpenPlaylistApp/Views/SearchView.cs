@@ -1,47 +1,40 @@
 ﻿using System;
-using OpenPlaylistApp.ViewModels;
-using Xamarin.Forms;
 using OpenPlaylistApp.Models;
+using OpenPlaylistApp.ViewModels;
 using WebAPI;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 namespace OpenPlaylistApp.Views
 {
     public class SearchView : ContentView
     {
-        SearchBar searchBar = new SearchBar();
-        ListView listView = new ListView();
+        private readonly ActivityIndicator activity = new ActivityIndicator {IsEnabled = true};
+        private readonly StackLayout layout = new StackLayout();
+        private readonly ListView listView = new ListView();
         //private CurrentVoteView currentVoteView = new CurrentVoteView();
-        private Button nextResultsButton = new Button { Text = "More results" };
-        StackLayout layout = new StackLayout();
-        ActivityIndicator activity = new ActivityIndicator { IsEnabled = true };
-
-        private SearchViewModel searchViewModel
-        {
-            get { return BindingContext as SearchViewModel; }
-        }
+        private readonly Button nextResultsButton = new Button {Text = "More results"};
+        private readonly SearchBar searchBar = new SearchBar();
 
         public SearchView()
         {
-            Session session = Session.Instance();
+            var session = Session.Instance();
 
             BindingContext = new SearchViewModel();
             listView.ItemsSource = searchViewModel.Results;
             listView.ItemTemplate = new TrackTemplate();
             listView.HasUnevenRows = true;
 
-            activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            activity.SetBinding(IsVisibleProperty, "IsBusy");
             activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
             listView.ItemTapped += (sender, args) =>
-            {
-                Track track = listView.SelectedItem as Track;
-                if (track.IsFiltered)
-                    App.GetMainPage().DisplayAlert("Track Unavalable", "Track is unfortunately filtered and not available at this venue", "OK", "Cancel");
-                else
-                    session.ItemSelected(sender, args);
-            }; //Vote
+                                   {
+                                       var track = listView.SelectedItem as Track;
+                                       if(track.IsFiltered)
+                                           App.GetMainPage().DisplayAlert("Track Unavalable", "Track is unfortunately filtered and not available at this venue", "OK", "Cancel");
+                                       else
+                                           session.ItemSelected(sender, args);
+                                   }; //Vote
             searchBar.SearchButtonPressed += SearchButtonPressed;
 
             layout.Children.Add(searchBar);
@@ -50,15 +43,21 @@ namespace OpenPlaylistApp.Views
             Content = layout;
         }
 
-        void SearchButtonPressed(object sender, EventArgs e)
+        private SearchViewModel searchViewModel
+        {
+            get { return BindingContext as SearchViewModel; }
+        }
+
+        private void SearchButtonPressed(object sender, EventArgs e)
         {
             searchViewModel.GetResults(((SearchBar)sender).Text);
-            if (nextResultsButton == null) return;
+            if(nextResultsButton == null)
+                return;
             layout.Children.Add(nextResultsButton);
             nextResultsButton.Clicked += nextResultsButton_Clicked;
         }
 
-        void nextResultsButton_Clicked(object sender, EventArgs e)
+        private void nextResultsButton_Clicked(object sender, EventArgs e)
         {
             searchViewModel.resultCount += 20;
             searchViewModel.GetResultsAndAppend(searchBar.Text, searchViewModel.resultCount);

@@ -6,7 +6,7 @@ namespace OpenPlaylistServer.Services.Implementation
 {
     public class UserService : IUserService
     {
-        readonly ObservableCollection<User> _users;
+        private readonly ObservableCollection<User> _users;
 
         public UserService()
         {
@@ -16,9 +16,7 @@ namespace OpenPlaylistServer.Services.Implementation
 
         public ObservableCollection<User> Users
         {
-            get {
-                return _users;
-            }
+            get { return _users; }
         }
 
         public void Add(User user)
