@@ -1,0 +1,24 @@
+\input{setup/preamble}
+
+\setbeamertemplate{section page}
+{
+	\thispagestyle{empty}
+	\frame{
+  \aauwavesbg
+  \finalpage{\insertsection\par}
+	}
+}
+\AtBeginSection{\sectionpage}
+
+\begin{document}
+
+\input{slides/introduktion}
+\input{slides/videnssamling}
+\input{slides/analyse}
+\input{slides/problemformulering}
+\input{slides/design}
+\input{slides/kvalitetssikring}
+\input{slides/konklusion}
+\input{slides/perspektivering}
+
+\end{document}
