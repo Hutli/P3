@@ -1,13 +1,73 @@
-\section{Introduction}
-\begin{frame}{Introduction}
-	%Bullshit
+\section{Introduktion}
+
+%%%%%%%%%%%%%%%
+%Generelt
+\subsection{Generelt}
+\begin{frame}{Generelt}
+	\begin{itemize}
+		\item Object Orienteret Analyse og Design
+	\end{itemize}
 \end{frame}
 
-\subsection{What is openPlaylist?}
-\begin{frame}{What is openPlaylist?}
+%%%%%%%%%%%%%%%
+%Hvad er openPlaylist?
+\subsection{Hvad er openPlaylist?}
+\begin{frame}{Hvad er openPlaylist?}
 	\begin{itemize}
 		\item Social jukebox
 		\item Multispace interaction
 		\item Cross-platform
+		\begin{itemize}
+			\item Android
+			\item iOS
+			\item Windows Phone
+		\end{itemize}
+		\item Primært til barer, værtshuse o.l.
 	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%
+%System Definition 1
+\subsection{System Definition}
+\begin{frame}{System Definition}
+		\textit{An information system, enabling venues to have guests vote for tracks to be played. The system should enable the administrators to override the specific tracks and limit the track space the users can vote for, at any given time. The system should support multiple users concurrently and be able to display already requested tracks to all customers, so as to improve discoverability. The server should be able to continuously play music. The server has to be able to run on an inexpensive computer, with access to a music catalogue and an internet connection of varying stability. The client application has to be able to run on smartphones with unstable internet access, limited data traffic and limited battery capacity, while being accessible for a wide target group. The client should be minimalistic, so as to improve understandability and learnability, even for intoxicated users.}
+\end{frame}
+
+%%%%%%%%%%%%%%%
+%System Definition 2
+\begin{frame}{System Definition}
+\begin{multicols}{2}
+	Klient
+	\begin{itemize}
+		\item Stemme på musik
+		\item Vise numre der er stemt på
+		\item Tilgængelig til mange
+		\item Begrænset data- og batteriforbrug
+		\item Minimalistisk
+	\end{itemize}
+	
+\columnbreak
+	
+	Server
+	\begin{itemize}
+		\item Giver administratorer fuld kontrol
+		\begin{itemize}
+			\item Spil/pause
+			\item Begrænse søgerum
+		\end{itemize}
+		\item Ingen afbrydelser
+		\item Flere brugere samtidigt
+	\end{itemize}
+\end{multicols}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%
+%Problem Definition
+\subsection{Problem Definition}
+\begin{frame}{Problem Definition}
+	\begin{center}
+		\textit{How is it possible to develop a software solution which provides a venue with the ability to fairly and dynamically cater to their guests' music preferences?}\linebreak\newline
+		Hvordan er det muligt at udvikle en software-løsning, der giver spillesteder mulighed til at imødekomme deres gæsters musiksmag på en retfærdig og dynamisk måde?
+	\end{center}
 \end{frame}
