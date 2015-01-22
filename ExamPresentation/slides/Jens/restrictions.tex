@@ -1,4 +1,77 @@
+\subsection{Restriktioner}
+
 \begin{frame}
-	\frametitle{Restrictions}
-	%Bullshit
+	\frametitle{Restriktioner - Analyse}
+	Interviews
+	\begin{itemize}
+		\item Kontrol
+		\item Music flow
+	\end{itemize}
+	Koncepter - State of the Art
+	\begin{itemize}
+		\item Restriktion
+		\item Mixgar og specielt Rockbot
+	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Restriktioner - Design}
+	Black- og whitelisting
+\end{frame}
+
+\begin{frame}
+	\frametitle{Restriktioner - Design}
+	Whitelisting
+	
+	\begin{equation}
+		i \in A \textbf{ hvis og kun hvis } i \in B
+	\end{equation}
+	
+	\begin{equation}
+		w_1 \vee w_2 \vee w_3 \vee \dots \vee w_n
+	\end{equation}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Restriktioner - Design}
+	Blacklisting
+	
+	\begin{equation}
+		i \in A \textbf{ hvis og kun hvis } i \notin B
+	\end{equation}
+	
+	\begin{equation}
+		\neg(b_1 \vee b_2 \vee b_3 \vee \dots \vee b_n)
+	\end{equation}
+\end{frame}
+
+\iffalse
+\begin{frame}
+\frametitle{Restriktioner - Design}
+\begin{algorithm}[htbp] \caption{Algorithm for filtering tracks in a search}\label{alg:Search}
+\begin{algorithmic}[1]
+	\Function{Search}{$query$, $restrictions$}
+		\State{$results$ := $GetResults$($query$)}
+		\ForAll{$track$ \textbf{in} $results$}
+			\State{$track.IsAllowed$ := $Restrict$($track$,$restrictions$)}
+		\EndFor{}
+		\Return{$results$}
+	\EndFunction{}\\
+	\Function{Restrict}{$track$, $restrictions$}
+		\State{$WhitelistExists$ := $false$}
+		\State{$IsOnWhitelist$ := $false$}
+		\State{$IsOnBlacklist$ := $false$}
+		\ForAll{$restriction$ \textbf{in} $restrictions$}
+			\If{$restriction.Type$ = $whitelist$}
+				\State{$WhitelistExists$ := $true$}
+				\State{$IsOnWhitelist$ := $IsOnWhitelist$ $\vee$ $restriction$($track$)}
+			\ElsIf{$restriction.Type$ = $blacklist$}
+				\State{$IsOnBlacklist$ := $IsOnBlacklist$ $\vee$ $restriction$($track$)}
+			\EndIf{}
+		\EndFor{}
+		\State{\Return{($WhitelistExists$ $\to$ $IsOnWhitelist$) $\wedge$ $\neg IsOnBlacklist$}}
+	\EndFunction{}
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+\fi
