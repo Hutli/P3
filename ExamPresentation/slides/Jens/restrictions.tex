@@ -47,8 +47,8 @@
 
 \begin{frame}
 \frametitle{Restriktioner - Design}
-
 \begin{algorithmic}[1]
+
 	\Function{Search}{$query$, $restrictions$}
 		\State{$results$ := $GetResults$($query$)}
 		\ForAll{$track$ \textbf{in} $results$}
@@ -56,6 +56,13 @@
 		\EndFor{}
 		\Return{$results$}
 	\EndFunction{}\\
+	
+\end{algorithmic}
+\end{frame}
+		
+\begin{frame}
+\frametitle{Restriktioner - Design}
+\begin{algorithmic}[1]
 	\Function{Restrict}{$track$, $restrictions$}
 		\State{$WhitelistExists$ := $false$}
 		\State{$IsOnWhitelist$ := $false$}
