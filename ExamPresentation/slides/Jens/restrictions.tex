@@ -48,7 +48,6 @@
 \begin{frame}
 \frametitle{Restriktioner - Design}
 
-\begin{algorithm}[htbp] \caption{Algorithm for filtering tracks in a search}
 \begin{algorithmic}[1]
 	\Function{Search}{$query$, $restrictions$}
 		\State{$results$ := $GetResults$($query$)}
@@ -72,5 +71,4 @@
 		\State{\Return{($WhitelistExists$ $\to$ $IsOnWhitelist$) $\wedge$ $\neg IsOnBlacklist$}}
 	\EndFunction{}
 \end{algorithmic}
-\end{algorithm}
 \end{frame}
