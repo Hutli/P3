@@ -220,6 +220,7 @@ personaPrint.pdf
 
 # binary report file
 master.pdf
+main.pdf
 
 # mac files
 *.DS_Store
