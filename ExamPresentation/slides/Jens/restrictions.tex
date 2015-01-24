@@ -95,10 +95,10 @@
 		\State{$IsOnWhitelist$ := $false$}
 		\State{$IsOnBlacklist$ := $false$}
 		\ForAll{$restriction$ \textbf{in} $restrictions$}
-			\If{$restriction.Type$ = $whitelist$}
+			\If{$restriction$ \textbf{is} $whitelist$}
 				\State{$WhitelistExists$ := $true$}
 				\State{$IsOnWhitelist$ := $IsOnWhitelist$ $\vee$ $restriction$($track$)}
-			\ElsIf{$restriction.Type$ = $blacklist$}
+			\ElsIf{$restriction$ \textbf{is} $blacklist$}
 				\State{$IsOnBlacklist$ := $IsOnBlacklist$ $\vee$ $restriction$($track$)}
 			\EndIf{}
 		\EndFor{}
